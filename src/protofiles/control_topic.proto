@@ -1,0 +1,154 @@
+// Copyright 2018 Google LLC
+//
+// This is part of the Google Cloud IoT Edge Embedded C Client,
+// it is licensed under the BSD 3-Clause license; you may not use this file
+// except in compliance with the License.
+//
+// You may obtain a copy of the License at:
+//  https://opensource.org/licenses/BSD-3-Clause
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+syntax = "proto2";
+
+message CT_RPC
+{
+    enum FuncType
+    {
+      RESPONSE = 1;
+      // Structure with a standard set of response data.
+      // Most RPCs will use this to communicate success or failure.
+      // Some other RPCs will have their own specific Response Message Type.
+
+      SND_CREDS = 2;
+      // Uses Standard Response
+
+      REQ_ASC_NONCE = 3;
+      REQ_ASC_NONCE_RESP = 4;
+
+      ASC_WINDOW = 5;
+      // Uses Standard Response
+
+      SET_CERTS = 6;
+      // Uses Standard Response
+
+      ADD_CERT = 7;
+      // Uses Standard Response
+
+      SET_BCKOFF = 8;
+      // Uses Standard Response
+
+      SET_SERV_LIST = 9;
+      // Uses Standard Response
+
+      LOG_MODE = 10;
+      // Uses Standard Response
+    }
+
+    // Success / Failure Codes used on Responses
+    enum FuncResult
+    {
+      OK = 1;         // success
+      CHKSUM_ERR = 2; // checksum mismatch error
+      STORE_ERR = 3;  // could not store provided values
+      GEN_ERR = 4;    // general error
+    }
+
+
+    // Standard Data Across all message types
+    message Header
+    {
+      required string msgId = 1;
+      required FuncType funcType = 2;
+      required bytes checksum = 3;
+    }
+
+
+    // Standard Response Data that tracks success or failure
+    message Response
+    {
+      required FuncResult result = 1;
+      optional string resultMsg = 2;
+    }
+
+    // Service Provides a new MQTT password to the client.
+    message SndCreds
+    {
+      required string cred = 1;
+    }
+
+    // Server Requests that the Client Provide a Nonce
+    message ReqAscNonce
+    {
+      required string devId = 1;
+    }
+
+    // Client Response for Nonce Request.
+    message ReqAscNonceResp
+    {
+      required FuncResult result = 1;
+      required string nonce = 2;
+   }
+
+   // Service Requests An Association Signal
+   // Trigger (Flashing Lights) for a Duration
+   // of Time to Affirm that the Proper Device
+   // is being Reassociated.
+   message AscWindow
+   {
+     required uint32 seconds = 1;
+   }
+
+   // Service Provides New Certificates
+   // to the Client.  This overwrites all
+   // Existing Certificates on the Client.
+   message SetCerts
+   {
+     required bytes certs = 1;
+   }
+
+   // Service Provides A Certificate to Append
+   // to the Current List of Certificates
+   message AddCert
+   {
+     required bytes cert = 1;
+   }
+
+   // Service Sets a New BackOff Look Up Tab and BackOff Decay
+   // Table.
+   message SetBckoff
+   {
+     repeated uint32 lut = 1;
+     repeated uint32 lut_decay = 2;
+   }
+
+   // Service Sets the List of Domains that the
+   // Client uses to connect to the IoT Core Service
+   message SetServList
+   {
+     repeated string domain = 1;
+   }
+
+   // Toggles Logging Mode on the Device
+   message LogMode
+   {
+     required bool isEnabled = 1;
+   }
+   required Header header = 1;
+
+   optional Response response = 2;
+   optional SndCreds sndCreds = 3;
+   optional ReqAscNonce reqAscNonce = 4;
+   optional ReqAscNonceResp reqAscNonceResp = 5;
+   optional AscWindow ascWindow = 6;
+   optional SetCerts setCerts = 7;
+   optional AddCert addCert = 8;
+   optional SetBckoff setBckoff = 9;
+   optional SetServList setServList = 10;
+   optional LogMode logMode = 11;
+}

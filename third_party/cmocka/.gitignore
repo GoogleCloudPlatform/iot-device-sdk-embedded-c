@@ -1,0 +1,8 @@
+*.swp
+*~$
+build
+obj
+tags
+cscope.*
+.ycm_extra_conf.pyc
+cmocka_build
