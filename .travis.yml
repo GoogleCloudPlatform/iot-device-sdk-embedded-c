@@ -77,7 +77,7 @@ script:
   - "ls -l $HOME/"
   - "ls -l $HOME/build"
   - "ls -l $HOME/build/GoogleCloudPlatform"
-  - "ls -l $HOME/build/GoogleCloudPlatform/iot-edge-sdk-embedded-c/tls"
+  - "ls -l $HOME/build/GoogleCloudPlatform/iot-edge-sdk-embedded-c/third_party/tls"
   - "cd $HOME/build/GoogleCloudPlatform/iot-edge-sdk-embedded-c"
   - "if [[ $IOTC_BSP_TLS == 'wolfssl' ]]; then
        expect res/travis/travis_build_wolfssl.expect make PRESET=$PRESET IOTC_DEBUG_OUTPUT=0 $IOTC_MAKETARGET;
