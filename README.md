@@ -110,7 +110,7 @@ Branch      | Build status
 ------------|-------------
 master      | ![travis-private-repo-icon-master]
 
-[travis-private-repo-icon-master]: https://travis-ci.com/googlecloudplatform/iot-edge-sdk-embedded-c.svg?token=tzWdJymp9duuAGWpamkM&branch=master
+[travis-private-repo-icon-master]: https://travis-ci.com/GoogleCloudPlatform/iot-edge-sdk-embedded-c.svg?token=tzWdJymp9duuAGWpamkM&branch=master
 
 
 ## Contributing

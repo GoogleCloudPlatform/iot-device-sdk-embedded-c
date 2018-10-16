@@ -70,11 +70,11 @@ before_script:
         echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope;
      fi"
   - "if [[ $IOTC_BSP_TLS == 'wolfssl' ]]; then
-      git clone -b v3.15.3-stable https://github.com/wolfSSL/wolfssl $HOME/build/xively/xively-client-migration/third_party/tls/wolfssl;
+      git clone -b v3.15.3-stable https://github.com/wolfSSL/wolfssl $HOME/build/GoogleCloudPlatform/iot-edge-sdk-embedded-c/third_party/tls/wolfssl;
     fi;"
 script:
   - "set -e"
-  - "cd $HOME/build/xively/xively-client-migration/"
+  - "cd $HOME/build/GoogleCloudPlatform/iot-edge-sdk-embedded-c"
   - "if [[ $IOTC_BSP_TLS == 'wolfssl' ]]; then
        expect res/travis/travis_build_wolfssl.expect make PRESET=$PRESET IOTC_DEBUG_OUTPUT=0 $IOTC_MAKETARGET;
      else
