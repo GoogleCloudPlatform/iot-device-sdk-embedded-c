@@ -51,7 +51,6 @@ IOTC_TT_TESTCASE_WITH_SETUP(jwt_create_es256__small_buffer_provided,
                                   "projectID", 600, &DEFAULT_PRIVATE_KEY, jwt,
                                   1, &bytes_written);
 
-                              printf("ret: %d\n", ret);
                               tt_int_op(IOTC_BUFFER_TOO_SMALL_ERROR, ==, ret);
 
                             end:;
@@ -97,7 +96,6 @@ IOTC_TT_TESTCASE_WITH_SETUP(
           IOTC_JWT_SIZE, &bytes_written);
 
       tt_int_op(IOTC_JWT_PROJECTID_TOO_LONG_ERROR, ==, ret);
-      printf("bytes_written: %lu\n", bytes_written);
 
       // make project id the desired max long
       tt_int_op(bytes_written, <, IOTC_JWT_SIZE);
@@ -108,7 +106,6 @@ IOTC_TT_TESTCASE_WITH_SETUP(
                                   &bytes_written);
 
       tt_int_op(IOTC_STATE_OK, ==, ret);
-      printf("ret: %d\n", ret);
     end:;
     })
 
