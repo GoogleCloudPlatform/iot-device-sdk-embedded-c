@@ -25,6 +25,10 @@ CONFIG_POSIX_MIN_UNSECURE  =posix_fs-posix_platform
 CONFIG_DUMMY_MAX           =memory_fs-memory_limiter
 CONFIG_DUMMY_MIN           =memory_fs
 
+# CONFIG for ESP32
+CONFIG_ESP32_MIN = memory_fs-tls_bsp
+TARGET_ESP32_REL = -static-release
+
 # TARGET presets
 TARGET_STATIC_DEV          =-static-debug
 TARGET_STATIC_REL          =-static-release
@@ -41,6 +45,11 @@ else ifeq ($(PRESET), POSIX_DEV)
     CONFIG = $(CONFIG_POSIX_MAX)
     TARGET = $(TARGET_STATIC_DEV)
     IOTC_BSP_PLATFORM = posix
+else ifeq ($(PRESET), esp32)
+    CONFIG = $(CONFIG_ESP32_MIN)
+    TARGET = $(TARGET_ESP32_REL)
+    IOTC_BSP_PLATFORM = esp32
+    IOTC_TARGET_PLATFORM = esp32
 
 # BSP REL
 else ifeq ($(PRESET), POSIX_REL_MIN)
@@ -94,7 +103,7 @@ else
     # default settings in case of undefined
     CONFIG ?= $(CONFIG_POSIX_MIN)
     TARGET ?= $(TARGET_STATIC_REL)
-  	    $(info INFO: '$(PRESET)' not detected, using default CONFIG: [$(CONFIG)] and TARGET: [$(TARGET)])
+	    $(info INFO: '$(PRESET)' not detected, using default CONFIG: [$(CONFIG)] and TARGET: [$(TARGET)])
     else
     # error in case of unrecognised PRESET
     $(error Invalid PRESET, see valid presets in make/mt-config/mt-presets.mk)

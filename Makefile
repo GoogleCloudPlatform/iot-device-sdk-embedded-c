@@ -140,7 +140,7 @@ libiotc: $(XI)
 
 $(XI): $(IOTC_TLS_LIB_DEP) $(IOTC_PROTOFILES_C) $(IOTC_OBJS) | $(IOTC_BIN_DIRS)
 	$(info [$(AR)] $@ )
-	$(MD) $(AR) $(IOTC_ARFLAGS) $(IOTC_OBJS) $(IOTC_EXTRA_ARFLAGS)
+	$(MD) $(AR) $(IOTC_ARFLAGS) $(XI) $(IOTC_OBJS) $(IOTC_EXTRA_ARFLAGS)
 
 # protobuf compilation
 $(IOTC_PROTOBUF_GENERATED)/%.pb-c.c : $(IOTC_PROTO_DIR)/%.proto
