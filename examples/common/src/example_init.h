@@ -16,7 +16,14 @@
 
 #define PRIVATE_KEY_BUFFER_SIZE 256
 
+#include <iotc.h>
+
 int iotc_example_handle_command_line_args(int argc, char* argv[]);
 
 int load_ec_private_key_pem_from_posix_fs(char* buf_ec_private_key_pem, size_t buf_len);
 
+void on_connection_state_changed(iotc_context_handle_t in_context_handle,
+                                 void* data, iotc_state_t state);
+
+void publish_function(iotc_context_handle_t context_handle,
+                      iotc_timed_task_handle_t timed_task, void* user_data);
