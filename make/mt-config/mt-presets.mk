@@ -73,14 +73,12 @@ else ifeq ($(PRESET), FREERTOS_POSIX_REL)
     TARGET = $(TARGET_STATIC_REL)
     IOTC_BSP_PLATFORM = freertos-posix
     IOTC_TARGET_PLATFORM = freertos-linux
-    IOTC_BSP_TLS = wolfssl
 
 else ifeq ($(PRESET), FREERTOS_POSIX_DEV)
     CONFIG = $(CONFIG_POSIX_MIN)
     TARGET = $(TARGET_STATIC_DEV)
     IOTC_BSP_PLATFORM = freertos-posix
     IOTC_TARGET_PLATFORM = freertos-linux
-    IOTC_BSP_TLS = wolfssl
 
 # -------------------------------------------------------
 # ARM
