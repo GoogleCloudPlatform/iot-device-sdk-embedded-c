@@ -101,7 +101,7 @@ res/trusted_RootCA_certs/roots.pem:
 	wget https://pki.google.com/roots.pem -P res/trusted_RootCA_certs
 
 .PHONY: tests
-tests: build_output roots_pem utests itests
+tests: build_output roots_pem utests gtests itests
 
 .PHONY: utests
 utests: $(IOTC_UTESTS) $(IOTC_TEST_TOOLS_OBJS) $(IOTC_TEST_TOOLS)

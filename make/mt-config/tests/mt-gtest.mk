@@ -41,10 +41,10 @@ GTEST_OBJS := $(GTEST_OBJDIR)/gtest.o $(GTEST_OBJDIR)/gtest_main.o
 # Set up iotc googletest tests.
 IOTC_GTEST_SUITE ?= iotc_gtests
 IOTC_GTEST_OBJDIR := $(IOTC_TEST_OBJDIR)/gtests
-IOTC_GTEST_SOURCES = $(LIBIOTC_SRC)/libiotc/iotc_test.cc # $(shell find $(LIBIOTC)/src -name "*.cc")
+IOTC_GTEST_SOURCES = $(shell find $(LIBIOTC)/src -name "*.cc")
 
 IOTC_GTEST_OBJS := $(filter-out $(IOTC_GTEST_SOURCES), $(IOTC_GTEST_SOURCES:.cc=.o))
-IOTC_GTEST_OBJS := $(subst $(LIBIOTC_SRC), $(IOTC_GTEST_OBJDIR), $(IOTC_GTEST_OBJS))
+IOTC_GTEST_OBJS := $(subst $(LIBIOTC_SRC), $(IOTC_GTEST_OBJDIR)/, $(IOTC_GTEST_OBJS))
 
 IOTC_GTESTS = $(IOTC_TEST_BINDIR)/$(IOTC_GTEST_SUITE)
 
