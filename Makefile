@@ -43,6 +43,7 @@ include make/mt-config/mt-config.mk
 include make/mt-os/mt-os.mk
 include make/mt-os/mt-$(IOTC_CONST_PLATFORM_CURRENT).mk
 include make/mt-config/mt-examples.mk
+include make/mt-config/tests/mt-gtest.mk
 include make/mt-config/tests/mt-tests-tools.mk
 include make/mt-config/tests/mt-tests-unit.mk
 include make/mt-config/tests/mt-tests-integration.mk
@@ -110,6 +111,10 @@ utests: $(IOTC_UTESTS) $(IOTC_TEST_TOOLS_OBJS) $(IOTC_TEST_TOOLS)
 itests: $(IOTC_ITESTS) $(IOTC_TEST_TOOLS_OBJS) $(IOTC_TEST_TOOLS)
 	$(IOTC_RUN_ITESTS)
 
+.PHONY: gtests
+gtests: $(IOTC_GTESTS)
+	$(IOTC_RUN_GTESTS)
+
 .PHONY: test_coverage
 test_coverage:
 	./tools/test_coverage.sh
@@ -157,6 +162,13 @@ $(IOTC_UTEST_OBJDIR)/%.o : $(IOTC_UTEST_SOURCE_DIR)/%.c $(IOTC_BUILD_PRECONDITIO
 	$(info [$(CC)] $@)
 	$(MD) $(CC) $(IOTC_UTEST_CONFIG_FLAGS) $(IOTC_UTEST_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
 	$(MD) $(CC) $(IOTC_UTEST_CONFIG_FLAGS) $(IOTC_UTEST_INCLUDE_FLAGS) -MM $< -MT $@ -MF $(@:.o=.d)
+
+# specific compiler flags for gtest objects
+$(IOTC_GTEST_OBJDIR)/%.o : $(LIBIOTC_SRC)/%.cc $(IOTC_BUILD_PRECONDITIONS)
+	@-mkdir -p $(dir $@)
+	$(info [$(CXX)] $@)
+	$(MD) $(CXX) $(IOTC_GTEST_CONFIG_FLAGS) $(IOTC_GTEST_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
+	$(MD) $(CXX) $(IOTC_GTEST_CONFIG_FLAGS) $(IOTC_GTEST_INCLUDE_FLAGS) -MM $< -MT $@ -MF $(@:.o=.d)
 
 # specific compiler flags for libiotc_driver
 $(IOTC_OBJDIR)/tests/tools/iotc_libiotc_driver/%.o : $(LIBIOTC)/src/tests/tools/iotc_libiotc_driver/%.c $(IOTC_BUILD_PRECONDITIONS)
@@ -216,11 +228,19 @@ $(IOTC_TEST_TOOLS_BINDIR)/%: $(XI) $(IOTC_TEST_TOOLS_OBJS)
 IOTC_UTESTS_DEPENDENCIES_FILE = $(IOTC_UTEST_OBJDIR)/$(notdir $(IOTC_UTESTS)).d
 -include $(IOTC_UTESTS_DEPENDENCIES_FILE)
 
+IOTC_GTESTS_DEPENDENCIES_FILE = $(IOTC_GTEST_OBJDIR)/$(notdir $(IOTC_GTESTS)).d
+-include $(IOTC_GTESTS_DEPENDENCIES_FILE)
+
 $(IOTC_UTESTS): $(XI) $(IOTC_UTEST_OBJS) $(TINY_TEST_OBJ)
 	$(info [$(CC)] $@)
 	@-mkdir -p $(IOTC_UTEST_OBJDIR)
-	$(MD) $(CC)  $(IOTC_UTEST_CONFIG_FLAGS) $(IOTC_UTEST_INCLUDE_FLAGS) -L$(IOTC_BINDIR) $(IOTC_UTEST_SUITE_SOURCE) $(IOTC_UTEST_OBJS) $(TINY_TEST_OBJ) $(IOTC_LIB_FLAGS) $(IOTC_COMPILER_OUTPUT)
+	$(MD) $(CC) $(IOTC_UTEST_CONFIG_FLAGS) $(IOTC_UTEST_INCLUDE_FLAGS) -L$(IOTC_BINDIR) $(IOTC_UTEST_SUITE_SOURCE) $(IOTC_UTEST_OBJS) $(TINY_TEST_OBJ) $(IOTC_LIB_FLAGS) $(IOTC_COMPILER_OUTPUT)
 	$(MD) $(CC) $(IOTC_UTEST_CONFIG_FLAGS) $(IOTC_UTEST_INCLUDE_FLAGS) -MM $(IOTC_UTEST_SUITE_SOURCE) -MT $@ -MF $(IOTC_UTESTS_DEPENDENCIES_FILE)
+
+$(IOTC_GTESTS): $(XI) $(IOTC_GTEST_OBJS) $(GTEST_OBJS)
+	$(info [$(CXX)] $@)
+	@-mkdir -p $(IOTC_GTEST_OBJDIR)
+	$(MD) $(CXX) $(IOTC_GTEST_CONFIG_FLAGS) $(IOTC_GTEST_INCLUDE_FLAGS) -L$(IOTC_BINDIR) $(IOTC_GTEST_OBJS) $(GTEST_OBJS) $(IOTC_LIB_FLAGS) $(IOTC_COMPILER_OUTPUT)
 
 # dependencies for integration test binary
 ifneq ($(IOTC_CONST_PLATFORM_CURRENT),$(IOTC_CONST_PLATFORM_ARM))
