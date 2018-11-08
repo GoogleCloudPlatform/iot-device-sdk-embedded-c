@@ -104,7 +104,7 @@ extern "C" {
 #define configUSE_APPLICATION_TASK_TAG			1
 #define configUSE_COUNTING_SEMAPHORES			1
 #define configUSE_QUEUE_SETS					1
-#define configUSE_TASK_NOTIFICATIONS			1
+#define configUSE_TASK_NOTIFICATIONS			0
 
 /* Software timer related configuration options. */
 #define configUSE_TIMERS						1
