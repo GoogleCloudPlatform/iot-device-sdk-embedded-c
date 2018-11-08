@@ -51,8 +51,8 @@ IOTC_INC_DIR=../../include
 
 CC = gcc
 
-CFLAGS += -Wall -Werror -Wextra -Wpedantic -pthread -O0 -g
-LDFLAGS += -Wall -Werror -Wextra -Wpedantic -pthread -O0 -g
+CFLAGS += -Wall -Werror -Wextra -pthread -O0 -g
+LDFLAGS += -Wall -Werror -Wextra -pthread -O0 -g
 
 
 
