@@ -87,5 +87,9 @@ script:
        expect res/travis/travis_build_mbedtls.expect make PRESET=$PRESET IOTC_DEBUG_OUTPUT=0 $IOTC_MAKETARGET;
      fi;"
   - "if [[ ! $CC == 'gcc' && ! $TESTS == 'fuzztests' ]]; then
-        make -C examples/mqtt_logic_producer IOTC_CLIENT_LIB_PATH=../../bin/linux IOTC_BSP_TLS=$IOTC_BSP_TLS;
+        if [[ $PRESET == 'FREERTOS_POSIX_REL' || $PRESET == 'FREERTOS_POSIX_DEV' ]]; then
+                make -C examples/freertos_linux IOTC_CLIENT_LIB_PATH=../../bin/freertos-linux IOTC_BSP_TLS=$IOTC_BSP_TLS;
+        else
+                make -C examples/mqtt_logic_producer IOTC_CLIENT_LIB_PATH=../../bin/linux IOTC_BSP_TLS=$IOTC_BSP_TLS;
+        fi;
     fi;"
