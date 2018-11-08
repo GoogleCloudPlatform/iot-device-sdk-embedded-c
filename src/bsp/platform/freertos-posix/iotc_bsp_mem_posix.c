@@ -15,18 +15,12 @@
  */
 
 #include <iotc_bsp_mem.h>
+#include <stdio.h>
 
-// Forward declarations of external funcitons from FreeRTOS portable.h
-void* pvPortMalloc( size_t );
-void vPortFree( void* );
-
-#if 0
 #include <projdefs.h>
 
 #include <portable.h>
-#endif
 
-#include <stdio.h>
 
 void* iotc_bsp_mem_alloc(size_t byte_count) {
   void* ptr = (void*)pvPortMalloc(byte_count);

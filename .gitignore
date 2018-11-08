@@ -6,3 +6,5 @@ test_coverage/
 third_party/tls/mbedtls
 third_party/tls/wolfssl
 third_party/protobuf-c/library/*.o
+third_party/freertos-addons
+third_party/FreeRTOSv10.1.1*
