@@ -99,7 +99,7 @@ void task_function_gcpiot_embedded_c(void *parameters) {
 }
 
 /**
- * The FreeRTOS task for an examlary custom application action.
+ * The FreeRTOS task for an examplary custom application action.
  */
 void task_function_custom_application_logic(void *parameters) {
   const size_t task_delay = (size_t)parameters;
