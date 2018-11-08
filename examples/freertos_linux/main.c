@@ -42,7 +42,7 @@
 
 #include <iotc.h>
 #include "../common/src/commandline.h"
-#include "../common/src/example_init.h"
+#include "../common/src/example_utils.h"
 
 char ec_private_key_pem[PRIVATE_KEY_BUFFER_SIZE] = {0};
 

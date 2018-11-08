@@ -16,7 +16,7 @@
 
 #include <stdio.h>
 
-#include "example_init.h"
+#include "example_utils.h"
 #include "commandline.h"
 
 #define IOTC_UNUSED(x) (void)(x)

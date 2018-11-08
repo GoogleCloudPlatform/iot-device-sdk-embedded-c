@@ -75,7 +75,7 @@ all: ${TARGET}
 
 SRC_COMMON = \
       	  ../common/src/commandline.c \
-	  ../common/src/example_init.c
+	  ../common/src/example_utils.c
 
 SRC = \
 	  main.c

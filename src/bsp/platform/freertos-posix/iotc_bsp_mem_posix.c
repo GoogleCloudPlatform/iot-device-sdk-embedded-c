@@ -21,7 +21,6 @@
 
 #include <portable.h>
 
-
 void* iotc_bsp_mem_alloc(size_t byte_count) {
   void* ptr = (void*)pvPortMalloc(byte_count);
 

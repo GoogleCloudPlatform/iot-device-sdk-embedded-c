@@ -24,7 +24,7 @@
 
 #include <iotc.h>
 #include "../../common/src/commandline.h"
-#include "../../common/src/example_init.h"
+#include "../../common/src/example_utils.h"
 
 #include <stdio.h>
 #include "../src/libiotc/iotc_jwt.h"
