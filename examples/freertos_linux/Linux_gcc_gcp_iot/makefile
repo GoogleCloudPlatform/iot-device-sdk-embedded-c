@@ -87,7 +87,7 @@ VPATH += ${FREERTOS_SRC_DIR} \
 		 ${PORTABLE_SRC_MEM_MANG_DIR} \
 
 
-TARGET = freertos_linux
+TARGET = Linux_gcc_gcp_iot
 
 default: all
 
