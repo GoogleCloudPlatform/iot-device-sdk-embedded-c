@@ -52,7 +52,11 @@
 
 IOTC_TARGET_PLATFORM := freertos-linux
 
-include ../common/rules.mk
+IOTC_EXAMPLES_COMMON_DIR := ../../common
+IOTC_EXAMPLES_COMMON_SRC_DIR := $(IOTC_EXAMPLES_COMMON_DIR)/src
+IOTC_CLIENT_PATH := ../../../
+
+include $(IOTC_EXAMPLES_COMMON_DIR)/rules.mk
 
 FREERTOS_DIR=$(IOTC_CLIENT_PATH)/third_party/FreeRTOSv10.1.1/FreeRTOS
 
@@ -62,7 +66,7 @@ FREERTOS_INC_DIR=${FREERTOS_DIR}/Source/include
 PORTABLE_SRC_DIR=$(IOTC_CLIENT_PATH)/third_party/freertos-addons/Linux/portable/GCC/Linux
 PORTABLE_SRC_MEM_MANG_DIR=${FREERTOS_DIR}/Source/portable/MemMang
 
-IOTC_INC_DIR=../../include
+IOTC_INC_DIR=$(IOTC_CLIENT_PATH)/include
 
 CC = gcc
 
@@ -75,6 +79,7 @@ INCLUDE_DIRS +=	-I. \
 				-I${FREERTOS_INC_DIR} \
 				-I${PORTABLE_SRC_DIR} \
 				-I${IOTC_INC_DIR} \
+				-I$(IOTC_EXAMPLES_COMMON_SRC_DIR)
 
 
 VPATH += ${FREERTOS_SRC_DIR} \
@@ -89,8 +94,8 @@ default: all
 all: ${TARGET}
 
 SRC_COMMON = \
-	../common/src/commandline.c \
-	../common/src/example_utils.c
+	$(IOTC_EXAMPLES_COMMON_SRC_DIR)/commandline.c \
+	$(IOTC_EXAMPLES_COMMON_SRC_DIR)/example_utils.c
 
 SRC = \
 	  main.c
@@ -106,8 +111,8 @@ FREERTOS_SRC= \
 			  croutine.c \
 
 OBJ_COMMON = ${SRC_COMMON:.c=.o}
-OBJ_COMMON := $(subst ../common/src/,,$(OBJ_COMMON))
-${OBJ_COMMON}: %.o: ../common/src/%.c
+OBJ_COMMON := $(subst $(IOTC_EXAMPLES_COMMON_SRC_DIR)/,,$(OBJ_COMMON))
+${OBJ_COMMON}: %.o: $(IOTC_EXAMPLES_COMMON_SRC_DIR)/%.c
 	${CC} ${INCLUDE_DIRS} ${CFLAGS} -c $< -o $@
 
 OBJ = ${SRC:.c=.o}

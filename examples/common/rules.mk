@@ -13,7 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include ../../make/mt-config/mt-target-platform.mk
+IOTC_CLIENT_PATH ?= $(CURDIR)/../../
+
+include $(IOTC_CLIENT_PATH)/make/mt-config/mt-target-platform.mk
 
 CC ?= cc
 AR ?= ar
@@ -36,12 +38,11 @@ IOTC_EXAMPLE_OBJS := $(addprefix $(IOTC_EXAMPLE_OBJDIR)/,$(IOTC_EXAMPLE_OBJS))
 
 IOTC_EXAMPLE_BIN := $(IOTC_EXAMPLE_BINDIR)/$(IOTC_EXAMPLE_NAME)
 
-IOTC_CLIENT_PATH ?= $(CURDIR)/../../
-IOTC_CLIENT_INC_PATH += $(CURDIR)/../../include
-IOTC_CLIENT_INC_PATH += $(CURDIR)/../../include/bsp
-IOTC_CLIENT_LIB_PATH ?= $(CURDIR)/../../bin/$(IOTC_TARGET_PLATFORM)
+IOTC_CLIENT_INC_PATH += $(IOTC_CLIENT_PATH)/include
+IOTC_CLIENT_INC_PATH += $(IOTC_CLIENT_PATH)/include/bsp
+IOTC_CLIENT_LIB_PATH ?= $(IOTC_CLIENT_PATH)/bin/$(IOTC_TARGET_PLATFORM)
 
-IOTC_CLIENT_ROOTCA_LIST := $(CURDIR)/../../res/trusted_RootCA_certs/roots.pem
+IOTC_CLIENT_ROOTCA_LIST := $(IOTC_CLIENT_PATH)/res/trusted_RootCA_certs/roots.pem
 
 IOTC_FLAGS_INCLUDE += $(foreach i,$(IOTC_CLIENT_INC_PATH),-I$i)
 
