@@ -31,7 +31,7 @@ IOTC_COMPILER_FLAGS += -Wall -Wextra
 IOTC_OBJS := $(filter-out $(IOTC_SOURCES), $(IOTC_SOURCES:.c=.o))
 IOTC_OBJS := $(subst $(LIBIOTC)/src,$(IOTC_OBJDIR),$(IOTC_OBJS))
 IOTC_OBJS := $(subst $(IOTC_BSP_DIR),$(IOTC_OBJDIR)/bsp/,$(IOTC_OBJS))
-IOTC_OBJS := $(subst $(LIBIOTC)/third_party/mqtt-protocol-c,$(IOTC_OBJDIR)/third_party/mqtt-protocol-c,$(IOTC_OBJS))
+IOTC_OBJS := $(subst $(LIBIOTC)/third_party,$(IOTC_OBJDIR)/third_party,$(IOTC_OBJS))
 
 # UNIT TESTS
 IOTC_TEST_OBJS := $(filter-out $(IOTC_UTEST_SOURCES), $(IOTC_UTEST_SOURCES:.c=.o))
