@@ -179,6 +179,12 @@ $(IOTC_OBJDIR)/third_party/%.o : $(LIBIOTC)/third_party/%.c $(IOTC_BUILD_PRECOND
 	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
 	$(IOTC_POST_COMPILE_ACTION)
 
+$(IOTC_OBJDIR)/third_party/FreeRTOSv10.1.1/FreeRTOS/Source/%.o : $(LIBIOTC)/third_party/FreeRTOSv10.1.1/FreeRTOS/Source/%.c $(IOTC_BUILD_PRECONDITIONS)
+	@-mkdir -p $(dir $@)
+	$(info [$(CC)] $@)
+	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
+	$(IOTC_POST_COMPILE_ACTION)
+
 # gather all of the binary directories
 IOTC_RESOURCE_FILES := $(LIBIOTC)/res/trusted_RootCA_certs/roots.pem
 
