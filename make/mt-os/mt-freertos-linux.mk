@@ -47,14 +47,15 @@ IOTC_COMPILER_FLAGS += -Wno-format
 #################################################################
 IOTC_FREERTOS_KERNEL_URL=https://kent.dl.sourceforge.net/project/freertos/FreeRTOS/V10.1.1/FreeRTOSv10.1.1.zip
 IOTC_FREERTOS_KERNEL_ZIP_PATH=$(LIBIOTC)/third_party/FreeRTOSv10.1.1.zip
-IOTC_FREERTOS_README_PATH=$(basename $(IOTC_FREERTOS_KERNEL_ZIP_PATH))/readme.txt
+IOTC_FREERTOS_KERNEL_DIR_PATH=$(basename $(IOTC_FREERTOS_KERNEL_ZIP_PATH))
+IOTC_FREERTOS_KERNEL_README_PATH=$(IOTC_FREERTOS_KERNEL_DIR_PATH)/readme.txt
 
-IOTC_FREERTOS_ADDONS_README_PATH=$(LIBIOTC)/third_party/freertos-addons/README.md
+IOTC_FREERTOS_ADDONS_README_PATH=$(IOTC_FREERTOS_ADDONS_DIR_PATH)/README.md
 
 #################################################################
 # Download FreeRTOS Plus Linux Simulator ########################
 #################################################################
-$(IOTC_FREERTOS_ADDONS_README_PATH): $(IOTC_FREERTOS_README_PATH)
+$(IOTC_FREERTOS_ADDONS_README_PATH): $(IOTC_FREERTOS_KERNEL_README_PATH)
 	@echo IOTC FreeRTOS Linux build: git cloning freertos-addons repo
 	@git clone https://github.com/michaelbecker/freertos-addons.git $(dir $@)
 	@cp -r $(dir $@)/* $(IOTC_FREERTOS_DIR_PATH)
