@@ -7,13 +7,13 @@ compiler:
 env:
   global:
     - IOTC_BSP_TLS=mbedtls
-    - IOTC_MAKETARGET=tests
+    - IOTC_MAKETARGETS=tests
   matrix:
     - PRESET=ARM_REL
-      IOTC_MAKETARGET="utests"
+      IOTC_MAKETARGETS="utests gtests"
 
     - PRESET=ARM_REL_MIN
-      IOTC_MAKETARGET="utests"
+      IOTC_MAKETARGETS="utests gtests"
 
     - PRESET=POSIX_DEV
     - PRESET=POSIX_DEV_MIN
@@ -35,7 +35,7 @@ env:
     - TESTS=fuzztests
       PRESET=FUZZ_TESTS
       IOTC_BSP_TLS=""
-      IOTC_MAKETARGET="fuzz_tests"
+      IOTC_MAKETARGETS="fuzz_tests"
       CXX=clang++
 
 cache:
@@ -53,11 +53,11 @@ addons:
 matrix:
   exclude:
     - compiler: clang
-      env: PRESET=ARM_REL_MIN IOTC_MAKETARGET="utests"
+      env: PRESET=ARM_REL_MIN IOTC_MAKETARGETS="utests gtests"
     - compiler: clang
-      env: PRESET=ARM_REL IOTC_MAKETARGET="utests"
+      env: PRESET=ARM_REL IOTC_MAKETARGETS="utests gtests"
     - compiler: gcc
-      env: TESTS=fuzztests PRESET=FUZZ_TESTS IOTC_BSP_TLS="" IOTC_MAKETARGET="fuzz_tests" CXX=clang++
+      env: TESTS=fuzztests PRESET=FUZZ_TESTS IOTC_BSP_TLS="" IOTC_MAKETARGETS="fuzz_tests" CXX=clang++
     - compiler: gcc
       env: PRESET=POSIX_DEV IOTC_BSP_TLS=wolfssl
     - compiler: gcc
@@ -76,9 +76,9 @@ script:
   - "set -e"
   - "cd $HOME/build/GoogleCloudPlatform/iot-edge-sdk-embedded-c"
   - "if [[ $IOTC_BSP_TLS == 'wolfssl' ]]; then
-       expect res/travis/travis_build_wolfssl.expect make PRESET=$PRESET IOTC_DEBUG_OUTPUT=0 $IOTC_MAKETARGET;
+       expect res/travis/travis_build_wolfssl.expect make PRESET=$PRESET IOTC_DEBUG_OUTPUT=0 $IOTC_MAKETARGETS;
      else
-       expect res/travis/travis_build_mbedtls.expect make PRESET=$PRESET IOTC_DEBUG_OUTPUT=0 $IOTC_MAKETARGET;
+       expect res/travis/travis_build_mbedtls.expect make PRESET=$PRESET IOTC_DEBUG_OUTPUT=0 $IOTC_MAKETARGETS;
      fi;"
   - "if [[ ! $CC == 'gcc' && ! $TESTS == 'fuzztests' ]]; then
         make -C examples/mqtt_logic_producer IOTC_CLIENT_LIB_PATH=../../bin/linux IOTC_BSP_TLS=$IOTC_BSP_TLS;
