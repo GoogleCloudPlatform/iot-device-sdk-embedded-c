@@ -34,8 +34,7 @@ include make/mt-os/mt-os-common.mk
 
 IOTC_INCLUDE_FLAGS += -I$(IOTC_FREERTOS_DIR_PATH)/Source/include
 IOTC_INCLUDE_FLAGS += -I$(IOTC_FREERTOS_ADDONS_DIR_PATH)/Linux/portable/GCC/Linux
-IOTC_INCLUDE_FLAGS += -I$(LIBIOTC)/third_party/freertos-addons/Linux/Demo/Linux_gcc_simple_tasks
-#  IOTC_INCLUDE_FLAGS += -I$(LIBIOTC)/examples/freertos_linux/Linux_gcc_gcp_iot
+IOTC_INCLUDE_FLAGS += -I$(LIBIOTC)/examples/freertos_linux/Linux_gcc_gcp_iot
 
 IOTC_ARFLAGS += -rs -c $(XI)
 
