@@ -10,39 +10,38 @@ env:
     - IOTC_MAKETARGET=tests
   matrix:
     - PRESET=ARM_REL
-      IOTC_MAKETARGET="utests"
+          IOTC_MAKETARGET="utests"
 
-    - PRESET=ARM_REL_MIN
-      IOTC_MAKETARGET="utests"
+          #  - PRESET=ARM_REL_MIN
+          #  IOTC_MAKETARGET="utests"
 
     - PRESET=POSIX_DEV
-    - PRESET=POSIX_DEV_MIN
+          #  - PRESET=POSIX_DEV_MIN
 
-    - PRESET=POSIX_REL
-    - PRESET=POSIX_REL_MIN
+          #  - PRESET=POSIX_REL
+          #  - PRESET=POSIX_REL_MIN
 
     - PRESET=FREERTOS_POSIX_DEV
-      IOTC_MAKETARGET="itests"
+      BEFORE_SCRIPT_ACTION="make prereqs"
 
-    - PRESET=FREERTOS_POSIX_REL
-      IOTC_MAKETARGET="itests"
+      #  - PRESET=FREERTOS_POSIX_REL
 
     # WOLFSSL Tests
-    - PRESET=POSIX_DEV
-      IOTC_BSP_TLS=wolfssl
+    #  - PRESET=POSIX_DEV
+    #  IOTC_BSP_TLS=wolfssl
 
-    - PRESET=POSIX_REL
-      IOTC_BSP_TLS=wolfssl
+      #  - PRESET=POSIX_REL
+      #  IOTC_BSP_TLS=wolfssl
 
-    - PRESET=POSIX_THREADING_REL
+      #  - PRESET=POSIX_THREADING_REL
     #- PRESET=POSIX_UNSECURE_REL
     #  IOTC_BSP_TLS=""
 
-    - TESTS=fuzztests
-      PRESET=FUZZ_TESTS
-      IOTC_BSP_TLS=""
-      IOTC_MAKETARGET="fuzz_tests"
-      CXX=clang++
+      #  - TESTS=fuzztests
+      #  PRESET=FUZZ_TESTS
+      #  IOTC_BSP_TLS=""
+      #  IOTC_MAKETARGET="fuzz_tests"
+      #  CXX=clang++
 
 cache:
     apt
@@ -78,6 +77,7 @@ before_script:
   - "if [[ $IOTC_BSP_TLS == 'wolfssl' ]]; then
       git clone -b v3.15.3-stable https://github.com/wolfSSL/wolfssl $HOME/build/GoogleCloudPlatform/iot-edge-sdk-embedded-c/third_party/tls/wolfssl;
     fi;"
+  - "$BEFORE_SCRIPT_ACTION"
 script:
   - "set -e"
   - "cd $HOME/build/GoogleCloudPlatform/iot-edge-sdk-embedded-c"

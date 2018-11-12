@@ -90,7 +90,7 @@ build_output: header preset_output
 .PHONY: roots_pem
 roots_pem: res/trusted_RootCA_certs/roots.pem
 
-all: build_output roots_pem $(XI) $(IOTC_POST_BUILD_ACTION)
+all: build_output roots_pem $(XI)
 
 res/trusted_RootCA_certs/roots.pem:
 	$(info Attempting to download IoT Core Server Authentication)
@@ -172,9 +172,6 @@ $(IOTC_OBJDIR)/%.o : $(LIBIOTC)/src/%.c $(IOTC_BUILD_PRECONDITIONS)
 	$(info [$(CC)] $@)
 	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
 	$(IOTC_POST_COMPILE_ACTION)
-
-$(LIBIOTC)/third_party/%.c : $(IOTC_BUILD_PRECONDITIONS)
-	$(info target $@)
 
 $(IOTC_OBJDIR)/third_party/%.o : $(LIBIOTC)/third_party/%.c $(IOTC_BUILD_PRECONDITIONS)
 	@-mkdir -p $(dir $@)

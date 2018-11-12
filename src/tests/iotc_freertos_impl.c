@@ -23,6 +23,7 @@ void vAssertCalled( unsigned long ulLine, const char * const pcFileName )
 }
 
 void vApplicationMallocFailedHook(void) {
+  printf("%s\n", __FUNCTION__);
   while (1)
     ;
 }

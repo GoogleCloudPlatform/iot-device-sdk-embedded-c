@@ -20,20 +20,22 @@ IOTC_COMPILER_FLAGS += -fPIC
 IOTC_LIB_FLAGS += $(IOTC_TLS_LIBFLAGS) -lcrypto -lpthread
 
 IOTC_FREERTOS_DIR_PATH = $(LIBIOTC)/third_party/FreeRTOSv10.1.1/FreeRTOS
+IOTC_FREERTOS_ADDONS_DIR_PATH = $(LIBIOTC)/third_party/freertos-addons
+
 IOTC_SOURCES += $(IOTC_FREERTOS_DIR_PATH)/Source/list.c
 IOTC_SOURCES += $(IOTC_FREERTOS_DIR_PATH)/Source/queue.c
 IOTC_SOURCES += $(IOTC_FREERTOS_DIR_PATH)/Source/tasks.c
 IOTC_SOURCES += $(IOTC_FREERTOS_DIR_PATH)/Source/timers.c
 IOTC_SOURCES += $(IOTC_FREERTOS_DIR_PATH)/Source/croutine.c
 IOTC_SOURCES += $(IOTC_FREERTOS_DIR_PATH)/Source/portable/MemMang/heap_3.c
-IOTC_SOURCES += $(LIBIOTC)/third_party/freertos-addons/Linux/portable/GCC/Linux/port.c
+IOTC_SOURCES += $(IOTC_FREERTOS_ADDONS_DIR_PATH)/Linux/portable/GCC/Linux/port.c
 
 include make/mt-os/mt-os-common.mk
 
 IOTC_INCLUDE_FLAGS += -I$(IOTC_FREERTOS_DIR_PATH)/Source/include
-IOTC_INCLUDE_FLAGS += -I$(LIBIOTC)/third_party/freertos-addons/Linux/portable/GCC/Linux
-#  IOTC_INCLUDE_FLAGS += -I$(LIBIOTC)/third_party/freertos-addons/Linux/Demo/Linux_gcc_simple_tasks
-IOTC_INCLUDE_FLAGS += -I$(LIBIOTC)/examples/freertos_linux/Linux_gcc_gcp_iot
+IOTC_INCLUDE_FLAGS += -I$(IOTC_FREERTOS_ADDONS_DIR_PATH)/Linux/portable/GCC/Linux
+IOTC_INCLUDE_FLAGS += -I$(LIBIOTC)/third_party/freertos-addons/Linux/Demo/Linux_gcc_simple_tasks
+#  IOTC_INCLUDE_FLAGS += -I$(LIBIOTC)/examples/freertos_linux/Linux_gcc_gcp_iot
 
 IOTC_ARFLAGS += -rs -c $(XI)
 
@@ -60,7 +62,7 @@ $(IOTC_FREERTOS_ADDONS_README_PATH): $(IOTC_FREERTOS_README_PATH)
 #################################################################
 # Unzip FreeRTOS kernel #########################################
 #################################################################
-$(IOTC_FREERTOS_README_PATH): $(IOTC_FREERTOS_KERNEL_ZIP_PATH)
+$(IOTC_FREERTOS_KERNEL_README_PATH): $(IOTC_FREERTOS_KERNEL_ZIP_PATH)
 	@echo IOTC FreeRTOS Linux build: unzipping
 	@echo	$< to $(basename $<)
 	@unzip -q $< -d $(dir $<)
@@ -75,3 +77,6 @@ $(IOTC_FREERTOS_KERNEL_ZIP_PATH):
 	@curl -L -o $@ $(IOTC_FREERTOS_KERNEL_URL)
 
 IOTC_BUILD_PRECONDITIONS := $(IOTC_FREERTOS_ADDONS_README_PATH)
+
+prereqs : $(IOTC_FREERTOS_ADDONS_README_PATH)
+
