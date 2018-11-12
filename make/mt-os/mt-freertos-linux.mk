@@ -25,7 +25,7 @@ IOTC_SOURCES += $(IOTC_FREERTOS_DIR_PATH)/Source/queue.c
 IOTC_SOURCES += $(IOTC_FREERTOS_DIR_PATH)/Source/tasks.c
 IOTC_SOURCES += $(IOTC_FREERTOS_DIR_PATH)/Source/timers.c
 IOTC_SOURCES += $(IOTC_FREERTOS_DIR_PATH)/Source/croutine.c
-IOTC_SOURCES += $(IOTC_FREERTOS_DIR_PATH)/Source/portable/MemMang/heap_4.c
+IOTC_SOURCES += $(IOTC_FREERTOS_DIR_PATH)/Source/portable/MemMang/heap_3.c
 IOTC_SOURCES += $(LIBIOTC)/third_party/freertos-addons/Linux/portable/GCC/Linux/port.c
 
 include make/mt-os/mt-os-common.mk
