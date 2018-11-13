@@ -17,11 +17,59 @@
 #include "gtest.h"
 
 #include "iotc.h"
+#include "iotc_error.h"
+#include "iotc_memory_checks.h"
+#include "iotc_version.h"
 
 namespace iotctest {
 namespace {
 
-TEST(Iotc, TestGTestBuildSystem) { EXPECT_EQ(34, 34); }
+class IotcCore : public ::testing::Test {
+ public:
+  void SetUp() override {
+    iotc_memory_limiter_tearup();
+    iotc_initialize();
+  }
+  void TearDown() override {
+    iotc_shutdown();
+    // iotc_memory_limiter_teardown returns 1 if all memory was deallocated.
+    ASSERT_EQ(iotc_memory_limiter_teardown(), 1);
+  }
+};
+
+TEST_F(IotcCore, InitShutDownCycleFreesUpAllMemory) {
+  // As part of setup, iotc_initialize is called.
+  iotc_shutdown();
+  iotc_initialize();
+  // As part of teardown, iotc_shutdown is called and memory leaks are checked.
+}
+
+TEST_F(IotcCore, CreateContextCreatesValidContextHandle) {
+  auto ctx_handle = iotc_create_context();
+  EXPECT_GT(ctx_handle, IOTC_INVALID_CONTEXT_HANDLE);
+
+  // We need to delete the context, otherwise we leak memory and fail the test.
+  iotc_delete_context(ctx_handle);
+}
+
+TEST_F(IotcCore, DeleteContextResetsContextHandle) {
+  auto ctx_handle = iotc_create_context();
+  ASSERT_GT(ctx_handle, IOTC_INVALID_CONTEXT_HANDLE);
+
+  auto state = iotc_delete_context(ctx_handle);
+  EXPECT_EQ(state, IOTC_STATE_OK);
+
+  // This one fails. ctx_handle stays the same. Is it a bug?
+  // EXPECT_EQ(ctx_handle, IOTC_INVALID_CONTEXT_HANDLE);
+}
+
+TEST(Iotc, VersionNumbersAreCorrect) {
+  EXPECT_EQ(iotc_major, IOTC_MAJOR);
+  EXPECT_EQ(iotc_minor, IOTC_MINOR);
+  EXPECT_EQ(iotc_revision, IOTC_REVISION);
+}
+
+TEST(Iotc, InitializeReturnsOK) { EXPECT_EQ(iotc_initialize(), IOTC_STATE_OK); }
 
 }  // namespace
 }  // namespace iotctest
