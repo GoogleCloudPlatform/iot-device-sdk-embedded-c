@@ -69,6 +69,7 @@ By default, the build process for `tests` includes test execution as the final s
 
     cd bin/{host_os}/tests
     ./iotc_utests
+    ./iotc_gtests
     ./iotc_itests
 
 

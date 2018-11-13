@@ -17,8 +17,6 @@ IOTC_TEST_SIM := qemu-system-arm -machine integratorcp -cpu cortex-m3 -nographic
 
 ifeq ($(IOTC_HOST_PLATFORM),Linux)
     IOTC_RUN_UTESTS := $(IOTC_TEST_SIM) $(IOTC_UTESTS) -append "-l0"
-    IOTC_RUN_ITESTS := $(IOTC_TEST_SIM) $(IOTC_ITESTS)
 else ifeq ($(IOTC_HOST_PLATFORM),Darwin)
     IOTC_RUN_UTESTS := @echo "WARNING: no qemu on OSX yet, utests are not executed"
-    IOTC_RUN_ITESTS := @echo "WARNING: no qemu on OSX yet, itests are not executed"
 endif

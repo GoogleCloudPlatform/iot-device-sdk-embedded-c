@@ -19,7 +19,7 @@ IOTC_COMPILER_FLAGS += -fPIC
 IOTC_COMPILER_FLAGS += -mcpu=cortex-m3 -mthumb
 # Temporarily disable these warnings until the code gets changed.
 IOTC_COMPILER_FLAGS += -Wno-format
-IOTC_COMPILER_FLAGS  += -specs=rdimon.specs
+IOTC_COMPILER_FLAGS += -specs=rdimon.specs
 IOTC_LIBS_FLAGS += lrdimon
 
 IOTC_ARFLAGS += -rs -c $(XI)
