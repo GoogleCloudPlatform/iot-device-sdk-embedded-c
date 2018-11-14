@@ -91,7 +91,7 @@ build_output: header preset_output
 .PHONY: roots_pem
 roots_pem: res/trusted_RootCA_certs/roots.pem
 
-all: build_output roots_pem $(XI) $(IOTC_POST_BUILD_ACTION)
+all: build_output roots_pem $(XI)
 
 res/trusted_RootCA_certs/roots.pem:
 	$(info Attempting to download IoT Core Server Authentication)
@@ -143,7 +143,7 @@ clean_all: clean
 
 libiotc: $(XI)
 
-$(XI): $(IOTC_TLS_LIB_DEP) $(IOTC_PROTOFILES_C) $(IOTC_OBJS) | $(IOTC_BIN_DIRS)
+$(XI): $(IOTC_TLS_LIB_DEP) $(IOTC_PROTOFILES_C) $(IOTC_OBJS) $(IOTC_BUILD_PRECONDITIONS) | $(IOTC_BIN_DIRS)
 	$(info [$(AR)] $@ )
 	$(MD) $(AR) $(IOTC_ARFLAGS) $(IOTC_OBJS) $(IOTC_EXTRA_ARFLAGS)
 
@@ -185,7 +185,7 @@ $(IOTC_OBJDIR)/%.o : $(LIBIOTC)/src/%.c $(IOTC_BUILD_PRECONDITIONS)
 	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
 	$(IOTC_POST_COMPILE_ACTION)
 
-$(IOTC_OBJDIR)/third_party/mqtt-protocol-c/%.o : $(LIBIOTC)/third_party/mqtt-protocol-c/%.c $(IOTC_BUILD_PRECONDITIONS)
+$(IOTC_OBJDIR)/third_party/%.o : $(LIBIOTC)/third_party/%.c $(IOTC_BUILD_PRECONDITIONS)
 	@-mkdir -p $(dir $@)
 	$(info [$(CC)] $@)
 	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)

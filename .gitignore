@@ -6,3 +6,7 @@ test_coverage/
 third_party/tls/mbedtls
 third_party/tls/wolfssl
 third_party/protobuf-c/library/*.o
+third_party/freertos-addons
+third_party/FreeRTOSv10.1.1*
+examples/freertos_linux/Linux_gcc_gcp_iot/*.o
+examples/freertos_linux/Linux_gcc_gcp_iot/Linux_gcc_gcp_iot

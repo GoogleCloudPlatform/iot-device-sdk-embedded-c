@@ -32,7 +32,7 @@ TARGET_STATIC_REL          =-static-release
 PRESET ?= POSIX_REL
 
 # -------------------------------------------------------
-# BSP DEV
+# POSIX DEV
 ifeq ($(PRESET), POSIX_DEV_MIN)
     CONFIG = $(CONFIG_POSIX_MIN)
     TARGET = $(TARGET_STATIC_DEV)
@@ -42,7 +42,7 @@ else ifeq ($(PRESET), POSIX_DEV)
     TARGET = $(TARGET_STATIC_DEV)
     IOTC_BSP_PLATFORM = posix
 
-# BSP REL
+# POSIX REL
 else ifeq ($(PRESET), POSIX_REL_MIN)
     CONFIG = $(CONFIG_POSIX_MIN)
     TARGET = $(TARGET_STATIC_REL)
@@ -65,6 +65,20 @@ else ifeq ($(PRESET), POSIX_THREADING_REL)
     CONFIG = $(CONFIG_POSIX_MAX_THREADING)
     TARGET = $(TARGET_STATIC_REL)
     IOTC_BSP_PLATFORM = posix
+
+# -------------------------------------------------------
+# FREERTOS POSIX DEV
+else ifeq ($(PRESET), FREERTOS_POSIX_REL)
+    CONFIG = $(CONFIG_POSIX_MIN)
+    TARGET = $(TARGET_STATIC_REL)
+    IOTC_BSP_PLATFORM = freertos-posix
+    IOTC_TARGET_PLATFORM = freertos-linux
+
+else ifeq ($(PRESET), FREERTOS_POSIX_DEV)
+    CONFIG = $(CONFIG_POSIX_MIN)
+    TARGET = $(TARGET_STATIC_DEV)
+    IOTC_BSP_PLATFORM = freertos-posix
+    IOTC_TARGET_PLATFORM = freertos-linux
 
 # -------------------------------------------------------
 # ARM

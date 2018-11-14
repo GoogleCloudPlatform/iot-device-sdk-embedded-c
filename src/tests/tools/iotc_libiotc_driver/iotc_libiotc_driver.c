@@ -205,3 +205,15 @@ int main(int argc, char const* argv[]) {
 
   return iotc_memory_limiter_teardown() ? 0 : 1;
 }
+
+void vAssertCalled( unsigned long ulLine, const char * const pcFileName )
+{
+      printf("ASSERT: %s : %d\n", pcFileName, (int)ulLine);fflush(stdout);
+          while(1);
+}
+
+void vApplicationMallocFailedHook(void) {
+  while (1)
+    ;
+}
+

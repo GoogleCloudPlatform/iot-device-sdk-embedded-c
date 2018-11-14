@@ -32,12 +32,12 @@ else ifeq ($(IOTC_HOST_PLATFORM),Windows_NT)
 endif
 
 $(IOTC_GCC_ARM_NONE_EABI_DOWNLOAD_FILE):
-	@echo "XI ARM-GCC BUILD: downloading arm-gcc toolchain to file $(IOTC_GCC_ARM_NONE_EABI_DOWNLOAD_FILE)"
+	@echo "IOTC ARM-GCC BUILD: downloading arm-gcc toolchain to file $(IOTC_GCC_ARM_NONE_EABI_DOWNLOAD_FILE)"
 	@-mkdir -p $(dir $@)
 	@curl -L -o $(IOTC_GCC_ARM_NONE_EABI_DOWNLOAD_FILE) $(IOTC_GCC_ARM_TOOLCHAIN_URL)
 
 $(CC): $(IOTC_GCC_ARM_NONE_EABI_DOWNLOAD_FILE)
-	@echo "XI ARM-GCC BUILD: extracting arm-gcc toolchain"
+	@echo "IOTC ARM-GCC BUILD: extracting arm-gcc toolchain"
 	@tar -xf $(IOTC_GCC_ARM_NONE_EABI_DOWNLOAD_FILE) -C ~/Downloads
 	@touch $@
 	$@ --version
