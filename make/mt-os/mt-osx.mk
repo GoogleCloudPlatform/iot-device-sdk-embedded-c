@@ -16,7 +16,7 @@
 CC ?= gcc
 AR ?= ar
 
-IOTC_CONFIG_FLAGS += -DIOTC_BUILD_OSX
+IOTC_CONFIG_FLAGS += -DIOTC_PLATFORM_IS_OSX
 IOTC_LIB_FLAGS += $(IOTC_TLS_LIBFLAGS) -lpthread -lm -lcrypto
 
 include make/mt-os/mt-os-common.mk
