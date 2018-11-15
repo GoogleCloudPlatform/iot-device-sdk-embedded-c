@@ -97,34 +97,9 @@ end:
   return 0;
 }
 
-extern void iotc_default_client_callback(
-    iotc_context_handle_t in_context_handle, void* data, iotc_state_t state);
 #endif
 
 IOTC_TT_TESTGROUP_BEGIN(utest_core)
-
-IOTC_TT_TESTCASE(test_initialize_shutdown_free_up_all_memory, {
-  iotc_initialize();
-  iotc_shutdown();
-
-  iotc_initialize();
-  iotc_shutdown();
-
-  tt_want_int_op(iotc_is_whole_memory_deallocated(), >, 0);
-})
-
-IOTC_TT_TESTCASE_WITH_SETUP(test_create_and_delete_context,
-                            iotc_utest_setup_basic, iotc_utest_teardown_basic,
-                            NULL, {
-                              iotc_context_handle_t iotc_context_handle =
-                                  iotc_create_context();
-                              tt_assert(iotc_context_handle >
-                                        IOTC_INVALID_CONTEXT_HANDLE);
-
-                              iotc_delete_context(iotc_context_handle);
-
-                            end:;
-                            })
 
 IOTC_TT_TESTCASE(test_make_handles, {
   iotc_event_handle_t eh;
@@ -177,22 +152,6 @@ IOTC_TT_TESTCASE(test_make_handles, {
   tt_assert(eh.handle_type == IOTC_EVENT_HANDLE_ARGC6);
   iotc_evtd_execute_handle(&eh);
 
-end:;
-})
-
-IOTC_TT_TESTCASE(test_version_major, {
-  tt_assert(IOTC_MAJOR == iotc_major);
-  tt_assert(0 == iotc_major);  // change to 0 != xi_major at 1.0 release.
-end:;
-})
-
-IOTC_TT_TESTCASE(test_version_minor, {
-  tt_assert(IOTC_MINOR == iotc_minor);
-end:;
-})
-
-IOTC_TT_TESTCASE(test_version_revision, {
-  tt_assert(IOTC_REVISION == iotc_revision);
 end:;
 })
 
