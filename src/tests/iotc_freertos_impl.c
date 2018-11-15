@@ -16,10 +16,14 @@
 
 #include <stdio.h>
 
-void vAssertCalled( unsigned long ulLine, const char * const pcFileName )
-{
-      printf("ASSERT: %s : %d\n", pcFileName, (int)ulLine);
-          while(1);
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void vAssertCalled(unsigned long ulLine, const char* const pcFileName) {
+  printf("ASSERT: %s : %d\n", pcFileName, (int)ulLine);
+  while (1)
+    ;
 }
 
 void vApplicationMallocFailedHook(void) {
@@ -28,3 +32,6 @@ void vApplicationMallocFailedHook(void) {
     ;
 }
 
+#ifdef __cplusplus
+}
+#endif

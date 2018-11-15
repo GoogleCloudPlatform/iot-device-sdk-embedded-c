@@ -25,7 +25,7 @@
 extern "C" {
 #endif
 
-#ifdef IOTC_BUILD_OSX
+#ifdef IOTC_PLATFORM_IS_OSX
 
 static const char IOTC_TEST_RESULT_COMMAND_TEMPLATE[] =
     "open -g \"unittest-notifier://iotc.unittest/{"
