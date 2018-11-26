@@ -123,6 +123,7 @@ class IotcEvtdExecuteHandleTest : public ::testing::Test {
   }
   static FreeFunctionsMock* mock_fns_;
 };
+
 FreeFunctionsMock* IotcEvtdExecuteHandleTest::mock_fns_ = nullptr;
 
 TEST_F(IotcEvtdExecuteHandleTest, ExecutesHandleWithZeroArgument) {
