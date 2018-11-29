@@ -20,7 +20,7 @@ GTEST_DIR = $(LIBIOTC)/third_party/googletest/googletest
 GMOCK_DIR = $(LIBIOTC)/third_party/googletest/googlemock
 GTEST_OBJDIR := $(IOTC_OBJDIR)/third_party/googletest
 
-GTEST_CPPFLAGS += -isystem $(GTEST_DIR)/include -isystem $(GMOCK_DIR)/include
+GTEST_INCLUDE_FLAGS += -isystem $(GTEST_DIR)/include -isystem $(GMOCK_DIR)/include
 GTEST_CXXFLAGS += -g -Wall -Wextra -pthread -std=c++11
 
 GTEST_HEADERS = $(GTEST_DIR)/include/gtest/*.h \
@@ -33,20 +33,20 @@ GMOCK_SOURCES = $(GMOCK_DIR)/src/*.cc $(GMOCK_HEADERS)
 $(GTEST_OBJDIR)/gtest-all.o: $(GTEST_SOURCES)
 	$(info [$(CXX)] $@)
 	@-mkdir -p $(GTEST_OBJDIR)
-	$(MD) $(CXX) $(GTEST_CPPFLAGS) -I$(GTEST_DIR) $(GTEST_CXXFLAGS) -c \
+	$(MD) $(CXX) $(GTEST_INCLUDE_FLAGS) -I$(GTEST_DIR) $(GTEST_CXXFLAGS) -c \
             $(GTEST_DIR)/src/gtest-all.cc $(IOTC_COMPILER_OUTPUT)
 
 $(GTEST_OBJDIR)/gmock-all.o: $(GMOCK_SOURCES)
 	$(info [$(CXX)] $@)
 	@-mkdir -p $(GTEST_OBJDIR)
-	$(MD) $(CXX) $(GTEST_CPPFLAGS) -I$(GTEST_DIR) -I$(GMOCK_DIR) \
+	$(MD) $(CXX) $(GTEST_INCLUDE_FLAGS) -I$(GTEST_DIR) -I$(GMOCK_DIR) \
 	          $(GTEST_CXXFLAGS) -c \
             $(GMOCK_DIR)/src/gmock-all.cc $(IOTC_COMPILER_OUTPUT)
 
 $(GTEST_OBJDIR)/gmock_main.o: $(GMOCK_SOURCES)
 	$(info [$(CXX)] $@)
 	@-mkdir -p $(GTEST_OBJDIR)
-	$(MD) $(CXX) $(GTEST_CPPFLAGS) -I$(GTEST_DIR) -I$(GMOCK_DIR) \
+	$(MD) $(CXX) $(GTEST_INCLUDE_FLAGS) -I$(GTEST_DIR) -I$(GMOCK_DIR) \
 	          $(GTEST_CXXFLAGS) -c \
             $(GMOCK_DIR)/src/gmock_main.cc $(IOTC_COMPILER_OUTPUT)
 
