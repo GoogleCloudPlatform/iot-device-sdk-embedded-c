@@ -142,8 +142,8 @@ TEST_F(IotcEvtdExecuteHandleTest, ExecutesHandleWithOneArgument) {
 
   EXPECT_CALL(*IotcEvtdExecuteHandleTest::mock_fns_, H1(Eq(&arg1)))
       .Times(1)
-      .WillOnce(Return(IOTC_STATE_OK));
-  EXPECT_EQ(iotc_evtd_execute_handle(&eh), IOTC_STATE_OK);
+      .WillOnce(Return(IOTC_STATE_FAILED_WRITING));
+  EXPECT_EQ(iotc_evtd_execute_handle(&eh), IOTC_STATE_FAILED_WRITING);
 }
 
 TEST_F(IotcEvtdExecuteHandleTest, ExecutesHandleWithTwoArguments) {
@@ -154,8 +154,8 @@ TEST_F(IotcEvtdExecuteHandleTest, ExecutesHandleWithTwoArguments) {
 
   EXPECT_CALL(*IotcEvtdExecuteHandleTest::mock_fns_, H2(Eq(&arg1), Eq(&arg2)))
       .Times(1)
-      .WillOnce(Return(IOTC_STATE_OK));
-  EXPECT_EQ(iotc_evtd_execute_handle(&eh), IOTC_STATE_OK);
+      .WillOnce(Return(IOTC_STATE_RESEND));
+  EXPECT_EQ(iotc_evtd_execute_handle(&eh), IOTC_STATE_RESEND);
 }
 
 TEST_F(IotcEvtdExecuteHandleTest, ExecutesHandleWithThreeArguments) {
@@ -168,8 +168,8 @@ TEST_F(IotcEvtdExecuteHandleTest, ExecutesHandleWithThreeArguments) {
   EXPECT_CALL(*IotcEvtdExecuteHandleTest::mock_fns_,
               H3(Eq(&arg1), Eq(&arg2), Eq(arg3)))
       .Times(1)
-      .WillOnce(Return(IOTC_STATE_OK));
-  EXPECT_EQ(iotc_evtd_execute_handle(&eh), IOTC_STATE_OK);
+      .WillOnce(Return(IOTC_STATE_TIMEOUT));
+  EXPECT_EQ(iotc_evtd_execute_handle(&eh), IOTC_STATE_TIMEOUT);
 }
 
 TEST_F(IotcEvtdExecuteHandleTest, ExecutesHandleWithFourArguments) {
@@ -183,8 +183,8 @@ TEST_F(IotcEvtdExecuteHandleTest, ExecutesHandleWithFourArguments) {
   EXPECT_CALL(*IotcEvtdExecuteHandleTest::mock_fns_,
               H4(Eq(&arg1), Eq(&arg2), Eq(arg3), Eq(&arg4)))
       .Times(1)
-      .WillOnce(Return(IOTC_STATE_OK));
-  EXPECT_EQ(iotc_evtd_execute_handle(&eh), IOTC_STATE_OK);
+      .WillOnce(Return(IOTC_STATE_WANT_READ));
+  EXPECT_EQ(iotc_evtd_execute_handle(&eh), IOTC_STATE_WANT_READ);
 }
 
 TEST_F(IotcEvtdExecuteHandleTest, ExecutesHandleWithFiveArguments) {
@@ -199,8 +199,8 @@ TEST_F(IotcEvtdExecuteHandleTest, ExecutesHandleWithFiveArguments) {
   EXPECT_CALL(*IotcEvtdExecuteHandleTest::mock_fns_,
               H5(Eq(&arg1), Eq(&arg2), Eq(arg3), Eq(&arg4), Eq(&arg5)))
       .Times(1)
-      .WillOnce(Return(IOTC_STATE_OK));
-  EXPECT_EQ(iotc_evtd_execute_handle(&eh), IOTC_STATE_OK);
+      .WillOnce(Return(IOTC_STATE_WANT_WRITE));
+  EXPECT_EQ(iotc_evtd_execute_handle(&eh), IOTC_STATE_WANT_WRITE);
 }
 
 TEST_F(IotcEvtdExecuteHandleTest, ExecutesHandleWithSixArguments) {
@@ -217,8 +217,8 @@ TEST_F(IotcEvtdExecuteHandleTest, ExecutesHandleWithSixArguments) {
       *IotcEvtdExecuteHandleTest::mock_fns_,
       H6(Eq(&arg1), Eq(&arg2), Eq(arg3), Eq(&arg4), Eq(&arg5), Eq(&arg6)))
       .Times(1)
-      .WillOnce(Return(IOTC_STATE_OK));
-  EXPECT_EQ(iotc_evtd_execute_handle(&eh), IOTC_STATE_OK);
+      .WillOnce(Return(IOTC_STATE_WRITTEN));
+  EXPECT_EQ(iotc_evtd_execute_handle(&eh), IOTC_STATE_WRITTEN);
 }
 
 }  // namespace
