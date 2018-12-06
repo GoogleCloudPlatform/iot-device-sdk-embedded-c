@@ -149,15 +149,15 @@ extern iotc_event_handle_t iotc_make_handle_argc6(
     iotc_event_handle_arg5_t a5, iotc_event_handle_arg5_t a6);
 #endif /* IOTC_DEBUG_EXTRA_INFO */
 
-#ifdef __cplusplus
-}
-#endif
-
 iotc_state_t iotc_pointerize_handle(iotc_event_handle_t handle,
                                     iotc_event_handle_t** pointer);
 
 extern void iotc_dispose_handle(iotc_event_handle_t* handle);
 
 extern uint8_t iotc_handle_disposed(iotc_event_handle_t* handle);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __IOTC_EVENT_HANDLE_H__ */

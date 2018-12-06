@@ -18,8 +18,8 @@
 #include "gtest.h"
 
 #include "iotc.h"
+#include "iotc_heapcheck_test.h"
 #include "iotc_jwt.h"
-#include "iotc_memory_checks.h"
 
 namespace iotctest {
 namespace {
@@ -32,25 +32,16 @@ AwEHoUQDQgAE1Oi16oAc/+s5P5g2pzt3IDXfUBBUKUBrB8vgfyKOFb7sQTx4topE\n\
 E0KOix7rJyli6tiAJJDL4lbdf0YRo45THQ==\n\
 -----END EC PRIVATE KEY-----";
 
-class IotcJwt : public ::testing::Test {
+class IotcJwt : public IotcHeapCheckTest {
  public:
   IotcJwt() {
+    iotc_initialize();
     private_key_.private_key_signature_algorithm =
         IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
     private_key_.private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
     private_key_.private_key_union.key_pem.key = const_cast<char*>(kPemKey);
   }
-
-  void SetUp() override {
-    iotc_memory_limiter_tearup();
-    iotc_initialize();
-  }
-
-  void TearDown() override {
-    iotc_shutdown();
-    // iotc_memory_limiter_teardown returns 1 if all memory was deallocated.
-    ASSERT_EQ(iotc_memory_limiter_teardown(), 1);
-  }
+  ~IotcJwt() { iotc_shutdown(); }
 
  protected:
   iotc_crypto_private_key_data_t private_key_;

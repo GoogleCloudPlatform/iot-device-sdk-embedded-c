@@ -18,23 +18,16 @@
 
 #include "iotc.h"
 #include "iotc_error.h"
-#include "iotc_memory_checks.h"
+#include "iotc_heapcheck_test.h"
 #include "iotc_version.h"
 
 namespace iotctest {
 namespace {
 
-class IotcCore : public ::testing::Test {
+class IotcCore : public IotcHeapCheckTest {
  public:
-  void SetUp() override {
-    iotc_memory_limiter_tearup();
-    iotc_initialize();
-  }
-  void TearDown() override {
-    iotc_shutdown();
-    // iotc_memory_limiter_teardown returns 1 if all memory was deallocated.
-    ASSERT_EQ(iotc_memory_limiter_teardown(), 1);
-  }
+  IotcCore() { iotc_initialize(); }
+  ~IotcCore() { iotc_shutdown(); }
 };
 
 TEST_F(IotcCore, InitShutDownCycleFreesUpAllMemory) {
@@ -69,7 +62,12 @@ TEST(Iotc, VersionNumbersAreCorrect) {
   EXPECT_EQ(iotc_revision, IOTC_REVISION);
 }
 
-TEST(Iotc, InitializeReturnsOK) { EXPECT_EQ(iotc_initialize(), IOTC_STATE_OK); }
+TEST(Iotc, InitializeReturnsOK) {
+  EXPECT_EQ(iotc_initialize(), IOTC_STATE_OK);
+
+  // Need to call iotc_shutdown() to release memory.
+  iotc_shutdown();
+}
 
 }  // namespace
 }  // namespace iotctest
