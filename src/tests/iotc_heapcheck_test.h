@@ -16,7 +16,6 @@
 
 #include "gtest.h"
 
-#include "iotc.h"
 #include "iotc_memory_checks.h"
 
 namespace iotctest {
