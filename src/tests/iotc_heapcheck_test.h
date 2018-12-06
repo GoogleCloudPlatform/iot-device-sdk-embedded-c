@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include <cassert>
 
 #include "gtest.h"
-
 #include "iotc_memory_checks.h"
 
 namespace iotctest {
@@ -24,7 +24,7 @@ namespace {
 class IotcHeapCheckTest : public ::testing::Test {
  public:
   IotcHeapCheckTest() { iotc_memory_limiter_tearup(); }
-  ~IotcHeapCheckTest() { iotc_memory_limiter_teardown(); }
+  ~IotcHeapCheckTest() { assert(iotc_memory_limiter_teardown() == 1); }
 };
 
 }  // namespace
