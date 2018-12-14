@@ -78,7 +78,6 @@ IOTC_TT_TESTCASE_PREDECLARATION(utest_timed_task);
 IOTC_TT_TESTCASE_PREDECLARATION(utest_bsp_crypto_base64);
 IOTC_TT_TESTCASE_PREDECLARATION(utest_bsp_crypto_sha256);
 IOTC_TT_TESTCASE_PREDECLARATION(utest_bsp_crypto_ecc);
-IOTC_TT_TESTCASE_PREDECLARATION(utest_jwt);
 #ifdef IOTC_LIBCRYPTO_AVAILABLE
 IOTC_TT_TESTCASE_PREDECLARATION(utest_jwt_openssl_validation);
 #endif
@@ -235,7 +234,6 @@ struct testgroup_t groups[] = {
     {"utest_bsp_crypto_base64 - ", utest_bsp_crypto_base64},
     {"utest_bsp_crypto_sha256 - ", utest_bsp_crypto_sha256},
     {"utest_bsp_crypto_ecc - ", utest_bsp_crypto_ecc},
-    {"utest_jwt - ", utest_jwt},
 #ifdef IOTC_LIBCRYPTO_AVAILABLE
     {"utest_jwt_openssl_validation - ", utest_jwt_openssl_validation},
 #endif
