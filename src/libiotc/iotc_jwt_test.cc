@@ -47,7 +47,7 @@ class IotcJwt : public IotcHeapCheckTest {
   iotc_crypto_private_key_data_t private_key_;
 };
 
-TEST_F(IotcJwt, JwtCreateReturnsSmallBufferError) {
+TEST_F(IotcJwt, ES256JwtCreateReturnsSmallBufferError) {
   unsigned char jwt_buffer[IOTC_JWT_SIZE] = {0};
   size_t bytes_written = 0;
   EXPECT_EQ(iotc_create_jwt_es256("projectID", /*expiration_period_sec=*/600,
@@ -56,7 +56,7 @@ TEST_F(IotcJwt, JwtCreateReturnsSmallBufferError) {
             IOTC_BUFFER_TOO_SMALL_ERROR);
 }
 
-TEST_F(IotcJwt, JwtStringConsistsOfThreeDotSeparatedStrings) {
+TEST_F(IotcJwt, ES256JwtStringConsistsOfThreeDotSeparatedStrings) {
   unsigned char jwt_buffer[IOTC_JWT_SIZE] = {0};
   size_t bytes_written = 0;
   ASSERT_EQ(iotc_create_jwt_es256("projectID", /*expiration_period_sec=*/600,
@@ -68,7 +68,7 @@ TEST_F(IotcJwt, JwtStringConsistsOfThreeDotSeparatedStrings) {
   EXPECT_THAT(jwt, ::testing::MatchesRegex(R"(^[^.]+\.[^.]+\.[^.]+)"));
 }
 
-TEST_F(IotcJwt, JwtCreateReturnsProjectIdTooLongError) {
+TEST_F(IotcJwt, ES256JwtCreateReturnsProjectIdTooLongError) {
   const std::string kTooLongProjectId(IOTC_JWT_SIZE - 1, 'x');
 
   unsigned char jwt_buffer[IOTC_JWT_SIZE] = {0};
