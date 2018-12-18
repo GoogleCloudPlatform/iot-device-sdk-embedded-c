@@ -22,7 +22,6 @@
 #include <openssl/ec.h>
 #include <openssl/evp.h>
 #include "iotc.h"
-#include "iotc_bsp_time.h"
 #include "iotc_heapcheck_test.h"
 #include "iotc_jwt.h"
 
@@ -60,20 +59,6 @@ class IotcJwt : public IotcHeapCheckTest {
     BIO_free_all(bio);
 
     return std::string(decoded, strlen(decoded));
-  }
-
-  void base64_decode_openssl2(const char* base64_string, char* dst_string,
-                              size_t) {
-    BIO* bio;
-    BIO* b64;
-
-    bio = BIO_new_mem_buf((void*)base64_string, -1);
-    b64 = BIO_new(BIO_f_base64());
-    bio = BIO_push(b64, bio);
-
-    BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL);
-    BIO_read(bio, dst_string, strlen(base64_string));
-    BIO_free_all(bio);
   }
 
  protected:
@@ -120,7 +105,7 @@ TEST_F(IotcJwt, ES256JwtCreateReturnsProjectIdTooLongError) {
             IOTC_STATE_OK);
 }
 
-TEST_F(IotcJwt, ES256JwtCreateReturnsCorrectSections) {
+TEST_F(IotcJwt, ES256JwtCreateReturnsCorrectDecodableBase64Sections) {
   unsigned char jwt_buffer[IOTC_JWT_SIZE] = {0};
   size_t bytes_written = 0;
   const uint32_t expiration_period_sec = 1600;
