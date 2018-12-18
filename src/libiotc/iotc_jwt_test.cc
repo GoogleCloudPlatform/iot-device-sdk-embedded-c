@@ -13,11 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include <cstdlib>
 
 #include "gmock.h"
 #include "gtest.h"
 
+#include <openssl/bio.h>
+#include <openssl/ec.h>
+#include <openssl/evp.h>
 #include "iotc.h"
+#include "iotc_bsp_time.h"
 #include "iotc_heapcheck_test.h"
 #include "iotc_jwt.h"
 
@@ -43,6 +48,34 @@ class IotcJwt : public IotcHeapCheckTest {
   }
   ~IotcJwt() { iotc_shutdown(); }
 
+  std::string base64_decode_openssl(const std::string& base64_string) {
+    BIO* input = BIO_new_mem_buf(
+        static_cast<const void*>(base64_string.c_str()), /*len=*/-1);
+    BIO* b64 = BIO_new(BIO_f_base64());
+    BIO* bio = BIO_push(b64, input);
+
+    char decoded[IOTC_JWT_SIZE] = {0};
+    BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL);
+    BIO_read(bio, decoded, base64_string.size());
+    BIO_free_all(bio);
+
+    return std::string(decoded, strlen(decoded));
+  }
+
+  void base64_decode_openssl2(const char* base64_string, char* dst_string,
+                              size_t) {
+    BIO* bio;
+    BIO* b64;
+
+    bio = BIO_new_mem_buf((void*)base64_string, -1);
+    b64 = BIO_new(BIO_f_base64());
+    bio = BIO_push(b64, bio);
+
+    BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL);
+    BIO_read(bio, dst_string, strlen(base64_string));
+    BIO_free_all(bio);
+  }
+
  protected:
   iotc_crypto_private_key_data_t private_key_;
 };
@@ -65,7 +98,7 @@ TEST_F(IotcJwt, ES256JwtStringConsistsOfThreeDotSeparatedStrings) {
             IOTC_STATE_OK);
 
   std::string jwt(reinterpret_cast<char*>(jwt_buffer), bytes_written);
-  EXPECT_THAT(jwt, ::testing::MatchesRegex(R"(^[^.]+\.[^.]+\.[^.]+)"));
+  EXPECT_THAT(jwt, ::testing::MatchesRegex(R"(^[^.]+\.[^.]+\.[^.]+$)"));
 }
 
 TEST_F(IotcJwt, ES256JwtCreateReturnsProjectIdTooLongError) {
@@ -85,6 +118,41 @@ TEST_F(IotcJwt, ES256JwtCreateReturnsProjectIdTooLongError) {
                                   /*expiration_period_sec=*/600, &private_key_,
                                   jwt_buffer, IOTC_JWT_SIZE, &bytes_written),
             IOTC_STATE_OK);
+}
+
+TEST_F(IotcJwt, ES256JwtCreateReturnsCorrectSections) {
+  unsigned char jwt_buffer[IOTC_JWT_SIZE] = {0};
+  size_t bytes_written = 0;
+  const uint32_t expiration_period_sec = 1600;
+  ASSERT_EQ(
+      iotc_create_jwt_es256("projectID", expiration_period_sec, &private_key_,
+                            jwt_buffer, IOTC_JWT_SIZE, &bytes_written),
+      IOTC_STATE_OK);
+
+  std::string jwt(reinterpret_cast<char*>(jwt_buffer), bytes_written);
+  ASSERT_THAT(jwt, ::testing::MatchesRegex(R"(^[^.]+\.[^.]+\.[^.]+)"));
+
+  const size_t first_dot = jwt.find_first_of('.');
+  const size_t second_dot = jwt.find_last_of('.');
+
+  const std::string first_section = jwt.substr(0, first_dot);
+  const std::string second_section =
+      jwt.substr(first_dot + 1, second_dot - first_dot);
+  const std::string third_section =
+      jwt.substr(second_dot + 1, jwt.size() - second_dot);
+
+  EXPECT_EQ(R"({"alg":"ES256","typ":"JWT"})",
+            base64_decode_openssl(first_section));
+
+  const auto second_section_decoded = base64_decode_openssl(second_section);
+  EXPECT_THAT(second_section_decoded,
+              ::testing::MatchesRegex(
+                  R"(^\{"iat":[0-9]+,"exp":[0-9]+,"aud":"projectID"\}$)"));
+
+  uint32_t iat_time, exp_time;
+  sscanf(second_section_decoded.c_str(), R"({"iat":%d,"exp":%d")", &iat_time,
+         &exp_time);
+  EXPECT_EQ(exp_time, iat_time + expiration_period_sec);
 }
 
 }  // namespace
