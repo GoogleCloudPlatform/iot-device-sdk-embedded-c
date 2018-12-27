@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 #include "gmock.h"
 #include "gtest.h"
 
@@ -45,6 +46,30 @@ TEST(IotcBspCryptoSha256, EmptyInputString) {
     EXPECT_THAT(sha256_actual, ElementsAreArray(sha256_expected));
 }
 
+TEST(IotcBspCryptoSha256, AInputString) {
+    uint8_t sha256_actual[IOTC_SHA256_HASH_SIZE] = {0};
+    const uint8_t sha256_expected[IOTC_SHA256_HASH_SIZE] = {
+          0xCA, 0x97, 0x81, 0x12, 0xCA, 0x1B, 0xBD, 0xCA, 0xFA, 0xC2, 0x31,
+          0xB3, 0x9A, 0x23, 0xDC, 0x4D, 0xA7, 0x86, 0xEF, 0xF8, 0x14, 0x7C,
+          0x4E, 0x72, 0xB9, 0x80, 0x77, 0x85, 0xAF, 0xEE, 0x48, 0xBB};
+    const iotc_bsp_crypto_state_t ret = iotc_bsp_sha256(sha256_actual, (uint8_t*)"a", 1);
+    EXPECT_EQ(ret, IOTC_BSP_CRYPTO_STATE_OK);
+    EXPECT_THAT(sha256_actual, ElementsAreArray(sha256_expected));
+}
+
+TEST(IotcBspCryptoSha256, LongerInputString) {
+    uint8_t sha256_actual[IOTC_SHA256_HASH_SIZE] = {0};
+    const uint8_t sha256_expected[IOTC_SHA256_HASH_SIZE] = {
+          0x10, 0xdf, 0x52, 0xdb, 0xb0, 0xcd, 0xea, 0x43, 0x13, 0x6b, 0x5b,
+          0x2b, 0x36, 0x02, 0x03, 0xb2, 0xbd, 0x22, 0xdb, 0x63, 0x04, 0x9d,
+          0xa9, 0x09, 0x8f, 0xb7, 0x4d, 0x2e, 0x11, 0x19, 0xf5, 0x99};
+    const char* input = 
+          "Dear unit test please sha256 hash this string! Thank you!";
+    const iotc_bsp_crypto_state_t ret = iotc_bsp_sha256(sha256_actual, (uint8_t*)input, strlen(input));
+    EXPECT_EQ(ret, IOTC_BSP_CRYPTO_STATE_OK);
+    EXPECT_THAT(sha256_actual, ElementsAreArray(sha256_expected));
+
+}
 
 }  // namespace
 }  // namespace iotctest
