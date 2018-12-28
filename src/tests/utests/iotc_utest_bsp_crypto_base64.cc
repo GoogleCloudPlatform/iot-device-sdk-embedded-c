@@ -22,7 +22,7 @@ extern "C" {
 }
 
 namespace iotctest{
-namespace{
+namespace {
 
 TEST(IotcBspCryptoBase64, EnoughOutputBufferExpectedSize){
 	const char* src_string =
@@ -33,6 +33,7 @@ TEST(IotcBspCryptoBase64, EnoughOutputBufferExpectedSize){
 	const iotc_bsp_crypto_state_t ret = iotc_bsp_base64_encode_urlsafe(
 			b64_actual, b64_actual_size, &bytes_written, (uint8_t*)src_string, strlen(src_string));
 	EXPECT_EQ(ret, IOTC_BSP_CRYPTO_BUFFER_TOO_SMALL_ERROR);
+	//EXPECT_EQ(ret, IOTC_BSP_CRYPTO_BUFFER_TOO_SMALL_ERROR);
 	// The math below calculates the required base 64 encoded buffer size
   	// including trailing zero.
   	// 1) (x + 2) / 3 equals to ceil(x / 3)
@@ -70,8 +71,7 @@ TEST(IotcBspCryptoBase64, EncodingFromSrc){
 			b64_actual, b64_actual_size, &bytes_written, (uint8_t*)src_string, strlen(src_string));
 	const char* b64_expected = 
 			"Zmlyc3QgdW5pdCB0ZXN0IHN0cmluZyB0byBiYXNlNjQgZW5jb2Rl";
-	EXPECT_STREQ(b64_expected, b64_actual);
-	// @@@@@@@@@@@ uint???
+	EXPECT_STREQ(b64_expected, (const char*)b64_actual);
 	EXPECT_EQ(strlen(b64_expected), bytes_written);
 	EXPECT_EQ(ret, IOTC_BSP_CRYPTO_STATE_OK);
 }
@@ -82,17 +82,18 @@ TEST(IotcBspCryptoBase64, EnoughOutputBufferAdvisedSize){
 	const char* base64_encoded_strings[] = 
 			{"MTIzNDU=", "MTIzNDU2", "MTIzNDU2Nw==", "MTIzNDU2Nzg="};
 	uint8_t i = 0;
+	iotc_bsp_crypto_state_t ret;
 	for(;i < 4; ++i){
 		const char* src_string = strings_to_encode[i];
 		const size_t b64_actual_size = 1;
 		unsigned char b64_actual[128];
 		size_t bytes_written = 0;
-		iotc_bsp_crypto_state_t ret = iotc_bsp_base64_encode_urlsafe(
+		ret = iotc_bsp_base64_encode_urlsafe(
 			   	b64_actual, b64_actual_size, &bytes_written, (uint8_t*)src_string, strlen(src_string));
 		EXPECT_EQ(ret, IOTC_BSP_CRYPTO_BUFFER_TOO_SMALL_ERROR);
-		iotc_bsp_crypto_state_t ret = iotc_bsp_base64_encode_urlsafe(
+		ret = iotc_bsp_base64_encode_urlsafe(
 			   	b64_actual, bytes_written, &bytes_written, (uint8_t*)src_string, strlen(src_string));
-		EXPECT_STREQ(base64_encoded_strings[i], b64_actual);
+		EXPECT_STREQ(base64_encoded_strings[i], (const char*)b64_actual);
 	}
 }
 
@@ -113,7 +114,7 @@ TEST(IotcBspCryptoBase64, ZeroTerminatedString){
 			b64_actual, b64_actual_size, &bytes_written, (uint8_t*)src_string, strlen(src_string));
 	const char* b64_expected = 
 			"dGV4dCB0byBiYXNlNjQgZW5jb2Rl";
-	EXPECT_STREQ(b64_expected, b64_actual);
+	EXPECT_STREQ(b64_expected, (const char*)b64_actual);
 	EXPECT_EQ(strlen(b64_expected), bytes_written);
 	EXPECT_EQ(ret, IOTC_BSP_CRYPTO_STATE_OK);
 }
@@ -133,7 +134,7 @@ TEST(IotcBspCryptoBase64, EncodingToDest){
 	const iotc_bsp_crypto_state_t ret = iotc_bsp_base64_encode_urlsafe(
 			b64_actual, b64_actual_size, &bytes_written, (uint8_t*)src_string, strlen(src_string));
 	const char* b64_expected = "GCPIoT-_";
-	EXPECT_STREQ(b64_expected, b64_actual);
+	EXPECT_STREQ(b64_expected, (const char*)b64_actual);
 	EXPECT_EQ(strlen(b64_expected), bytes_written);
 	EXPECT_EQ(ret, IOTC_BSP_CRYPTO_STATE_OK);
 }
