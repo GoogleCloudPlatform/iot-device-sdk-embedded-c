@@ -16,12 +16,10 @@
 
 #include "gmock.h"
 #include "gtest.h"
+#include "iotc.h"
+#include "iotc_heapcheck_test.h"
 
 extern "C" {
-#include "iotc_tt_testcase_management.h"
-#include "iotc_utest_basic_testcase_frame.h"
-#include "tinytest.h"
-#include "tinytest_macros.h"
 #include "iotc_types.h"
 #include "iotc_bsp_crypto.h"
 #include "iotc_helpers.h"
@@ -32,32 +30,20 @@ extern "C" {
 #include <openssl/ecdsa.h>
 #include <openssl/err.h>
 #include <openssl/pem.h>
-#include<cstring>
+#include <cstring>
+	#include <iostream>
 }
 
-#ifndef IOTC_TT_TESTCASE_ENUMERATION__SECONDPREPROCESSORRUN
-std::string ec_private_key = "\
-		-----BEGIN EC PRIVATE KEY-----\n\
-		MHcCAQEEINg6KhkJ2297KYO4eyLTPtVIhLloIfp3IsJo9n6KqelfoAoGCCqGSM49\n\
-		AwEHoUQDQgAE1Oi16oAc/+s5P5g2pzt3IDXfUBBUKUBrB8vgfyKOFb7sQTx4topE\n\
-		E0KOix7rJyli6tiAJJDL4lbdf0YRo45THQ==\n\
-		-----END EC PRIVATE KEY-----";
 
-static const iotc_crypto_private_key_data_t DEFAULT_PRIVATE_KEY = { 
-    	IOTC_CRYPTO_KEY_UNION_TYPE_PEM,	
-    	strdup(ec_private_key.c_str()),
-		IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256 }; 
+// static const iotc_crypto_private_key_data_t DEFAULT_PRIVATE_KEY = { 
+//     	IOTC_CRYPTO_KEY_UNION_TYPE_PEM,	
+//     	const_cast<char*>(ec_private_key),
+// 		IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256 }; 
 
-static const char default_public_key_pem[] =
-		"\
-		-----BEGIN PUBLIC KEY-----\n\
-		MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE1Oi16oAc/+s5P5g2pzt3IDXfUBBU\n\
-		KUBrB8vgfyKOFb7sQTx4topEE0KOix7rJyli6tiAJJDL4lbdf0YRo45THQ==\n\
-		-----END PUBLIC KEY-----";
 
 static const uint8_t* default_data_to_sign =
     	(const uint8_t*)"this text is ecc signed";
-static size_t default_data_to_sign_len = 0;
+static size_t default_data_to_sign_len = strlen((char*)default_data_to_sign);;
 
 void iotc_test_print_buffer(const uint8_t* buf, size_t len) {
 	  size_t i = 0;
@@ -67,11 +53,40 @@ void iotc_test_print_buffer(const uint8_t* buf, size_t len) {
 	  printf("\nlen: %lu\n", len);
 }
 
-void* iotc_utest_setup_ecc(const struct testcase_t* testcase) {
-  		default_data_to_sign_len = strlen((char*)default_data_to_sign);
-  		return iotc_utest_setup_basic(testcase);
-}
+namespace iotctest {
+namespace {
+constexpr char default_public_key_pem[] =
+"\
+-----BEGIN PUBLIC KEY-----\n\
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE1Oi16oAc/+s5P5g2pzt3IDXfUBBU\n\
+KUBrB8vgfyKOFb7sQTx4topEE0KOix7rJyli6tiAJJDL4lbdf0YRo45THQ==\n\
+-----END PUBLIC KEY-----";
 
+constexpr char ec_private_key[] = 
+"\
+-----BEGIN EC PRIVATE KEY-----\n\
+MHcCAQEEINg6KhkJ2297KYO4eyLTPtVIhLloIfp3IsJo9n6KqelfoAoGCCqGSM49\n\
+AwEHoUQDQgAE1Oi16oAc/+s5P5g2pzt3IDXfUBBUKUBrB8vgfyKOFb7sQTx4topE\n\
+E0KOix7rJyli6tiAJJDL4lbdf0YRo45THQ==\n\
+-----END EC PRIVATE KEY-----";
+
+class IotcBspCryptoEcc : public IotcHeapCheckTest {
+ public:
+  IotcBspCryptoEcc() {
+    iotc_initialize();
+    DEFAULT_PRIVATE_KEY.private_key_signature_algorithm =
+        IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
+    DEFAULT_PRIVATE_KEY.private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
+    DEFAULT_PRIVATE_KEY.private_key_union.key_pem.key = const_cast<char*>(ec_private_key);
+  }
+  ~IotcBspCryptoEcc() { iotc_shutdown(); }
+
+ protected:
+  iotc_crypto_private_key_data_t DEFAULT_PRIVATE_KEY;
+  static int ec_verify_openssl(const uint8_t* hash, size_t hash_len,
+                             const uint8_t* sig, size_t sig_len,
+                             const char* pub_key_pem);
+};
 /**
  * Verify an EC signature using OpenSSL.
  *
@@ -82,9 +97,9 @@ void* iotc_utest_setup_ecc(const struct testcase_t* testcase) {
  * @param pub_key_pem public key in PEM format.
  * @returns 0 if the verification succeeds.
  */
-static int ec_verify_openssl(const uint8_t* hash, size_t hash_len,
+int IotcBspCryptoEcc :: ec_verify_openssl(const uint8_t* hash, size_t hash_len,
                              const uint8_t* sig, size_t sig_len,
-                             const char* pub_key_pem) {
+                             const char* pub_key_pem){
 	  if (sig_len != 64) {
 	    	iotc_debug_format("sig_len expected to be 64, was %d", sig_len);
 	    	return -1;
@@ -131,12 +146,7 @@ static int ec_verify_openssl(const uint8_t* hash, size_t hash_len,
 	  	return ret;
 }
 
-#endif
-
-namespace iotctest {
-namespace {
-
-TEST(IotcBspCryptoEcc, SmallBuffer){
+TEST_F(IotcBspCryptoEcc, SmallBuffer){
 	const size_t ecc_signature_buf_len = 1;
 	uint8_t ecc_signature[ecc_signature_buf_len];
 	size_t bytes_written = 0;
@@ -146,7 +156,7 @@ TEST(IotcBspCryptoEcc, SmallBuffer){
 	EXPECT_EQ(ret, IOTC_BSP_CRYPTO_BUFFER_TOO_SMALL_ERROR);
 }
 
-TEST(IotcBspCryptoEcc, SmallBufferProperMinSize){
+TEST_F(IotcBspCryptoEcc, SmallBufferProperMinSize){
 	const size_t ecc_signature_buf_len = 1;
 	uint8_t ecc_signature[ecc_signature_buf_len];
 	uint8_t* ecc_signature_new = NULL;
@@ -158,14 +168,14 @@ TEST(IotcBspCryptoEcc, SmallBufferProperMinSize){
 
 	EXPECT_EQ(ret, IOTC_BSP_CRYPTO_BUFFER_TOO_SMALL_ERROR);
 	// two 32 byte integers build up a JWT ECC signature: r and s
-	EXPECT_EQ((size_t)64, bytes_written);
+	EXPECT_EQ(64u, bytes_written);
 
 	iotc_state_t state = IOTC_STATE_OK;
 	const size_t ecc_signature_new_buf_len = bytes_written;
 
 	// by definition, the expected JWT ECC signature size is 64 bytes
     // https://tools.ietf.org/html/rfc7518#section-3.4
-    EXPECT_EQ((size_t)64, ecc_signature_new_buf_len);
+    EXPECT_EQ(64u, ecc_signature_new_buf_len);
 
     IOTC_ALLOC_BUFFER_AT(uint8_t, ecc_signature_new, ecc_signature_new_buf_len, state);
     ret = iotc_bsp_ecc(
@@ -177,10 +187,11 @@ TEST(IotcBspCryptoEcc, SmallBufferProperMinSize){
     	IOTC_SAFE_FREE(ecc_signature_new);
 }
 
-TEST(IotcBspCryptoEcc, BadPrivateKey){
+TEST_F(IotcBspCryptoEcc, BadPrivateKey){
+	constexpr char invalid[] = "invalid key";
 	const iotc_crypto_private_key_data_t invalid_key = {
 		IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-		const_cast<char*>("invalid key"),
+		const_cast<char*>(invalid),
         IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256};
     const size_t ecc_signature_buf_len = 128;
     uint8_t ecc_signature[ecc_signature_buf_len];
@@ -193,7 +204,7 @@ TEST(IotcBspCryptoEcc, BadPrivateKey){
     EXPECT_EQ(ret, IOTC_BSP_CRYPTO_KEY_PARSE_ERROR);
 }
 
-TEST(IotcBspCryptoEcc, OutputBufferIsNull){
+TEST_F(IotcBspCryptoEcc, OutputBufferIsNull){
 	const size_t ecc_signature_buf_len = 128;
 	size_t bytes_written = 0;
 
@@ -204,7 +215,7 @@ TEST(IotcBspCryptoEcc, OutputBufferIsNull){
 	EXPECT_EQ(ret, IOTC_BSP_CRYPTO_INVALID_INPUT_PARAMETER_ERROR);
 }
 
-TEST(IotcBspCryptoEcc, InputBufferIsNull){
+TEST_F(IotcBspCryptoEcc, InputBufferIsNull){
 	const size_t ecc_signature_buf_len = 128;
 	uint8_t ecc_signature[ecc_signature_buf_len];
 	size_t bytes_written = 0;
@@ -216,7 +227,7 @@ TEST(IotcBspCryptoEcc, InputBufferIsNull){
 	EXPECT_EQ(ret, IOTC_BSP_CRYPTO_INVALID_INPUT_PARAMETER_ERROR);
 }
 
-TEST(IotcBspCryptoEcc, JwtSignatureValidation){
+TEST_F(IotcBspCryptoEcc, JwtSignatureValidatiqon){
 	const char* jwt_header_payload_b64 = 
 			"eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9."
           	"eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUs"
@@ -238,16 +249,15 @@ TEST(IotcBspCryptoEcc, JwtSignatureValidation){
     if(bytes_written_ecc_signature < sizeof(ecc_signature)) {
     	EXPECT_EQ('x', ecc_signature[bytes_written_ecc_signature]);
     }
-
     const int openssl_verify_ret = ec_verify_openssl(
     		hash_sha256, /*hash len=*/32, ecc_signature,
     		bytes_written_ecc_signature, default_public_key_pem);
     EXPECT_EQ(0, openssl_verify_ret);
     // two 32 byte integers build up a JWT ECC signature: r and s
-    EXPECT_EQ(64, bytes_written_ecc_signature);
+    EXPECT_EQ(64u, bytes_written_ecc_signature);
 }
 
-TEST(IotcBspCryptoEcc, SimpleTextValidation){
+TEST_F(IotcBspCryptoEcc, SimpleTextValidation){
 	const char* simple_text = 
 			"hi, I am the sipmle text, please sign me Mr. Ecc!";
 	size_t bytes_written_ecc_signature = 0;
@@ -267,7 +277,7 @@ TEST(IotcBspCryptoEcc, SimpleTextValidation){
     			(uint8_t*)simple_text, strlen(simple_text), ecc_signature,
     			bytes_written_ecc_signature, default_public_key_pem);
     EXPECT_EQ(0, openssl_verify_ret);
-    EXPECT_EQ(64, bytes_written_ecc_signature);
+    EXPECT_EQ(64u, bytes_written_ecc_signature);
 }
 }	// namespace
 }	// namespace iotctest
