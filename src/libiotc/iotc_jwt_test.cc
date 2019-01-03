@@ -49,7 +49,8 @@ class IotcJwt : public IotcHeapCheckTest {
 
   std::string base64_decode_openssl(const std::string& base64_string) {
     BIO* input = BIO_new_mem_buf(
-        static_cast<const void*>(base64_string.c_str()), /*len=*/-1);
+        static_cast<void*>(const_cast<char*>(base64_string.c_str())),
+        /*len=*/-1);
     BIO* b64 = BIO_new(BIO_f_base64());
     BIO* bio = BIO_push(b64, input);
 
