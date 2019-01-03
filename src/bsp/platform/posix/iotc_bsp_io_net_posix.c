@@ -35,6 +35,7 @@ extern "C" {
 
 iotc_bsp_io_net_state_t iotc_bsp_io_net_create_socket(
     iotc_bsp_socket_t* iotc_socket) {
+  //*iotc_socket = socket(AF_INET, SOCK_DGRAM, 0);
   *iotc_socket = socket(AF_INET, SOCK_STREAM, 0);
 
   if (-1 == *iotc_socket) {
@@ -54,6 +55,7 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_create_socket(
 iotc_bsp_io_net_state_t iotc_bsp_io_net_connect(iotc_bsp_socket_t* iotc_socket,
                                                 const char* host,
                                                 uint16_t port) {
+  //struct hostnet* hostinfo = getaddrinfo(host);
   struct hostent* hostinfo = gethostbyname(host);
 
   /* if null it means that the address has not been found */
