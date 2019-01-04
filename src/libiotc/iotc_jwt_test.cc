@@ -14,27 +14,33 @@
  * limitations under the License.
  */
 #include <cstdlib>
-
+#include <iostream>
 #include "gmock.h"
 #include "gtest.h"
 
-#include <openssl/bio.h>
-#include <openssl/ec.h>
-#include <openssl/evp.h>
 #include "iotc.h"
+#include "iotc_bsp_crypto.h"
 #include "iotc_heapcheck_test.h"
 #include "iotc_jwt.h"
+#include "iotc_openssl_utils.h"
 
 namespace iotctest {
 namespace {
 
-constexpr char kPemKey[] =
+constexpr char kPrivateKey[] =
     "\
 -----BEGIN EC PRIVATE KEY-----\n\
 MHcCAQEEINg6KhkJ2297KYO4eyLTPtVIhLloIfp3IsJo9n6KqelfoAoGCCqGSM49\n\
 AwEHoUQDQgAE1Oi16oAc/+s5P5g2pzt3IDXfUBBUKUBrB8vgfyKOFb7sQTx4topE\n\
 E0KOix7rJyli6tiAJJDL4lbdf0YRo45THQ==\n\
 -----END EC PRIVATE KEY-----";
+
+constexpr char kPublicKey[] =
+    "\
+-----BEGIN PUBLIC KEY-----\n\
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE1Oi16oAc/+s5P5g2pzt3IDXfUBBU\n\
+KUBrB8vgfyKOFb7sQTx4topEE0KOix7rJyli6tiAJJDL4lbdf0YRo45THQ==\n\
+-----END PUBLIC KEY-----";
 
 class IotcJwt : public IotcHeapCheckTest {
  public:
@@ -43,23 +49,19 @@ class IotcJwt : public IotcHeapCheckTest {
     private_key_.private_key_signature_algorithm =
         IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
     private_key_.private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-    private_key_.private_key_union.key_pem.key = const_cast<char*>(kPemKey);
+    private_key_.private_key_union.key_pem.key = const_cast<char*>(kPrivateKey);
   }
   ~IotcJwt() { iotc_shutdown(); }
 
-  std::string base64_decode_openssl(const std::string& base64_string) {
-    BIO* input = BIO_new_mem_buf(
-        static_cast<void*>(const_cast<char*>(base64_string.c_str())),
-        /*len=*/-1);
-    BIO* b64 = BIO_new(BIO_f_base64());
-    BIO* bio = BIO_push(b64, input);
+  std::string base64_decoded_as_string(const std::string& base64_str) {
+    uint8_t decoded[IOTC_JWT_SIZE] = {0};
+    size_t length;
+    iotc_bsp_base64_decode_urlsafe(
+        decoded, IOTC_JWT_SIZE, &length,
+        reinterpret_cast<const unsigned char*>(base64_str.c_str()),
+        base64_str.length());
 
-    char decoded[IOTC_JWT_SIZE] = {0};
-    BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL);
-    BIO_read(bio, decoded, base64_string.size());
-    BIO_free_all(bio);
-
-    return std::string(decoded, strlen(decoded));
+    return std::string(reinterpret_cast<char*>(decoded), length);
   }
 
  protected:
@@ -123,14 +125,14 @@ TEST_F(IotcJwt, ES256JwtCreateReturnsCorrectDecodableBase64Sections) {
 
   const std::string first_section = jwt.substr(0, first_dot);
   const std::string second_section =
-      jwt.substr(first_dot + 1, second_dot - first_dot);
+      jwt.substr(first_dot + 1, second_dot - first_dot - 1);
   const std::string third_section =
       jwt.substr(second_dot + 1, jwt.size() - second_dot);
 
   EXPECT_EQ(R"({"alg":"ES256","typ":"JWT"})",
-            base64_decode_openssl(first_section));
+            base64_decoded_as_string(first_section));
 
-  const auto second_section_decoded = base64_decode_openssl(second_section);
+  const auto second_section_decoded = base64_decoded_as_string(second_section);
   EXPECT_THAT(second_section_decoded,
               ::testing::MatchesRegex(
                   R"(^\{"iat":[0-9]+,"exp":[0-9]+,"aud":"projectID"\}$)"));
@@ -139,6 +141,42 @@ TEST_F(IotcJwt, ES256JwtCreateReturnsCorrectDecodableBase64Sections) {
   sscanf(second_section_decoded.c_str(), R"({"iat":%d,"exp":%d")", &iat_time,
          &exp_time);
   EXPECT_EQ(exp_time, iat_time + expiration_period_sec);
+}
+
+TEST_F(IotcJwt, ES256JwtCreateReturnsCorrectES256) {
+  unsigned char jwt_buffer[IOTC_JWT_SIZE] = {0};
+  size_t bytes_written = 0;
+  ASSERT_EQ(iotc_create_jwt_es256("projectID", /*expiration_period_sec=*/600,
+                                  &private_key_, jwt_buffer, IOTC_JWT_SIZE,
+                                  &bytes_written),
+            IOTC_STATE_OK);
+  std::string jwt(reinterpret_cast<char*>(jwt_buffer), bytes_written);
+
+  // We need to URL-unsafe the characters we might have changed when base64
+  // encoding.
+  std::replace(jwt.begin(), jwt.end(), '-', '+');
+  std::replace(jwt.begin(), jwt.end(), '_', '/');
+
+  const size_t second_dot = jwt.find_last_of('.');
+  const std::string third_section =
+      jwt.substr(second_dot + 1, jwt.size() - second_dot);
+
+  // We need to SHA256 the "(first section).(second_section)", base64 decode
+  // the third section (which is the ECC signature), then ECC verify with the
+  // public key.
+  uint8_t sha256[32] = {0};
+  openssl::sha256(sha256, jwt.substr(0, second_dot));
+
+  uint8_t ecc_signature[IOTC_JWT_SIZE] = {0};
+  size_t ecc_signature_length;
+  iotc_bsp_base64_decode_urlsafe(
+      ecc_signature, IOTC_JWT_SIZE, &ecc_signature_length,
+      reinterpret_cast<const unsigned char*>(third_section.c_str()),
+      third_section.length());
+  EXPECT_EQ(ecc_signature_length, 64u);
+
+  EXPECT_TRUE(openssl::ecc_is_valid(sha256, 32, ecc_signature,
+                                    ecc_signature_length, kPublicKey));
 }
 
 }  // namespace

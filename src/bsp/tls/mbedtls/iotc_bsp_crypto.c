@@ -46,6 +46,23 @@ static iotc_bsp_crypto_state_t _iotc_bsp_base64_encode(
   }
 }
 
+static iotc_bsp_crypto_state_t _iotc_bsp_base64_decode(
+    uint8_t* dst_buf, size_t dst_buf_size, size_t* bytes_written,
+    const unsigned char* src_buf, size_t src_buf_size) {
+  const int result = mbedtls_base64_decode(dst_buf, dst_buf_size, bytes_written,
+                                           src_buf, src_buf_size);
+  switch (result) {
+    case 0:
+      return IOTC_BSP_CRYPTO_STATE_OK;
+
+    case MBEDTLS_ERR_BASE64_BUFFER_TOO_SMALL:
+      return IOTC_BSP_CRYPTO_BUFFER_TOO_SMALL_ERROR;
+
+    default:
+      return IOTC_BSP_CRYPTO_BASE64_ERROR;
+  }
+}
+
 iotc_bsp_crypto_state_t iotc_bsp_base64_encode_urlsafe(
     unsigned char* dst_string, size_t dst_string_size, size_t* bytes_written,
     const uint8_t* src_buf, size_t src_buf_size) {
@@ -56,7 +73,7 @@ iotc_bsp_crypto_state_t iotc_bsp_base64_encode_urlsafe(
     return b64_result;
   }
 
-  // Translate to url-safe alphabet
+  // Translate to url-safe alphabet.
   size_t i = 0;
   for (; i < *bytes_written; i++) {
     switch (dst_string[i]) {
@@ -72,6 +89,30 @@ iotc_bsp_crypto_state_t iotc_bsp_base64_encode_urlsafe(
   }
 
   return IOTC_BSP_CRYPTO_STATE_OK;
+}
+
+iotc_bsp_crypto_state_t iotc_bsp_base64_decode_urlsafe(
+    uint8_t* dst_buf, size_t dst_buf_size, size_t* bytes_written,
+    const unsigned char* src_buf, size_t src_buf_size) {
+  unsigned char src_buf_copy[src_buf_size];
+
+  // Translate from url-safe alphabet.
+  for (size_t i = 0; i < src_buf_size; i++) {
+    switch (src_buf[i]) {
+      case '-':
+        src_buf_copy[i] = '+';
+        break;
+      case '_':
+        src_buf_copy[i] = '/';
+        break;
+      default:
+        src_buf_copy[i] = src_buf[i];
+        break;
+    }
+  }
+
+  return _iotc_bsp_base64_decode(dst_buf, dst_buf_size, bytes_written,
+                                 src_buf_copy, src_buf_size);
 }
 
 iotc_bsp_crypto_state_t iotc_bsp_sha256(uint8_t* dst_buf_32_bytes,

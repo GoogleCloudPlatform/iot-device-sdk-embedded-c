@@ -22,6 +22,10 @@
 
 #include "iotc_types.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
  * @file iotc_bsp_crypto.h
  * @brief IoTC Client's Board Support Package (BSP) for using a Cryptography
@@ -95,6 +99,33 @@ iotc_bsp_crypto_state_t iotc_bsp_base64_encode_urlsafe(
 
 /**
  * @function
+ * @brief Deccodes a source buffer from an URL Safe Base64 string.
+ *
+ * This function should Base64 decode the provided source string and place
+ * the results in the dest_string buffer. Additionally, - (dash) and _
+ * (underscore) are replaced with ASCII index 62 and 63 respectively, before
+ * decoding.
+ *
+ * @param [in|out] dst_string pointer to a byte buffer that should be
+ * populated with the resulting decoded string. This buffer
+ * has already been allocated.
+ * @param [in] dst_string_size The length of the dst_string buffer.
+ * @param [out] bytes_written the number of bytes written to the
+ * dst_string, or if the buffer is not large enough then return
+ * the required buffer size.
+ * @param [in] src_buf the source data to be decoded.
+ * @param [in] src_buf_size the length of the src_buf in bytes.
+ * @return
+ *  - IOTC_BSP_TLS_STATE_OK in case of success
+ *  - IOTC_BSP_CRYPTO_BUFFER_TOO_SMALL_ERROR in the case that the
+ * dst_string is too small to hold the resulting data.
+ */
+iotc_bsp_crypto_state_t iotc_bsp_base64_decode_urlsafe(
+    uint8_t* dst_buf, size_t dst_buf_size, size_t* bytes_written,
+    const unsigned char* src_buf, size_t src_buf_size);
+
+/**
+ * @function
  * @brief Generates the SHA256 hash of the provided source data.
  *
  * This function should create a SHA256 hash of the provided
@@ -158,5 +189,9 @@ iotc_bsp_crypto_state_t iotc_bsp_ecc(
     const iotc_crypto_private_key_data_t* private_key_pem, uint8_t* dst_buf,
     size_t dst_buf_size, size_t* bytes_written, const uint8_t* src_buf,
     size_t src_buf_size);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __IOTC_BSP_CRYPTO_H__ */
