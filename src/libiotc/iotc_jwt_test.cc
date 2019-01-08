@@ -56,7 +56,7 @@ class IotcJwt : public IotcHeapCheckTest {
   std::string base64_decoded_as_string(const std::string& base64_str) {
     uint8_t decoded[IOTC_JWT_SIZE] = {0};
     size_t length;
-    iotc_bsp_base64_decode_urlsafe(
+    openssl::base64_decode(
         decoded, IOTC_JWT_SIZE, &length,
         reinterpret_cast<const unsigned char*>(base64_str.c_str()),
         base64_str.length());
