@@ -29,18 +29,6 @@ iotc_bsp_crypto_state_t iotc_bsp_base64_encode_urlsafe(
   return IOTC_BSP_CRYPTO_STATE_OK;
 }
 
-iotc_bsp_crypto_state_t iotc_bsp_base64_decode_urlsafe(
-    uint8_t* dst_buf, size_t dst_buf_size, size_t* bytes_written,
-    const unsigned char* src_buf, size_t src_buf_size) {
-  IOTC_UNUSED(dst_string);
-  IOTC_UNUSED(dst_string_size);
-  IOTC_UNUSED(bytes_written);
-  IOTC_UNUSED(src_buf);
-  IOTC_UNUSED(src_buf_size);
-
-  return IOTC_BSP_CRYPTO_STATE_OK;
-}
-
 iotc_bsp_crypto_state_t iotc_bsp_sha256(uint8_t* dst_buf_32_bytes,
                                         const uint8_t* src_buf,
                                         uint32_t src_buf_size) {

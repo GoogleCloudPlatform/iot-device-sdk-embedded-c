@@ -152,14 +152,14 @@ TEST_F(IotcJwt, ES256JwtCreateReturnsCorrectES256) {
             IOTC_STATE_OK);
   std::string jwt(reinterpret_cast<char*>(jwt_buffer), bytes_written);
 
+  const size_t second_dot = jwt.find_last_of('.');
+  std::string third_section =
+      jwt.substr(second_dot + 1, jwt.size() - second_dot);
+
   // We need to URL-unsafe the characters we might have changed when base64
   // encoding.
-  std::replace(jwt.begin(), jwt.end(), '-', '+');
-  std::replace(jwt.begin(), jwt.end(), '_', '/');
-
-  const size_t second_dot = jwt.find_last_of('.');
-  const std::string third_section =
-      jwt.substr(second_dot + 1, jwt.size() - second_dot);
+  std::replace(third_section.begin(), third_section.end(), '-', '+');
+  std::replace(third_section.begin(), third_section.end(), '_', '/');
 
   // We need to SHA256 the "(first section).(second_section)", base64 decode
   // the third section (which is the ECC signature), then ECC verify with the
@@ -169,7 +169,7 @@ TEST_F(IotcJwt, ES256JwtCreateReturnsCorrectES256) {
 
   uint8_t ecc_signature[IOTC_JWT_SIZE] = {0};
   size_t ecc_signature_length;
-  iotc_bsp_base64_decode_urlsafe(
+  openssl::base64_decode(
       ecc_signature, IOTC_JWT_SIZE, &ecc_signature_length,
       reinterpret_cast<const unsigned char*>(third_section.c_str()),
       third_section.length());

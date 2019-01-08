@@ -92,5 +92,32 @@ void sha256(unsigned char* hash, const std::string& input) {
   SHA256_Final(hash, &sha256);
 }
 
+bool base64_decode(uint8_t* dst_buf, size_t dst_buf_size, size_t* bytes_written,
+                   const unsigned char* src_buf, size_t src_buf_size) {
+  size_t padding = 0;
+  if (src_buf_size > 0 && src_buf[src_buf_size - 1] == '=') {
+    ++padding;
+  }
+  if (src_buf_size > 1 && src_buf[src_buf_size - 2] == '=') {
+    ++padding;
+  }
+  *bytes_written = (src_buf_size * 3) / 4 - padding;
+  if (*bytes_written > dst_buf_size) {
+    return false;
+  }
+  if (dst_buf == nullptr) {
+    return false;
+  }
+
+  BIO* bio = BIO_new_mem_buf(const_cast<unsigned char*>(src_buf), /*len=*/-1);
+  BIO* b64 = BIO_new(BIO_f_base64());
+  bio = BIO_push(b64, bio);
+
+  BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL);
+  BIO_read(bio, dst_buf, src_buf_size);
+  BIO_free_all(bio);
+  return true;
+}
+
 }  // namespace openssl
 }  // namespace iotctest

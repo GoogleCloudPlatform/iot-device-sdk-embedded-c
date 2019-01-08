@@ -32,6 +32,13 @@ bool ecc_is_valid(const unsigned char* hash, size_t hash_size,
 // least 32 bytes length, preallocated.
 void sha256(unsigned char* hash, const std::string& input);
 
+// Decodes a base64 encoded string from 'src_buf' to 'dst_buf'. Returns true
+// on success.
+// If 'dst_buf' doesn't have enough space, returns false and indicates the
+// required size in 'bytes_written'.
+bool base64_decode(uint8_t* dst_buf, size_t dst_buf_size, size_t* bytes_written,
+                   const unsigned char* src_buf, size_t src_buf_size);
+
 }  // namespace openssl
 }  // namespace iotctest
 
