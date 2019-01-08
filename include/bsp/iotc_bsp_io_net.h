@@ -149,6 +149,20 @@ typedef enum iotc_bsp_io_net_state_e {
 } iotc_bsp_io_net_state_t;
 
 /**
+ * @typedef iotc_bsp_protocol_e
+ * @brief Represent protocol types.
+ *
+ * The implementation is used by create_socket and connect function
+ * to act properly with protocols.
+ */
+typedef enum iotc_bsp_protocol_e {
+  /** Transmission Control Protocol. */
+  IOTC_BSP_PROTOCOL_TCP = 0,
+  /** User Datagram Protocol. */
+  IOTC_BSP_PROTOCOL_UDP = 1,
+} iotc_bsp_protocol_t;
+
+/**
  * @typedef iotc_bsp_socket_t
  * @brief IoTC Client BSP NET's socket representation type.
  *
@@ -234,7 +248,7 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_select(
  * - IOTC_BSP_IO_NET_STATE_ERROR - otherwise.
  */
 iotc_bsp_io_net_state_t iotc_bsp_io_net_create_socket(
-    iotc_bsp_socket_t* iotc_socket_nonblocking);
+    iotc_bsp_socket_t* iotc_socket_nonblocking, iotc_bsp_protocol_t iotc_protocol);
 
 /**
  * @function
@@ -253,7 +267,7 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_create_socket(
  */
 iotc_bsp_io_net_state_t iotc_bsp_io_net_connect(
     iotc_bsp_socket_t* iotc_socket_nonblocking, const char* host,
-    uint16_t port);
+    uint16_t port, iotc_bsp_protocol_t iotc_protocol);
 
 /**
  * @function

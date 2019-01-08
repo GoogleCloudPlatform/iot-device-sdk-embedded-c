@@ -34,49 +34,54 @@ extern "C" {
 #endif
 
 iotc_bsp_io_net_state_t iotc_bsp_io_net_create_socket(
-    iotc_bsp_socket_t* iotc_socket) {
-  *iotc_socket = socket(AF_INET, SOCK_STREAM, 0);
+    iotc_bsp_socket_t* iotc_socket, iotc_bsp_protocol_t iotc_protocol) {
+  /* TCP */
+  if (IOTC_BSP_PROTOCOL_TCP == iotc_protocol){
+    *iotc_socket = socket(AF_INET, SOCK_STREAM, 0);
 
-  if (-1 == *iotc_socket) {
-    return IOTC_BSP_IO_NET_STATE_ERROR;
+    if (-1 == *iotc_socket) {
+      return IOTC_BSP_IO_NET_STATE_ERROR;
+    }
+
+    /* Enable nonblocking mode for a posix socket */
+    const int flags = fcntl(*iotc_socket, F_GETFL, 0);
+
+    if (-1 == flags || -1 == fcntl(*iotc_socket, F_SETFL, flags | O_NONBLOCK)) {
+      return IOTC_BSP_IO_NET_STATE_ERROR;
+    }
   }
-
-  /* Enable nonblocking mode for a posix socket */
-  const int flags = fcntl(*iotc_socket, F_GETFL, 0);
-
-  if (-1 == flags || -1 == fcntl(*iotc_socket, F_SETFL, flags | O_NONBLOCK)) {
-    return IOTC_BSP_IO_NET_STATE_ERROR;
-  }
-
   return IOTC_BSP_IO_NET_STATE_OK;
 }
 
 iotc_bsp_io_net_state_t iotc_bsp_io_net_connect(iotc_bsp_socket_t* iotc_socket,
                                                 const char* host,
-                                                uint16_t port) {
-  struct hostent* hostinfo = gethostbyname(host);
+                                                uint16_t port,
+                                                iotc_bsp_protocol_t iotc_protocol) {
+  /* TCP with IPv4 */
+  if (IOTC_BSP_PROTOCOL_TCP == iotc_protocol){
+    struct hostent* hostinfo = gethostbyname(host);
 
-  /* if null it means that the address has not been found */
-  if (NULL == hostinfo) {
-    return IOTC_BSP_IO_NET_STATE_ERROR;
+    /* if null it means that the address has not been found */
+    if (NULL == hostinfo) {
+      return IOTC_BSP_IO_NET_STATE_ERROR;
+    }
+
+    struct sockaddr_in name = {
+        .sin_family = AF_INET,
+        .sin_port = htons(port),
+        .sin_addr = *((struct in_addr*)hostinfo->h_addr_list[0]),
+        .sin_zero = {0}};
+
+    if (-1 ==
+        connect(*iotc_socket, (struct sockaddr*)&name, sizeof(struct sockaddr))) {
+      return (EINPROGRESS == errno) ? IOTC_BSP_IO_NET_STATE_OK
+                                    : IOTC_BSP_IO_NET_STATE_ERROR;
+    } else {
+      // todo_atigyi: what to do here?
+      // does this mean the socket is BLOCKING?
+      return IOTC_BSP_IO_NET_STATE_ERROR;
+    }
   }
-
-  struct sockaddr_in name = {
-      .sin_family = AF_INET,
-      .sin_port = htons(port),
-      .sin_addr = *((struct in_addr*)hostinfo->h_addr_list[0]),
-      .sin_zero = {0}};
-
-  if (-1 ==
-      connect(*iotc_socket, (struct sockaddr*)&name, sizeof(struct sockaddr))) {
-    return (EINPROGRESS == errno) ? IOTC_BSP_IO_NET_STATE_OK
-                                  : IOTC_BSP_IO_NET_STATE_ERROR;
-  } else {
-    // todo_atigyi: what to do here?
-    // does this mean the socket is BLOCKING?
-    return IOTC_BSP_IO_NET_STATE_ERROR;
-  }
-
   return IOTC_BSP_IO_NET_STATE_ERROR;
 }
 

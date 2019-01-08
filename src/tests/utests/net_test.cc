@@ -14,31 +14,55 @@
  * limitations under the License.
  */
 
-#include "/usr/include/gmock/gmock.h"
-#include "/usr/include/gtest/gtest.h"
+
+
+
+#include "gmock.h"
+#include "gtest.h"
+
+#include <iostream>
 
 extern "C" {
-#include "/usr/local/google/home/sungju/Desktop/sungju/iot-edge-sdk-embedded-c/include/bsp/iotc_bsp_io_net.h"
+#include "bsp/iotc_bsp_io_net.h"
+#include <unistd.h>
 }
 
 namespace iotctest{
 namespace {
 
+using namespace std;
+
 iotc_bsp_socket_t test_socket;
 const char* test_host = "localhost";
 uint16_t test_port = 2000;
+int out_written_count;
+const char msg[] = "hello\n";
+
 
 TEST(NetTest, SocketCreation){
-    const iotc_bsp_io_net_state_t ret = iotc_bsp_io_net_create_socket(&test_socket);
-    EXPECT_EQ(ret, IOTC_BSP_IO_NET_STATE_ERROR);
+
+iotc_bsp_io_net_state_t ret = iotc_bsp_io_net_create_socket(&test_socket, IOTC_BSP_PROTOCOL_TCP);
+cerr << "create : " << ret << endl;
+EXPECT_EQ(ret, IOTC_BSP_IO_NET_STATE_OK);
+
+ret = iotc_bsp_io_net_connect(&test_socket, test_host, test_port, IOTC_BSP_PROTOCOL_TCP);
+cerr << "conn : " << ret << endl;
+EXPECT_EQ(ret, IOTC_BSP_IO_NET_STATE_OK);
+
+ret = iotc_bsp_io_net_connection_check(test_socket, test_host, test_port);
+cerr << "conn check: " << ret << endl;
+EXPECT_EQ(ret, IOTC_BSP_IO_NET_STATE_OK);
+
+ret = iotc_bsp_io_net_write(test_socket, &out_written_count, (uint8_t*) msg, strlen(msg));
+cerr << "write : " << ret << endl;
+cerr << "bytes written: " << out_written_count << endl;
+EXPECT_EQ(ret, IOTC_BSP_IO_NET_STATE_OK);
+EXPECT_EQ(out_written_count, (int) strlen(msg));
+
+ret = iotc_bsp_io_net_close_socket(&test_socket);
+cerr << "close : " << ret << endl;
+EXPECT_EQ(ret, IOTC_BSP_IO_NET_STATE_OK);
 }
-
-TEST(NetTest, SocketConnection){
-    const iotc_bsp_io_net_state_t ret = iotc_bsp_io_net_connect(&test_socket, test_host, test_port);
-    EXPECT_EQ(ret, IOTC_BSP_IO_NET_STATE_ERROR);
-}
-
-
 
 } // namespace
-} // anmespace iotctest
+} // anmespace iotctest```

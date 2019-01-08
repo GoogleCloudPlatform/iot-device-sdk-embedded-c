@@ -26,20 +26,26 @@ extern "C" {
 #endif
 
 iotc_bsp_io_net_state_t iotc_bsp_io_net_create_socket(
-    iotc_bsp_socket_t* iotc_socket) {
-  (void)iotc_socket;
+    iotc_bsp_socket_t* iotc_socket, iotc_bsp_protocol_t iotc_protocol) {
+  /* TCP with IPv4 */
+  if (IOTC_BSP_PROTOCOL_TCP == iotc_protocol){
+    (void)iotc_socket;
 
-  *iotc_socket = 0;
-
+    *iotc_socket = 0;
+  }
   return IOTC_BSP_IO_NET_STATE_OK;
 }
 
 iotc_bsp_io_net_state_t iotc_bsp_io_net_connect(iotc_bsp_socket_t* iotc_socket,
                                                 const char* host,
-                                                uint16_t port) {
+                                                uint16_t port,
+                                                iotc_bsp_protocol_t iotc_protocol) {
+  /* TCP with IPv4 */
+  if (IOTC_BSP_PROTOCOL_TCP == iotc_protocol){
   (void)iotc_socket;
   (void)host;
   (void)port;
+  }
 
   return IOTC_BSP_IO_NET_STATE_OK;
 }

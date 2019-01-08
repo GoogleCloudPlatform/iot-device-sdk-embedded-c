@@ -22,8 +22,9 @@
 #include <sys/socket.h>
 #include <sys/time.h>
 #include <unistd.h>
-
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -34,10 +35,15 @@ extern "C" {
 #endif
 
 iotc_bsp_io_net_state_t iotc_bsp_io_net_create_socket(
-    iotc_bsp_socket_t* iotc_socket) {
-  //*iotc_socket = socket(AF_INET, SOCK_DGRAM, 0);
-  *iotc_socket = socket(AF_INET, SOCK_STREAM, 0);
+    iotc_bsp_socket_t* iotc_socket, iotc_bsp_protocol_t iotc_protocol) {
 
+  /* Create socket */
+  /* TCP */
+  if (IOTC_BSP_PROTOCOL_TCP == iotc_protocol)
+    *iotc_socket = socket(AF_INET, SOCK_STREAM, 0);
+  /* UDP */
+  if (IOTC_BSP_PROTOCOL_UDP == iotc_protocol)
+    *iotc_socket = socket(AF_INET6, SOCK_DGRAM, 0);
   if (-1 == *iotc_socket) {
     return IOTC_BSP_IO_NET_STATE_ERROR;
   }
@@ -48,38 +54,64 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_create_socket(
   if (-1 == flags || -1 == fcntl(*iotc_socket, F_SETFL, flags | O_NONBLOCK)) {
     return IOTC_BSP_IO_NET_STATE_ERROR;
   }
-
   return IOTC_BSP_IO_NET_STATE_OK;
 }
 
 iotc_bsp_io_net_state_t iotc_bsp_io_net_connect(iotc_bsp_socket_t* iotc_socket,
                                                 const char* host,
-                                                uint16_t port) {
-  //struct hostnet* hostinfo = getaddrinfo(host);
-  struct hostent* hostinfo = gethostbyname(host);
+                                                uint16_t port,
+                                                iotc_bsp_protocol_t iotc_protocol) {
+    /* TCP with IPv4 */
+    if (IOTC_BSP_PROTOCOL_TCP == iotc_protocol){
+    struct hostent* hostinfo = gethostbyname(host);
+    /* if null it means that the address has not been found */
+    if (NULL == hostinfo) {
+      return IOTC_BSP_IO_NET_STATE_ERROR;
+    }
 
-  /* if null it means that the address has not been found */
-  if (NULL == hostinfo) {
-    return IOTC_BSP_IO_NET_STATE_ERROR;
+    struct sockaddr_in name = {
+          .sin_family = AF_INET,
+          .sin_port = htons(port),
+          .sin_addr = *((struct in_addr*)hostinfo->h_addr_list[0]),
+          .sin_zero = {0}};
+      if (-1 ==
+          connect(*iotc_socket, (struct sockaddr*)&name, sizeof(struct sockaddr))) {
+        return (EINPROGRESS == errno) ? IOTC_BSP_IO_NET_STATE_OK
+                                      : IOTC_BSP_IO_NET_STATE_ERROR;
+      } else {
+        // todo_atigyi: what to do here?
+        // does this mean the socket is BLOCKING?
+        // return IOTC_BSP_IO_NET_STATE_OK;
+        return IOTC_BSP_IO_NET_STATE_ERROR;
+      }
   }
+  /* UDP with IPv6 */
+  if (IOTC_BSP_PROTOCOL_UDP == iotc_protocol){
+    char port_c[10];
+    struct addrinfo *result, *rp;
+    struct addrinfo hints;
 
-  struct sockaddr_in name = {
-      .sin_family = AF_INET,
-      .sin_port = htons(port),
-      .sin_addr = *((struct in_addr*)hostinfo->h_addr_list[0]),
-      .sin_zero = {0}};
+    sprintf(port_c, "%d", port);
+    memset(&hints, 0, sizeof(hints));
+    hints.ai_family = AF_UNSPEC; 
+    hints.ai_socktype = SOCK_DGRAM;
 
-  if (-1 ==
-      connect(*iotc_socket, (struct sockaddr*)&name, sizeof(struct sockaddr))) {
-    return (EINPROGRESS == errno) ? IOTC_BSP_IO_NET_STATE_OK
-                                  : IOTC_BSP_IO_NET_STATE_ERROR;
-  } else {
-    // todo_atigyi: what to do here?
-    // does this mean the socket is BLOCKING?
-    return IOTC_BSP_IO_NET_STATE_ERROR;
+    int status = getaddrinfo(host, port_c, &hints, &result);
+    if (0 != status){
+      return IOTC_BSP_IO_NET_STATE_ERROR;
+    }
+    for (rp = result; rp != NULL; rp = rp->ai_next){
+      if ( -1 != connect(*iotc_socket, rp->ai_addr, rp->ai_addrlen)){
+        freeaddrinfo(result);
+        return IOTC_BSP_IO_NET_STATE_OK;
+      }
+    }
+    if (NULL == rp){
+      return IOTC_BSP_IO_NET_STATE_ERROR;
+    }
   }
-
   return IOTC_BSP_IO_NET_STATE_ERROR;
+
 }
 
 iotc_bsp_io_net_state_t iotc_bsp_io_net_connection_check(

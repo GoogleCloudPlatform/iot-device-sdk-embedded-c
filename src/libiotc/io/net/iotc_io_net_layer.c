@@ -71,7 +71,7 @@ iotc_state_t iotc_io_net_layer_connect(void* context, void* data,
   }
 
   state = iotc_bsp_io_net_connect(&layer_data->socket, connection_data->host,
-                                  connection_data->port);
+                                  connection_data->port, IOTC_BSP_PROTOCOL_TCP);
 
   IOTC_CHECK_CND_DBGMESSAGE(IOTC_BSP_IO_NET_STATE_OK != state,
                             IOTC_SOCKET_CONNECTION_ERROR, in_out_state,
@@ -120,7 +120,7 @@ iotc_state_t iotc_io_net_layer_init(void* context, void* data,
 
   iotc_debug_logger("Creating socket...");
 
-  bsp_state = iotc_bsp_io_net_create_socket(&layer_data->socket);
+  bsp_state = iotc_bsp_io_net_create_socket(&layer_data->socket, IOTC_BSP_PROTOCOL_TCP);
 
   IOTC_CHECK_CND_DBGMESSAGE(IOTC_BSP_IO_NET_STATE_OK != bsp_state,
                             IOTC_SOCKET_INITIALIZATION_ERROR, in_out_state,
