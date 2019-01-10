@@ -111,7 +111,7 @@ else
   	    $(info INFO: '$(PRESET)' not detected, using default CONFIG: [$(CONFIG)] and TARGET: [$(TARGET)])
     else
     # error in case of unrecognised PRESET
-    $(error Invalid PRESET, see valid presets in make/mt-config/mt-presets.mk)
+    $(error Invalid PRESET: ${PRESET}, see valid presets in make/mt-config/mt-presets.mk)
     endif
 endif
 

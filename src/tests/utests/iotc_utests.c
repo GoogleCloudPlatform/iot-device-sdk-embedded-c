@@ -234,9 +234,6 @@ struct testgroup_t groups[] = {
     {"utest_bsp_crypto_base64 - ", utest_bsp_crypto_base64},
     {"utest_bsp_crypto_sha256 - ", utest_bsp_crypto_sha256},
     {"utest_bsp_crypto_ecc - ", utest_bsp_crypto_ecc},
-#ifdef IOTC_LIBCRYPTO_AVAILABLE
-    {"utest_jwt_openssl_validation - ", utest_jwt_openssl_validation},
-#endif
 #endif
 
     END_OF_GROUPS};
