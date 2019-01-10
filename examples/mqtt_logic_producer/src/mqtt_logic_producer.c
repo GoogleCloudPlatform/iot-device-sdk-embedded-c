@@ -78,8 +78,8 @@ int main(int argc, char* argv[]) {
   const uint16_t keepalive_timeout = 20;
 
   iotc_crypto_private_key_data_t key_data;
-  key_data.private_key_signature_algorithm =
-      IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256;
+  key_data.key_signature_algorithm =
+      IOTC_KEY_SIGNATURE_ALGORITHM_ES256;
   key_data.private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM;
   key_data.private_key_union.key_pem.key = ec_private_key_pem;
 

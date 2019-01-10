@@ -395,8 +395,8 @@ iotc_state_t iotc_connect_to(
                             "ERROR: NULL host provided");
 
   IOTC_CHECK_CND_DBGMESSAGE(
-      IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256 !=
-          private_key_data->private_key_signature_algorithm,
+      IOTC_KEY_SIGNATURE_ALGORITHM_ES256 !=
+          private_key_data->key_signature_algorithm,
       IOTC_ALG_NOT_SUPPORTED_ERROR, state,
       "ERROR: unsupported private key signature algorithm");
 

@@ -204,24 +204,25 @@ typedef union iotc_crypto_key_union_u {
 } iotc_crypto_key_union_t;
 
 /**
- * @enum iotc_jwt_private_key_signature_algorithm
- * @brief specifies the algorithm that will be used to sign the device's JWT.
+ * @enum iotc_key_signature_algorithm_e
+ * @brief specifies a key signature algorithm. This may be used to
+ * signify a key type, or to specify how a JWT might be signed.
  * This should match the algorithm type that was used to provision the device's
  * public key in Google IoT Core.
  *
  * The value provided here will also determine the "alg" field of the JWT, which
  * is automatically assembled by the IoTC Client during the connection process.
  *
- * IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_INVALID - for internal use only.
- * IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256 - to use ECDSA using P-256
- * and SHA-256 to compute the JWT signature.
+ * IOTC_KEY_SIGNATURE_ALGORITHM_INVALID - for internal use only.
+ * IOTC_KEY_SIGNATURE_ALGORITHM_ES256 - to denote ECDSA using P-256
+ * and SHA-256
  *
  * NOTE: RSASSA-PKCS1-v1_5 using SHA-256 (aka RS256) is currently not supported.
  */
-typedef enum iotc_jwt_private_key_signature_algorithm_e {
-  IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_INVALID = 0,
-  IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256
-} iotc_jwt_private_key_signature_algorithm_t;
+typedef enum iotc_key_signature_algorithm_e {
+  IOTC_KEY_SIGNATURE_ALGORITHM_INVALID = 0,
+  IOTC_KEY_SIGNATURE_ALGORITHM_ES256
+} iotc_key_signature_algorithm_t;
 
 /* @struct iotc_crypto_private_key_data_t
  * @brief A structure that contains a iotc_crypto_key_params union, an
@@ -236,7 +237,7 @@ typedef enum iotc_jwt_private_key_signature_algorithm_e {
 typedef struct {
   iotc_crypto_key_union_type_t private_key_union_type;
   iotc_crypto_key_union_t private_key_union;
-  iotc_jwt_private_key_signature_algorithm_t private_key_signature_algorithm;
+  iotc_key_signature_algorithm_t key_signature_algorithm;
 } iotc_crypto_private_key_data_t;
 
 #ifdef __cplusplus

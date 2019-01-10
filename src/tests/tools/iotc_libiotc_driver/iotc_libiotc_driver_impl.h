@@ -25,8 +25,8 @@ static const uint32_t DEFAULT_JWT_EXPIRATION = 600;
 static const char* DEFAULT_PROJECT_ID = "project_id";
 static const char* DEFAULT_DEVICE_PATH = "device_path";
 static iotc_crypto_private_key_data_t DEFAULT_PRIVATE_KEY = {
-    .private_key_signature_algorithm =
-        IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
+    .key_signature_algorithm =
+        IOTC_KEY_SIGNATURE_ALGORITHM_ES256,
     .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
     .private_key_union.key_pem.key = "dummy key"};
 

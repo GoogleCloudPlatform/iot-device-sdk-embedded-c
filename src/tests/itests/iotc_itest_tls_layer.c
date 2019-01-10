@@ -114,8 +114,8 @@ void iotc_itest_tls_layer__act(void** fixture_void,
       (iotc_itest_tls_layer__test_fixture_t*)*fixture_void;
 
   const iotc_crypto_private_key_data_t dummy_private_key = {
-      .private_key_signature_algorithm =
-          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
+      .key_signature_algorithm =
+          IOTC_KEY_SIGNATURE_ALGORITHM_ES256,
       .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
       .private_key_union.key_pem.key = "dummy_key"};
 

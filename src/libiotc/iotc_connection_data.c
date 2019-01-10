@@ -194,8 +194,8 @@ int iotc_crypto_private_key_data_cmp(
     return -1;
   }
 
-  if (key1->private_key_signature_algorithm !=
-      key2->private_key_signature_algorithm) {
+  if (key1->key_signature_algorithm !=
+      key2->key_signature_algorithm) {
     return -1;
   }
 
@@ -245,8 +245,8 @@ iotc_crypto_private_key_data_t* iotc_crypto_private_key_data_dup(
   iotc_state_t state = IOTC_STATE_OK;
   IOTC_ALLOC(iotc_crypto_private_key_data_t, dup, state);
 
-  dup->private_key_signature_algorithm =
-      src_key->private_key_signature_algorithm;
+  dup->key_signature_algorithm =
+      src_key->key_signature_algorithm;
   dup->private_key_union_type = src_key->private_key_union_type;
 
   switch (src_key->private_key_union_type) {
