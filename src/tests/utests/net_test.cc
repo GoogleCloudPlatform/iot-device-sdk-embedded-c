@@ -14,55 +14,47 @@
  * limitations under the License.
  */
 
-
-
-
+#include "bsp/iotc_bsp_io_net.h"
 #include "gmock.h"
 #include "gtest.h"
 
 #include <iostream>
 
-extern "C" {
-#include "bsp/iotc_bsp_io_net.h"
-#include <unistd.h>
-}
-
-namespace iotctest{
+namespace iotctest {
 namespace {
-
 using namespace std;
 
 iotc_bsp_socket_t test_socket;
-const char* test_host = "localhost";
-uint16_t test_port = 2000;
-int out_written_count;
+// const char *host_ipv6 = "localhost";
+const char *host_ipv4 = "127.0.0.1";
 const char msg[] = "hello\n";
+uint16_t port = 2000;
+char port_str[10];
+int out_written_count;
 
+TEST(NetTest, SocketCreation) {
+  sprintf(port_str, "%d", port);
 
-TEST(NetTest, SocketCreation){
+  iotc_bsp_io_net_state_t ret =
+      iotc_bsp_io_net_socket_connect(&test_socket, host_ipv4, port_str);
+  cerr << "create : " << ret << endl;
+  EXPECT_EQ(ret, IOTC_BSP_IO_NET_STATE_OK);
 
-iotc_bsp_io_net_state_t ret = iotc_bsp_io_net_create_socket(&test_socket, IOTC_BSP_PROTOCOL_TCP);
-cerr << "create : " << ret << endl;
-EXPECT_EQ(ret, IOTC_BSP_IO_NET_STATE_OK);
+  ret = iotc_bsp_io_net_connection_check(test_socket, host_ipv4, port);
+  cerr << "conn check: " << ret << endl;
+  EXPECT_EQ(ret, IOTC_BSP_IO_NET_STATE_OK);
 
-ret = iotc_bsp_io_net_connect(&test_socket, test_host, test_port, IOTC_BSP_PROTOCOL_TCP);
-cerr << "conn : " << ret << endl;
-EXPECT_EQ(ret, IOTC_BSP_IO_NET_STATE_OK);
+  ret = iotc_bsp_io_net_write(test_socket, &out_written_count, (uint8_t *)msg,
+                              strlen(msg));
+  cerr << "write : " << ret << endl;
+  cerr << "bytes written: " << out_written_count << endl;
+  EXPECT_EQ(ret, IOTC_BSP_IO_NET_STATE_OK);
+  EXPECT_EQ(out_written_count, (int)strlen(msg));
 
-ret = iotc_bsp_io_net_connection_check(test_socket, test_host, test_port);
-cerr << "conn check: " << ret << endl;
-EXPECT_EQ(ret, IOTC_BSP_IO_NET_STATE_OK);
-
-ret = iotc_bsp_io_net_write(test_socket, &out_written_count, (uint8_t*) msg, strlen(msg));
-cerr << "write : " << ret << endl;
-cerr << "bytes written: " << out_written_count << endl;
-EXPECT_EQ(ret, IOTC_BSP_IO_NET_STATE_OK);
-EXPECT_EQ(out_written_count, (int) strlen(msg));
-
-ret = iotc_bsp_io_net_close_socket(&test_socket);
-cerr << "close : " << ret << endl;
-EXPECT_EQ(ret, IOTC_BSP_IO_NET_STATE_OK);
+  ret = iotc_bsp_io_net_close_socket(&test_socket);
+  cerr << "close : " << ret << endl;
+  EXPECT_EQ(ret, IOTC_BSP_IO_NET_STATE_OK);
 }
 
 } // namespace
-} // anmespace iotctest```
+} // namespace iotctest
