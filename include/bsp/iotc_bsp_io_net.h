@@ -168,7 +168,7 @@ typedef intptr_t iotc_bsp_socket_t;
  * a native socket call like select() and map those states to the flags in this
  * structure.
  */
-typedef struct iotc_bsp__events_s {
+typedef struct iotc_bsp_socket_events_s {
   /** platform specific value of socket. */
   iotc_bsp_socket_t iotc_socket;
   /** 1 if socket wants to read, 0 otherwise. */
