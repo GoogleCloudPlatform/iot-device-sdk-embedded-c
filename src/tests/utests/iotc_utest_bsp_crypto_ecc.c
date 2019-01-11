@@ -37,26 +37,24 @@ static const iotc_crypto_private_key_data_t DEFAULT_PRIVATE_KEY = {
     .private_key_signature_algorithm =
         IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
     .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-    .private_key_union.key_pem.key =
-        "\
+    .private_key_union.key_pem.key = "\
 -----BEGIN EC PRIVATE KEY-----\n\
 MHcCAQEEINg6KhkJ2297KYO4eyLTPtVIhLloIfp3IsJo9n6KqelfoAoGCCqGSM49\n\
 AwEHoUQDQgAE1Oi16oAc/+s5P5g2pzt3IDXfUBBUKUBrB8vgfyKOFb7sQTx4topE\n\
 E0KOix7rJyli6tiAJJDL4lbdf0YRo45THQ==\n\
 -----END EC PRIVATE KEY-----"};
 
-static const char default_public_key_pem[] =
-    "\
+static const char default_public_key_pem[] = "\
 -----BEGIN PUBLIC KEY-----\n\
 MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE1Oi16oAc/+s5P5g2pzt3IDXfUBBU\n\
 KUBrB8vgfyKOFb7sQTx4topEE0KOix7rJyli6tiAJJDL4lbdf0YRo45THQ==\n\
 -----END PUBLIC KEY-----";
 
-static const uint8_t* default_data_to_sign =
-    (const uint8_t*)"this text is ecc signed";
+static const uint8_t *default_data_to_sign =
+    (const uint8_t *)"this text is ecc signed";
 static size_t default_data_to_sign_len = 0;
 
-void iotc_test_print_buffer(const uint8_t* buf, size_t len) {
+void iotc_test_print_buffer(const uint8_t *buf, size_t len) {
   size_t i = 0;
   for (; i < len; ++i) {
     printf("%.2x", buf[i]);
@@ -64,8 +62,8 @@ void iotc_test_print_buffer(const uint8_t* buf, size_t len) {
   printf("\nlen: %lu\n", len);
 }
 
-void* iotc_utest_setup_ecc(const struct testcase_t* testcase) {
-  default_data_to_sign_len = strlen((char*)default_data_to_sign);
+void *iotc_utest_setup_ecc(const struct testcase_t *testcase) {
+  default_data_to_sign_len = strlen((char *)default_data_to_sign);
   return iotc_utest_setup_basic(testcase);
 }
 
@@ -79,20 +77,20 @@ void* iotc_utest_setup_ecc(const struct testcase_t* testcase) {
  * @param pub_key_pem public key in PEM format.
  * @returns 0 if the verification succeeds.
  */
-static int ec_verify_openssl(const uint8_t* hash, size_t hash_len,
-                             const uint8_t* sig, size_t sig_len,
-                             const char* pub_key_pem) {
+static int ec_verify_openssl(const uint8_t *hash, size_t hash_len,
+                             const uint8_t *sig, size_t sig_len,
+                             const char *pub_key_pem) {
   if (sig_len != 64) {
     iotc_debug_format("sig_len expected to be 64, was %d", sig_len);
     return -1;
   }
 
   int ret = -1;
-  EC_KEY* ec_key_openssl = NULL;
-  ECDSA_SIG* sig_openssl = NULL;
+  EC_KEY *ec_key_openssl = NULL;
+  ECDSA_SIG *sig_openssl = NULL;
 
   // Parse the public key to OpenSSL representation
-  BIO* pub_key_pem_bio = BIO_new(BIO_s_mem());
+  BIO *pub_key_pem_bio = BIO_new(BIO_s_mem());
   BIO_puts(pub_key_pem_bio, pub_key_pem);
   ec_key_openssl = PEM_read_bio_EC_PUBKEY(pub_key_pem_bio, NULL, NULL, NULL);
   if (ec_key_openssl == NULL) {
@@ -100,9 +98,9 @@ static int ec_verify_openssl(const uint8_t* hash, size_t hash_len,
   }
 
   // Parse the signature to OpenSSL representation
-  const int int_len = 32;  // as per RFC7518 section-3.4
-  BIGNUM* r = BN_bin2bn(sig, int_len, NULL);
-  BIGNUM* s = BN_bin2bn(sig + int_len, int_len, NULL);
+  const int int_len = 32; // as per RFC7518 section-3.4
+  BIGNUM *r = BN_bin2bn(sig, int_len, NULL);
+  BIGNUM *s = BN_bin2bn(sig + int_len, int_len, NULL);
   sig_openssl = ECDSA_SIG_new();
 
 // 1.1.0+, see opensslv.h for versions
@@ -110,14 +108,14 @@ static int ec_verify_openssl(const uint8_t* hash, size_t hash_len,
   if (1 != ECDSA_SIG_set0(sig_openssl, r, s)) {
     goto cleanup;
   }
-#else  // Travis CI's 14.04 trusty supports openssl 1.0.1f
+#else // Travis CI's 14.04 trusty supports openssl 1.0.1f
   sig_openssl->r = r;
   sig_openssl->s = s;
 #endif
 
-  if (1 == ECDSA_do_verify((const unsigned char*)hash, hash_len, sig_openssl,
+  if (1 == ECDSA_do_verify((const unsigned char *)hash, hash_len, sig_openssl,
                            ec_key_openssl)) {
-    ret = 0;  // Verify success
+    ret = 0; // Verify success
   }
 
 cleanup:
@@ -154,7 +152,7 @@ IOTC_TT_TESTCASE_WITH_SETUP(
     iotc_utest_teardown_basic, NULL, {
       const size_t ecc_signature_buf_len = 1;
       uint8_t ecc_signature[ecc_signature_buf_len];
-      uint8_t* ecc_signature_new = NULL;
+      uint8_t *ecc_signature_new = NULL;
       size_t bytes_written = 0;
 
       iotc_bsp_crypto_state_t ecc_return_state = iotc_bsp_ecc(
@@ -244,12 +242,12 @@ IOTC_TT_TESTCASE_WITH_SETUP(
 IOTC_TT_TESTCASE_WITH_SETUP(
     happy_path_JWT_signature_validation_with_openssl, iotc_utest_setup_ecc,
     iotc_utest_teardown_basic, NULL, {
-      const char* jwt_header_payload_b64 =
+      const char *jwt_header_payload_b64 =
           "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9."
           "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUs"
           "ImlhdCI6MTUxNjIzOTAyMn0";
       uint8_t hash_sha256[32] = {0};
-      iotc_bsp_sha256(hash_sha256, (const uint8_t*)jwt_header_payload_b64,
+      iotc_bsp_sha256(hash_sha256, (const uint8_t *)jwt_header_payload_b64,
                       strlen(jwt_header_payload_b64));
 
       size_t bytes_written_ecc_signature = 0;
@@ -282,7 +280,7 @@ IOTC_TT_TESTCASE_WITH_SETUP(
 IOTC_TT_TESTCASE_WITH_SETUP(
     happy_path_simple_text_validation_with_openssl, iotc_utest_setup_ecc,
     iotc_utest_teardown_basic, NULL, {
-      const char* simple_text =
+      const char *simple_text =
           "hi, I am the sipmle text, please sign me Mr. Ecc!";
 
       size_t bytes_written_ecc_signature = 0;
@@ -295,7 +293,7 @@ IOTC_TT_TESTCASE_WITH_SETUP(
 
       iotc_bsp_ecc(&DEFAULT_PRIVATE_KEY, ecc_signature,
                    IOTC_JWT_MAX_SIGNATURE_SIZE, &bytes_written_ecc_signature,
-                   (uint8_t*)simple_text, strlen(simple_text));
+                   (uint8_t *)simple_text, strlen(simple_text));
 
       // assure no overwrite happens
       if (bytes_written_ecc_signature < sizeof(ecc_signature)) {
@@ -303,7 +301,7 @@ IOTC_TT_TESTCASE_WITH_SETUP(
       }
 
       const int openssl_verify_ret = ec_verify_openssl(
-          (uint8_t*)simple_text, strlen(simple_text), ecc_signature,
+          (uint8_t *)simple_text, strlen(simple_text), ecc_signature,
           bytes_written_ecc_signature, default_public_key_pem);
 
       tt_int_op(0, ==, openssl_verify_ret);
