@@ -47,7 +47,7 @@ class IotcJwt : public IotcHeapCheckTest {
   IotcJwt() {
     iotc_initialize();
     private_key_.key_signature_algorithm =
-        IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
+        IOTC__KEY_SIGNATURE_ALGORITHM_ES256,
     private_key_.private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
     private_key_.private_key_union.key_pem.key = const_cast<char*>(kPrivateKey);
   }
