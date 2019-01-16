@@ -20,6 +20,10 @@
 #include <iotc_types.h>
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define IOTC_JWT_HEADER_BUF_SIZE 40
 #define IOTC_JWT_HEADER_BUF_SIZE_BASE64 (IOTC_JWT_HEADER_BUF_SIZE * 4 / 3)
 
@@ -37,5 +41,9 @@ iotc_state_t iotc_create_jwt_es256(
     const char* project_id, uint32_t expiration_period_sec,
     const iotc_crypto_private_key_data_t* private_key_data,
     unsigned char* dst_jwt_buf, size_t dst_jwt_buf_len, size_t* bytes_written);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __IOTC_JWT_H__ */

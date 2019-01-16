@@ -56,7 +56,6 @@
   extern struct testcase_t testgroupname[]
 
 // test groups
-IOTC_TT_TESTCASE_PREDECLARATION(utest_core);
 IOTC_TT_TESTCASE_PREDECLARATION(utest_connect);
 IOTC_TT_TESTCASE_PREDECLARATION(utest_event_dispatcher);
 IOTC_TT_TESTCASE_PREDECLARATION(utest_event_dispatcher_timed);
@@ -79,7 +78,6 @@ IOTC_TT_TESTCASE_PREDECLARATION(utest_timed_task);
 IOTC_TT_TESTCASE_PREDECLARATION(utest_bsp_crypto_base64);
 IOTC_TT_TESTCASE_PREDECLARATION(utest_bsp_crypto_sha256);
 IOTC_TT_TESTCASE_PREDECLARATION(utest_bsp_crypto_ecc);
-IOTC_TT_TESTCASE_PREDECLARATION(utest_jwt);
 #ifdef IOTC_LIBCRYPTO_AVAILABLE
 IOTC_TT_TESTCASE_PREDECLARATION(utest_jwt_openssl_validation);
 #endif
@@ -122,10 +120,6 @@ IOTC_TT_TESTCASE_PREDECLARATION(utest_time_event);
    heavy-duty testing frameworks, groups can't nest. */
 struct testgroup_t groups[] = {
 /* Every group has a 'prefix', and an array of tests.  That's it. */
-
-#if (IOTC_TT_TEST_SET & IOTC_TT_CORE)
-    {"utest_core - ", utest_core},
-#endif
 
 #if (IOTC_TT_TEST_SET & IOTC_TT_CONNECT)
     {"utest_connect - ", utest_connect},
@@ -240,10 +234,6 @@ struct testgroup_t groups[] = {
     {"utest_bsp_crypto_base64 - ", utest_bsp_crypto_base64},
     {"utest_bsp_crypto_sha256 - ", utest_bsp_crypto_sha256},
     {"utest_bsp_crypto_ecc - ", utest_bsp_crypto_ecc},
-    {"utest_jwt - ", utest_jwt},
-#ifdef IOTC_LIBCRYPTO_AVAILABLE
-    {"utest_jwt_openssl_validation - ", utest_jwt_openssl_validation},
-#endif
 #endif
 
     END_OF_GROUPS};
@@ -272,4 +262,3 @@ int iotc_utests_main(int argc, char const* argv[])
 
   return number_of_failures;
 }
-
