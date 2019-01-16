@@ -204,7 +204,7 @@ typedef union iotc_crypto_key_union_u {
 } iotc_crypto_key_union_t;
 
 /**
- * @enum iotc_key_signature_algorithm_e
+ * @enum iotc_crypto_key_signature_algorithm_e
  * @brief specifies a key signature algorithm. This may be used to
  * signify a key type, or to specify how a JWT might be signed.
  * This should match the algorithm type that was used to provision the device's
@@ -213,19 +213,19 @@ typedef union iotc_crypto_key_union_u {
  * The value provided here will also determine the "alg" field of the JWT, which
  * is automatically assembled by the IoTC Client during the connection process.
  *
- * IOTC_KEY_SIGNATURE_ALGORITHM_INVALID - for internal use only.
- * IOTC_KEY_SIGNATURE_ALGORITHM_ES256 - to denote ECDSA using P-256
+ * IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_INVALID - for internal use only.
+ * IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256 - to denote ECDSA using P-256
  * and SHA-256
  *
  * NOTE: RSASSA-PKCS1-v1_5 using SHA-256 (aka RS256) is currently not supported.
  */
-typedef enum iotc_key_signature_algorithm_e {
-  IOTC_KEY_SIGNATURE_ALGORITHM_INVALID = 0,
-  IOTC_KEY_SIGNATURE_ALGORITHM_ES256
-} iotc_key_signature_algorithm_t;
+typedef enum iotc_crypto_key_signature_algorithm_e {
+  IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_INVALID = 0,
+  IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256
+} iotc_crypto_key_signature_algorithm_t;
 
-/* @struct iotc_crypto_private_key_data_t
- * @brief A structure that contains a iotc_crypto_key_params union, an
+/* @struct iotc_crypto_key_data_t
+ * @brief A structure that contains a iotc_crypto_key_union, an
  * enumeration of which configuration of the union that's being used,
  * and an enumeration of the signature algorithm of the key.
  *
@@ -235,10 +235,10 @@ typedef enum iotc_key_signature_algorithm_e {
  * @see iotc_crypto_key_params_u
  */
 typedef struct {
-  iotc_crypto_key_union_type_t private_key_union_type;
-  iotc_crypto_key_union_t private_key_union;
-  iotc_key_signature_algorithm_t key_signature_algorithm;
-} iotc_crypto_private_key_data_t;
+  iotc_crypto_key_union_type_t crypto_key_union_type;
+  iotc_crypto_key_union_t crypto_key_union;
+  iotc_crypto_key_signature_algorithm_t crypto_key_signature_algorithm;
+} iotc_crypto_key_data_t;
 
 #ifdef __cplusplus
 }

@@ -28,11 +28,11 @@
 extern void iotc_default_client_callback(
     iotc_context_handle_t in_context_handle, void* data, iotc_state_t state);
 
-static const iotc_crypto_private_key_data_t DUMMY_PRIVATE_KEY = {
-    .key_signature_algorithm =
-        IOTC_KEY_SIGNATURE_ALGORITHM_ES256,
-    .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-    .private_key_union.key_pem.key = "dummy key"};
+static const iotc_crypto_key_data_t DUMMY_PRIVATE_KEY = {
+    .crypto_key_signature_algorithm =
+        IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
+    .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
+    .crypto_key_union.key_pem.key = "dummy key"};
 
 #endif
 
@@ -162,11 +162,11 @@ IOTC_TT_TESTCASE_WITH_SETUP(
 IOTC_TT_TESTCASE_WITH_SETUP(
     test_connect_to__key_type_invalid, iotc_utest_setup_basic,
     iotc_utest_teardown_basic, NULL, {
-      static const iotc_crypto_private_key_data_t PRIVATE_KEY = {
-          .key_signature_algorithm =
-              IOTC_KEY_SIGNATURE_ALGORITHM_INVALID,
-          .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-          .private_key_union.key_pem.key = "invalid algorithm key"};
+      static const iotc_crypto_key_data_t PRIVATE_KEY = {
+          .crypto_key_signature_algorithm =
+              IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_INVALID,
+          .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
+          .crypto_key_union.key_pem.key = "invalid algorithm key"};
 
       iotc_state_t state;
 
@@ -187,10 +187,10 @@ IOTC_TT_TESTCASE_WITH_SETUP(
 IOTC_TT_TESTCASE_WITH_SETUP(
     test_connect_to__key_type_out_of_bounds, iotc_utest_setup_basic,
     iotc_utest_teardown_basic, NULL, {
-      static const iotc_crypto_private_key_data_t PRIVATE_KEY = {
-          .key_signature_algorithm = 250,
-          .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-          .private_key_union.key_pem.key = "dummy key"};
+      static const iotc_crypto_key_data_t PRIVATE_KEY = {
+          .crypto_key_signature_algorithm = 250,
+          .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
+          .crypto_key_union.key_pem.key = "dummy key"};
 
       iotc_state_t state;
 

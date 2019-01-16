@@ -114,11 +114,11 @@ static void iotc_itest_mqtt_keepalive__act(
   const uint16_t loop_counter_max = 23;
   const uint16_t loop_counter_disconnect = 18;
 
-  const iotc_crypto_private_key_data_t private_key = {
-      .key_signature_algorithm =
-          IOTC_KEY_SIGNATURE_ALGORITHM_ES256,
-      .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-      .private_key_union.key_pem.key =
+  const iotc_crypto_key_data_t private_key = {
+      .crypto_key_signature_algorithm =
+          IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
+      .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
+      .crypto_key_union.key_pem.key =
           "-----BEGIN EC PRIVATE KEY-----\n"
           "MHcCAQEEIG2oKC+2qRWysluHHVrJZCsDE8U8vkpdbeKVCi4a3crdoAoGCCqGSM49\n"
           "AwEHoUQDQgAELHWyhm6oLLd2adMUUqqyQKHAW0ULiCWn1WUkeuDII2IO5R4js4XG\n"
