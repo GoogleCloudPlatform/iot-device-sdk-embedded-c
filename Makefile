@@ -63,6 +63,10 @@ $(info -EXAMPLES- $$IOTC_EXAMPLES is [${IOTC_EXAMPLES}])
 $(info ----- )
 endif
 
+
+# Roughtime
+IOTC_INCLUDE_FLAGS += -I$(LIBIOTC)/third_party/roughtime
+
 #gather all binary directories
 IOTC_BIN_DIRS := $(IOTC_EXAMPLE_BINDIR) $(IOTC_EXAMPLE_BINDIR)/internal $(IOTC_TEST_BINDIR) $(IOTC_TEST_TOOLS_BINDIR)
 
@@ -190,6 +194,7 @@ $(IOTC_OBJDIR)/third_party/%.o : $(LIBIOTC)/third_party/%.c $(IOTC_BUILD_PRECOND
 	$(info [$(CC)] $@)
 	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
 	$(IOTC_POST_COMPILE_ACTION)
+
 
 # gather all of the binary directories
 IOTC_RESOURCE_FILES := $(LIBIOTC)/res/trusted_RootCA_certs/roots.pem
