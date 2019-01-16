@@ -16,6 +16,7 @@
 
 #include <iotc_bsp_io_net.h>
 #include <stdio.h>
+#include <string.h>
 
 #ifdef __cplusplus
 extern "C" {
