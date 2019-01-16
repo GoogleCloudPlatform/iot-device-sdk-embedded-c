@@ -113,11 +113,10 @@
  *
  * A device connecting to the Could IoT Core service would have a standard
  * flow looks like the following:
- *   1. create_socket
- *   2. connect
- *   3. connection_check
- *   4. Iterations of read-write operations
- *   5. close_socket when the application shuts down the connection.
+ *   1. socket_connect
+ *   2. connection_check
+ *   3. Iterations of read-write operations
+ *   4. close_socket when the application shuts down the connection.
  */
 
 #include <stddef.h>
@@ -126,7 +125,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+#define IOTC_UNUSED(x) (void)(x)
 /**
  * @typedef iotc_bsp_io_net_state_e
  * @brief Return value of the BSP NET API functions.
@@ -196,18 +195,18 @@ typedef struct iotc_bsp_socket_events_s {
  *
  * @param [out] iotc_socket_nonblocking the platform specific socket
  * representation should be stored in this variable. This value will be passed
- * along further BSP function calls.
- * function.)
+ * along to all further Networking BSP calls.
+ *
  * @param [in] host Null terminated IP or Fully Qualified Domain Name (FQDN)
  * of the host to connect to.
- * @param [in] port the port number of the endpoint.
+ * @param [in] port the port of the endpoint.
  * @return
  * - IOTC_BSP_IO_NET_STATE_OK - if successfully created and connected.
  * - IOTC_BSP_IO_NET_STATE_ERROR - otherwise.
  */
 iotc_bsp_io_net_state_t
-iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t *iotc_socket, const char *host,
-                               const char *port);
+iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
+                               const char* port);
 
 /**
  * @function
@@ -236,18 +235,17 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t *iotc_socket, const char *host,
  * - IOTC_BSP_IO_NET_STATE_ERROR - if select call finished with error.
  */
 iotc_bsp_io_net_state_t
-iotc_bsp_io_net_select(iotc_bsp_socket_events_t *socket_events_array,
-                       size_t socket_events_array_size,
-                       long timeout_sec /* in seconds */);
+iotc_bsp_io_net_select(iotc_bsp_socket_events_t* socket_events_array,
+                       size_t socket_events_array_size, long timeout_sec);
 
 /**
  * @function
  * @brief Reports to the IoTC Client whether the provided socket is connected.
  *
- * This is called after the 'connect' function. If the socket is connected, the
- * IoTC will start to use read/write to handshake the TLS connection.  If the
- * return value is otherwise, then a failed connection will be reported to the
- * client Application via its IoTC Connection Callback.
+ * This is called after the 'socket_connect' function. If the socket is
+ * connected, the IoTC will start to use read/write to handshake the TLS
+ * connection.  If the return value is otherwise, then a failed connection will
+ * be reported to the client Application via its IoTC Connection Callback.
  *
  * The two separate functions (connect and connection_check) may be confusing.
  * The asynchronous property of the IoTC Client requires the separation of
@@ -266,7 +264,7 @@ iotc_bsp_io_net_select(iotc_bsp_socket_events_t *socket_events_array,
  */
 iotc_bsp_io_net_state_t
 iotc_bsp_io_net_connection_check(iotc_bsp_socket_t iotc_socket_nonblocking,
-                                 const char *host, uint16_t port);
+                                 const char* host, const char* port);
 
 /**
  * @function
@@ -305,7 +303,7 @@ iotc_bsp_io_net_connection_check(iotc_bsp_socket_t iotc_socket_nonblocking,
  */
 iotc_bsp_io_net_state_t
 iotc_bsp_io_net_write(iotc_bsp_socket_t iotc_socket_nonblocking,
-                      int *out_written_count, const uint8_t *buf, size_t count);
+                      int* out_written_count, const uint8_t* buf, size_t count);
 
 /**
  * @function
@@ -333,7 +331,7 @@ iotc_bsp_io_net_write(iotc_bsp_socket_t iotc_socket_nonblocking,
  */
 iotc_bsp_io_net_state_t
 iotc_bsp_io_net_read(iotc_bsp_socket_t iotc_socket_nonblocking,
-                     int *out_read_count, uint8_t *buf, size_t count);
+                     int* out_read_count, uint8_t* buf, size_t count);
 
 /**
  * @function
@@ -347,7 +345,7 @@ iotc_bsp_io_net_read(iotc_bsp_socket_t iotc_socket_nonblocking,
  * - IOTC_BSP_IO_NET_STATE_ERROR - otherwise.
  */
 iotc_bsp_io_net_state_t
-iotc_bsp_io_net_close_socket(iotc_bsp_socket_t *iotc_socket_nonblocking);
+iotc_bsp_io_net_close_socket(iotc_bsp_socket_t* iotc_socket_nonblocking);
 
 #ifdef __cplusplus
 }

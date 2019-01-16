@@ -28,7 +28,7 @@
 #include "iotc_globals.h"
 #include "iotc_io_timeouts.h"
 
-iotc_state_t iotc_io_net_layer_connect(void *context, void *data,
+iotc_state_t iotc_io_net_layer_connect(void* context, void* data,
                                        iotc_state_t in_out_state) {
   char port_str[10];
   IOTC_LAYER_FUNCTION_PRINT_FUNCTION_DIGEST();
@@ -38,8 +38,8 @@ iotc_state_t iotc_io_net_layer_connect(void *context, void *data,
     return IOTC_PROCESS_CONNECT_ON_NEXT_LAYER(context, NULL, in_out_state);
   }
 
-  iotc_io_net_layer_state_t *layer_data =
-      (iotc_io_net_layer_state_t *)IOTC_THIS_LAYER(context)->user_data;
+  iotc_io_net_layer_state_t* layer_data =
+      (iotc_io_net_layer_state_t*)IOTC_THIS_LAYER(context)->user_data;
 
   /* if layer_data is null on this stage it means internal error */
   if (NULL == layer_data) {
@@ -49,8 +49,8 @@ iotc_state_t iotc_io_net_layer_connect(void *context, void *data,
 
   iotc_bsp_io_net_state_t state = IOTC_BSP_IO_NET_STATE_OK;
 
-  iotc_connection_data_t *connection_data = (iotc_connection_data_t *)data;
-  iotc_evtd_instance_t *event_dispatcher =
+  iotc_connection_data_t* connection_data = (iotc_connection_data_t*)data;
+  iotc_evtd_instance_t* event_dispatcher =
       IOTC_CONTEXT_DATA(context)->evtd_instance;
   sprintf(port_str, "%d", connection_data->port);
 
@@ -67,7 +67,7 @@ iotc_state_t iotc_io_net_layer_connect(void *context, void *data,
 
     iotc_evtd_continue_when_evt_on_socket(
         event_dispatcher, IOTC_EVENT_WANT_CONNECT,
-        iotc_make_handle(&iotc_io_net_layer_connect, (void *)context, data,
+        iotc_make_handle(&iotc_io_net_layer_connect, (void*)context, data,
                          IOTC_STATE_OK),
         layer_data->socket);
   }
@@ -79,11 +79,11 @@ iotc_state_t iotc_io_net_layer_connect(void *context, void *data,
                             IOTC_SOCKET_CONNECTION_ERROR, in_out_state,
                             "Connecting to the endpoint [failed]");
 
-  // return here whenever we can write
+  /* return here whenever we can write */
   IOTC_CR_YIELD(layer_data->layer_connect_cs, IOTC_STATE_OK);
 
-  state = iotc_bsp_io_net_connection_check(
-      layer_data->socket, connection_data->host, connection_data->port);
+  state = iotc_bsp_io_net_connection_check(layer_data->socket,
+                                           connection_data->host, port_str);
 
   IOTC_CHECK_CND_DBGMESSAGE(IOTC_BSP_IO_NET_STATE_OK != state,
                             IOTC_SOCKET_GETSOCKOPT_ERROR, in_out_state,
@@ -101,7 +101,7 @@ err_handling:
   IOTC_CR_END();
 }
 
-iotc_state_t iotc_io_net_layer_init(void *context, void *data,
+iotc_state_t iotc_io_net_layer_init(void* context, void* data,
                                     iotc_state_t in_out_state) {
   IOTC_LAYER_FUNCTION_PRINT_FUNCTION_DIGEST();
 
@@ -113,14 +113,11 @@ iotc_state_t iotc_io_net_layer_init(void *context, void *data,
     return IOTC_FAILED_INITIALIZATION;
   }
 
-  iotc_layer_t *layer = (iotc_layer_t *)IOTC_THIS_LAYER(context);
-  // iotc_bsp_io_net_state_t bsp_state = IOTC_BSP_IO_NET_STATE_OK;
+  iotc_layer_t* layer = (iotc_layer_t*)IOTC_THIS_LAYER(context);
 
   IOTC_ALLOC(iotc_io_net_layer_state_t, layer_data, in_out_state);
 
-  layer->user_data = (void *)layer_data;
-
-  iotc_debug_logger("Creating socket...");
+  layer->user_data = (void*)layer_data;
 
   return IOTC_PROCESS_CONNECT_ON_THIS_LAYER(context, data, IOTC_STATE_OK);
 
@@ -135,16 +132,16 @@ err_handling:
   return IOTC_PROCESS_CONNECT_ON_THIS_LAYER(context, data, in_out_state);
 }
 
-iotc_state_t iotc_io_net_layer_push(void *context, void *data,
+iotc_state_t iotc_io_net_layer_push(void* context, void* data,
                                     iotc_state_t in_out_state) {
   IOTC_LAYER_FUNCTION_PRINT_FUNCTION_DIGEST();
 
   IOTC_UNUSED(in_out_state);
 
-  iotc_io_net_layer_state_t *layer_data =
-      (iotc_io_net_layer_state_t *)IOTC_THIS_LAYER(context)->user_data;
+  iotc_io_net_layer_state_t* layer_data =
+      (iotc_io_net_layer_state_t*)IOTC_THIS_LAYER(context)->user_data;
 
-  iotc_data_desc_t *buffer = (iotc_data_desc_t *)data;
+  iotc_data_desc_t* buffer = (iotc_data_desc_t*)data;
   size_t left = 0;
   int len = 0;
   iotc_bsp_io_net_state_t bsp_state = IOTC_BSP_IO_NET_STATE_OK;
@@ -212,21 +209,21 @@ iotc_state_t iotc_io_net_layer_push(void *context, void *data,
   return IOTC_PROCESS_PUSH_ON_NEXT_LAYER(context, 0, IOTC_STATE_WRITTEN);
 }
 
-iotc_state_t iotc_io_net_layer_pull(void *context, void *data,
+iotc_state_t iotc_io_net_layer_pull(void* context, void* data,
                                     iotc_state_t in_out_state) {
   IOTC_LAYER_FUNCTION_PRINT_FUNCTION_DIGEST();
 
-  iotc_io_net_layer_state_t *layer_data =
-      (iotc_io_net_layer_state_t *)IOTC_THIS_LAYER(context)->user_data;
+  iotc_io_net_layer_state_t* layer_data =
+      (iotc_io_net_layer_state_t*)IOTC_THIS_LAYER(context)->user_data;
 
-  iotc_data_desc_t *buffer_desc = 0;
+  iotc_data_desc_t* buffer_desc = 0;
   int len = 0;
   iotc_bsp_io_net_state_t bsp_state = IOTC_BSP_IO_NET_STATE_OK;
 
   if (IOTC_THIS_LAYER_NOT_OPERATIONAL(context) || layer_data == NULL) {
-    if (data != NULL) // let's clean the memory
+    if (data != NULL) /* let's clean the memory */
     {
-      buffer_desc = (iotc_data_desc_t *)data;
+      buffer_desc = (iotc_data_desc_t*)data;
       iotc_free_desc(&buffer_desc);
     }
 
@@ -235,7 +232,7 @@ iotc_state_t iotc_io_net_layer_pull(void *context, void *data,
 
   if (data) /* let's reuse already allocated buffer */
   {
-    buffer_desc = (iotc_data_desc_t *)data;
+    buffer_desc = (iotc_data_desc_t*)data;
 
     memset(buffer_desc->data_ptr, 0, IOTC_IO_BUFFER_SIZE);
     assert(buffer_desc->capacity == IOTC_IO_BUFFER_SIZE); // sanity check
@@ -292,7 +289,7 @@ iotc_state_t iotc_io_net_layer_pull(void *context, void *data,
   buffer_desc->length = len;
   buffer_desc->curr_pos = 0;
 
-  return IOTC_PROCESS_PULL_ON_NEXT_LAYER(context, (void *)buffer_desc,
+  return IOTC_PROCESS_PULL_ON_NEXT_LAYER(context, (void*)buffer_desc,
                                          IOTC_STATE_OK);
 
 err_handling:
@@ -301,7 +298,7 @@ err_handling:
   return IOTC_PROCESS_CLOSE_EXTERNALLY_ON_THIS_LAYER(context, 0, in_out_state);
 }
 
-iotc_state_t iotc_io_net_layer_close(void *context, void *data,
+iotc_state_t iotc_io_net_layer_close(void* context, void* data,
                                      iotc_state_t in_out_state) {
   IOTC_LAYER_FUNCTION_PRINT_FUNCTION_DIGEST();
 
@@ -309,12 +306,12 @@ iotc_state_t iotc_io_net_layer_close(void *context, void *data,
                                                      in_out_state);
 }
 
-iotc_state_t iotc_io_net_layer_close_externally(void *context, void *data,
+iotc_state_t iotc_io_net_layer_close_externally(void* context, void* data,
                                                 iotc_state_t in_out_state) {
   IOTC_LAYER_FUNCTION_PRINT_FUNCTION_DIGEST();
 
-  iotc_io_net_layer_state_t *layer_data =
-      (iotc_io_net_layer_state_t *)IOTC_THIS_LAYER(context)->user_data;
+  iotc_io_net_layer_state_t* layer_data =
+      (iotc_io_net_layer_state_t*)IOTC_THIS_LAYER(context)->user_data;
 
   if (layer_data == 0) {
     return IOTC_PROCESS_CLOSE_EXTERNALLY_ON_NEXT_LAYER(context, data,

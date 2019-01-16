@@ -33,62 +33,52 @@ extern "C" {
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
 #endif
 
-iotc_bsp_io_net_state_t iotc_bsp_io_net_create_socket(
-    iotc_bsp_socket_t* iotc_socket, iotc_bsp_protocol_t iotc_protocol) {
-  /* TCP */
-  if (IOTC_BSP_PROTOCOL_TCP == iotc_protocol){
-    *iotc_socket = socket(AF_INET, SOCK_STREAM, 0);
+iotc_bsp_io_net_state_t
+iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
+                               const char* port) {
+  struct addrinfo hints;
+  struct addrinfo *result, *rp = NULL;
+  int status;
 
-    if (-1 == *iotc_socket) {
-      return IOTC_BSP_IO_NET_STATE_ERROR;
-    }
+  /* Resolve address infoinformation */
+  memset(&hints, 0, sizeof(hints));
+  hints.ai_family = AF_UNSPEC;
+  hints.ai_socktype = 0;
+  hints.ai_flags = 0;
+  hints.ai_protocol = 0;
 
-    /* Enable nonblocking mode for a posix socket */
-    const int flags = fcntl(*iotc_socket, F_GETFL, 0);
-
-    if (-1 == flags || -1 == fcntl(*iotc_socket, F_SETFL, flags | O_NONBLOCK)) {
-      return IOTC_BSP_IO_NET_STATE_ERROR;
-    }
+  status = getaddrinfo(host, port, &hints, &result);
+  if (0 != status) {
+    return IOTC_BSP_IO_NET_STATE_ERROR;
   }
-  return IOTC_BSP_IO_NET_STATE_OK;
-}
 
-iotc_bsp_io_net_state_t iotc_bsp_io_net_connect(iotc_bsp_socket_t* iotc_socket,
-                                                const char* host,
-                                                uint16_t port,
-                                                iotc_bsp_protocol_t iotc_protocol) {
-  /* TCP with IPv4 */
-  if (IOTC_BSP_PROTOCOL_TCP == iotc_protocol){
-    struct hostent* hostinfo = gethostbyname(host);
+  for (rp = result; rp != NULL; rp = rp->ai_next) {
+    /* Create endpoint for communication */
+    *iotc_socket = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
+    if (-1 == *iotc_socket)
+      continue;
 
-    /* if null it means that the address has not been found */
-    if (NULL == hostinfo) {
-      return IOTC_BSP_IO_NET_STATE_ERROR;
-    }
-
-    struct sockaddr_in name = {
-        .sin_family = AF_INET,
-        .sin_port = htons(port),
-        .sin_addr = *((struct in_addr*)hostinfo->h_addr_list[0]),
-        .sin_zero = {0}};
-
-    if (-1 ==
-        connect(*iotc_socket, (struct sockaddr*)&name, sizeof(struct sockaddr))) {
-      return (EINPROGRESS == errno) ? IOTC_BSP_IO_NET_STATE_OK
-                                    : IOTC_BSP_IO_NET_STATE_ERROR;
+    /* Attempt to connect on socket with address */
+    if (-1 != connect(*iotc_socket, rp->ai_addr, rp->ai_addrlen)) {
+      freeaddrinfo(result);
+      return IOTC_BSP_IO_NET_STATE_OK;
+    } else if (EINPROGRESS == errno) {
+      freeaddrinfo(result);
+      return IOTC_BSP_IO_NET_STATE_OK;
     } else {
-      // todo_atigyi: what to do here?
-      // does this mean the socket is BLOCKING?
-      return IOTC_BSP_IO_NET_STATE_ERROR;
+      close(*iotc_socket);
     }
   }
+  freeaddrinfo(result);
+  freeaddrinfo(&hints);
   return IOTC_BSP_IO_NET_STATE_ERROR;
 }
 
-iotc_bsp_io_net_state_t iotc_bsp_io_net_connection_check(
-    iotc_bsp_socket_t iotc_socket, const char* host, uint16_t port) {
-  (void)host;
-  (void)port;
+iotc_bsp_io_net_state_t
+iotc_bsp_io_net_connection_check(iotc_bsp_socket_t iotc_socket,
+                                 const char* host, const char* port) {
+  IOTC_UNUSED(host);
+  IOTC_UNUSED(port);
 
   int valopt = 0;
   socklen_t lon = sizeof(int);
@@ -183,8 +173,8 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_read(iotc_bsp_socket_t iotc_socket,
   return IOTC_BSP_IO_NET_STATE_OK;
 }
 
-iotc_bsp_io_net_state_t iotc_bsp_io_net_close_socket(
-    iotc_bsp_socket_t* iotc_socket) {
+iotc_bsp_io_net_state_t
+iotc_bsp_io_net_close_socket(iotc_bsp_socket_t* iotc_socket) {
   if (NULL == iotc_socket) {
     return IOTC_BSP_IO_NET_STATE_ERROR;
   }
@@ -198,9 +188,9 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_close_socket(
   return IOTC_BSP_IO_NET_STATE_OK;
 }
 
-iotc_bsp_io_net_state_t iotc_bsp_io_net_select(
-    iotc_bsp_socket_events_t* socket_events_array,
-    size_t socket_events_array_size, long timeout_sec) {
+iotc_bsp_io_net_state_t
+iotc_bsp_io_net_select(iotc_bsp_socket_events_t* socket_events_array,
+                       size_t socket_events_array_size, long timeout_sec) {
   fd_set rfds;
   fd_set wfds;
   fd_set efds;
