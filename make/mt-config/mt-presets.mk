@@ -87,9 +87,10 @@ else ifeq ($(PRESET), FREERTOS_POSIX_DEV)
 # ZEPHYR
 else ifeq ($(PRESET), ZEPHYR)
     CONFIG = $(CONFIG_ZEPHYR_MAX)
-    TARGET = $(TARGET_STATIC_REL)
+    TARGET = $(TARGET_STATIC_DEV)
     IOTC_BSP_PLATFORM = zephyr
     IOTC_TARGET_PLATFORM = zephyr
+    #  IOTC_BSP_TLS = wolfssl
 
 # -------------------------------------------------------
 # ARM

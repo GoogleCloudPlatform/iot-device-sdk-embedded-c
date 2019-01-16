@@ -90,8 +90,8 @@ int load_ec_private_key_pem_from_posix_fs(char* buf_ec_private_key_pem, size_t b
   if ((size_t)file_size > buf_len) {
     printf(
         "private key file size of %lu bytes is larger that certificate buffer "
-        "size of %u bytes\n",
-        file_size, buf_len);
+        "size of %lu bytes\n",
+        file_size, (long)buf_len);
     fclose(fp);
     return -1;
   }
