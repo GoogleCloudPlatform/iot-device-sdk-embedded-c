@@ -65,6 +65,7 @@ ifneq (,$(findstring fuzz_test,$(CONFIG)))
 endif
 
 IOTC_COMPILER_FLAGS += -Wall -Werror
+IOTC_CXX_FLAGS += -Wall -Wextra -Werror -pthread -std=c++11
 
 # TEMPORARILY disable warnings until the code gets changed
 # For all compilers:
@@ -220,6 +221,13 @@ IOTC_SOURCES += $(wildcard ./src/*.c)
 
 IOTC_SOURCES += $(foreach layerdir,$(IOTC_SRCDIRS),\
 	$(wildcard $(layerdir)/*.c))
+
+# C++ source files
+IOTC_SOURCES_CPP := $(wildcard ./src/*.cc)
+IOTC_SOURCES_CPP += $(foreach layerdir,$(IOTC_SRCDIRS),\
+	$(wildcard $(layerdir)/*.cc))
+IOTC_SOURCES_CPP := $(filter-out %_test.cc, $(IOTC_SOURCES_CPP)) # Filter out tests
+
 
 ifeq ($(IOTC_DEBUG_OUTPUT),0)
 IOTC_SOURCES := $(filter-out $(LIBIOTC_SOURCE_DIR)/iotc_debug.c, $(IOTC_SOURCES) )

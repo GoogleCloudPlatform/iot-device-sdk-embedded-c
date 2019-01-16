@@ -179,17 +179,25 @@ $(IOTC_OBJDIR)/tests/tools/iotc_libiotc_driver/%.o : $(LIBIOTC)/src/tests/tools/
 
 -include $(IOTC_OBJS:.o=.d)
 
+# C source files
 $(IOTC_OBJDIR)/%.o : $(LIBIOTC)/src/%.c $(IOTC_BUILD_PRECONDITIONS)
 	@-mkdir -p $(dir $@)
 	$(info [$(CC)] $@)
 	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
-	$(IOTC_POST_COMPILE_ACTION)
+	$(IOTC_POST_COMPILE_ACTION_CC)
 
 $(IOTC_OBJDIR)/third_party/%.o : $(LIBIOTC)/third_party/%.c $(IOTC_BUILD_PRECONDITIONS)
 	@-mkdir -p $(dir $@)
 	$(info [$(CC)] $@)
 	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
-	$(IOTC_POST_COMPILE_ACTION)
+	$(IOTC_POST_COMPILE_ACTION_CC)
+
+# C++ source files
+$(IOTC_OBJDIR)/%.o : $(LIBIOTC)/src/%.cc $(IOTC_BUILD_PRECONDITIONS)
+	@-mkdir -p $(dir $@)
+	$(info [$(CXX)] $@)
+	$(MD) $(CXX) $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
+	$(IOTC_POST_COMPILE_ACTION_CXX)
 
 # gather all of the binary directories
 IOTC_RESOURCE_FILES := $(LIBIOTC)/res/trusted_RootCA_certs/roots.pem

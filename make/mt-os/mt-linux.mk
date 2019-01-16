@@ -14,6 +14,7 @@
 # limitations under the License.
 
 CC ?= gcc
+CXX ?= g++
 AR ?= ar
 
 IOTC_COMPILER_FLAGS += -fPIC
