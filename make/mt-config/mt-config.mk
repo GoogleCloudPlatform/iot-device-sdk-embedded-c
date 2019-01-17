@@ -65,7 +65,7 @@ ifneq (,$(findstring fuzz_test,$(CONFIG)))
 endif
 
 IOTC_COMPILER_FLAGS += -Wall -Werror
-IOTC_CXX_FLAGS += -Wall -Wextra -Werror -pthread -std=c++11
+IOTC_CXX_FLAGS += -Wall -Wextra -Werror -std=c++11
 
 # TEMPORARILY disable warnings until the code gets changed
 # For all compilers:
