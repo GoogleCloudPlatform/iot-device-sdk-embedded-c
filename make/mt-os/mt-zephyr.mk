@@ -18,7 +18,7 @@ AR ?= ar
 
 IOTC_COMPILER_FLAGS += -fPIC -m32
 IOTC_COMPILER_FLAGS += -Wno-ignored-qualifiers
-IOTC_COMPILER_FLAGS += -imacros $(LIBIOTC)/examples/hello_world/build/zephyr/include/generated/autoconf.h
+IOTC_COMPILER_FLAGS += -imacros autoconf.h
 IOTC_LIB_FLAGS += $(IOTC_TLS_LIBFLAGS) -lpthread -lm -lcrypto
 
 include make/mt-os/mt-os-common.mk
@@ -33,7 +33,7 @@ IOTC_INCLUDE_FLAGS += -I$(ZEPHYR_BASE)/arch/posix/include
 IOTC_INCLUDE_FLAGS += -I$(ZEPHYR_BASE)/soc/posix/inf_clock
 IOTC_INCLUDE_FLAGS += -I$(ZEPHYR_BASE)/boards/posix/native_posix
 
-IOTC_INCLUDE_FLAGS += -I$(LIBIOTC)/examples/hello_world/build/zephyr/include/generated
+IOTC_INCLUDE_FLAGS += -I$(LIBIOTC)/examples/zephyr_native_posix/build/zephyr/include/generated
 
 IOTC_ARFLAGS += -rs -c $(XI)
 

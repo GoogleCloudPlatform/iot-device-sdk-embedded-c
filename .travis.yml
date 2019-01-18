@@ -9,40 +9,42 @@ env:
     - IOTC_BSP_TLS=mbedtls
     - IOTC_MAKETARGET=tests
   matrix:
-    - PRESET=ARM_REL
-      IOTC_MAKETARGET="utests"
+          #  - PRESET=ARM_REL
+          #  IOTC_MAKETARGET="utests"
+          #  
+          #  - PRESET=ARM_REL_MIN
+          #  IOTC_MAKETARGET="utests"
+          #  
+          #  - PRESET=POSIX_DEV
+          #  - PRESET=POSIX_DEV_MIN
+          #  
+          #  - PRESET=POSIX_REL
+          #  - PRESET=POSIX_REL_MIN
+          #  
+          #  - PRESET=FREERTOS_POSIX_DEV
+          #  BEFORE_SCRIPT_ACTION="make PRESET=FREERTOS_POSIX_REL prereqs"
+          #  
+          #  - PRESET=FREERTOS_POSIX_REL
+          #  BEFORE_SCRIPT_ACTION="make PRESET=FREERTOS_POSIX_REL prereqs"
+          #  
+          #  # WOLFSSL Tests
+          #  - PRESET=POSIX_DEV
+          #  IOTC_BSP_TLS=wolfssl
+          #  
+          #  - PRESET=POSIX_REL
+          #  IOTC_BSP_TLS=wolfssl
+          #  
+          #  - PRESET=POSIX_THREADING_REL
+          #  # - PRESET=POSIX_UNSECURE_REL
+          #  #   IOTC_BSP_TLS=""
+          #  
+          #  - TESTS=fuzztests
+          #  PRESET=FUZZ_TESTS
+          #  IOTC_BSP_TLS=""
+          #  IOTC_MAKETARGET="fuzz_tests"
+          #  CXX=clang++
 
-    - PRESET=ARM_REL_MIN
-      IOTC_MAKETARGET="utests"
-
-    - PRESET=POSIX_DEV
-    - PRESET=POSIX_DEV_MIN
-
-    - PRESET=POSIX_REL
-    - PRESET=POSIX_REL_MIN
-
-    - PRESET=FREERTOS_POSIX_DEV
-      BEFORE_SCRIPT_ACTION="make PRESET=FREERTOS_POSIX_REL prereqs"
-
-    - PRESET=FREERTOS_POSIX_REL
-      BEFORE_SCRIPT_ACTION="make PRESET=FREERTOS_POSIX_REL prereqs"
-
-    # WOLFSSL Tests
-    - PRESET=POSIX_DEV
-      IOTC_BSP_TLS=wolfssl
-
-    - PRESET=POSIX_REL
-      IOTC_BSP_TLS=wolfssl
-
-    - PRESET=POSIX_THREADING_REL
-      # - PRESET=POSIX_UNSECURE_REL
-      #   IOTC_BSP_TLS=""
-
-    - TESTS=fuzztests
-      PRESET=FUZZ_TESTS
-      IOTC_BSP_TLS=""
-      IOTC_MAKETARGET="fuzz_tests"
-      CXX=clang++
+    - PRESET=ZEPHYR
 
 cache:
     apt
