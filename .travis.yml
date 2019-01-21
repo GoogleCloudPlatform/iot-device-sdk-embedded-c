@@ -58,6 +58,7 @@ addons:
       - qemu-system
       - libc6:i386
       - expect
+      - device-tree-compiler
 matrix:
   exclude:
     - compiler: clang
