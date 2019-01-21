@@ -62,6 +62,9 @@ addons:
       - gperf
       - dfu-util
       - xz-utils
+      - python3-pip
+      - python3-setuptools
+      - python3-wheel
 matrix:
   exclude:
     - compiler: clang
