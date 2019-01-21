@@ -59,13 +59,13 @@ $(IOTC_ZEPHYR_README_PATH):
 	@git -C $(dir $@) checkout 6798a421e1
 	@git -C $(dir $@) apply $(IOTC_THIRD_PARTY_DIR)/iotc_zephyr_dtc_version.patch
 
-#  source $(LIBIOTC)/third_party/zephyr/zepyhr-env.sh
-
 export ZEPHYR_TOOLCHAIN_VARIANT = zephyr
 #  export ZEPHYR_SDK_INSTALL_DIR = $(HOME)/zepyhr-sdk
+export ZEPHYR_BASE = $(IOTC_THIRD_PARTY_DIR)/zephyr
 
 IOTC_ZEPHYR_PREREQUISITE_AUTOCONF: $(IOTC_ZEPHYR_README_PATH)
-	@cd $(LIBIOTC)/examples/zephyr_native_posix; ./prebuild.sh
+	#  source $(dir $<)/zephyr-env.sh; cd $(LIBIOTC)/examples/zephyr_native_posix; ./prebuild.sh
+	cd $(LIBIOTC)/examples/zephyr_native_posix; ./prebuild.sh
 
 IOTC_BUILD_PRECONDITIONS := IOTC_ZEPHYR_PREREQUISITE_AUTOCONF
 
