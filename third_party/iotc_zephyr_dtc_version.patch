@@ -1,0 +1,13 @@
+diff --git a/cmake/host-tools.cmake b/cmake/host-tools.cmake
+index 01bccabbb1..36ad6982a4 100644
+--- a/cmake/host-tools.cmake
++++ b/cmake/host-tools.cmake
+@@ -13,7 +13,7 @@ if(${DTC} STREQUAL DTC-NOTFOUND)
+ endif()
+ 
+ # Parse the 'dtc --version' and make sure it is at least MIN_DTC_VERSION
+-set(MIN_DTC_VERSION 1.4.6)
++set(MIN_DTC_VERSION 1.4.5)
+ execute_process(
+   COMMAND
+   ${DTC} --version

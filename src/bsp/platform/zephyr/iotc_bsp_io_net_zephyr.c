@@ -18,12 +18,8 @@
 
 typedef int32_t ssize_t;
 
-// #include <errno.h>
 #include <fcntl.h>
-// #include <netdb.h>
 #include <net/socket.h>
-// #include <sys/time.h>
-// #include <unistd.h>
 
 #include <stdio.h>
 

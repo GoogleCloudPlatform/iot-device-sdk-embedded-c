@@ -45,3 +45,27 @@ IOTC_CONFIG_FLAGS += -DIOTC_LIBCRYPTO_AVAILABLE
 IOTC_CONFIG_FLAGS += -DMBEDTLS_PLATFORM_TIME_TYPE_MACRO=long\ long
 
 IOTC_LIBCRYPTO_AVAILABLE := 1
+
+IOTC_THIRD_PARTY_DIR = $(LIBIOTC)/third_party
+IOTC_ZEPHYR_README_PATH = $(IOTC_THIRD_PARTY_DIR)/zephyr/README.rst
+IOTC_ZEPHYR_PREREQUISITE_AUTOCONF = $(LIBIOTC)/examples/zephyr_native_posix/build/zephyr/include/generated/autoconf.h
+
+#################################################################
+# git clone Zephyr repository ####################################
+#################################################################
+$(IOTC_ZEPHYR_README_PATH):
+	@echo "IOTC Zephyr build: git clone Zephyr repository to $(dir $@)"
+	@git clone https://github.com/zephyrproject-rtos/zephyr $(dir $@)
+	@git -C $(dir $@) checkout 6798a421e1
+	@git -C $(dir $@) apply $(IOTC_THIRD_PARTY_DIR)/iotc_zephyr_dtc_version.patch
+
+#  source $(LIBIOTC)/third_party/zephyr/zepyhr-env.sh
+
+export ZEPHYR_TOOLCHAIN_VARIANT = zephyr
+#  export ZEPHYR_SDK_INSTALL_DIR = $(HOME)/zepyhr-sdk
+
+IOTC_ZEPHYR_PREREQUISITE_AUTOCONF: $(IOTC_ZEPHYR_README_PATH)
+	@cd $(LIBIOTC)/examples/zephyr_native_posix; ./prebuild.sh
+
+IOTC_BUILD_PRECONDITIONS := IOTC_ZEPHYR_PREREQUISITE_AUTOCONF
+
