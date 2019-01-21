@@ -7,7 +7,7 @@ index 01bccabbb1..36ad6982a4 100644
  
  # Parse the 'dtc --version' and make sure it is at least MIN_DTC_VERSION
 -set(MIN_DTC_VERSION 1.4.6)
-+set(MIN_DTC_VERSION 1.4.5)
++set(MIN_DTC_VERSION 1.4.0)
  execute_process(
    COMMAND
    ${DTC} --version
