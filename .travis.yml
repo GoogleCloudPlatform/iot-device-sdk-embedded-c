@@ -59,6 +59,9 @@ addons:
       - libc6:i386
       - expect
       - device-tree-compiler
+      - gperf
+      - dfu-util
+      - xz-utils
 matrix:
   exclude:
     - compiler: clang
