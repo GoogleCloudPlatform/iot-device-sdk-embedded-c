@@ -1,3 +1,5 @@
+pip3 install --user -r ../../third_party/zephyr/scripts/requirements.txt
+
 mkdir build; cd build;
 
 cmake -DBOARD=native_posix ..
