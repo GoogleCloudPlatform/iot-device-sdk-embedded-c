@@ -16,6 +16,7 @@
 
 #include <iotc_bsp_io_net.h>
 #include <stdio.h>
+#include <string.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -25,30 +26,21 @@ extern "C" {
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
 #endif
 
-iotc_bsp_io_net_state_t iotc_bsp_io_net_create_socket(
-    iotc_bsp_socket_t* iotc_socket) {
-  (void)iotc_socket;
-
-  *iotc_socket = 0;
-
+iotc_bsp_io_net_state_t
+iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
+                               const char* port) {
+  IOTC_UNUSED(iotc_socket);
+  IOTC_UNUSED(host);
+  IOTC_UNUSED(port);
   return IOTC_BSP_IO_NET_STATE_OK;
 }
 
-iotc_bsp_io_net_state_t iotc_bsp_io_net_connect(iotc_bsp_socket_t* iotc_socket,
-                                                const char* host,
-                                                uint16_t port) {
-  (void)iotc_socket;
-  (void)host;
-  (void)port;
-
-  return IOTC_BSP_IO_NET_STATE_OK;
-}
-
-iotc_bsp_io_net_state_t iotc_bsp_io_net_connection_check(
-    iotc_bsp_socket_t iotc_socket, const char* host, uint16_t port) {
-  (void)iotc_socket;
-  (void)host;
-  (void)port;
+iotc_bsp_io_net_state_t
+iotc_bsp_io_net_connection_check(iotc_bsp_socket_t iotc_socket,
+                                 const char* host, const char* port) {
+  IOTC_UNUSED(iotc_socket);
+  IOTC_UNUSED(host);
+  IOTC_UNUSED(port);
 
   return IOTC_BSP_IO_NET_STATE_OK;
 }
@@ -57,8 +49,8 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_write(iotc_bsp_socket_t iotc_socket,
                                               int* out_written_count,
                                               const uint8_t* buf,
                                               size_t count) {
-  (void)iotc_socket;
-  (void)buf;
+  IOTC_UNUSED(iotc_socket);
+  IOTC_UNUSED(buf);
   *out_written_count = count;
   return IOTC_BSP_IO_NET_STATE_OK;
 }
@@ -66,25 +58,25 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_write(iotc_bsp_socket_t iotc_socket,
 iotc_bsp_io_net_state_t iotc_bsp_io_net_read(iotc_bsp_socket_t iotc_socket,
                                              int* out_read_count, uint8_t* buf,
                                              size_t count) {
-  (void)iotc_socket;
-  (void)buf;
-  (void)count;
+  IOTC_UNUSED(iotc_socket);
+  IOTC_UNUSED(buf);
+  IOTC_UNUSED(count);
   *out_read_count = 0;
   return IOTC_BSP_IO_NET_STATE_OK;
 }
 
-iotc_bsp_io_net_state_t iotc_bsp_io_net_close_socket(
-    iotc_bsp_socket_t* iotc_socket) {
+iotc_bsp_io_net_state_t
+iotc_bsp_io_net_close_socket(iotc_bsp_socket_t* iotc_socket) {
   *iotc_socket = 0;
   return IOTC_BSP_IO_NET_STATE_OK;
 }
 
-iotc_bsp_io_net_state_t iotc_bsp_io_net_select(
-    iotc_bsp_socket_events_t* socket_events_array,
-    size_t socket_events_array_size, long timeout_sec) {
-  (void)socket_events_array;
-  (void)socket_events_array_size;
-  (void)timeout_sec;
+iotc_bsp_io_net_state_t
+iotc_bsp_io_net_select(iotc_bsp_socket_events_t* socket_events_array,
+                       size_t socket_events_array_size, long timeout_sec) {
+  IOTC_UNUSED(socket_events_array);
+  IOTC_UNUSED(socket_events_array_size);
+  IOTC_UNUSED(timeout_sec);
 
   return IOTC_BSP_IO_NET_STATE_OK;
 }
