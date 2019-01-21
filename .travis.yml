@@ -62,9 +62,9 @@ addons:
       - gperf
       - dfu-util
       - xz-utils
-      - python3-pip
-      - python3-setuptools
-      - python3-wheel
+        #  - python3-pip
+        #  - python3-setuptools
+        #  - python3-wheel
       - python3-pyelftools
 matrix:
   exclude:
