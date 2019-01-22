@@ -1,4 +1,5 @@
-pip3 install --user -r ../../third_party/zephyr/scripts/requirements.txt
+#  pip3 install --user -r ../../third_party/zephyr/scripts/requirements.txt
+pip3 install --user pyelftools
 
 mkdir build; cd build;
 
