@@ -25,6 +25,7 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <sys/time.h>
+#include <sys/types.h>
 #include <unistd.h>
 
 #ifdef __cplusplus
@@ -53,21 +54,29 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
   if (0 != status) {
     return IOTC_BSP_IO_NET_STATE_ERROR;
   }
-
   for (rp = result; rp != NULL; rp = rp->ai_next) {
     /* Create endpoint for communication */
     *iotc_socket = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
     if (-1 == *iotc_socket)
       continue;
 
+    // /* Enable nonblocking mode for a posix socket */
+    // const int flags = fcntl(*iotc_socket, F_GETFL);
+    // if (fcntl(*iotc_socket, F_SETFL, flags | O_NONBLOCK) == -1) {
+    //   printf("fcntl error\n");
+    // }
+
     /* Attempt to connect on socket with address */
     if (-1 != connect(*iotc_socket, rp->ai_addr, rp->ai_addrlen)) {
       freeaddrinfo(result);
+      printf("not in progress, connection error\n");
       return IOTC_BSP_IO_NET_STATE_OK;
     } else if (EINPROGRESS == errno) {
       freeaddrinfo(result);
+      printf("connect EINPROGRESS %d\n", *iotc_socket);
       return IOTC_BSP_IO_NET_STATE_OK;
     } else {
+      printf("connected ok\n");
       close(*iotc_socket);
     }
   }

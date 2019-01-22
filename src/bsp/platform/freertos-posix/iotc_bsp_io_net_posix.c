@@ -37,6 +37,8 @@ extern "C" {
 iotc_bsp_io_net_state_t
 iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
                                const char* port) {
+
+  printf("test\n");
   struct addrinfo hints;
   struct addrinfo *result, *rp = NULL;
   int status;

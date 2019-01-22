@@ -14,10 +14,10 @@ enum ExitCode {
   kExitBadReply = 6,
 };
 
-bool iotc_roughtime_create_socket(int *out_socket, const char *address);
+bool iotc_roughtime_create_socket(int* out_socket, const char* address);
 
-int iotc_roughtime_getcurrenttime(int socket, const char *server_name,
-                                  const char *server_public_key);
+int iotc_roughtime_getcurrenttime(int socket, const char* server_name,
+                                  const char* server_public_key);
 #ifdef __cplusplus
 }
 #endif
