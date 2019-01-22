@@ -174,8 +174,8 @@ $(IOTC_GTEST_OBJDIR)/%.o : $(LIBIOTC_SRC)/%.cc $(IOTC_BUILD_PRECONDITIONS)
 $(IOTC_OBJDIR)/tests/tools/iotc_libiotc_driver/%.o : $(LIBIOTC)/src/tests/tools/iotc_libiotc_driver/%.c $(IOTC_BUILD_PRECONDITIONS)
 	@-mkdir -p $(dir $@)
 	$(info [$(CC)] $@)
-	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) $(IOTC_TEST_TOOLS_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
-	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) $(IOTC_TEST_TOOLS_INCLUDE_FLAGS) -MM $< -MT $@ -MF $(@:.o=.d)
+	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMMON_COMPILER_FLAGS) $(IOTC_C_FLAGS) $(IOTC_INCLUDE_FLAGS) $(IOTC_TEST_TOOLS_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
+	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMMON_COMPILER_FLAGS) $(IOTC_C_FLAGS) $(IOTC_INCLUDE_FLAGS) $(IOTC_TEST_TOOLS_INCLUDE_FLAGS) -MM $< -MT $@ -MF $(@:.o=.d)
 
 -include $(IOTC_OBJS:.o=.d)
 
@@ -183,20 +183,20 @@ $(IOTC_OBJDIR)/tests/tools/iotc_libiotc_driver/%.o : $(LIBIOTC)/src/tests/tools/
 $(IOTC_OBJDIR)/%.o : $(LIBIOTC)/src/%.c $(IOTC_BUILD_PRECONDITIONS)
 	@-mkdir -p $(dir $@)
 	$(info [$(CC)] $@)
-	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
+	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMMON_COMPILER_FLAGS) $(IOTC_C_FLAGS) $(IOTC_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
 	$(IOTC_POST_COMPILE_ACTION_CC)
 
 $(IOTC_OBJDIR)/third_party/%.o : $(LIBIOTC)/third_party/%.c $(IOTC_BUILD_PRECONDITIONS)
 	@-mkdir -p $(dir $@)
 	$(info [$(CC)] $@)
-	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
+	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMMON_COMPILER_FLAGS) $(IOTC_C_FLAGS) $(IOTC_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
 	$(IOTC_POST_COMPILE_ACTION_CC)
 
 # C++ source files
 $(IOTC_OBJDIR)/%.o : $(LIBIOTC)/src/%.cc $(IOTC_BUILD_PRECONDITIONS)
 	@-mkdir -p $(dir $@)
 	$(info [$(CXX)] $@)
-	$(MD) $(CXX) $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
+	$(MD) $(CXX) $(IOTC_CONFIG_FLAGS) $(IOTC_COMMON_COMPILER_FLAGS) $(IOTC_CXX_FLAGS) $(IOTC_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
 	$(IOTC_POST_COMPILE_ACTION_CXX)
 
 # gather all of the binary directories
@@ -214,8 +214,8 @@ endif
 $(IOTC_EXAMPLE_BINDIR)/internal/%: $(XI)
 	$(info [$(CC)] $@)
 	@-mkdir -p $(IOTC_EXAMPLE_OBJDIR)/$(subst $(IOTC_EXAMPLE_BINDIR)/,,$(dir $@))
-	$(MD) $(CC) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) -L$(IOTC_BINDIR) $(XI) $(LIBIOTC)/examples/common/src/commandline.c $(IOTC_EXAMPLE_DIR)/$(subst $(IOTC_EXAMPLE_BINDIR),,$@).c $(IOTC_LIB_FLAGS) $(IOTC_COMPILER_OUTPUT)
-	$(MD) $(CC) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) -MM $(IOTC_EXAMPLE_DIR)/$(subst $(IOTC_EXAMPLE_BINDIR),,$@).c -MT $@ -MF $(IOTC_EXAMPLE_OBJDIR)/$(subst $(IOTC_EXAMPLE_BINDIR)/,,$@).d
+	$(MD) $(CC) $(IOTC_COMMON_COMPILER_FLAGS) $(IOTC_C_FLAGS)$(IOTC_INCLUDE_FLAGS) -L$(IOTC_BINDIR) $(XI) $(LIBIOTC)/examples/common/src/commandline.c $(IOTC_EXAMPLE_DIR)/$(subst $(IOTC_EXAMPLE_BINDIR),,$@).c $(IOTC_LIB_FLAGS) $(IOTC_COMPILER_OUTPUT)
+	$(MD) $(CC) $(IOTC_COMMON_COMPILER_FLAGS) $(IOTC_C_FLAGS) $(IOTC_INCLUDE_FLAGS) -MM $(IOTC_EXAMPLE_DIR)/$(subst $(IOTC_EXAMPLE_BINDIR),,$@).c -MT $@ -MF $(IOTC_EXAMPLE_OBJDIR)/$(subst $(IOTC_EXAMPLE_BINDIR)/,,$@).d
 
 ###
 #### TEST TOOLS
@@ -224,9 +224,9 @@ $(IOTC_EXAMPLE_BINDIR)/internal/%: $(XI)
 
 $(IOTC_TEST_TOOLS_BINDIR)/%: $(XI) $(IOTC_TEST_TOOLS_OBJS)
 	$(info [$(CC)] $@)
-	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) -L$(IOTC_BINDIR) $(IOTC_TEST_TOOLS_OBJS) $(IOTC_TEST_TOOLS_SRCDIR)/$(notdir $@)/$(notdir $@).c $(IOTC_LIB_FLAGS) $(IOTC_COMPILER_OUTPUT)
+	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMMON_COMPILER_FLAGS) $(IOTC_C_FLAGS) $(IOTC_INCLUDE_FLAGS) -L$(IOTC_BINDIR) $(IOTC_TEST_TOOLS_OBJS) $(IOTC_TEST_TOOLS_SRCDIR)/$(notdir $@)/$(notdir $@).c $(IOTC_LIB_FLAGS) $(IOTC_COMPILER_OUTPUT)
 	@-mkdir -p $(IOTC_TEST_TOOLS_OBJDIR)
-	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) -MM $(IOTC_TEST_TOOLS_SRCDIR)/$(notdir $@)/$(notdir $@).c -MT $@ -MF $(IOTC_TEST_TOOLS_OBJDIR)/$(notdir $@).d
+	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMMON_COMPILER_FLAGS) $(IOTC_C_FLAGS) $(IOTC_INCLUDE_FLAGS) -MM $(IOTC_TEST_TOOLS_SRCDIR)/$(notdir $@)/$(notdir $@).c -MT $@ -MF $(IOTC_TEST_TOOLS_OBJDIR)/$(notdir $@).d
 	@#$@
 
 ###
@@ -278,7 +278,7 @@ NOW:=$(shell date +"%F-%T")
 
 $(LIBIOTC)/src/%.sa:
 	$(info [clang-tidy] $(@:.sa=.c))
-	@clang-tidy --checks='clang-analyzer-*,-clang-analyzer-cplusplus*,-clang-analyzer-osx*' $(@:.sa=.c) >> static_analysis_$(NOW).log -- $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS)
+	@clang-tidy --checks='clang-analyzer-*,-clang-analyzer-cplusplus*,-clang-analyzer-osx*' $(@:.sa=.c) >> static_analysis_$(NOW).log -- $(IOTC_CONFIG_FLAGS) $(IOTC_COMMON_COMPILER_FLAGS) $(IOTC_C_FLAGS) $(IOTC_INCLUDE_FLAGS)
 
 $(IOTC_BIN_DIRS):
 	@mkdir -p $@

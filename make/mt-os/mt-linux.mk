@@ -17,7 +17,7 @@ CC ?= gcc
 CXX ?= g++
 AR ?= ar
 
-IOTC_COMPILER_FLAGS += -fPIC
+IOTC_COMMON_COMPILER_FLAGS += -fPIC
 IOTC_LIB_FLAGS += $(IOTC_TLS_LIBFLAGS) -lpthread -lm -lcrypto
 
 include make/mt-os/mt-os-common.mk
@@ -31,7 +31,7 @@ else
 endif
 
 # Temporarily disable these warnings until the code gets changed.
-IOTC_COMPILER_FLAGS += -Wno-format
+IOTC_COMMON_COMPILER_FLAGS += -Wno-format
 
 IOTC_CONFIG_FLAGS += -DIOTC_MULTI_LEVEL_DIRECTORY_STRUCTURE
 IOTC_CONFIG_FLAGS += -DIOTC_LIBCRYPTO_AVAILABLE

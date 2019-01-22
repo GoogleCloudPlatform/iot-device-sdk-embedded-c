@@ -13,24 +13,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-IOTC_COMPILER_FLAGS += -fstrict-aliasing
+IOTC_COMMON_COMPILER_FLAGS += -fstrict-aliasing
 
 XI ?= $(IOTC_BINDIR)/libiotc.a
 
 ifneq (,$(findstring release,$(TARGET)))
-    IOTC_COMPILER_FLAGS += -Os
+    IOTC_COMMON_COMPILER_FLAGS += -Os
 endif
 
 ifneq (,$(findstring debug,$(TARGET)))
-    IOTC_COMPILER_FLAGS += -O0 -g
+    IOTC_COMMON_COMPILER_FLAGS += -O0 -g
 endif
 
 # warning level
-IOTC_COMPILER_FLAGS += -Wall -Wextra
+IOTC_COMMON_COMPILER_FLAGS += -Wall -Wextra
 
 # Object files from C and C++ sources
 IOTC_OBJS := $(filter-out $(IOTC_SOURCES), $(IOTC_SOURCES:.c=.o))
-IOTC_OBJS += $(filter-out $(IOTC_SOURCES_CPP), $(IOTC_SOURCES_CPP:.cc=.o))
+IOTC_OBJS += $(filter-out $(IOTC_SOURCES_CXX), $(IOTC_SOURCES_CXX:.cc=.o))
 
 IOTC_OBJS := $(subst $(LIBIOTC)/src,$(IOTC_OBJDIR),$(IOTC_OBJS))
 IOTC_OBJS := $(subst $(IOTC_BSP_DIR),$(IOTC_OBJDIR)/bsp/,$(IOTC_OBJS))
@@ -41,5 +41,5 @@ IOTC_OBJS := $(sort $(IOTC_OBJS)) # sort for determinism and ease of debug
 IOTC_TEST_OBJS := $(filter-out $(IOTC_UTEST_SOURCES), $(IOTC_UTEST_SOURCES:.c=.o))
 IOTC_TEST_OBJS := $(subst $(IOTC_UTEST_SOURCE_DIR),$(IOTC_TEST_OBJDIR),$(IOTC_TEST_OBJS))
 
-IOTC_POST_COMPILE_ACTION_CC  = $(MD) $(CC)  $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) -MM $< -MT $@ -MF $(@:.o=.d)
-IOTC_POST_COMPILE_ACTION_CXX = $(MD) $(CXX) $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) -MM $< -MT $@ -MF $(@:.o=.d)
+IOTC_POST_COMPILE_ACTION_CC  = $(MD) $(CC)  $(IOTC_CONFIG_FLAGS) $(IOTC_COMMON_COMPILER_FLAGS) $(IOTC_C_FLAGS) $(IOTC_INCLUDE_FLAGS) -MM $< -MT $@ -MF $(@:.o=.d)
+IOTC_POST_COMPILE_ACTION_CXX = $(MD) $(CXX) $(IOTC_CONFIG_FLAGS) $(IOTC_COMMON_COMPILER_FLAGS) $(IOTC_CXX_FLAGS) $(IOTC_INCLUDE_FLAGS) -MM $< -MT $@ -MF $(@:.o=.d)

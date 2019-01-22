@@ -301,10 +301,12 @@ The next section explains how to create these commands.
            CC = ~/downloads/np4000_sdk/np4000_tools/bin/armcl
            AR = ~/downloads/np4000_sdk/tools/bin/armar
 
-   - Add compiler flags by appending them to variable IOTC_COMPILER_FLAGS. For example:
+   - Add compiler flags by appending them to variable IOTC_COMMON_COMPILER_FLAGS. For example:
 
-           IOTC_COMPILER_FLAGS += -I~/downloads/np4000_sdk/include
-           IOTC_COMPILER_FLAGS += -Dnp4000
+           IOTC_COMMON_COMPILER_FLAGS += -I~/downloads/np4000_sdk/include
+           IOTC_COMMON_COMPILER_FLAGS += -Dnp4000
+
+   - Flags specific to the C and C++ compiler should be set in IOTC_C_FLAGS and IOTC_CXX_FLAGS respectively.
 
    - Add archiver flags by appending them to the variable IOTC_ARFLAG:
 
