@@ -44,17 +44,16 @@ bool iotc_roughtime_create_socket(int* out_socket, const char* server_address) {
       iotc_bsp_io_net_socket_connect(
           reinterpret_cast<iotc_bsp_socket_t*>(out_socket), host.c_str(),
           port_str.c_str())) {
-    printf("socket_connect succeed!\n");
+    printf("Client: socket_connect() succeed!\n");
   }
 
   if (IOTC_BSP_IO_NET_STATE_OK ==
       iotc_bsp_io_net_connection_check(*out_socket, host.c_str(),
                                        port_str.c_str())) {
-    printf("connection_check succeed!\n");
+    printf("Client: connection_check() succeed!\n");
   }
+
   return true;
-  // return true;
-  // return false;
 
   // struct addrinfo hints;
   // memset(&hints, 0, sizeof(hints));
@@ -109,31 +108,58 @@ bool iotc_roughtime_create_socket(int* out_socket, const char* server_address) {
 
 int iotc_roughtime_getcurrenttime(int socket, const char* name,
                                   const char* public_key) {
+
   std::string server_name(name);
   std::string server_public_key(public_key);
-
+  iotc_bsp_io_net_state_t state;
   uint8_t nonce[roughtime::kNonceLength];
+  size_t socket_evts_size = 1;
+  iotc_bsp_socket_events_t socket_evts[socket_evts_size];
+
+  printf("\n--------------getcurrent()--------------\n");
+
   RAND_bytes(nonce, sizeof(nonce));
   const std::string request = roughtime::CreateRequest(nonce);
 
-  // struct timeval timeout;
-  // timeout.tv_sec = kTimeoutSeconds;
-  // timeout.tv_usec = 0;
-  // setsockopt(socket, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
+  /* Write to the socket */
+  memset(socket_evts, 0, sizeof(iotc_bsp_socket_events_t) * socket_evts_size);
+  socket_evts[0].iotc_socket = socket;
+  socket_evts[0].in_socket_want_write = 1;
+  bool ready_to_write = false;
+  while (!ready_to_write) {
+    state =
+        iotc_bsp_io_net_select(socket_evts, socket_evts_size, kTimeoutSeconds);
+    switch (state) {
+    case IOTC_BSP_IO_NET_STATE_OK:
+      if (socket_evts[0].out_socket_can_write == 1) {
+        printf("Socket is available to write.\n");
+        ready_to_write = true;
+      }
+      break;
+    case IOTC_BSP_IO_NET_STATE_TIMEOUT:
+      break;
+    case IOTC_BSP_IO_NET_STATE_ERROR:
+      // todo: err handling
+      break;
+    default:
+      break;
+    }
+  }
 
-  /* Set timeout using bsp select function */
-  size_t socket_events_array_size = socket + 1;
-  iotc_bsp_socket_events_t socket_events_array[socket_events_array_size];
-  memset(socket_events_array, 0,
-         sizeof(iotc_bsp_socket_events_t) * socket_events_array_size);
-  socket_events_array[socket].in_socket_want_write = 1;
-  socket_events_array[socket].in_socket_want_read = 1;
-  iotc_bsp_io_net_select(socket_events_array, socket_events_array_size,
-                         kTimeoutSeconds);
+  int bytes_written = 0;
+  state = iotc_bsp_io_net_write(
+      socket, &bytes_written, reinterpret_cast<const uint8_t*>(request.data()),
+      request.size());
+  if (IOTC_BSP_IO_NET_STATE_ERROR == state) {
+    printf("Error: write()\n");
+    // handle other error as well
+  }
+  const uint64_t start_us = roughtime::MonotonicUs();
 
   // ssize_t sent_len;
   // do {
-  //   sent_len = send(socket, request.data(), request.size(), 0 /* flags */);
+  //   sent_len = send(socket, request.data(), request.size(), 0 /* flags
+  //   */);
   // } while (sent_len == -1 && errno == EINTR);
   // const uint64_t start_us = roughtime::MonotonicUs();
 
@@ -143,19 +169,19 @@ int iotc_roughtime_getcurrenttime(int socket, const char* name,
   //   return kExitNetworkError;
   // }
 
-  int sent_len;
-  do {
-    iotc_bsp_io_net_write(socket, &sent_len,
-                          reinterpret_cast<const uint8_t*>(request.data()),
-                          request.size());
-  } while (sent_len == -1 && errno == EINTR);
-  const uint64_t start_us = roughtime::MonotonicUs();
+  // int sent_len;
+  // do {
+  //   iotc_bsp_io_net_write(socket, &sent_len,
+  //                         reinterpret_cast<const uint8_t*>(request.data()),
+  //                         request.size());
+  // } while (sent_len == -1 && errno == EINTR);
+  // const uint64_t start_us = roughtime::MonotonicUs();
 
-  if (sent_len < 0 || static_cast<size_t>(sent_len) != request.size()) {
-    perror("send on UDP socket");
-    iotc_bsp_io_net_close_socket(reinterpret_cast<iotc_bsp_socket_t*>(&socket));
-    return kExitNetworkError;
-  }
+  // if (sent_len < 0 || static_cast<size_t>(sent_len) != request.size()) {
+  //   perror("send on UDP socket");
+  //   iotc_bsp_io_net_close_socket(reinterpret_cast<iotc_bsp_socket_t*>(&socket));
+  //   return kExitNetworkError;
+  // }
 
   // uint8_t recv_buf[roughtime::kMinRequestSize];
   // ssize_t buf_len;
@@ -179,12 +205,38 @@ int iotc_roughtime_getcurrenttime(int socket, const char* name,
   //   return kExitNetworkError;
   // }
 
+  /* Read from the socket */
+  memset(socket_evts, 0, sizeof(iotc_bsp_socket_events_t) * socket_evts_size);
+  socket_evts[0].iotc_socket = socket;
+  socket_evts[0].in_socket_want_read = 1;
+  bool ready_to_read = false;
+  while (!ready_to_read) {
+    state =
+        iotc_bsp_io_net_select(socket_evts, socket_evts_size, kTimeoutSeconds);
+    switch (state) {
+    case IOTC_BSP_IO_NET_STATE_OK:
+      if (socket_evts[0].out_socket_can_read == 1) {
+        printf("Socket is available to read\n");
+        ready_to_read = true;
+      }
+      break;
+    case IOTC_BSP_IO_NET_STATE_TIMEOUT:
+      break;
+    case IOTC_BSP_IO_NET_STATE_ERROR:
+      // todo: err handling
+      break;
+    default:
+      break;
+    }
+  }
+
   uint8_t recv_buf[roughtime::kMinRequestSize];
   int buf_len;
-  do {
-    iotc_bsp_io_net_read(socket, &buf_len, recv_buf, sizeof(recv_buf));
-  } while (buf_len == -1 && errno == EINTR);
-
+  state = iotc_bsp_io_net_read(socket, &buf_len, recv_buf, sizeof(recv_buf));
+  if (IOTC_BSP_IO_NET_STATE_ERROR == state) {
+    printf("Error: read()\n");
+    // handle other error as well
+  }
   const uint64_t end_us = roughtime::MonotonicUs();
   const uint64_t end_realtime_us = roughtime::RealtimeUs();
 
@@ -200,6 +252,7 @@ int iotc_roughtime_getcurrenttime(int socket, const char* name,
     perror("recv from UDP socket");
     return kExitNetworkError;
   }
+  printf("%s\n", recv_buf);
 
   roughtime::rough_time_t timestamp;
   uint32_t radius;
