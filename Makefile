@@ -67,6 +67,9 @@ endif
 # Roughtime
 IOTC_INCLUDE_FLAGS += -I$(LIBIOTC)/third_party/roughtime
 
+# Wolfssl
+IOTC_INCLUDE_FLAGS += -I$(LIBIOTC)/third_party/tls/wolfssl
+
 #gather all binary directories
 IOTC_BIN_DIRS := $(IOTC_EXAMPLE_BINDIR) $(IOTC_EXAMPLE_BINDIR)/internal $(IOTC_TEST_BINDIR) $(IOTC_TEST_TOOLS_BINDIR)
 

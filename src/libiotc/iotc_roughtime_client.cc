@@ -1,19 +1,27 @@
+#define WOLFSSL_LEANPSK // 20190124
+#ifndef __linux
+#define __linux // 20190124
+#endif
+
 #include <iotc_bsp_io_net.h>
 #include <iotc_roughtime_client.h>
+#include <wolfssl/options.h>
+#include <wolfssl/ssl.h>
+#include <wolfssl/wolfcrypt/settings.h>
 
 #include <arpa/inet.h>
 #include <assert.h>
 #include <errno.h>
 #include <inttypes.h>
 #include <netdb.h>
-#include <netinet/udp.h>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <wolfssl/openssl/ssl.h>
 
 #include "client.cc"
+#include "clock_linux.cc"
 #include "protocol.h"
-#include <clock_linux.cc>
 #include <stdio.h>
 #include <string>
 
