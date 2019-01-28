@@ -17,10 +17,9 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <wolfssl/openssl/ssl.h>
 
-#include "client.cc"
-#include "clock_linux.cc"
+#include "client.h"
+#include "clock.h"
 #include "protocol.h"
 #include <stdio.h>
 #include <string>
@@ -34,6 +33,7 @@ extern "C" {
 #endif
 
 namespace roughtime {
+
 bool iotc_roughtime_create_socket(int* out_socket, const char* server_address) {
   std::string address(server_address);
 
@@ -71,7 +71,7 @@ int iotc_roughtime_getcurrenttime(int socket, const char* name,
   iotc_bsp_io_net_state_t state;
   iotc_bsp_socket_events_t socket_evts[socket_evts_size];
 
-  RAND_bytes(nonce, sizeof(nonce));
+  wolfSSL_RAND_bytes(nonce, sizeof(nonce));
   const std::string kRequest = roughtime::CreateRequest(nonce);
 
   /* Write to the socket */

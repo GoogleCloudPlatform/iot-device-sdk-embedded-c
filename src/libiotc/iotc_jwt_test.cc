@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <cstdlib>
-#include <iostream>
 #include "gmock.h"
 #include "gtest.h"
+#include <cstdlib>
+#include <iostream>
 
 #include "iotc.h"
 #include "iotc_bsp_crypto.h"
@@ -27,23 +27,21 @@
 namespace iotctest {
 namespace {
 
-constexpr char kPrivateKey[] =
-    "\
+constexpr char kPrivateKey[] = "\
 -----BEGIN EC PRIVATE KEY-----\n\
 MHcCAQEEINg6KhkJ2297KYO4eyLTPtVIhLloIfp3IsJo9n6KqelfoAoGCCqGSM49\n\
 AwEHoUQDQgAE1Oi16oAc/+s5P5g2pzt3IDXfUBBUKUBrB8vgfyKOFb7sQTx4topE\n\
 E0KOix7rJyli6tiAJJDL4lbdf0YRo45THQ==\n\
 -----END EC PRIVATE KEY-----";
 
-constexpr char kPublicKey[] =
-    "\
+constexpr char kPublicKey[] = "\
 -----BEGIN PUBLIC KEY-----\n\
 MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE1Oi16oAc/+s5P5g2pzt3IDXfUBBU\n\
 KUBrB8vgfyKOFb7sQTx4topEE0KOix7rJyli6tiAJJDL4lbdf0YRo45THQ==\n\
 -----END PUBLIC KEY-----";
 
 class IotcJwt : public IotcHeapCheckTest {
- public:
+public:
   IotcJwt() {
     iotc_initialize();
     private_key_.private_key_signature_algorithm =
@@ -64,7 +62,7 @@ class IotcJwt : public IotcHeapCheckTest {
     return std::string(reinterpret_cast<char*>(decoded), length);
   }
 
- protected:
+protected:
   iotc_crypto_private_key_data_t private_key_;
 };
 
@@ -112,10 +110,10 @@ TEST_F(IotcJwt, ES256JwtCreateReturnsCorrectDecodableBase64Sections) {
   unsigned char jwt_buffer[IOTC_JWT_SIZE] = {0};
   size_t bytes_written = 0;
   const uint32_t expiration_period_sec = 1600;
-  ASSERT_EQ(
-      iotc_create_jwt_es256("projectID", expiration_period_sec, &private_key_,
-                            jwt_buffer, IOTC_JWT_SIZE, &bytes_written),
-      IOTC_STATE_OK);
+  ASSERT_EQ(iotc_create_jwt_es256("projectID", expiration_period_sec,
+                                  &private_key_, jwt_buffer, IOTC_JWT_SIZE,
+                                  &bytes_written),
+            IOTC_STATE_OK);
 
   std::string jwt(reinterpret_cast<char*>(jwt_buffer), bytes_written);
   ASSERT_THAT(jwt, ::testing::MatchesRegex(R"(^[^.]+\.[^.]+\.[^.]+)"));
@@ -179,5 +177,5 @@ TEST_F(IotcJwt, ES256JwtCreateReturnsCorrectES256) {
                                     ecc_signature_length, kPublicKey));
 }
 
-}  // namespace
-}  // namespace iotctest
+} // namespace
+} // namespace iotctest
