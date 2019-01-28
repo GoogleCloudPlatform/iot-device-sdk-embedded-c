@@ -25,6 +25,8 @@ include make/mt-os/mt-os-common.mk
 
 IOTC_INCLUDE_FLAGS += -I$(ZEPHYR_BASE)/include
 
+IOTC_BSP_TLS_BUILD_ARGS = -m32
+
 #  sys/types.h
 IOTC_INCLUDE_FLAGS += -I$(ZEPHYR_BASE)/include/posix
 #  IOTC_INCLUDE_FLAGS += -I$(ZEPHYR_BASE)/lib/libc/minimal/include
@@ -51,7 +53,7 @@ IOTC_ZEPHYR_README_PATH = $(IOTC_THIRD_PARTY_DIR)/zephyr/README.rst
 IOTC_ZEPHYR_PREREQUISITE_AUTOCONF = $(LIBIOTC)/examples/zephyr_native_posix/build/zephyr/include/generated/autoconf.h
 
 #################################################################
-# git clone Zephyr repository ####################################
+# git clone Zephyr repository ###################################
 #################################################################
 $(IOTC_ZEPHYR_README_PATH):
 	@echo "IOTC Zephyr build: git clone Zephyr repository to $(dir $@)"
