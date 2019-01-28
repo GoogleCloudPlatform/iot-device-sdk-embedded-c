@@ -14,10 +14,10 @@ env:
           #  
           #  - PRESET=ARM_REL_MIN
           #  IOTC_MAKETARGET="utests"
-          #  
-          #  - PRESET=POSIX_DEV
-          #  - PRESET=POSIX_DEV_MIN
-          #  
+
+    - PRESET=POSIX_DEV
+    - PRESET=POSIX_DEV_MIN
+
           #  - PRESET=POSIX_REL
           #  - PRESET=POSIX_REL_MIN
           #  
