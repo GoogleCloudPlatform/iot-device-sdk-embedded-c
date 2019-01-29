@@ -62,7 +62,7 @@ typedef struct {
   char* host;
   char* project_id;
   char* device_path;
-  iotc_crypto_private_key_data_t* private_key_data;
+  iotc_crypto_key_data_t* private_key_data;
   uint32_t jwt_expiration_period_sec;
   uint16_t port;
   uint16_t connection_timeout;

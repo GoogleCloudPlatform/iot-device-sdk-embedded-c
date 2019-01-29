@@ -113,11 +113,11 @@ void iotc_itest_tls_layer__act(void** fixture_void,
   iotc_itest_tls_layer__test_fixture_t* fixture =
       (iotc_itest_tls_layer__test_fixture_t*)*fixture_void;
 
-  const iotc_crypto_private_key_data_t dummy_private_key = {
-      .private_key_signature_algorithm =
-          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-      .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-      .private_key_union.key_pem.key = "dummy_key"};
+  const iotc_crypto_key_data_t dummy_private_key = {
+      .crypto_key_signature_algorithm =
+          IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
+      .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
+      .crypto_key_union.key_pem.key = "dummy_key"};
 
   if (init_connection_data_flag != 0) {
     iotc_context__itest_tls_layer->context_data.connection_data =

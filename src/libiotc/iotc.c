@@ -349,7 +349,7 @@ iotc_state_t iotc_events_process_tick() {
 iotc_state_t iotc_connect(
     iotc_context_handle_t iotc_h, const char* project_id,
     const char* device_path,
-    const iotc_crypto_private_key_data_t* private_key_data,
+    const iotc_crypto_key_data_t* private_key_data,
     uint32_t jwt_expiration_period_sec, uint16_t connection_timeout,
     uint16_t keepalive_timeout, iotc_user_callback_t* client_callback) {
   typedef struct iotc_static_host_desc_s {
@@ -368,7 +368,7 @@ iotc_state_t iotc_connect(
 iotc_state_t iotc_connect_to(
     iotc_context_handle_t iotc_h, const char* host, uint16_t port,
     const char* project_id, const char* device_path,
-    const iotc_crypto_private_key_data_t* private_key_data,
+    const iotc_crypto_key_data_t* private_key_data,
     uint32_t jwt_expiration_period_sec, uint16_t connection_timeout,
     uint16_t keepalive_timeout, iotc_user_callback_t* client_callback) {
   iotc_state_t state = IOTC_STATE_OK;
@@ -395,8 +395,8 @@ iotc_state_t iotc_connect_to(
                             "ERROR: NULL host provided");
 
   IOTC_CHECK_CND_DBGMESSAGE(
-      IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256 !=
-          private_key_data->private_key_signature_algorithm,
+      IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256 !=
+          private_key_data->crypto_key_signature_algorithm,
       IOTC_ALG_NOT_SUPPORTED_ERROR, state,
       "ERROR: unsupported private key signature algorithm");
 

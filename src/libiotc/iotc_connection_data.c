@@ -22,7 +22,7 @@
 iotc_connection_data_t* iotc_alloc_connection_data(
     const char* host, uint16_t port, const char* project_id,
     const char* device_path,
-    const iotc_crypto_private_key_data_t* private_key_data,
+    const iotc_crypto_key_data_t* private_key_data,
     uint32_t jwt_expiration_period_sec, uint16_t connection_timeout,
     uint16_t keepalive_timeout, iotc_session_type_t session_type) {
   return iotc_alloc_connection_data_lastwill(
@@ -34,7 +34,7 @@ iotc_connection_data_t* iotc_alloc_connection_data(
 iotc_connection_data_t* iotc_alloc_connection_data_lastwill(
     const char* host, uint16_t port, const char* project_id,
     const char* device_path,
-    const iotc_crypto_private_key_data_t* private_key_data,
+    const iotc_crypto_key_data_t* private_key_data,
     uint32_t jwt_expiration_period_sec, uint16_t connection_timeout,
     uint16_t keepalive_timeout, iotc_session_type_t session_type,
     const char* will_topic, const char* will_message, iotc_mqtt_qos_t will_qos,
@@ -99,7 +99,7 @@ err_handling:
 iotc_state_t iotc_connection_data_update(
     iotc_connection_data_t* conn_data, const char* host, uint16_t port,
     const char* project_id, const char* device_path,
-    const iotc_crypto_private_key_data_t* private_key_data,
+    const iotc_crypto_key_data_t* private_key_data,
     uint32_t jwt_expiration_period_sec, uint16_t connection_timeout,
     uint16_t keepalive_timeout, iotc_session_type_t session_type) {
   return iotc_connection_data_update_lastwill(
@@ -111,7 +111,7 @@ iotc_state_t iotc_connection_data_update(
 iotc_state_t iotc_connection_data_update_lastwill(
     iotc_connection_data_t* conn_data, const char* host, uint16_t port,
     const char* project_id, const char* device_path,
-    const iotc_crypto_private_key_data_t* private_key_data,
+    const iotc_crypto_key_data_t* private_key_data,
     uint32_t jwt_expiration_period_sec, uint16_t connection_timeout,
     uint16_t keepalive_timeout, iotc_session_type_t session_type,
     const char* will_topic, const char* will_message, iotc_mqtt_qos_t will_qos,
@@ -184,8 +184,8 @@ void iotc_free_connection_data(iotc_connection_data_t** data) {
 }
 
 int iotc_crypto_private_key_data_cmp(
-    const iotc_crypto_private_key_data_t* key1,
-    const iotc_crypto_private_key_data_t* key2) {
+    const iotc_crypto_key_data_t* key1,
+    const iotc_crypto_key_data_t* key2) {
   if (key1 == NULL && key2 == NULL) {
     return 0;
   }
@@ -194,78 +194,78 @@ int iotc_crypto_private_key_data_cmp(
     return -1;
   }
 
-  if (key1->private_key_signature_algorithm !=
-      key2->private_key_signature_algorithm) {
+  if (key1->crypto_key_signature_algorithm !=
+      key2->crypto_key_signature_algorithm) {
     return -1;
   }
 
-  if (key1->private_key_union_type != key2->private_key_union_type) {
+  if (key1->crypto_key_union_type != key2->crypto_key_union_type) {
     return -1;
   }
 
-  switch (key1->private_key_union_type) {
+  switch (key1->crypto_key_union_type) {
     case IOTC_CRYPTO_KEY_UNION_TYPE_PEM:
-      if (key1->private_key_union.key_pem.key == NULL &&
-          key2->private_key_union.key_pem.key == NULL) {
+      if (key1->crypto_key_union.key_pem.key == NULL &&
+          key2->crypto_key_union.key_pem.key == NULL) {
         return 0;
-      } else if (key1->private_key_union.key_pem.key == NULL ||
-                 key2->private_key_union.key_pem.key == NULL) {
+      } else if (key1->crypto_key_union.key_pem.key == NULL ||
+                 key2->crypto_key_union.key_pem.key == NULL) {
         return -1;
       } else {
-        return strcmp(key1->private_key_union.key_pem.key,
-                      key2->private_key_union.key_pem.key);
+        return strcmp(key1->crypto_key_union.key_pem.key,
+                      key2->crypto_key_union.key_pem.key);
       }
     case IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID:
-      if (key1->private_key_union.key_slot.slot_id ==
-          key2->private_key_union.key_slot.slot_id) {
+      if (key1->crypto_key_union.key_slot.slot_id ==
+          key2->crypto_key_union.key_slot.slot_id) {
         return 0;
       } else {
         return -1;
       }
     case IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM:
-      if (key1->private_key_union.key_custom.data_size !=
-          key2->private_key_union.key_custom.data_size) {
+      if (key1->crypto_key_union.key_custom.data_size !=
+          key2->crypto_key_union.key_custom.data_size) {
         return -1;
       } else {
-        return memcmp(key1->private_key_union.key_custom.data,
-                      key2->private_key_union.key_custom.data,
-                      key1->private_key_union.key_custom.data_size);
+        return memcmp(key1->crypto_key_union.key_custom.data,
+                      key2->crypto_key_union.key_custom.data,
+                      key1->crypto_key_union.key_custom.data_size);
       }
   }
 
   return -1;  // Should never happen
 }
 
-iotc_crypto_private_key_data_t* iotc_crypto_private_key_data_dup(
-    const iotc_crypto_private_key_data_t* src_key) {
+iotc_crypto_key_data_t* iotc_crypto_private_key_data_dup(
+    const iotc_crypto_key_data_t* src_key) {
   if (src_key == NULL) {
     return NULL;
   }
 
   iotc_state_t state = IOTC_STATE_OK;
-  IOTC_ALLOC(iotc_crypto_private_key_data_t, dup, state);
+  IOTC_ALLOC(iotc_crypto_key_data_t, dup, state);
 
-  dup->private_key_signature_algorithm =
-      src_key->private_key_signature_algorithm;
-  dup->private_key_union_type = src_key->private_key_union_type;
+  dup->crypto_key_signature_algorithm =
+      src_key->crypto_key_signature_algorithm;
+  dup->crypto_key_union_type = src_key->crypto_key_union_type;
 
-  switch (src_key->private_key_union_type) {
+  switch (src_key->crypto_key_union_type) {
     case IOTC_CRYPTO_KEY_UNION_TYPE_PEM:
-      dup->private_key_union.key_pem.key =
-          iotc_str_dup(src_key->private_key_union.key_pem.key);
+      dup->crypto_key_union.key_pem.key =
+          iotc_str_dup(src_key->crypto_key_union.key_pem.key);
       break;
     case IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID:
-      dup->private_key_union.key_slot.slot_id =
-          src_key->private_key_union.key_slot.slot_id;
+      dup->crypto_key_union.key_slot.slot_id =
+          src_key->crypto_key_union.key_slot.slot_id;
       break;
     case IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM:
-      dup->private_key_union.key_custom.data =
-          iotc_alloc(src_key->private_key_union.key_custom.data_size);
-      memcpy(dup->private_key_union.key_custom.data,
-             src_key->private_key_union.key_custom.data,
-             src_key->private_key_union.key_custom.data_size);
-      dup->private_key_union.key_custom.data_size =
-          src_key->private_key_union.key_custom.data_size;
+      dup->crypto_key_union.key_custom.data =
+          iotc_alloc(src_key->crypto_key_union.key_custom.data_size);
+      memcpy(dup->crypto_key_union.key_custom.data,
+             src_key->crypto_key_union.key_custom.data,
+             src_key->crypto_key_union.key_custom.data_size);
+      dup->crypto_key_union.key_custom.data_size =
+          src_key->crypto_key_union.key_custom.data_size;
       break;
   }
 
@@ -276,16 +276,16 @@ err_handling:
   return NULL;
 }
 
-void iotc_crypto_private_key_data_free(iotc_crypto_private_key_data_t* key) {
+void iotc_crypto_private_key_data_free(iotc_crypto_key_data_t* key) {
   if (key != NULL) {
-    switch (key->private_key_union_type) {
+    switch (key->crypto_key_union_type) {
       case IOTC_CRYPTO_KEY_UNION_TYPE_PEM:
-        IOTC_SAFE_FREE(key->private_key_union.key_pem.key);
+        IOTC_SAFE_FREE(key->crypto_key_union.key_pem.key);
         break;
       case IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID:
         break;
       case IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM:
-        IOTC_SAFE_FREE(key->private_key_union.key_custom.data);
+        IOTC_SAFE_FREE(key->crypto_key_union.key_custom.data);
         break;
     }
   }

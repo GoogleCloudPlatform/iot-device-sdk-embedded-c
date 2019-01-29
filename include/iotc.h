@@ -275,7 +275,7 @@ extern void iotc_events_stop();
  */
 extern iotc_state_t iotc_connect(
     iotc_context_handle_t xih, const char* project_id, const char* device_path,
-    const iotc_crypto_private_key_data_t* private_key_data,
+    const iotc_crypto_key_data_t* private_key_data,
     uint32_t jwt_expiration_period_sec, uint16_t connection_timeout,
     uint16_t keepalive_timeout, iotc_user_callback_t* client_callback);
 
@@ -294,7 +294,7 @@ extern iotc_state_t iotc_connect(
 extern iotc_state_t iotc_connect_to(
     iotc_context_handle_t xih, const char* host, uint16_t port,
     const char* project_id, const char* device_path,
-    const iotc_crypto_private_key_data_t* private_key_data,
+    const iotc_crypto_key_data_t* private_key_data,
     uint32_t jwt_expiration_period_sec, uint16_t connection_timeout,
     uint16_t keepalive_timeout, iotc_user_callback_t* client_callback);
 

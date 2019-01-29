@@ -78,11 +78,11 @@ void task_function_gcpiot_embedded_c(void *parameters) {
   const uint16_t connection_timeout = 10;
   const uint16_t keepalive_timeout = 3;
 
-  iotc_crypto_private_key_data_t key_data;
-  key_data.private_key_signature_algorithm =
-      IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256;
-  key_data.private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM;
-  key_data.private_key_union.key_pem.key = ec_private_key_pem;
+  iotc_crypto_key_data_t key_data;
+  key_data.crypto_key_signature_algorithm =
+      IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256;
+  key_data.crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM;
+  key_data.crypto_key_union.key_pem.key = ec_private_key_pem;
 
   iotc_connect(context_handle, iotc_project_id, iotc_device_path, &key_data,
                /*{jwt_expiration_period_sec=*/3600, connection_timeout,

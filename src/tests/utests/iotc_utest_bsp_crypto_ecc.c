@@ -33,11 +33,11 @@
 
 #ifndef IOTC_TT_TESTCASE_ENUMERATION__SECONDPREPROCESSORRUN
 
-static const iotc_crypto_private_key_data_t DEFAULT_PRIVATE_KEY = {
-    .private_key_signature_algorithm =
-        IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-    .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-    .private_key_union.key_pem.key =
+static const iotc_crypto_key_data_t DEFAULT_PRIVATE_KEY = {
+    .crypto_key_signature_algorithm =
+        IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
+    .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
+    .crypto_key_union.key_pem.key =
         "\
 -----BEGIN EC PRIVATE KEY-----\n\
 MHcCAQEEINg6KhkJ2297KYO4eyLTPtVIhLloIfp3IsJo9n6KqelfoAoGCCqGSM49\n\
@@ -190,11 +190,11 @@ IOTC_TT_TESTCASE_WITH_SETUP(
 IOTC_TT_TESTCASE_WITH_SETUP(
     bad_private_key__proper_error_handling, iotc_utest_setup_ecc,
     iotc_utest_teardown_basic, NULL, {
-      const iotc_crypto_private_key_data_t invalid_key = {
-          .private_key_signature_algorithm =
-              IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-          .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-          .private_key_union.key_pem.key = "invalid key"};
+      const iotc_crypto_key_data_t invalid_key = {
+          .crypto_key_signature_algorithm =
+              IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
+          .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
+          .crypto_key_union.key_pem.key = "invalid key"};
       const size_t ecc_signature_buf_len = 128;
       uint8_t ecc_signature[ecc_signature_buf_len];
       size_t bytes_written = 0;

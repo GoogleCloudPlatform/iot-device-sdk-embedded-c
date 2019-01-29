@@ -119,7 +119,7 @@ IOTC_TT_TESTCASE(
     { test_helpers_iotc_parse_payload_as_string_parse_empty_payload_help(); })
 
 IOTC_TT_TESTCASE(test_helpers_iotc_crypto_private_key_data_dup_null, {
-  const iotc_crypto_private_key_data_t* copied_key =
+  const iotc_crypto_key_data_t* copied_key =
       iotc_crypto_private_key_data_dup(NULL);
   tt_ptr_op(copied_key, ==, NULL);
 
@@ -127,11 +127,11 @@ end:;
 })
 
 IOTC_TT_TESTCASE(test_helpers_iotc_crypto_private_key_data_cmp_null, {
-  const iotc_crypto_private_key_data_t dummy_key = {
-      .private_key_signature_algorithm =
-          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-      .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-      .private_key_union.key_pem.key = "dummy key"};
+  const iotc_crypto_key_data_t dummy_key = {
+      .crypto_key_signature_algorithm =
+          IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
+      .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
+      .crypto_key_union.key_pem.key = "dummy key"};
 
   tt_int_op(0, ==, iotc_crypto_private_key_data_cmp(NULL, NULL));
   tt_int_op(0, !=, iotc_crypto_private_key_data_cmp(&dummy_key, NULL));
@@ -141,52 +141,52 @@ end:;
 })
 
 IOTC_TT_TESTCASE(test_helpers_iotc_crypto_private_key_data_cmp_type, {
-  const iotc_crypto_private_key_data_t key_pem = {
-      .private_key_signature_algorithm =
-          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-      .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-      .private_key_union.key_pem.key = "dummy key"};
+  const iotc_crypto_key_data_t key_pem = {
+      .crypto_key_signature_algorithm =
+          IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
+      .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
+      .crypto_key_union.key_pem.key = "dummy key"};
 
-  const iotc_crypto_private_key_data_t key_slot = {
-      .private_key_signature_algorithm =
-          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-      .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID,
-      .private_key_union.key_slot.slot_id = 42};
+  const iotc_crypto_key_data_t key_slot = {
+      .crypto_key_signature_algorithm =
+          IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
+      .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID,
+      .crypto_key_union.key_slot.slot_id = 42};
 
   tt_int_op(0, !=, iotc_crypto_private_key_data_cmp(&key_pem, &key_slot));
 end:;
 })
 
 IOTC_TT_TESTCASE(test_helpers_iotc_crypto_private_key_data_cmp_pem, {
-  const iotc_crypto_private_key_data_t keyA1 = {
-      .private_key_signature_algorithm =
-          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-      .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-      .private_key_union.key_pem.key = "keyA"};
+  const iotc_crypto_key_data_t keyA1 = {
+      .crypto_key_signature_algorithm =
+          IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
+      .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
+      .crypto_key_union.key_pem.key = "keyA"};
 
-  const iotc_crypto_private_key_data_t keyA2 = {
-      .private_key_signature_algorithm =
-          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-      .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-      .private_key_union.key_pem.key = "keyA"};
+  const iotc_crypto_key_data_t keyA2 = {
+      .crypto_key_signature_algorithm =
+          IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
+      .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
+      .crypto_key_union.key_pem.key = "keyA"};
 
-  const iotc_crypto_private_key_data_t keyB = {
-      .private_key_signature_algorithm =
-          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-      .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-      .private_key_union.key_pem.key = "keyB"};
+  const iotc_crypto_key_data_t keyB = {
+      .crypto_key_signature_algorithm =
+          IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
+      .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
+      .crypto_key_union.key_pem.key = "keyB"};
 
-  const iotc_crypto_private_key_data_t keyNull1 = {
-      .private_key_signature_algorithm =
-          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-      .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-      .private_key_union.key_pem.key = NULL};
+  const iotc_crypto_key_data_t keyNull1 = {
+      .crypto_key_signature_algorithm =
+          IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
+      .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
+      .crypto_key_union.key_pem.key = NULL};
 
-  const iotc_crypto_private_key_data_t keyNull2 = {
-      .private_key_signature_algorithm =
-          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-      .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-      .private_key_union.key_pem.key = NULL};
+  const iotc_crypto_key_data_t keyNull2 = {
+      .crypto_key_signature_algorithm =
+          IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
+      .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
+      .crypto_key_union.key_pem.key = NULL};
 
   tt_int_op(0, ==, iotc_crypto_private_key_data_cmp(&keyA1, &keyA2));
   tt_int_op(0, !=, iotc_crypto_private_key_data_cmp(&keyA1, &keyB));
@@ -197,23 +197,23 @@ end:;
 })
 
 IOTC_TT_TESTCASE(test_helpers_iotc_crypto_private_key_data_cmp_slot_id, {
-  const iotc_crypto_private_key_data_t key1A = {
-      .private_key_signature_algorithm =
-          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-      .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID,
-      .private_key_union.key_slot.slot_id = 1};
+  const iotc_crypto_key_data_t key1A = {
+      .crypto_key_signature_algorithm =
+          IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
+      .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID,
+      .crypto_key_union.key_slot.slot_id = 1};
 
-  const iotc_crypto_private_key_data_t key1B = {
-      .private_key_signature_algorithm =
-          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-      .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID,
-      .private_key_union.key_slot.slot_id = 1};
+  const iotc_crypto_key_data_t key1B = {
+      .crypto_key_signature_algorithm =
+          IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
+      .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID,
+      .crypto_key_union.key_slot.slot_id = 1};
 
-  const iotc_crypto_private_key_data_t key2 = {
-      .private_key_signature_algorithm =
-          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-      .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID,
-      .private_key_union.key_slot.slot_id = 2};
+  const iotc_crypto_key_data_t key2 = {
+      .crypto_key_signature_algorithm =
+          IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
+      .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID,
+      .crypto_key_union.key_slot.slot_id = 2};
 
   tt_int_op(0, ==, iotc_crypto_private_key_data_cmp(&key1A, &key1B));
   tt_int_op(0, !=, iotc_crypto_private_key_data_cmp(&key1A, &key2));
@@ -223,50 +223,50 @@ end:;
 IOTC_TT_TESTCASE(test_helpers_iotc_crypto_private_key_data_cmp_custom, {
   const char* dataA1 = "IoT-A";
   const size_t dataA_size = strlen(dataA1);
-  const iotc_crypto_private_key_data_t keyA1 = {
-      .private_key_signature_algorithm =
-          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-      .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM,
-      .private_key_union.key_custom = {.data = (void*)dataA1,
+  const iotc_crypto_key_data_t keyA1 = {
+      .crypto_key_signature_algorithm =
+          IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
+      .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM,
+      .crypto_key_union.key_custom = {.data = (void*)dataA1,
                                        .data_size = dataA_size}};
 
   const char* dataA2 = "IoT-A";
-  const iotc_crypto_private_key_data_t keyA2 = {
-      .private_key_signature_algorithm =
-          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-      .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM,
-      .private_key_union.key_custom = {.data = (void*)dataA2,
+  const iotc_crypto_key_data_t keyA2 = {
+      .crypto_key_signature_algorithm =
+          IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
+      .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM,
+      .crypto_key_union.key_custom = {.data = (void*)dataA2,
                                        .data_size = dataA_size}};
 
   const char* dataB = "IoT-B";
   const size_t dataB_size = strlen(dataB);
-  const iotc_crypto_private_key_data_t keyB = {
-      .private_key_signature_algorithm =
-          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-      .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM,
-      .private_key_union.key_custom = {.data = (void*)dataB,
+  const iotc_crypto_key_data_t keyB = {
+      .crypto_key_signature_algorithm =
+          IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
+      .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM,
+      .crypto_key_union.key_custom = {.data = (void*)dataB,
                                        .data_size = dataB_size}};
 
   // prefix of B
   const size_t dataBShorter_size = strlen(dataB) - 1;
-  const iotc_crypto_private_key_data_t keyBShorter = {
-      .private_key_signature_algorithm =
-          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-      .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM,
-      .private_key_union.key_custom = {.data = (void*)dataB,
+  const iotc_crypto_key_data_t keyBShorter = {
+      .crypto_key_signature_algorithm =
+          IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
+      .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM,
+      .crypto_key_union.key_custom = {.data = (void*)dataB,
                                        .data_size = dataBShorter_size}};
 
-  const iotc_crypto_private_key_data_t keyNull1 = {
-      .private_key_signature_algorithm =
-          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-      .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM,
-      .private_key_union.key_custom = {.data = NULL, .data_size = 0}};
+  const iotc_crypto_key_data_t keyNull1 = {
+      .crypto_key_signature_algorithm =
+          IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
+      .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM,
+      .crypto_key_union.key_custom = {.data = NULL, .data_size = 0}};
 
-  const iotc_crypto_private_key_data_t keyNull2 = {
-      .private_key_signature_algorithm =
-          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-      .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM,
-      .private_key_union.key_custom = {.data = NULL, .data_size = 0}};
+  const iotc_crypto_key_data_t keyNull2 = {
+      .crypto_key_signature_algorithm =
+          IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
+      .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM,
+      .crypto_key_union.key_custom = {.data = NULL, .data_size = 0}};
 
   tt_int_op(0, ==, iotc_crypto_private_key_data_cmp(&keyA1, &keyA2));
   tt_int_op(0, !=, iotc_crypto_private_key_data_cmp(&keyA1, &keyB));
@@ -277,40 +277,40 @@ end:;
 })
 
 IOTC_TT_TESTCASE(test_helpers_iotc_crypto_private_key_data_dup_pem, {
-  const iotc_crypto_private_key_data_t src_key = {
-      .private_key_signature_algorithm =
-          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-      .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-      .private_key_union.key_pem.key = "dummy key"};
+  const iotc_crypto_key_data_t src_key = {
+      .crypto_key_signature_algorithm =
+          IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
+      .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
+      .crypto_key_union.key_pem.key = "dummy key"};
 
-  iotc_crypto_private_key_data_t* copied_key =
+  iotc_crypto_key_data_t* copied_key =
       iotc_crypto_private_key_data_dup(&src_key);
   tt_assert(copied_key != NULL);
-  tt_int_op(copied_key->private_key_signature_algorithm, ==,
-            IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256);
-  tt_int_op(copied_key->private_key_union_type, ==,
+  tt_int_op(copied_key->crypto_key_signature_algorithm, ==,
+            IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256);
+  tt_int_op(copied_key->crypto_key_union_type, ==,
             IOTC_CRYPTO_KEY_UNION_TYPE_PEM);
-  tt_ptr_op(copied_key->private_key_union.key_pem.key, !=,
-            src_key.private_key_union.key_pem.key);
-  tt_str_op(copied_key->private_key_union.key_pem.key, ==, "dummy key");
+  tt_ptr_op(copied_key->crypto_key_union.key_pem.key, !=,
+            src_key.crypto_key_union.key_pem.key);
+  tt_str_op(copied_key->crypto_key_union.key_pem.key, ==, "dummy key");
 
 end:
   iotc_crypto_private_key_data_free(copied_key);
 })
 
 IOTC_TT_TESTCASE(test_helpers_iotc_crypto_private_key_data_dup_slot_id, {
-  const iotc_crypto_private_key_data_t src_key = {
-      .private_key_signature_algorithm =
-          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-      .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID,
-      .private_key_union.key_slot.slot_id = 42};
+  const iotc_crypto_key_data_t src_key = {
+      .crypto_key_signature_algorithm =
+          IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
+      .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID,
+      .crypto_key_union.key_slot.slot_id = 42};
 
-  iotc_crypto_private_key_data_t* copied_key =
+  iotc_crypto_key_data_t* copied_key =
       iotc_crypto_private_key_data_dup(&src_key);
   tt_assert(copied_key != NULL);
-  tt_int_op(copied_key->private_key_union_type, ==,
+  tt_int_op(copied_key->crypto_key_union_type, ==,
             IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID);
-  tt_int_op(copied_key->private_key_union.key_slot.slot_id, ==, 42);
+  tt_int_op(copied_key->crypto_key_union.key_slot.slot_id, ==, 42);
 
 end:
   iotc_crypto_private_key_data_free(copied_key);
@@ -319,23 +319,23 @@ end:
 IOTC_TT_TESTCASE(test_helpers_iotc_crypto_private_key_data_dup_custom, {
   const char* data = "IoT";
   const size_t data_size = strlen(data);
-  const iotc_crypto_private_key_data_t src_key = {
-      .private_key_signature_algorithm =
-          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-      .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM,
-      .private_key_union.key_custom = {.data = (void*)data,
+  const iotc_crypto_key_data_t src_key = {
+      .crypto_key_signature_algorithm =
+          IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
+      .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM,
+      .crypto_key_union.key_custom = {.data = (void*)data,
                                        .data_size = data_size}};
 
-  iotc_crypto_private_key_data_t* copied_key =
+  iotc_crypto_key_data_t* copied_key =
       iotc_crypto_private_key_data_dup(&src_key);
   tt_assert(copied_key != NULL);
-  tt_int_op(copied_key->private_key_union_type, ==,
+  tt_int_op(copied_key->crypto_key_union_type, ==,
             IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM);
-  tt_ptr_op(copied_key->private_key_union.key_custom.data, !=,
-            src_key.private_key_union.key_custom.data);
-  tt_assert(memcmp(copied_key->private_key_union.key_custom.data, data,
+  tt_ptr_op(copied_key->crypto_key_union.key_custom.data, !=,
+            src_key.crypto_key_union.key_custom.data);
+  tt_assert(memcmp(copied_key->crypto_key_union.key_custom.data, data,
                    data_size) == 0);
-  tt_int_op(copied_key->private_key_union.key_custom.data_size, ==, data_size);
+  tt_int_op(copied_key->crypto_key_union.key_custom.data_size, ==, data_size);
 
 end:
   iotc_crypto_private_key_data_free(copied_key);
