@@ -31,9 +31,9 @@
 /**
  * Creates the first two parts of the token: b64(header) + . + b64(payload)
  *
- * Helper function for iotc_create_jwt_es256.
+ * Helper function for iotc_create_iot_core_jwt.
  */
-static iotc_bsp_crypto_state_t _iotc_create_jwt_b64h_b64p(
+static iotc_bsp_crypto_state_t _iotc_create_iotcore_jwt_b64h_b64p(
     unsigned char* dst_string, size_t dst_string_size, size_t* bytes_written,
     const char* project_id, uint32_t expiration_period_sec, const char* algo) {
   iotc_bsp_crypto_state_t ret = IOTC_BSP_CRYPTO_ERROR;
@@ -86,10 +86,21 @@ err_handling:
 // b64 = base64
 // sha = Secure Hash Algorithm
 // ecc = Elliptic Curve Cryptography
-iotc_state_t iotc_create_jwt_es256(
-    const char* project_id, uint32_t expiration_period_sec,
-    const iotc_crypto_key_data_t* private_key_data,
-    unsigned char* dst_jwt_buf, size_t dst_jwt_buf_len, size_t* bytes_written) {
+iotc_state_t iotc_create_iotcore_jwt(
+  const char* project_id, uint32_t expiration_period_sec,
+  const iotc_crypto_key_data_t* private_key_data,
+  unsigned char* dst_jwt_buf, size_t dst_jwt_buf_len, size_t* bytes_written) {
+
+  if( NULL == project_id || NULL == private_key_data || NULL == dst_jwt_buf ||
+        NULL == bytes_written ) {
+      return IOTC_INVALID_PARAMETER;
+  }
+
+  if( IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256 !=
+        private_key_data->crypto_key_signature_algorithm ) {
+    return IOTC_ALG_NOT_SUPPORTED_ERROR;
+  }
+
   if (IOTC_JWT_PROJECTID_MAX_LEN < strlen(project_id)) {
     *bytes_written = IOTC_JWT_PROJECTID_MAX_LEN;
     return IOTC_JWT_PROJECTID_TOO_LONG_ERROR;
@@ -98,7 +109,7 @@ iotc_state_t iotc_create_jwt_es256(
   iotc_bsp_crypto_state_t ret = IOTC_BSP_CRYPTO_ERROR;
 
   // create base64 encoded header and payload: b64(h).b64(p)
-  IOTC_CHECK_CRYPTO(ret = _iotc_create_jwt_b64h_b64p(
+  IOTC_CHECK_CRYPTO(ret = _iotc_create_iotcore_jwt_b64h_b64p(
                         dst_jwt_buf, dst_jwt_buf_len, bytes_written, project_id,
                         expiration_period_sec, "ES256"));
 

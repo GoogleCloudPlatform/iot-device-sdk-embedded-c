@@ -18,7 +18,6 @@
 #define __IOTC_JWT_H__
 
 #include <iotc_types.h>
-#include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -37,10 +36,35 @@ extern "C" {
   (IOTC_JWT_HEADER_BUF_SIZE_BASE64 + 1 + IOTC_JWT_PAYLOAD_BUF_SIZE_BASE64 + \
    1 + IOTC_JWT_MAX_SIGNATURE_SIZE_BASE64)
 
-iotc_state_t iotc_create_jwt_es256(
+
+/**
+ * @function
+ * @brief Creates a JWT which will be used to connect to the IoT Core service.
+ * The JWT should be used in the MQTT Connect password field.
+ *
+ * @param [in] expiration_period_sec the length of time (in seconds) before
+ * this JWT will expire.
+ * @param [in] project_id the project id the device belongs to in the GCP
+ * IoT organization.
+ * @param [in] private_key_data data identifying a private key to be used
+ * for client signatures. For more information on how to generate a
+ * private-public key pair for your device, please see:
+ * https://cloud.google.com/iot/docs/how-tos/credentials/keys.
+ * @param [in/out] a pointer to a buffer to hold the formatted and signed
+ * JWT.
+ * @param [in] dst_jwt_buf_len the length of the dst_jwt_buf buffer, in
+ * bytes.
+ * application will use these credentials to connect to IoT Core.
+ * @param [out] bytes_written upon return, will contain the number of bytes
+ * that were written to the provided dst_jwt_buf.
+ */
+
+iotc_state_t iotc_create_iotcore_jwt(
     const char* project_id, uint32_t expiration_period_sec,
     const iotc_crypto_key_data_t* private_key_data,
-    unsigned char* dst_jwt_buf, size_t dst_jwt_buf_len, size_t* bytes_written);
+    unsigned char* dst_jwt_buf, size_t dst_jwt_buf_len, size_t*
+    bytes_written);
+
 
 #ifdef __cplusplus
 }

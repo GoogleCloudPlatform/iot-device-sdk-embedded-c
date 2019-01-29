@@ -27,7 +27,7 @@
 #include "../../common/src/example_utils.h"
 
 #include <stdio.h>
-#include "../src/libiotc/iotc_jwt.h"
+#include <iotc_jwt.h>
 
 /* Application variables. */
 iotc_context_handle_t iotc_context = IOTC_INVALID_CONTEXT_HANDLE;
