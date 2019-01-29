@@ -16,7 +16,7 @@
 CC ?= gcc
 AR ?= ar
 
-IOTC_COMPILER_FLAGS += -fPIC
+IOTC_COMMON_COMPILER_FLAGS += -fPIC
 IOTC_LIB_FLAGS += $(IOTC_TLS_LIBFLAGS) -lcrypto -lpthread
 
 IOTC_FREERTOS_DIR_PATH = $(LIBIOTC)/third_party/FreeRTOSv10.1.1/FreeRTOS
@@ -39,7 +39,7 @@ IOTC_INCLUDE_FLAGS += -I$(LIBIOTC)/examples/freertos_linux/Linux_gcc_gcp_iot
 IOTC_ARFLAGS += -rs -c $(XI)
 
 # Temporarily disable these warnings until the code gets changed.
-IOTC_COMPILER_FLAGS += -Wno-format
+IOTC_COMMON_COMPILER_FLAGS += -Wno-format
 
 #################################################################
 # Download FreeRTOS kernel and FreeRTOS Plus Linux Simulator ####

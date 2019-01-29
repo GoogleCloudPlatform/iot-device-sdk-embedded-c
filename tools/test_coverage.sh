@@ -51,7 +51,7 @@ mkdir test_coverage
 
 echo
 echo building and running unit tests...
-make IOTC_COMPILER_FLAGS="-fprofile-arcs -ftest-coverage" utests -j
+make IOTC_COMMON_COMPILER_FLAGS="-fprofile-arcs -ftest-coverage" utests -j
 
 echo
 echo generating unit tests report...
@@ -72,7 +72,7 @@ make clean
 
 echo
 echo building and running integration testsxi
-make IOTC_COMPILER_FLAGS="-fprofile-arcs -ftest-coverage" itests -j
+make IOTC_COMMON_COMPILER_FLAGS="-fprofile-arcs -ftest-coverage" itests -j
 
 echo
 echo generating integration test report...

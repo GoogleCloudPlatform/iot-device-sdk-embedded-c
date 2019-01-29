@@ -25,7 +25,7 @@ ifdef IOTC_SHARED
   XI = $(IOTC_BINDIR)/libiotc.dylib
   IOTC_ARFLAGS := -shared -o $(XI) $(IOTC_TLS_LIBFLAGS)
   AR = gcc
-  IOTC_COMPILER_FLAGS += -fPIC
+  IOTC_COMMON_COMPILER_FLAGS += -fPIC
   IOTC_CONFIG_FLAGS += -DIOTC_SHARED
 else
   IOTC_ARFLAGS += -rs -c $(XI)
