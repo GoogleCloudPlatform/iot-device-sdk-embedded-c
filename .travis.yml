@@ -59,6 +59,7 @@ addons:
       - qemu-system
       - libc6:i386
       - libc6-dev-i386
+      - gcc-multilib
       - linux-libc-dev:i386
       - expect
       - device-tree-compiler
