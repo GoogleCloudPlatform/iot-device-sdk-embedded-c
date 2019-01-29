@@ -17,9 +17,8 @@ CC ?= gcc
 AR ?= ar
 
 IOTC_COMPILER_FLAGS += -fPIC -m32
-#  IOTC_COMPILER_FLAGS += -Wno-ignored-qualifiers
-IOTC_COMPILER_FLAGS += -Wno-error=ignored-qualifiers
 IOTC_COMPILER_FLAGS += -imacros autoconf.h
+
 IOTC_LIB_FLAGS += $(IOTC_TLS_LIBFLAGS) -lpthread -lm -lcrypto
 
 include make/mt-os/mt-os-common.mk
@@ -39,6 +38,9 @@ IOTC_INCLUDE_FLAGS += -I$(ZEPHYR_BASE)/boards/posix/native_posix
 IOTC_INCLUDE_FLAGS += -I$(LIBIOTC)/examples/zephyr_native_posix/build/zephyr/include/generated
 
 IOTC_ARFLAGS += -rs -c $(XI)
+
+IOTC_COMPILER_FLAGS += -Wno-ignored-qualifiers
+IOTC_COMPILER_FLAGS += -Wno-shift-overflow
 
 # Temporarily disable these warnings until the code gets changed.
 IOTC_COMPILER_FLAGS += -Wno-format -Wno-unused-parameter
