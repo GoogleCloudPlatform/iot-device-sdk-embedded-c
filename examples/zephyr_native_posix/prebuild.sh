@@ -1,7 +1,6 @@
-#  pip3 install --user -r ../../third_party/zephyr/scripts/requirements.txt
 pip3 install --user pyelftools
 
-mkdir build; cd build;
+mkdir -p build; cd build;
 
 cmake -DBOARD=native_posix ..
 
