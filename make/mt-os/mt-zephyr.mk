@@ -17,7 +17,8 @@ CC ?= gcc
 AR ?= ar
 
 IOTC_COMPILER_FLAGS += -fPIC -m32
-IOTC_COMPILER_FLAGS += -Wno-ignored-qualifiers
+#  IOTC_COMPILER_FLAGS += -Wno-ignored-qualifiers
+IOTC_COMPILER_FLAGS += -Wno-error=ignored-qualifiers
 IOTC_COMPILER_FLAGS += -imacros autoconf.h
 IOTC_LIB_FLAGS += $(IOTC_TLS_LIBFLAGS) -lpthread -lm -lcrypto
 
