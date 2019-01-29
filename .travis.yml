@@ -45,6 +45,7 @@ env:
           #  CXX=clang++
 
     - PRESET=ZEPHYR
+      IOTC_MAKETARGET=""
 
 cache:
     apt
