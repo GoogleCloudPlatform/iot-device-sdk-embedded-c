@@ -31,7 +31,7 @@
 /**
  * Creates the first two parts of the token: b64(header) + . + b64(payload)
  *
- * Helper function for iotc_create_iot_core_jwt.
+ * Helper function for iotc_create_iotcore_jwt.
  */
 static iotc_bsp_crypto_state_t _iotc_create_iotcore_jwt_b64h_b64p(
     unsigned char* dst_string, size_t dst_string_size, size_t* bytes_written,
