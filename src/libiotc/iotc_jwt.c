@@ -96,8 +96,8 @@ iotc_state_t iotc_create_iotcore_jwt(
       return IOTC_INVALID_PARAMETER;
   }
 
-  if( private_key_data->key.key_pem == NULL || private_key_data->key_custom.data == NULL ) {
-    return IOTC_INALID_PARAMETER;
+  if( private_key_data->crypto_key_union.key_pem.key == NULL || private_key_data->crypto_key_union.key_custom.data == NULL ) {
+    return IOTC_INVALID_PARAMETER;
   }
 
   if( IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256 !=
