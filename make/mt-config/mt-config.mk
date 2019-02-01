@@ -61,7 +61,7 @@ endif
 
 # Settings that will work only on linux and only against clang-4.0 and greater
 ifneq (,$(findstring fuzz_test,$(CONFIG)))
-    IOTC_CONFIG_FLAGS += -fsanitize=address -fomit-frame-pointer -fsanitize-coverage=trace-8bit-counters -g
+    IOTC_CONFIG_FLAGS += -fsanitize=address -fomit-frame-pointer -fsanitize-coverage=inline-8bit-counters -g
 endif
 
 IOTC_COMMON_COMPILER_FLAGS += -Wall -Werror
