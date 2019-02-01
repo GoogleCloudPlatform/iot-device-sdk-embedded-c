@@ -81,16 +81,16 @@ TEST_F(IotcJwt, IoTCoreJwtCreateNullPrivateKeyReturnsInvalidParameter) {
   unsigned char jwt_buffer[IOTC_JWT_SIZE] = {0};
   size_t bytes_written = 0;
   EXPECT_EQ(iotc_create_iotcore_jwt("projectID", /*expiration_period_sec=*/600,
-                                     NULL, jwt_buffer,
-                                     /*dst_jwt_buf_len=*/1, &bytes_written),
+                                    NULL, jwt_buffer,
+                                    /*dst_jwt_buf_len=*/1, &bytes_written),
             IOTC_INVALID_PARAMETER);
 }
 
 TEST_F(IotcJwt, IoTCoreJwtCreateNullJwtBufferReturnsInvalidParameter) {
   size_t bytes_written = 0;
   EXPECT_EQ(iotc_create_iotcore_jwt("projectID", /*expiration_period_sec=*/600,
-                                     &private_key_, NULL,
-                                     /*dst_jwt_buf_len=*/1, &bytes_written),
+                                    &private_key_, NULL,
+                                    /*dst_jwt_buf_len=*/1, &bytes_written),
             IOTC_INVALID_PARAMETER);
 }
 
@@ -100,8 +100,8 @@ TEST_F(IotcJwt, IoTCoreJwtCreateJwtInvalidAlogirthmReturnsAlgNotSupportedError) 
   private_key_.crypto_key_signature_algorithm =
       IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_INVALID;
   EXPECT_EQ(iotc_create_iotcore_jwt("projectID", /*expiration_period_sec=*/600,
-                                     &private_key_, jwt_buffer,
-                                     /*dst_jwt_buf_len=*/1, &bytes_written),
+                                    &private_key_, jwt_buffer,
+                                    /*dst_jwt_buf_len=*/1, &bytes_written),
             IOTC_ALG_NOT_SUPPORTED_ERROR);
 }
 
@@ -109,8 +109,8 @@ TEST_F(IotcJwt, IoTCoreJwtCreateCreateReturnsSmallBufferError) {
   unsigned char jwt_buffer[IOTC_JWT_SIZE] = {0};
   size_t bytes_written = 0;
   EXPECT_EQ(iotc_create_iotcore_jwt("projectID", /*expiration_period_sec=*/600,
-                                     &private_key_, jwt_buffer,
-                                     /*dst_jwt_buf_len=*/1, &bytes_written),
+                                    &private_key_, jwt_buffer,
+                                    /*dst_jwt_buf_len=*/1, &bytes_written),
             IOTC_BUFFER_TOO_SMALL_ERROR);
 }
 
@@ -118,8 +118,8 @@ TEST_F(IotcJwt, IoTCoreJwtStringConsistsOfThreeDotSeparatedStrings) {
   unsigned char jwt_buffer[IOTC_JWT_SIZE] = {0};
   size_t bytes_written = 0;
   ASSERT_EQ(iotc_create_iotcore_jwt("projectID", /*expiration_period_sec=*/600,
-                                     &private_key_, jwt_buffer, IOTC_JWT_SIZE,
-                                     &bytes_written),
+                                    &private_key_, jwt_buffer, IOTC_JWT_SIZE,
+                                    &bytes_written),
             IOTC_STATE_OK);
 
   std::string jwt(reinterpret_cast<char*>(jwt_buffer), bytes_written);
@@ -217,4 +217,4 @@ TEST_F(IotcJwt, IoTCoreJwtCreateReturnsCorrectES256) {
 }
 
 }  // namespace
-}  // namespace iotctes
+}  // namespace iotctest

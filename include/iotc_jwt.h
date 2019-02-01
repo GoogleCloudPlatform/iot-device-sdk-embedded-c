@@ -40,29 +40,44 @@ extern "C" {
 /**
  * @function
  * @brief Creates a JWT which will be used to connect to the IoT Core service.
- * The JWT should be used in the MQTT Connect password field.
+ * The JWT should be used in the MQTT Connect password field when connecting
+ * to IoT Core.
+ *
+ * The function currently supports ES256 key types only, as its intended
+ * for small devices where ECC algorithims should be used to their smaller
+ * certificate footprint requirements.
+ *
+ * Note: This function invokes the Crypto BSP functions
+ * iotc_bsp_sha256() and iotc_bsp_ecc() to fullfill string encoding and
+ * signature functionality.
  *
  * @param [in] expiration_period_sec the length of time (in seconds) before
  * this JWT will expire.
  * @param [in] project_id the project id the device belongs to in the GCP
  * IoT organization.
  * @param [in] private_key_data data identifying a private key to be used
- * for client signatures. For more information on how to generate a
+ * to sign the JWT. For more information on how to generate a
  * private-public key pair for your device, please see:
  * https://cloud.google.com/iot/docs/how-tos/credentials/keys.
  * @param [in/out] a pointer to a buffer to hold the formatted and signed
  * JWT.
  * @param [in] dst_jwt_buf_len the length of the dst_jwt_buf buffer, in
  * bytes.
- * application will use these credentials to connect to IoT Core.
- * @param [out] bytes_written upon return, will contain the number of bytes
+ * @param [out] bytes_written will contain the number of bytes
  * that were written to the provided dst_jwt_buf.
  *
+ * @returns IOTC_INVALID_PARAMETER if the project_id, private_key_data or
+ * dst_jwt_buf parameters are NULL, or if either of the crypto bsp
+ * functions returns IOTC_BSP_CRYPTO_INVALID_INPUT_PARAMETER_ERROR.
+ * @returns IOTC_ALG_NOT_SUPPORTED_ERROR if the
+ * private_key_data->crypto_key_signature_algorithm is not of type
+ * IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256.
  * @returns IOTC_NULL_KEY_DATA_ERROR if the private_key_data is of type
- * IOTC_CRYPTO_KEY_UNION_TYPE_PEM yet the
+ * IOTC_CRYPTO_KEY_UNION_TYPE_PEM and the
  * private_key_data->crypto_key_union.key_pem.key pointer is NULL.
  * @returns IOTC_NOT_IMPLEMENTED if the private_key_data->crypto_key_union
  * is of an uknown type.
+ * @returns IOTC_BUFFER_TOO_SMALL_ERROR if the crypto BSP returns
  */
 
 iotc_state_t iotc_create_iotcore_jwt(
