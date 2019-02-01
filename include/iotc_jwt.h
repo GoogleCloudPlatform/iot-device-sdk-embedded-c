@@ -57,6 +57,12 @@ extern "C" {
  * application will use these credentials to connect to IoT Core.
  * @param [out] bytes_written upon return, will contain the number of bytes
  * that were written to the provided dst_jwt_buf.
+ *
+ * @returns IOTC_NULL_KEY_DATA_ERROR if the private_key_data is of type
+ * IOTC_CRYPTO_KEY_UNION_TYPE_PEM yet the
+ * private_key_data->crypto_key_union.key_pem.key pointer is NULL.
+ * @returns IOTC_NOT_IMPLEMENTED if the private_key_data->crypto_key_union
+ * is of an uknown type.
  */
 
 iotc_state_t iotc_create_iotcore_jwt(
@@ -64,7 +70,6 @@ iotc_state_t iotc_create_iotcore_jwt(
     const iotc_crypto_key_data_t* private_key_data,
     unsigned char* dst_jwt_buf, size_t dst_jwt_buf_len, size_t*
     bytes_written);
-
 
 #ifdef __cplusplus
 }

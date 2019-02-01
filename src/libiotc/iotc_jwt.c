@@ -91,21 +91,29 @@ iotc_state_t iotc_create_iotcore_jwt(
   const iotc_crypto_key_data_t* private_key_data,
   unsigned char* dst_jwt_buf, size_t dst_jwt_buf_len, size_t* bytes_written) {
 
-  if( 1 == 1 )
-    return IOTC_STATE_OK;
-
-  if( NULL == project_id || NULL == private_key_data || NULL == dst_jwt_buf ||
-        NULL == bytes_written ) {
+  if(NULL == project_id || NULL == private_key_data || NULL == dst_jwt_buf ||
+        NULL == bytes_written) {
       return IOTC_INVALID_PARAMETER;
-  }
-
-  if( private_key_data->crypto_key_union.key_pem.key == NULL || private_key_data->crypto_key_union.key_custom.data == NULL ) {
-    return IOTC_INVALID_PARAMETER;
   }
 
   if( IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256 !=
         private_key_data->crypto_key_signature_algorithm ) {
     return IOTC_ALG_NOT_SUPPORTED_ERROR;
+  }
+
+  switch( private_key_data->crypto_key_union_type ) {
+    case IOTC_CRYPTO_KEY_UNION_TYPE_PEM:
+      if( private_key_data->crypto_key_union.key_pem.key == NULL )  {
+        return IOTC_NULL_KEY_DATA_ERROR;
+      }
+      break;
+    case IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID:
+    case IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM:
+      /* it's a valid scenario that the custom data could be null, if the
+         key is hard coded in the BSP */
+      break;
+    default:
+      return IOTC_NOT_IMPLEMENTED;
   }
 
   if (IOTC_JWT_PROJECTID_MAX_LEN < strlen(project_id)) {
