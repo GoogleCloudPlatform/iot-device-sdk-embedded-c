@@ -36,7 +36,6 @@ extern "C" {
   (IOTC_JWT_HEADER_BUF_SIZE_BASE64 + 1 + IOTC_JWT_PAYLOAD_BUF_SIZE_BASE64 + \
    1 + IOTC_JWT_MAX_SIGNATURE_SIZE_BASE64)
 
-
 /**
  * @function
  * @brief Creates a JWT which will be used to connect to the IoT Core service.
@@ -82,9 +81,8 @@ extern "C" {
 
 iotc_state_t iotc_create_iotcore_jwt(
     const char* project_id, uint32_t expiration_period_sec,
-    const iotc_crypto_key_data_t* private_key_data,
-    unsigned char* dst_jwt_buf, size_t dst_jwt_buf_len, size_t*
-    bytes_written);
+    const iotc_crypto_key_data_t* private_key_data, unsigned char* dst_jwt_buf,
+    size_t dst_jwt_buf_len, size_t* bytes_written);
 
 #ifdef __cplusplus
 }

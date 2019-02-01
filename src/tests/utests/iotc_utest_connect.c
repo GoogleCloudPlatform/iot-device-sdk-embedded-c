@@ -29,8 +29,7 @@ extern void iotc_default_client_callback(
     iotc_context_handle_t in_context_handle, void* data, iotc_state_t state);
 
 static const iotc_crypto_key_data_t DUMMY_PRIVATE_KEY = {
-    .crypto_key_signature_algorithm =
-        IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
+    .crypto_key_signature_algorithm = IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
     .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
     .crypto_key_union.key_pem.key = "dummy key"};
 

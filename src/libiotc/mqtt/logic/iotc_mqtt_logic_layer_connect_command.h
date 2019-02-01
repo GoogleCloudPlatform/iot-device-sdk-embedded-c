@@ -113,7 +113,8 @@ static inline iotc_state_t do_mqtt_connect(
                ->connection_data->jwt_expiration_period_sec,
            IOTC_CONTEXT_DATA(context)->connection_data->private_key_data, jwt,
            IOTC_JWT_SIZE, &bytes_written))) {
-    iotc_debug_format("iotc_create_iotcore_jwt returned with error: %ul", state);
+    iotc_debug_format("iotc_create_iotcore_jwt returned with error: %ul",
+                      state);
     IOTC_PROCESS_CONNECT_ON_NEXT_LAYER(context, data, state);
     IOTC_CR_EXIT(task->cs, iotc_mqtt_logic_layer_finalize_task(context, task));
   }
