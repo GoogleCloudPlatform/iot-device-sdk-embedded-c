@@ -391,7 +391,7 @@ iotc_state_t iotc_connect_to(
                             "ERROR: invalid context handle provided");
 
   IOTC_CHECK_CND_DBGMESSAGE(NULL == private_key_data,
-                            IOTC_NULL_PRIVATE_KEY_DATA_ERROR, state,
+                            IOTC_NULL_KEY_DATA_ERROR, state,
                             "ERROR: NULL host provided");
 
   IOTC_CHECK_CND_DBGMESSAGE(

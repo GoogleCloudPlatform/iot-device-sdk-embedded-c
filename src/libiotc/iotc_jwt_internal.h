@@ -1,4 +1,4 @@
-/* Copyright 2018 Google LLC
+/* Copyrigght 2019 Google LLC
  *
  * This is part of the Google Cloud IoT Edge Embedded C Client,
  * it is licensed under the BSD 3-Clause license; you may not use this file
@@ -14,11 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef __IOTC_JWT_H__
-#define __IOTC_JWT_H__
-
-#include <iotc_types.h>
-#include <stdint.h>
+#ifndef __IOTC_JWT_INTERNAL_H__
+#define __IOTC_JWT_INTERNAL_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -28,7 +25,7 @@ extern "C" {
 #define IOTC_JWT_HEADER_BUF_SIZE_BASE64 (IOTC_JWT_HEADER_BUF_SIZE * 4 / 3)
 
 #define IOTC_JWT_PAYLOAD_BUF_SIZE 256
-#define IOTC_JWT_PAYLOAD_BUF_SIZE_BASE64 (IOTC_JWT_PAYLOAD_BUF_SIZE * 4 / 3)
+#define IOTC_JWT_PAYLOAD_BUF_SIZE_BASE64 (((IOTC_JWT_PAYLOAD_BUF_SIZE+2)/3)*4)
 
 #define IOTC_JWT_MAX_SIGNATURE_SIZE 132
 #define IOTC_JWT_MAX_SIGNATURE_SIZE_BASE64 (IOTC_JWT_MAX_SIGNATURE_SIZE * 4 / 3)
@@ -37,13 +34,8 @@ extern "C" {
   (IOTC_JWT_HEADER_BUF_SIZE_BASE64 + 1 + IOTC_JWT_PAYLOAD_BUF_SIZE_BASE64 + \
    1 + IOTC_JWT_MAX_SIGNATURE_SIZE_BASE64)
 
-iotc_state_t iotc_create_jwt_es256(
-    const char* project_id, uint32_t expiration_period_sec,
-    const iotc_crypto_key_data_t* private_key_data,
-    unsigned char* dst_jwt_buf, size_t dst_jwt_buf_len, size_t* bytes_written);
-
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __IOTC_JWT_H__ */
+#endif /* __IOTC_JWT_INTERNAL_H__ */
