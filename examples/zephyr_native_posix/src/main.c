@@ -28,7 +28,7 @@ void main(void) {
   printk("Example for Zephyr port.\n");
 
   /* commandline sample:
-    zepyhr.exe -testargs -p <GCP IoT Core Project ID> -d projects/<GCP IoT Core
+    zephyr.exe -testargs -p <GCP IoT Core Project ID> -d projects/<GCP IoT Core
     Project ID>/locations/<Region>/registries/<GCP IoT Core Registry
     ID>/devices/<GCP IoT Core Device ID> -t /devices/<GCP IoT Core
     DeviceID>/state
