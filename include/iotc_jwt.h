@@ -1,4 +1,4 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
  * This is part of the Google Cloud IoT Edge Embedded C Client,
  * it is licensed under the BSD 3-Clause license; you may not use this file
@@ -22,19 +22,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#define IOTC_JWT_HEADER_BUF_SIZE 40
-#define IOTC_JWT_HEADER_BUF_SIZE_BASE64 (IOTC_JWT_HEADER_BUF_SIZE * 4 / 3)
-
-#define IOTC_JWT_PAYLOAD_BUF_SIZE 256
-#define IOTC_JWT_PAYLOAD_BUF_SIZE_BASE64 (IOTC_JWT_PAYLOAD_BUF_SIZE * 4 / 3)
-
-#define IOTC_JWT_MAX_SIGNATURE_SIZE 132
-#define IOTC_JWT_MAX_SIGNATURE_SIZE_BASE64 (IOTC_JWT_MAX_SIGNATURE_SIZE * 4 / 3)
-
-#define IOTC_JWT_SIZE                                                       \
-  (IOTC_JWT_HEADER_BUF_SIZE_BASE64 + 1 + IOTC_JWT_PAYLOAD_BUF_SIZE_BASE64 + \
-   1 + IOTC_JWT_MAX_SIGNATURE_SIZE_BASE64)
 
 /**
  * @function

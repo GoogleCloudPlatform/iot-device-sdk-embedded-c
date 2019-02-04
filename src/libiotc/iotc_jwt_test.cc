@@ -22,6 +22,7 @@
 #include "iotc_bsp_crypto.h"
 #include "iotc_heapcheck_test.h"
 #include "iotc_jwt.h"
+#include "iotc_jwt_internal.h"
 #include "iotc_openssl_utils.h"
 
 namespace iotctest {
