@@ -103,7 +103,7 @@ iotc_state_t iotc_create_iotcore_jwt(
 
   switch (private_key_data->crypto_key_union_type) {
     case IOTC_CRYPTO_KEY_UNION_TYPE_PEM:
-      if (private_key_data->crypto_key_union.key_pem.key == NULL) {
+      if (NULL == private_key_data->crypto_key_union.key_pem.key) {
         return IOTC_NULL_KEY_DATA_ERROR;
       }
       break;
