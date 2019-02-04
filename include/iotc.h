@@ -229,78 +229,78 @@ extern iotc_state_t iotc_events_process_tick();
 extern void iotc_events_stop();
 
 /**
- * @brief     Opens a connection to the Google Cloud IoT Core service using the
+ * @brief Opens a connection to the Google Cloud IoT Core service using the
  * provided context.  Includes a callback.
  * @detailed  Using the provided context, this function requests that a
- * connection be made to the Google Cloud IoT Core service given the provide
- * credentials The callback method is a connection state monitor callback, and
- * will be invoked when this connection attempt completes successfully, has
- * failed, or after disconnection if a connection was established.
+ * connection be made to the Google Cloud IoT Core service given the
+ * provided credentials. The callback method is a connection state
+ * monitor callback, and will be invoked when this connection attempt
+ * completes successfully, has failed, or after disconnection if a
+ * connection was established.
  *
- * The callback function is type defined by iotc_user_callback_t, which has the
- * following siguature:
+ * The callback function is type defined by iotc_user_callback_t, which has
+ * the following signature:
  *    void foo( iotc_context_handle_t in_context_handle
  *                  , void* data
  *                  , iotc_state_t state )
  *
  * where the callback parameters are:
- *   - in_context_handle is the context handle that you provided to iotc_connect
- *   - data is a multifunctional structure. Please see the IoTC User Guide or
- * examples/ for More Information.
+ *   - in_context_handle is the context handle that you provided to
+ *     iotc_connect
+ *   - data is a multifunctional structure. Please see the IoTC User Guide
+ *     or examples/ for More Information.
  *   - state should be IOTC_STATE_OK if the connection succeeded. For other
- * error codes please see the IoTC User Guide or Examples.
+ *     error codes please see the IoTC User Guide or Examples.
  *
- * @param [in] iotc_h a context handle created by invoking iotc_create_context.
- * @param [in] project_id the project id the device belongs to in the GCP IoT
- * organization.
- * @param [in] device_path see
- * https://cloud.google.com/iot/docs/how-tos/mqtt-bridge how to construct the
- * device path string
- * @param [in] private_key_data data identifying a private key to be used
- * for client authentication. For more information on how to generate a
- * private-public key pair for your device, please see:
- * https://cloud.google.com/iot/docs/how-tos/credentials/keys.  Please note that
- * this structure will be deep copied before iotc_connect returns.
- * @param [in] jwt_expiration_period_sec the client authentication JWT will
- * expire after this time period (in seconds).
- * @param [in] connection_timeout Number of seconds that the socket will be kept
- * before CONNACK without data coming from the server. In case of 0, the TCP
- * timeout will be used.
- * @param [in] keepalive_timeout Number of seconds that the socket will be kept
- * connected while being unused.
+ * @param [in] iotc_h a context handle created by invoking
+ * iotc_create_context.
+ * @param [in] username the MQTT Connect Username. For IoT Core, this
+ * should be the device path. For more information on device paths, please
+ * see https://cloud.google.com/iot/docs/how-tos/mqtt-bridge which details
+ * how to construct the device path string.
+ * @param [in] password the MQTT Connect Password. For IoT Core, this
+ * should the IoT Core Connecting JWT created by the function
+ * iotc_create_iotcore_jwt.
+ * @param [in] client_id the MQTT connect clientid. For IoT Core, this
+ * can be an empty string.
+ * @param [in] connection_timeout Number of seconds that the socket will be
+ * kept before CONNACK without data coming from the server. In case of 0,
+ * the TCP timeout will be used.
+ * @param [in] keepalive_timeout Number of seconds that the socket will be
+ * kept connected while being unused.
  *
  * @see iotc_create_context
+ * @see iotc_create_iotcore_jwt
  *
- * @retval IOTC_STATE_OK  If the connection request was formatted correctly.
+ * @retval IOTC_STATE_OK  If the connection request was formatted
+ * correctly and the client is processing the request with IoT Core.
  */
 extern iotc_state_t iotc_connect(
-    iotc_context_handle_t xih, const char* project_id, const char* device_path,
-    const iotc_crypto_key_data_t* private_key_data,
-    uint32_t jwt_expiration_period_sec, uint16_t connection_timeout,
-    uint16_t keepalive_timeout, iotc_user_callback_t* client_callback);
+  iotc_context_handle_t iotc_h, const char* username,
+  const char* password, const char* client_id,
+  uint16_t connection_timeout, uint16_t keepalive_timeout,
+  iotc_user_callback_t* client_callback);
 
 /**
- * @brief Opens a connection to a custom service using the provided context,
- * host and port.
+ * @brief Opens a MQTT connection to a custom service endpoint using the
+ * provided context, host and port.
  *
  * @param [in] host client will connect to this address
  * @param [in] port client will connect to the host on this port
  *
- * Other than this further parameters and behaviour is identical to function
- * iotc_connect.
+ * Other than this further parameters and behaviour is identical to
+ * function iotc_connect.
  *
  * @see iotc_connect
  */
 extern iotc_state_t iotc_connect_to(
-    iotc_context_handle_t xih, const char* host, uint16_t port,
-    const char* project_id, const char* device_path,
-    const iotc_crypto_key_data_t* private_key_data,
-    uint32_t jwt_expiration_period_sec, uint16_t connection_timeout,
+    iotc_context_handle_t iotc_h, const char* host, uint16_t port,
+    const char* username, const char* password,
+    const char* clientid, uint16_t connection_timeout,
     uint16_t keepalive_timeout, iotc_user_callback_t* client_callback);
 
-/**
- * @brief     Publishes a message to the Google Cloud IoT Core service on the
- * given topic and notifies the application of the result through a callback.
+
+/*
  * @detailed  Using the provided context, this function requests that a message
  * be delivered to the IoT Core service on the given topic. This requires that a
  * connection has already been established to the IoT Core service via a call

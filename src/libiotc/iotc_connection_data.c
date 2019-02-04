@@ -20,24 +20,21 @@
 #include "iotc_helpers.h"
 
 iotc_connection_data_t* iotc_alloc_connection_data(
-    const char* host, uint16_t port, const char* project_id,
-    const char* device_path,
-    const iotc_crypto_key_data_t* private_key_data,
-    uint32_t jwt_expiration_period_sec, uint16_t connection_timeout,
+    const char* host, uint16_t port, const char* username,
+    const char* password, const char* client_id, uint16_t connection_timeout,
     uint16_t keepalive_timeout, iotc_session_type_t session_type) {
   return iotc_alloc_connection_data_lastwill(
-      host, port, project_id, device_path, private_key_data,
-      jwt_expiration_period_sec, connection_timeout, keepalive_timeout,
-      session_type, NULL, NULL, (iotc_mqtt_qos_t)0, (iotc_mqtt_retain_t)0);
+      host, port, username, password, client_id, connection_timeout,
+      keepalive_timeout, session_type, NULL, NULL, (iotc_mqtt_qos_t)0,
+      (iotc_mqtt_retain_t)0);
 }
 
 iotc_connection_data_t* iotc_alloc_connection_data_lastwill(
-    const char* host, uint16_t port, const char* project_id,
-    const char* device_path,
-    const iotc_crypto_key_data_t* private_key_data,
-    uint32_t jwt_expiration_period_sec, uint16_t connection_timeout,
-    uint16_t keepalive_timeout, iotc_session_type_t session_type,
-    const char* will_topic, const char* will_message, iotc_mqtt_qos_t will_qos,
+    const char* host, unit16_t port, const char* username,
+    const char* password, const char* client_id,
+    uint16_t connection_timeout, uint16_t keepalive_timeout,
+    iotc_session_type_t session_type, const char* will_topic,
+    const char* will_message, iotc_mqtt_qos_t will_qos,
     iotc_mqtt_retain_t will_retain) {
   iotc_state_t state = IOTC_STATE_OK;
 
@@ -48,19 +45,24 @@ iotc_connection_data_t* iotc_alloc_connection_data_lastwill(
     IOTC_CHECK_MEMORY(ret->host, state);
   }
 
-  if (project_id) {
-    ret->project_id = iotc_str_dup(project_id);
-    IOTC_CHECK_MEMORY(ret->project_id, state);
+  if (username) {
+    ret->username = iotc_str_dup(username);
+    IOTC_CHECK_MEMORY(ret->username, state);
+  }
+
+  if (password) {
+    ret->password = iotc_str_dup(password);
+    IOTC_CHECK_MEMORY(ret->password, state);
+  }
+
+  if (client_id) {
+    ret->client_id = iotc_str_dup(client_id);
+    IOTC_CHECK_MEMORY(ret->client_id, state);
   }
 
   if (device_path) {
     ret->device_path = iotc_str_dup(device_path);
     IOTC_CHECK_MEMORY(ret->device_path, state);
-  }
-
-  if (private_key_data) {
-    ret->private_key_data = iotc_crypto_private_key_data_dup(private_key_data);
-    IOTC_CHECK_MEMORY(ret->private_key_data, state);
   }
 
   if (will_topic) {
@@ -74,7 +76,6 @@ iotc_connection_data_t* iotc_alloc_connection_data_lastwill(
   }
 
   ret->port = port;
-  ret->jwt_expiration_period_sec = jwt_expiration_period_sec;
   ret->connection_timeout = connection_timeout;
   ret->keepalive_timeout = keepalive_timeout;
   ret->session_type = session_type;
@@ -86,9 +87,9 @@ iotc_connection_data_t* iotc_alloc_connection_data_lastwill(
 err_handling:
   if (ret) {
     IOTC_SAFE_FREE(ret->host);
-    IOTC_SAFE_FREE(ret->project_id);
-    IOTC_SAFE_FREE(ret->device_path);
-    iotc_crypto_private_key_data_free(ret->private_key_data);
+    IOTC_SAFE_FREE(ret->username);
+    IOTC_SAFE_FREE(ret->password);
+    IOTC_SAFE_FREE(ret->client_id);
     IOTC_SAFE_FREE(ret->will_topic);
     IOTC_SAFE_FREE(ret->will_message);
   }
@@ -96,6 +97,7 @@ err_handling:
   return 0;
 }
 
+/* ddb continue here. */
 iotc_state_t iotc_connection_data_update(
     iotc_connection_data_t* conn_data, const char* host, uint16_t port,
     const char* project_id, const char* device_path,

@@ -347,11 +347,11 @@ iotc_state_t iotc_events_process_tick() {
 }
 
 iotc_state_t iotc_connect(
-    iotc_context_handle_t iotc_h, const char* project_id,
-    const char* device_path,
-    const iotc_crypto_key_data_t* private_key_data,
-    uint32_t jwt_expiration_period_sec, uint16_t connection_timeout,
-    uint16_t keepalive_timeout, iotc_user_callback_t* client_callback) {
+  iotc_context_handle_t iotc_h, const char* username,
+  const char* password, const char* client_id,
+  uint16_t connection_timeout, uint16_t keepalive_timeout,
+  iotc_user_callback_t* client_callback ) {
+
   typedef struct iotc_static_host_desc_s {
     char* name;
     uint16_t port;
@@ -361,16 +361,16 @@ iotc_state_t iotc_connect(
 
   return iotc_connect_to(
       iotc_h, IOTC_MQTT_HOST_ACCESSOR.name, IOTC_MQTT_HOST_ACCESSOR.port,
-      project_id, device_path, private_key_data, jwt_expiration_period_sec,
-      connection_timeout, keepalive_timeout, client_callback);
+      username, password, client_id, connection_timeout,
+      keepalive_timeout, client_callback);
 }
 
 iotc_state_t iotc_connect_to(
-    iotc_context_handle_t iotc_h, const char* host, uint16_t port,
-    const char* project_id, const char* device_path,
-    const iotc_crypto_key_data_t* private_key_data,
-    uint32_t jwt_expiration_period_sec, uint16_t connection_timeout,
-    uint16_t keepalive_timeout, iotc_user_callback_t* client_callback) {
+  iotc_context_handle_t iotc_h, const char* host, uint16_t port,
+  const char* username, const char* password,
+  const char* clientid, uint16_t connection_timeout,
+  uint16_t keepalive_timeout, iotc_user_callback_t* client_callback) {
+
   iotc_state_t state = IOTC_STATE_OK;
   iotc_context_t* iotc = NULL;
   iotc_event_handle_t event_handle = iotc_make_empty_event_handle();
@@ -380,25 +380,12 @@ iotc_state_t iotc_connect_to(
   IOTC_CHECK_CND_DBGMESSAGE(NULL == host, IOTC_NULL_HOST, state,
                             "ERROR: NULL host provided");
 
-  IOTC_CHECK_CND_DBGMESSAGE(NULL == project_id, IOTC_NULL_PROJECT_ID_ERROR,
-                            state, "ERROR: NULL project_id provided");
-
-  IOTC_CHECK_CND_DBGMESSAGE(NULL == device_path, IOTC_NULL_DEVICE_PATH_ERROR,
-                            state, "ERROR: NULL device_path provided");
+  IOTC_CHECK_CND_DBGMESSAGE(NULL == clientid, IOTC_NULL_CLIENTID_ERROR, state,
+                            "ERROR: NULL clientid provided");
 
   IOTC_CHECK_CND_DBGMESSAGE(IOTC_INVALID_CONTEXT_HANDLE >= iotc_h,
                             IOTC_NULL_CONTEXT, state,
                             "ERROR: invalid context handle provided");
-
-  IOTC_CHECK_CND_DBGMESSAGE(NULL == private_key_data,
-                            IOTC_NULL_KEY_DATA_ERROR, state,
-                            "ERROR: NULL host provided");
-
-  IOTC_CHECK_CND_DBGMESSAGE(
-      IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256 !=
-          private_key_data->crypto_key_signature_algorithm,
-      IOTC_ALG_NOT_SUPPORTED_ERROR, state,
-      "ERROR: unsupported private key signature algorithm");
 
   iotc = iotc_object_for_handle(iotc_globals.context_handles_vector, iotc_h);
 
@@ -441,15 +428,14 @@ iotc_state_t iotc_connect_to(
 
   if (NULL != iotc->context_data.connection_data) {
     IOTC_CHECK_STATE(iotc_connection_data_update_lastwill(
-        iotc->context_data.connection_data, host, port, project_id, device_path,
-        private_key_data, jwt_expiration_period_sec, connection_timeout,
-        keepalive_timeout, IOTC_SESSION_CLEAN, NULL, NULL, (iotc_mqtt_qos_t)0,
+        iotc->context_data.connection_data, host, port, username, password,
+        clientid,  connection_timeout, keepalive_timeout,
+        IOTC_SESSION_CLEAN, NULL, NULL, (iotc_mqtt_qos_t)0,
         (iotc_mqtt_retain_t)0));
   } else {
     iotc->context_data.connection_data = iotc_alloc_connection_data_lastwill(
-        host, port, project_id, device_path, private_key_data,
-        jwt_expiration_period_sec, connection_timeout, keepalive_timeout,
-        IOTC_SESSION_CLEAN, NULL, NULL, (iotc_mqtt_qos_t)0,
+        host, port, username, password, clientid, connection_timeout,
+        keepalive_timeout, IOTC_SESSION_CLEAN, NULL, NULL, (iotc_mqtt_qos_t)0,
         (iotc_mqtt_retain_t)0);
 
     IOTC_CHECK_MEMORY(iotc->context_data.connection_data, state);
