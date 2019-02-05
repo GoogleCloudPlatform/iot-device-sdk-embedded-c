@@ -29,6 +29,25 @@
 #include <stdio.h>
 #include <iotc_jwt.h>
 
+#if 0
+  /* generate the client authentication JWT, which will serve as the MQTT
+   * password */
+  unsigned char jwt[IOTC_JWT_SIZE] = {0};
+  size_t bytes_written = 0;
+  if (IOTC_STATE_OK !=
+      (state = iotc_create_iotcore_jwt(
+           IOTC_CONTEXT_DATA(context)->connection_data->project_id,
+           IOTC_CONTEXT_DATA(context)
+               ->connection_data->jwt_expiration_period_sec,
+           IOTC_CONTEXT_DATA(context)->connection_data->private_key_data, jwt,
+           IOTC_JWT_SIZE, &bytes_written))) {
+    iotc_debug_format("iotc_create_iotcore_jwt returned with error: %ul",
+                      state);
+    IOTC_PROCESS_CONNECT_ON_NEXT_LAYER(context, data, state);
+    IOTC_CR_EXIT(task->cs, iotc_mqtt_logic_layer_finalize_task(context, task));
+  }
+#endif
+
 /* Application variables. */
 iotc_context_handle_t iotc_context = IOTC_INVALID_CONTEXT_HANDLE;
 

@@ -189,7 +189,7 @@ end:
   iotc_mqtt_message_free(&msg);
   iotc_mqtt_message_free(&msg_matrix);
 })
-
+/* DDB TODO test null client_id */
 IOTC_TT_TESTCASE(utest__fill_with_connect_data__valid_data__connect_msg, {
   iotc_state_t local_state = IOTC_STATE_OK;
 

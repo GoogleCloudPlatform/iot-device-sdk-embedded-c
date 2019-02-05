@@ -261,7 +261,7 @@ extern void iotc_events_stop();
  * @param [in] password the MQTT Connect Password. For IoT Core, this
  * should the IoT Core Connecting JWT created by the function
  * iotc_create_iotcore_jwt.
- * @param [in] client_id the MQTT connect clientid. For IoT Core, this
+ * @param [in] client_id the MQTT connect client identifier. For IoT Core, this
  * can be an empty string.
  * @param [in] connection_timeout Number of seconds that the socket will be
  * kept before CONNACK without data coming from the server. In case of 0,
@@ -288,7 +288,7 @@ extern iotc_state_t iotc_connect(
  * @param [in] host client will connect to this address
  * @param [in] port client will connect to the host on this port
  *
- * Other than this further parameters and behaviour is identical to
+ * This function's behavior and other parameters are identical to
  * function iotc_connect.
  *
  * @see iotc_connect
@@ -296,7 +296,7 @@ extern iotc_state_t iotc_connect(
 extern iotc_state_t iotc_connect_to(
     iotc_context_handle_t iotc_h, const char* host, uint16_t port,
     const char* username, const char* password,
-    const char* clientid, uint16_t connection_timeout,
+    const char* client_id, uint16_t connection_timeout,
     uint16_t keepalive_timeout, iotc_user_callback_t* client_callback);
 
 

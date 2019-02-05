@@ -368,7 +368,7 @@ iotc_state_t iotc_connect(
 iotc_state_t iotc_connect_to(
   iotc_context_handle_t iotc_h, const char* host, uint16_t port,
   const char* username, const char* password,
-  const char* clientid, uint16_t connection_timeout,
+  const char* client_id, uint16_t connection_timeout,
   uint16_t keepalive_timeout, iotc_user_callback_t* client_callback) {
 
   iotc_state_t state = IOTC_STATE_OK;
@@ -380,8 +380,8 @@ iotc_state_t iotc_connect_to(
   IOTC_CHECK_CND_DBGMESSAGE(NULL == host, IOTC_NULL_HOST, state,
                             "ERROR: NULL host provided");
 
-  IOTC_CHECK_CND_DBGMESSAGE(NULL == clientid, IOTC_NULL_CLIENTID_ERROR, state,
-                            "ERROR: NULL clientid provided");
+  IOTC_CHECK_CND_DBGMESSAGE(NULL == client_id, IOTC_NULL_CLIENT_ID_ERROR, state,
+                            "ERROR: NULL client_id provided");
 
   IOTC_CHECK_CND_DBGMESSAGE(IOTC_INVALID_CONTEXT_HANDLE >= iotc_h,
                             IOTC_NULL_CONTEXT, state,
@@ -429,12 +429,12 @@ iotc_state_t iotc_connect_to(
   if (NULL != iotc->context_data.connection_data) {
     IOTC_CHECK_STATE(iotc_connection_data_update_lastwill(
         iotc->context_data.connection_data, host, port, username, password,
-        clientid,  connection_timeout, keepalive_timeout,
+        client_id,  connection_timeout, keepalive_timeout,
         IOTC_SESSION_CLEAN, NULL, NULL, (iotc_mqtt_qos_t)0,
         (iotc_mqtt_retain_t)0));
   } else {
     iotc->context_data.connection_data = iotc_alloc_connection_data_lastwill(
-        host, port, username, password, clientid, connection_timeout,
+        host, port, username, password, client_id, connection_timeout,
         keepalive_timeout, IOTC_SESSION_CLEAN, NULL, NULL, (iotc_mqtt_qos_t)0,
         (iotc_mqtt_retain_t)0);
 
