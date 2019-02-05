@@ -223,7 +223,7 @@ IOTC_TT_TESTCASE(utest__fill_with_connect_data__valid_data__connect_msg, {
       ==, 0);
 
   tt_want_int_op(
-      memcmp(msg->connect.client_id->data_ptr, username, sizeof(username) - 1),
+      memcmp(msg->connect.username->data_ptr, username, sizeof(username) - 1),
       ==, 0);
 
   tt_want_int_op(
@@ -295,8 +295,12 @@ IOTC_TT_TESTCASE(
                             sizeof("MQTT") - 1),
                      ==, 0);
 
-      tt_want_int_op(memcmp(msg->connect.client_id->data_ptr, username,
+      tt_want_int_op(memcmp(msg->connect.username->data_ptr, username,
                             sizeof(username) - 1),
+                     ==, 0);
+
+      tt_want_int_op(memcmp(msg->connect.client_id->data_ptr, client_id,
+                            sizeof(client_id) - 1),
                      ==, 0);
 
       tt_want_int_op(msg->connect.password, ==, 0);
@@ -364,8 +368,16 @@ IOTC_TT_TESTCASE(
                             sizeof("MQTT") - 1),
                      ==, 0);
 
-      tt_want_int_op(msg->connect.client_id, ==, 0);
+      tt_want_int_op(memcmp(msg->connect.client_id->data_ptr, client_id,
+                            sizeof(client_id) - 1),
+                     ==, 0);
+
+      tt_want_int_op(msg->connect.username, ==, 0);
       tt_want_int_op(msg->connect.password, ==, 0);
+      tt_want_int_op(memcmp(msg->connect.client_id->data_ptr, client_id,
+                     sizeof(client_id) - 1),
+                     ==, 0);
+
 
       msg_matrix->connect.client_id = msg->connect.client_id;
       msg_matrix->connect.username = msg->connect.username;
@@ -467,8 +479,12 @@ IOTC_TT_TESTCASE(
                             sizeof("MQTT") - 1),
                      ==, 0);
 
-      tt_want_int_op(msg->connect.client_id, ==, 0);
+      tt_want_int_op(msg->connect.username, ==, 0);
       tt_want_int_op(msg->connect.password, ==, 0);
+
+      tt_want_int_op(memcmp(msg->connect.client_id->data_ptr, client_id,
+                            sizeof(client_id) - 1),
+                     ==, 0);
 
       /* Check the last will elements */
       tt_want_int_op(memcmp(msg->connect.will_topic->data_ptr, will_topic,
@@ -642,8 +658,12 @@ IOTC_TT_TESTCASE(
                             sizeof("MQTT") - 1),
                      ==, 0);
 
-      tt_want_int_op(msg->connect.client_id, ==, 0);
+      tt_want_int_op(msg->connect.username, ==, 0);
       tt_want_int_op(msg->connect.password, ==, 0);
+      tt_want_int_op(memcmp(msg->connect.client_id->data_ptr, client_id,
+                            sizeof(client_id) - 1),
+                     ==, 0);
+
 
       /* Check the last will elements */
       tt_want_int_op(msg->connect.will_topic, ==, 0);
@@ -728,8 +748,11 @@ IOTC_TT_TESTCASE(
                             sizeof("MQTT") - 1),
                      ==, 0);
 
-      tt_want_int_op(msg->connect.client_id, ==, 0);
+      tt_want_int_op(msg->connect.username, ==, 0);
       tt_want_int_op(msg->connect.password, ==, 0);
+      tt_want_int_op(memcmp(msg->connect.client_id->data_ptr, client_id,
+                            sizeof(client_id) - 1),
+                     ==, 0);
 
       /* Check the last will elements */
       tt_want_int_op(memcmp(msg->connect.will_topic->data_ptr, will_topic,
@@ -816,8 +839,11 @@ IOTC_TT_TESTCASE(
                             sizeof("MQTT") - 1),
                      ==, 0);
 
-      tt_want_int_op(msg->connect.client_id, ==, 0);
+      tt_want_int_op(msg->connect.username, ==, 0);
       tt_want_int_op(msg->connect.password, ==, 0);
+      tt_want_int_op(memcmp(msg->connect.client_id->data_ptr, client_id,
+                            sizeof(client_id) - 1),
+                     ==, 0);
 
       /* Check the last will elements */
       tt_want_int_op(memcmp(msg->connect.will_topic->data_ptr, will_topic,
@@ -903,8 +929,11 @@ IOTC_TT_TESTCASE(
                             sizeof("MQTT") - 1),
                      ==, 0);
 
-      tt_want_int_op(msg->connect.client_id, ==, 0);
+      tt_want_int_op(msg->connect.username, ==, 0);
       tt_want_int_op(msg->connect.password, ==, 0);
+      tt_want_int_op(memcmp(msg->connect.client_id->data_ptr, client_id,
+                            sizeof(client_id) - 1),
+                     ==, 0);
 
       /* Check the last will elements */
       tt_want_int_op(memcmp(msg->connect.will_topic->data_ptr, will_topic,
