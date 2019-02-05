@@ -88,7 +88,7 @@ err_handling:
 // ecc = Elliptic Curve Cryptography
 iotc_state_t iotc_create_iotcore_jwt(
     const char* project_id, uint32_t expiration_period_sec,
-    const iotc_crypto_key_data_t* private_key_data, unsigned char* dst_jwt_buf,
+    const iotc_crypto_key_data_t* private_key_data, char* dst_jwt_buf,
     size_t dst_jwt_buf_len, size_t* bytes_written) {
   if (NULL == project_id || NULL == private_key_data || NULL == dst_jwt_buf ||
       NULL == bytes_written) {
@@ -124,7 +124,7 @@ iotc_state_t iotc_create_iotcore_jwt(
 
   // create base64 encoded header and payload: b64(h).b64(p)
   IOTC_CHECK_CRYPTO(ret = _iotc_create_iotcore_jwt_b64h_b64p(
-                        dst_jwt_buf, dst_jwt_buf_len, bytes_written, project_id,
+                        (unsigned char*)dst_jwt_buf, dst_jwt_buf_len, bytes_written, project_id,
                         expiration_period_sec, "ES256"));
 
   // create sha256 hash of b64(h).b64(p): sha256(b64(h).b64(p))
@@ -148,7 +148,7 @@ iotc_state_t iotc_create_iotcore_jwt(
   // base64 encode the ecc signature
   size_t bytes_written_ecc_signature_base64 = 0;
   ret = iotc_bsp_base64_encode_urlsafe(
-      dst_jwt_buf + *bytes_written, dst_jwt_buf_len - *bytes_written,
+      (unsigned char*)dst_jwt_buf + *bytes_written, dst_jwt_buf_len - *bytes_written,
       &bytes_written_ecc_signature_base64, ecc_signature,
       bytes_written_ecc_signature);
 

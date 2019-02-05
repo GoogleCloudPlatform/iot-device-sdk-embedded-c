@@ -168,11 +168,12 @@ void on_connection_state_changed(iotc_context_handle_t in_context_handle,
         /* The disconnection was unforeseen.  Try reconnect to the server
            with previously set configuration, which has been provided
            to this callback in the conn_data structure. */
+
+        /* DDB todo: sign the jwt again */
         iotc_connect(
-            in_context_handle, conn_data->project_id, conn_data->device_path,
-            conn_data->private_key_data, conn_data->jwt_expiration_period_sec,
-            conn_data->connection_timeout, conn_data->keepalive_timeout,
-            &on_connection_state_changed);
+            in_context_handle, conn_data->username, conn_data->password,
+            conn_data->client_id, conn_data->connection_timeout,
+            conn_data->keepalive_timeout, &on_connection_state_changed);
       }
     } break;
     default:

@@ -29,25 +29,6 @@
 #include <stdio.h>
 #include <iotc_jwt.h>
 
-#if 0
-  /* generate the client authentication JWT, which will serve as the MQTT
-   * password */
-  unsigned char jwt[IOTC_JWT_SIZE] = {0};
-  size_t bytes_written = 0;
-  if (IOTC_STATE_OK !=
-      (state = iotc_create_iotcore_jwt(
-           IOTC_CONTEXT_DATA(context)->connection_data->project_id,
-           IOTC_CONTEXT_DATA(context)
-               ->connection_data->jwt_expiration_period_sec,
-           IOTC_CONTEXT_DATA(context)->connection_data->private_key_data, jwt,
-           IOTC_JWT_SIZE, &bytes_written))) {
-    iotc_debug_format("iotc_create_iotcore_jwt returned with error: %ul",
-                      state);
-    IOTC_PROCESS_CONNECT_ON_NEXT_LAYER(context, data, state);
-    IOTC_CR_EXIT(task->cs, iotc_mqtt_logic_layer_finalize_task(context, task));
-  }
-#endif
-
 /* Application variables. */
 iotc_context_handle_t iotc_context = IOTC_INVALID_CONTEXT_HANDLE;
 
@@ -96,15 +77,30 @@ int main(int argc, char* argv[]) {
   const uint16_t connection_timeout = 10;
   const uint16_t keepalive_timeout = 20;
 
-  iotc_crypto_key_data_t key_data;
-  key_data.crypto_key_signature_algorithm =
+  iotc_crypto_key_data_t private_key_data;
+  private_key_data.crypto_key_signature_algorithm =
       IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256;
-  key_data.crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM;
-  key_data.crypto_key_union.key_pem.key = ec_private_key_pem;
+  private_key_data.crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM;
+  private_key_data.crypto_key_union.key_pem.key = ec_private_key_pem;
 
-  iotc_connect(iotc_context, iotc_project_id, iotc_device_path, &key_data,
-               /*{jwt_expiration_period_sec=*/3600, connection_timeout,
-               keepalive_timeout, &on_connection_state_changed);
+  /* generate the client authentication JWT, which will serve as the MQTT
+   * password */
+  char jwt[1024] = {0};
+  size_t bytes_written = 0;
+  iotc_state_t state =
+    iotc_create_iotcore_jwt( iotc_project_id,
+                             /*jwt_expiration_period_sec=*/3600,
+                             &private_key_data, jwt, 1024, &bytes_written);
+
+  if (IOTC_STATE_OK != state ) {
+    printf("iotc_create_iotcore_jwt returned with error: %ul", state);
+    return -1;
+  }
+
+  printf("project_id: %s\n", iotc_project_id);
+  iotc_connect(iotc_context, /*username=*/iotc_project_id, /*password=*/jwt,
+               /*client_id=*/ iotc_project_id, connection_timeout, keepalive_timeout,
+               &on_connection_state_changed);
 
   /* The IoTC Client was designed to be able to run on single threaded devices.
      As such it does not have its own event loop thread. Instead you must

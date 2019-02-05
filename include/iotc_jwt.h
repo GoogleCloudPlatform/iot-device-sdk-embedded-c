@@ -81,7 +81,7 @@ extern "C" {
 
 iotc_state_t iotc_create_iotcore_jwt(
     const char* project_id, uint32_t expiration_period_sec,
-    const iotc_crypto_key_data_t* private_key_data, unsigned char* dst_jwt_buf,
+    const iotc_crypto_key_data_t* private_key_data, char* dst_jwt_buf,
     size_t dst_jwt_buf_len, size_t* bytes_written);
 
 #ifdef __cplusplus

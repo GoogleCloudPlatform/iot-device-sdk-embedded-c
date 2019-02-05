@@ -55,7 +55,7 @@
 
 MD=@
 
-IOTC_EXAMPLES_ALL := mqtt_logic_producer
+IOTC_EXAMPLES_ALL := iot_core_mqtt_client
 
 all: $(IOTC_EXAMPLES_ALL)
 

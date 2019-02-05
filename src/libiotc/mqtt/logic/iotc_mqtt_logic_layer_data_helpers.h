@@ -122,6 +122,16 @@ static inline iotc_state_t fill_with_connect_data(
     msg->connect.flags_u.flags_bits.password_follows = 0;
   }
 
+  printf("username: %s\n", username );
+  printf("password: %s\n", password);
+  printf("client_id: %s\n",client_id );
+
+  printf("connect.username: %s\n", msg->connect.username->data_ptr );
+  printf("connect.password: %s\n", msg->connect.password->data_ptr );
+  printf("connect.client_id: %s\n", msg->connect.client_id->data_ptr );
+
+
+
   /* If only ONE of the will_topic or will_message are set, return an error. */
   if ((NULL == will_message) && (NULL != will_topic)) {
     return IOTC_NULL_WILL_MESSAGE;

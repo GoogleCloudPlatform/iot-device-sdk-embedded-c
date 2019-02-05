@@ -91,6 +91,6 @@ script:
         if [[ $PRESET == 'FREERTOS_POSIX_REL' || $PRESET == 'FREERTOS_POSIX_DEV' ]]; then
                 make -C examples/freertos_linux/Linux_gcc_gcp_iot IOTC_CLIENT_LIB_PATH=../../../bin/freertos-linux IOTC_BSP_TLS=$IOTC_BSP_TLS;
         else
-                make -C examples/mqtt_logic_producer IOTC_CLIENT_LIB_PATH=../../bin/linux IOTC_BSP_TLS=$IOTC_BSP_TLS;
+                make -C examples/iot_core_mqtt_client IOTC_CLIENT_LIB_PATH=../../bin/linux IOTC_BSP_TLS=$IOTC_BSP_TLS;
         fi;
     fi;"
