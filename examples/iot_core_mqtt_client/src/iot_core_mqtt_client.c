@@ -97,9 +97,8 @@ int main(int argc, char* argv[]) {
     return -1;
   }
 
-  printf("project_id: %s\n", iotc_project_id);
-  iotc_connect(iotc_context, /*username=*/iotc_project_id, /*password=*/jwt,
-               /*client_id=*/ iotc_project_id, connection_timeout, keepalive_timeout,
+  iotc_connect(iotc_context, /*username=*/iotc_device_path, /*password=*/jwt,
+               /*client_id=*/ iotc_device_path, connection_timeout, keepalive_timeout,
                &on_connection_state_changed);
 
   /* The IoTC Client was designed to be able to run on single threaded devices.
