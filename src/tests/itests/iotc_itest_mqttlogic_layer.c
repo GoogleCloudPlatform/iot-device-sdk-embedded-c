@@ -25,17 +25,6 @@
 
 #include <time.h>
 
-const iotc_crypto_key_data_t private_key = {
-    .crypto_key_signature_algorithm =
-        IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256,
-    .crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-    .crypto_key_union.key_pem.key =
-        "-----BEGIN EC PRIVATE KEY-----\n"
-        "MHcCAQEEIG2oKC+2qRWysluHHVrJZCsDE8U8vkpdbeKVCi4a3crdoAoGCCqGSM49\n"
-        "AwEHoUQDQgAELHWyhm6oLLd2adMUUqqyQKHAW0ULiCWn1WUkeuDII2IO5R4js4XG\n"
-        "c6AhJcaNmI3lmSyu6iWDuduvA1+qzvb5PQ==\n"
-        "-----END EC PRIVATE KEY-----"};
-
 iotc_context_t* iotc_context__itest_mqttlogic_layer = NULL;
 const iotc_state_t iotc_itest_mqttlogic__backoff_terminal_class_errors[] = {
     IOTC_CONNECTION_RESET_BY_PEER_ERROR,
@@ -200,9 +189,8 @@ void iotc_itest_mqttlogic_init_layer(iotc_layer_t* top_layer) {
                        .type = IOTC_MQTT_TYPE_CONNECT}));
 
   iotc_context__itest_mqttlogic_layer->context_data.connection_data =
-      iotc_alloc_connection_data("target.broker.com", 8883, "itest_projectid",
-                                 "itest_device_path", &private_key,
-                                 /*jwt_expiration_period_sec=*/600,
+      iotc_alloc_connection_data("target.broker.com", 8883, "itest_username",
+                                 "itest_password", "itest_client_id",
                                  /*connection_timeout=*/0,
                                  /*keepalive_timeout=*/0, IOTC_SESSION_CLEAN);
 
@@ -240,9 +228,9 @@ void iotc_itest_mqttlogic_prepare_init_and_connect_layer(
 
   iotc_context__itest_mqttlogic_layer->context_data.connection_data =
       iotc_alloc_connection_data(
-          "target.broker.com", 8883, "itest_projectid", "itest_device_path",
-          &private_key, /*jwt_expiration_period_sec=*/600,
-          /*connection_timeout=*/0, keepalive_timeout, session_type);
+          "target.broker.com", 8883, "itest_username", "itest_password",
+          "itest_client_id", /*connection_timeout=*/0, keepalive_timeout,
+          session_type);
 
   IOTC_PROCESS_INIT_ON_PREV_LAYER(&top_layer->layer_connection, NULL,
                                   IOTC_STATE_OK);
