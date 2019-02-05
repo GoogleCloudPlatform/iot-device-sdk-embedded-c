@@ -189,12 +189,13 @@ end:
   iotc_mqtt_message_free(&msg);
   iotc_mqtt_message_free(&msg_matrix);
 })
-/* DDB TODO test null client_id */
+
 IOTC_TT_TESTCASE(utest__fill_with_connect_data__valid_data__connect_msg, {
   iotc_state_t local_state = IOTC_STATE_OK;
 
   const char username[] = "test_username";
   const char password[] = "test_password";
+  const char client_id[] = "test_client_id";
 
   iotc_mqtt_message_t* msg = NULL;
   iotc_mqtt_message_t* msg_matrix = NULL;
@@ -202,8 +203,9 @@ IOTC_TT_TESTCASE(utest__fill_with_connect_data__valid_data__connect_msg, {
   IOTC_ALLOC_AT(iotc_mqtt_message_t, msg, local_state);
   IOTC_ALLOC_AT(iotc_mqtt_message_t, msg_matrix, local_state);
 
-  tt_want_int_op(fill_with_connect_data(msg, username, password, 7,
-                                        IOTC_SESSION_CLEAN, NULL, NULL, 0, 0),
+  tt_want_int_op(fill_with_connect_data(
+                  msg, username, password, client_id, /*keepalive_timeout=*/7,
+                  IOTC_SESSION_CLEAN, NULL, NULL, 0, 0),
                  ==, IOTC_STATE_OK);
 
   msg_matrix->common.common_u.common_bits.retain = IOTC_MQTT_RETAIN_FALSE;
@@ -226,6 +228,10 @@ IOTC_TT_TESTCASE(utest__fill_with_connect_data__valid_data__connect_msg, {
 
   tt_want_int_op(
       memcmp(msg->connect.password->data_ptr, password, sizeof(password) - 1),
+      ==, 0);
+
+  tt_want_int_op(
+      memcmp(msg->connect.client_id->data_ptr, client_id, sizeof(client_id) - 1),
       ==, 0);
 
   msg_matrix->connect.client_id = msg->connect.client_id;
@@ -261,6 +267,7 @@ IOTC_TT_TESTCASE(
 
       const char username[] = "test_username";
       const char* password = 0;
+      const char* client_id = "test_client_id";
 
       iotc_mqtt_message_t* msg = NULL;
       iotc_mqtt_message_t* msg_matrix = NULL;
@@ -269,8 +276,9 @@ IOTC_TT_TESTCASE(
       IOTC_ALLOC_AT(iotc_mqtt_message_t, msg_matrix, local_state);
 
       tt_want_int_op(
-          fill_with_connect_data(msg, username, password, 7, IOTC_SESSION_CLEAN,
-                                 NULL, NULL, 0, 0),
+          fill_with_connect_data(
+            msg, username, password, client_id, /**keepalive_timeout=*/7,
+            IOTC_SESSION_CLEAN, NULL, NULL, 0, 0),
           ==, IOTC_STATE_OK);
 
       msg_matrix->common.common_u.common_bits.retain = IOTC_MQTT_RETAIN_FALSE;
@@ -328,6 +336,7 @@ IOTC_TT_TESTCASE(
 
       const char* username = 0;
       const char* password = 0;
+      const char* client_id = "test_client_id";
 
       iotc_mqtt_message_t* msg = NULL;
       iotc_mqtt_message_t* msg_matrix = NULL;
@@ -336,8 +345,9 @@ IOTC_TT_TESTCASE(
       IOTC_ALLOC_AT(iotc_mqtt_message_t, msg_matrix, local_state);
 
       tt_want_int_op(
-          fill_with_connect_data(msg, username, password, 7, IOTC_SESSION_CLEAN,
-                                 NULL, NULL, 0, 0),
+          fill_with_connect_data(
+            msg, username, password, client_id, /*keepalive_timeout=*/7,
+            IOTC_SESSION_CLEAN, NULL, NULL, 0, 0),
           ==, IOTC_STATE_OK);
 
       msg_matrix->common.common_u.common_bits.retain = IOTC_MQTT_RETAIN_FALSE;
@@ -385,6 +395,39 @@ IOTC_TT_TESTCASE(
       iotc_mqtt_message_free(&msg_matrix);
     })
 
+IOTC_TT_TESTCASE(
+    utest__fill_with_connect_data__invalid_data_no_client_id__connect_msg, {
+      iotc_state_t local_state = IOTC_STATE_OK;
+
+      const char* username = "test_username";
+      const char* password = "test_password";
+      const char* client_id = NULL;
+
+      iotc_mqtt_message_t* msg = NULL;
+      iotc_mqtt_message_t* msg_matrix = NULL;
+
+      IOTC_ALLOC_AT(iotc_mqtt_message_t, msg, local_state);
+
+      tt_want_int_op(
+          fill_with_connect_data(
+            msg, username, password, client_id, /**keepalive_timeout=*/7,
+            IOTC_SESSION_CLEAN, NULL, NULL, 0, 0),
+          ==, IOTC_NULL_CLIENT_ID_ERROR);
+
+
+      iotc_mqtt_message_free(&msg);
+
+      tt_want_int_op(iotc_is_whole_memory_deallocated(), >, 0);
+
+      return;
+
+    err_handling:
+      tt_abort_msg(("test must not fail!"));
+    end:
+      iotc_mqtt_message_free(&msg);
+      iotc_mqtt_message_free(&msg_matrix);
+    })
+
 /* Test the last_will entries */
 IOTC_TT_TESTCASE(
     utest__fill_with_connect_data__valid_data_will_topic_will_message__connect_msg,
@@ -393,6 +436,7 @@ IOTC_TT_TESTCASE(
 
       const char* username = 0;
       const char* password = 0;
+      const char* client_id = "test_client_id";
       const char will_topic[] = "device_last_will";
       const char will_message[] = "device quit unexpectedly";
 
@@ -404,8 +448,9 @@ IOTC_TT_TESTCASE(
 
       tt_want_int_op(
           fill_with_connect_data(
-              msg, username, password, 7, IOTC_SESSION_CLEAN, will_topic,
-              will_message, IOTC_MQTT_QOS_AT_LEAST_ONCE, IOTC_MQTT_RETAIN_TRUE),
+              msg, username, password, client_id, /*keepalive_timeout=*/7,
+              IOTC_SESSION_CLEAN, will_topic, will_message,
+              IOTC_MQTT_QOS_AT_LEAST_ONCE, IOTC_MQTT_RETAIN_TRUE),
           ==, IOTC_STATE_OK);
 
       msg_matrix->common.common_u.common_bits.retain = IOTC_MQTT_RETAIN_FALSE;
@@ -478,6 +523,7 @@ IOTC_TT_TESTCASE(
 
       const char* username = 0;
       const char* password = 0;
+      const char* client_id = "test_client_id";
       const char will_topic[] = "device_last_will";
       const char* will_message = 0;
 
@@ -489,8 +535,9 @@ IOTC_TT_TESTCASE(
 
       tt_want_int_op(
           fill_with_connect_data(
-              msg, username, password, 7, IOTC_SESSION_CLEAN, will_topic,
-              will_message, IOTC_MQTT_QOS_AT_LEAST_ONCE, IOTC_MQTT_RETAIN_TRUE),
+              msg, username, password, client_id, /*keepalive_timeout=*/7,
+              IOTC_SESSION_CLEAN, will_topic, will_message,
+              IOTC_MQTT_QOS_AT_LEAST_ONCE, IOTC_MQTT_RETAIN_TRUE),
           ==, IOTC_NULL_WILL_MESSAGE);
 
       msg_matrix->connect.protocol_name = 0;
@@ -520,6 +567,7 @@ IOTC_TT_TESTCASE(
 
       const char* username = 0;
       const char* password = 0;
+      const char* client_id = "test_client_id";
       const char* will_topic = 0;
       const char will_message[] = "device quit unexpectedly";
 
@@ -531,8 +579,9 @@ IOTC_TT_TESTCASE(
 
       tt_want_int_op(
           fill_with_connect_data(
-              msg, username, password, 7, IOTC_SESSION_CLEAN, will_topic,
-              will_message, IOTC_MQTT_QOS_AT_LEAST_ONCE, IOTC_MQTT_RETAIN_TRUE),
+              msg, username, password, client_id, /*keepalive_timeout=*/7,
+              IOTC_SESSION_CLEAN, will_topic, will_message,
+              IOTC_MQTT_QOS_AT_LEAST_ONCE, IOTC_MQTT_RETAIN_TRUE),
           ==, IOTC_NULL_WILL_TOPIC);
 
       msg_matrix->connect.protocol_name = 0;
@@ -562,6 +611,7 @@ IOTC_TT_TESTCASE(
 
       const char* username = 0;
       const char* password = 0;
+      const char* client_id = "test_client_id";
       const char* will_topic = 0;
       const char* will_message = 0;
 
@@ -573,8 +623,9 @@ IOTC_TT_TESTCASE(
 
       tt_want_int_op(
           fill_with_connect_data(
-              msg, username, password, 7, IOTC_SESSION_CLEAN, will_topic,
-              will_message, IOTC_MQTT_QOS_AT_LEAST_ONCE, IOTC_MQTT_RETAIN_TRUE),
+              msg, username, password, client_id, /*keepalive_timeout=*/7,
+              IOTC_SESSION_CLEAN, will_topic, will_message,
+              IOTC_MQTT_QOS_AT_LEAST_ONCE, IOTC_MQTT_RETAIN_TRUE),
           ==, IOTC_STATE_OK);
 
       msg_matrix->common.common_u.common_bits.retain = IOTC_MQTT_RETAIN_FALSE;
@@ -646,6 +697,7 @@ IOTC_TT_TESTCASE(
 
       const char* username = 0;
       const char* password = 0;
+      const char* client_id = "test_client_id";
       const char will_topic[] = "device_last_will";
       const char will_message[] = "device quit unexpectedly";
 
@@ -656,7 +708,8 @@ IOTC_TT_TESTCASE(
       IOTC_ALLOC_AT(iotc_mqtt_message_t, msg_matrix, local_state);
 
       tt_want_int_op(fill_with_connect_data(
-                         msg, username, password, 7, IOTC_SESSION_CLEAN,
+                         msg, username, password, client_id,
+                         /*keepalive_timeout=*/7, IOTC_SESSION_CLEAN,
                          will_topic, will_message, IOTC_MQTT_QOS_AT_LEAST_ONCE,
                          IOTC_MQTT_RETAIN_FALSE),
                      ==, IOTC_STATE_OK);
@@ -732,6 +785,7 @@ IOTC_TT_TESTCASE(
 
       const char* username = 0;
       const char* password = 0;
+      const char* client_id = "test_client_id";
       const char will_topic[] = "device_last_will";
       const char will_message[] = "device quit unexpectedly";
 
@@ -743,8 +797,9 @@ IOTC_TT_TESTCASE(
 
       tt_want_int_op(
           fill_with_connect_data(
-              msg, username, password, 7, IOTC_SESSION_CLEAN, will_topic,
-              will_message, IOTC_MQTT_QOS_AT_MOST_ONCE, IOTC_MQTT_RETAIN_TRUE),
+              msg, username, password, client_id, /*keepalive_timeout=*/7,
+              IOTC_SESSION_CLEAN, will_topic, will_message,
+              IOTC_MQTT_QOS_AT_MOST_ONCE, IOTC_MQTT_RETAIN_TRUE),
           ==, IOTC_STATE_OK);
 
       msg_matrix->common.common_u.common_bits.retain = IOTC_MQTT_RETAIN_FALSE;
@@ -817,6 +872,7 @@ IOTC_TT_TESTCASE(
 
       const char* username = 0;
       const char* password = 0;
+      const char* client_id = "test_client_id";
       const char will_topic[] = "device_last_will";
       const char will_message[] = "device quit unexpectedly";
 
@@ -828,8 +884,9 @@ IOTC_TT_TESTCASE(
 
       tt_want_int_op(
           fill_with_connect_data(
-              msg, username, password, 7, IOTC_SESSION_CLEAN, will_topic,
-              will_message, IOTC_MQTT_QOS_EXACTLY_ONCE, IOTC_MQTT_RETAIN_TRUE),
+              msg, username, password, client_id, /*keepalive_timeout=*/7,
+              IOTC_SESSION_CLEAN, will_topic, will_message,
+              IOTC_MQTT_QOS_EXACTLY_ONCE, IOTC_MQTT_RETAIN_TRUE),
           ==, IOTC_STATE_OK);
 
       msg_matrix->common.common_u.common_bits.retain = IOTC_MQTT_RETAIN_FALSE;
