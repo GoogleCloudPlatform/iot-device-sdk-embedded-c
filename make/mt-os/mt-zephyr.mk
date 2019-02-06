@@ -16,8 +16,8 @@
 CC ?= gcc
 AR ?= ar
 
-IOTC_COMPILER_FLAGS += -fPIC -m32
-IOTC_COMPILER_FLAGS += -imacros autoconf.h
+IOTC_C_FLAGS += -fPIC -m32
+IOTC_C_FLAGS += -imacros autoconf.h
 
 IOTC_LIB_FLAGS += $(IOTC_TLS_LIBFLAGS) -lpthread -lm -lcrypto
 
@@ -39,11 +39,11 @@ IOTC_INCLUDE_FLAGS += -I$(LIBIOTC)/examples/zephyr_native_posix/build/zephyr/inc
 
 IOTC_ARFLAGS += -rs -c $(XI)
 
-IOTC_COMPILER_FLAGS += -Wno-ignored-qualifiers
-IOTC_COMPILER_FLAGS += -Wno-shift-overflow
+IOTC_C_FLAGS += -Wno-ignored-qualifiers
+IOTC_C_FLAGS += -Wno-shift-overflow
 
 # Temporarily disable these warnings until the code gets changed.
-IOTC_COMPILER_FLAGS += -Wno-format -Wno-unused-parameter
+IOTC_C_FLAGS += -Wno-format -Wno-unused-parameter
 
 IOTC_CONFIG_FLAGS += -DIOTC_MULTI_LEVEL_DIRECTORY_STRUCTURE
 IOTC_CONFIG_FLAGS += -DIOTC_LIBCRYPTO_AVAILABLE
