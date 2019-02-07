@@ -44,8 +44,8 @@ env:
       IOTC_MAKETARGET="fuzz_tests"
       CXX=clang++
 
-      - PRESET=ZEPHYR
-        IOTC_MAKETARGET=""
+    - PRESET=ZEPHYR
+      IOTC_MAKETARGET=""
 
 cache:
     apt
