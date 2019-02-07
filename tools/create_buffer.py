@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 2018 Google LLC
+# Copyright 2019 Google LLC
 #
 # This is part of the Google Cloud IoT Edge Embedded C Client,
 # it is licensed under the BSD 3-Clause license; you may not use this file
@@ -34,7 +34,7 @@ def tabs_2_spaces( s ):
 
 h_pro = tabs_2_spaces(
 """\
-/* Copyright 2018 Google LLC
+/* Copyright 2019 Google LLC
  *
  * This is part of the Google Cloud IoT Edge Embedded C Client,
  * it is licensed under the BSD 3-Clause license; you may not use this file

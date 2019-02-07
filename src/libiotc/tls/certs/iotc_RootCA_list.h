@@ -1,4 +1,4 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2019 Google LLC
  *
  * This is part of the Google Cloud IoT Edge Embedded C Client,
  * it is licensed under the BSD 3-Clause license; you may not use this file
@@ -22,7 +22,7 @@ extern "C" {
 #endif
 
 #ifndef IOTC_ROOTCA_LIST_BYTE_LENGTH
-#define IOTC_ROOTCA_LIST_BYTE_LENGTH 117084
+#define IOTC_ROOTCA_LIST_BYTE_LENGTH 713
 #endif /* IOTC_ROOTCA_LIST_BYTE_LENGTH */
 
 extern unsigned char iotc_RootCA_list[IOTC_ROOTCA_LIST_BYTE_LENGTH];
