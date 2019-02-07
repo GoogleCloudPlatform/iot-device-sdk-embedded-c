@@ -61,6 +61,7 @@
 #include "commandline.h"
 #include "example_utils.h"
 
+iotc_crypto_key_data_t iotc_connect_private_key_data;
 char ec_private_key_pem[PRIVATE_KEY_BUFFER_SIZE] = {0};
 
 /**
@@ -74,12 +75,6 @@ void task_function_gcpiot_embedded_c(void *parameters) {
 
   iotc_initialize();
 
-  iotc_crypto_key_data_t private_key_data;
-  private_key_data.crypto_key_signature_algorithm =
-      IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256;
-  private_key_data.crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM;
-  private_key_data.crypto_key_union.key_pem.key = ec_private_key_pem;
-
   /* generate the client authentication JWT, which will serve as the MQTT
    * password */
   char jwt[IOTC_JWT_SIZE] = {0};
@@ -87,14 +82,14 @@ void task_function_gcpiot_embedded_c(void *parameters) {
   iotc_state_t state =
     iotc_create_iotcore_jwt( iotc_project_id,
                              /*jwt_expiration_period_sec=*/3600,
-                             &private_key_data, jwt, IOTC_JWT_SIZE, &bytes_written);
+                             &iotc_connect_private_key_data, jwt,
+                             IOTC_JWT_SIZE, &bytes_written);
 
   if (IOTC_STATE_OK != state ) {
     printf("iotc_create_iotcore_jwt returned with error: %ul", state);
     iotc_shutdown();
     return;
   }
-
 
   iotc_context_handle_t context_handle = iotc_create_context();
 
@@ -168,6 +163,16 @@ int main(int argc, char *argv[]) {
     printf("\nApplication exiting due to private key load error.\n\n");
     return -1;
   }
+
+  /* Format the key type descriptors so the client understands
+     what type of key is being represeted. In this case, a PEM encoded
+     byte array of a ES256 key. */
+  iotc_connect_private_key_data.crypto_key_signature_algorithm =
+      IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256;
+  iotc_connect_private_key_data.crypto_key_union_type =
+      IOTC_CRYPTO_KEY_UNION_TYPE_PEM;
+  iotc_connect_private_key_data.crypto_key_union.key_pem.key =
+      ec_private_key_pem;
 
   /**
    * Create the Embedded C Client task.
