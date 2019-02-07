@@ -44,8 +44,8 @@ env:
       IOTC_MAKETARGET="fuzz_tests"
       CXX=clang++
 
-      #  - PRESET=ZEPHYR
-      #  IOTC_MAKETARGET=""
+      - PRESET=ZEPHYR
+        IOTC_MAKETARGET=""
 
 cache:
     apt
@@ -67,9 +67,6 @@ addons:
       - dfu-util
       - xz-utils
       - python3-pip
-        #  - python3-setuptools
-        #  - python3-wheel
-        #  - python3-pyelftools
 matrix:
   exclude:
     - compiler: clang

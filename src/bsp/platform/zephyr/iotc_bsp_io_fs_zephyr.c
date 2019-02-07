@@ -1,4 +1,4 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2019 Google LLC
  *
  * This is part of the Google Cloud IoT Edge Embedded C Client,
  * it is licensed under the BSD 3-Clause license; you may not use this file
@@ -81,7 +81,7 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_posix_errno_2_iotc_bsp_io_fs_state(
 }
 
 #if 0
-/* helper function that translates posix stat to xi stat */
+/* helper function that translates posix stat to xi_stat */
 static iotc_bsp_io_fs_state_t iotc_bsp_io_fs_posix_stat_2_iotc_bsp_io_fs_stat(
     const struct stat* const posix_stat,
     iotc_bsp_io_fs_stat_t* const iotc_stat) {

@@ -1,4 +1,4 @@
-# Copyright 2018 Google LLC
+# Copyright 2019 Google LLC
 #
 # This is part of the Google Cloud IoT Edge Embedded C Client,
 # it is licensed under the BSD 3-Clause license; you may not use this file
@@ -90,7 +90,6 @@ else ifeq ($(PRESET), ZEPHYR)
     TARGET = $(TARGET_STATIC_DEV)
     IOTC_BSP_PLATFORM = zephyr
     IOTC_TARGET_PLATFORM = zephyr
-    #  IOTC_BSP_TLS = wolfssl
 
 # -------------------------------------------------------
 # ARM

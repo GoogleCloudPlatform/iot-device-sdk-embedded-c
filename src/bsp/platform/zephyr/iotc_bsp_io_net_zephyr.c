@@ -1,4 +1,4 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2019 Google LLC
  *
  * This is part of the Google Cloud IoT Edge Embedded C Client,
  * it is licensed under the BSD 3-Clause license; you may not use this file
@@ -57,7 +57,7 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_connect(iotc_bsp_socket_t* iotc_socket,
   int status;
 
   memset(&hints, 0, sizeof(hints));
-  hints.ai_family = AF_UNSPEC; /* Allow Ipv4 or IPv6 */
+  hints.ai_family = AF_UNSPEC; /* Allow IPv4 or IPv6 */
   hints.ai_socktype = 0; /* Allow returning socket addresses of any type */
   hints.ai_flags = 0;
   hints.ai_protocol = 0; /* Any protocol */
