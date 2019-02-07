@@ -1,4 +1,4 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
  * This is part of the Google Cloud IoT Edge Embedded C Client,
  * it is licensed under the BSD 3-Clause license; you may not use this file
@@ -23,19 +23,6 @@
 extern "C" {
 #endif
 
-#define IOTC_JWT_HEADER_BUF_SIZE 40
-#define IOTC_JWT_HEADER_BUF_SIZE_BASE64 (IOTC_JWT_HEADER_BUF_SIZE * 4 / 3)
-
-#define IOTC_JWT_PAYLOAD_BUF_SIZE 256
-#define IOTC_JWT_PAYLOAD_BUF_SIZE_BASE64 (IOTC_JWT_PAYLOAD_BUF_SIZE * 4 / 3)
-
-#define IOTC_JWT_MAX_SIGNATURE_SIZE 132
-#define IOTC_JWT_MAX_SIGNATURE_SIZE_BASE64 (IOTC_JWT_MAX_SIGNATURE_SIZE * 4 / 3)
-
-#define IOTC_JWT_SIZE                                                       \
-  (IOTC_JWT_HEADER_BUF_SIZE_BASE64 + 1 + IOTC_JWT_PAYLOAD_BUF_SIZE_BASE64 + \
-   1 + IOTC_JWT_MAX_SIGNATURE_SIZE_BASE64)
-
 /**
  * @function
  * @brief Creates a JWT which will be used to connect to the IoT Core service.
@@ -44,11 +31,11 @@ extern "C" {
  *
  * The function currently supports ES256 key types only, as its intended
  * for small devices where ECC algorithims should be used to their smaller
- * certificate footprint requirements.
+ * key footprint requirements.
  *
  * Note: This function invokes the Crypto BSP functions
- * iotc_bsp_sha256() and iotc_bsp_ecc() to fullfill string encoding and
- * signature functionality.
+ * iotc_bsp_sha256(), iotc_bsp_ecc(), and iotc_bsp_base64_encode_urlsafe()
+ * to fullfill string encoding and signature functionality.
  *
  * @param [in] expiration_period_sec the length of time (in seconds) before
  * this JWT will expire.
@@ -65,6 +52,7 @@ extern "C" {
  * @param [out] bytes_written will contain the number of bytes
  * that were written to the provided dst_jwt_buf.
  *
+ * @returns IOTC_STATE_OK if jwt generation was successful.
  * @returns IOTC_INVALID_PARAMETER if the project_id, private_key_data or
  * dst_jwt_buf parameters are NULL, or if either of the crypto bsp
  * functions returns IOTC_BSP_CRYPTO_INVALID_INPUT_PARAMETER_ERROR.

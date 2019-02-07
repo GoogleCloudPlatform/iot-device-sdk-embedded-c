@@ -22,6 +22,7 @@
 #include "iotc_bsp_crypto.h"
 #include "iotc_helpers.h"
 #include "iotc_jwt.h"
+#include "iotc_jwt_internal.h"
 #include "iotc_macros.h"
 
 #include <openssl/bio.h>
