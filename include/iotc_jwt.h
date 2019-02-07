@@ -23,6 +23,19 @@
 extern "C" {
 #endif
 
+#define IOTC_JWT_HEADER_BUF_SIZE 40
+#define IOTC_JWT_HEADER_BUF_SIZE_BASE64 (((IOTC_JWT_HEADER_BUF_SIZE+2)/3)*4)
+
+#define IOTC_JWT_PAYLOAD_BUF_SIZE 256
+#define IOTC_JWT_PAYLOAD_BUF_SIZE_BASE64 (((IOTC_JWT_PAYLOAD_BUF_SIZE+2)/3)*4)
+
+#define IOTC_JWT_MAX_SIGNATURE_SIZE 132
+#define IOTC_JWT_MAX_SIGNATURE_SIZE_BASE64 (((IOTC_JWT_MAX_SIGNATURE_SIZE+2)/3)*4)
+
+#define IOTC_JWT_SIZE                                                       \
+  (IOTC_JWT_HEADER_BUF_SIZE_BASE64 + 1 + IOTC_JWT_PAYLOAD_BUF_SIZE_BASE64 + \
+   1 + IOTC_JWT_MAX_SIGNATURE_SIZE_BASE64)
+
 /**
  * @function
  * @brief Creates a JWT which will be used to connect to the IoT Core service.

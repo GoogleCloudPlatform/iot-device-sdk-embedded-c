@@ -23,7 +23,6 @@
 #include "iotc_globals.h"
 #include "iotc_io_timeouts.h"
 #include "iotc_jwt.h"
-#include "iotc_jwt_internal.h"
 #include "iotc_layer_api.h"
 #include "iotc_mqtt_logic_layer_data.h"
 #include "iotc_mqtt_logic_layer_data_helpers.h"

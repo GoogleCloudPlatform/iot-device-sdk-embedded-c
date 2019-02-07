@@ -82,12 +82,12 @@ void task_function_gcpiot_embedded_c(void *parameters) {
 
   /* generate the client authentication JWT, which will serve as the MQTT
    * password */
-  char jwt[1024] = {0};
+  char jwt[IOTC_JWT_SIZE] = {0};
   size_t bytes_written = 0;
   iotc_state_t state =
     iotc_create_iotcore_jwt( iotc_project_id,
                              /*jwt_expiration_period_sec=*/3600,
-                             &private_key_data, jwt, 1024, &bytes_written);
+                             &private_key_data, jwt, IOTC_JWT_SIZE, &bytes_written);
 
   if (IOTC_STATE_OK != state ) {
     printf("iotc_create_iotcore_jwt returned with error: %ul", state);
