@@ -46,6 +46,6 @@ cd ../../third_party/tls
 git clone -b mbedtls-2.12.0 https://github.com/ARMmbed/mbedtls.git
 cd mbedtls
 # "-O2" comes from mbedtls/library/Makefile "CFLAGS ?= -O2" define
-make CFLAGS="-O2 -DMBEDTLS_PLATFORM_MEMORY"
+make CFLAGS="-O2 -DMBEDTLS_PLATFORM_MEMORY $1"
 echo "mbedTLS Build Complete."
 

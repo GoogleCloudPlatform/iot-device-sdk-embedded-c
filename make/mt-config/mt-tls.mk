@@ -34,7 +34,7 @@ ifneq (,$(findstring Windows,$(IOTC_HOST_PLATFORM)))
 else ifeq ($(IOTC_USE_EXTERNAL_TLS_LIB),1)
     TLS_LIB_PREPARE_CMD :=
 else
-    TLS_LIB_PREPARE_CMD := (cd $(LIBIOTC)/res/tls && ./build_$(IOTC_BSP_TLS).sh)
+    TLS_LIB_PREPARE_CMD = (cd $(LIBIOTC)/res/tls && ./build_$(IOTC_BSP_TLS).sh $(IOTC_BSP_TLS_BUILD_ARGS))
 endif
 
 $(IOTC_TLS_LIB_DEP):
