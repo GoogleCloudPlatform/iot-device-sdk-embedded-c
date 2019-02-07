@@ -25,6 +25,7 @@
 #include <memory.h>
 #include <stdio.h>
 #include <sys/stat.h>
+#include <unistd.h>
 
 /* The size of the buffer to be used for reads. */
 const size_t iotc_bsp_io_fs_buffer_size = 1024;
@@ -80,7 +81,6 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_posix_errno_2_iotc_bsp_io_fs_state(
   return ret;
 }
 
-#if 0
 /* helper function that translates posix stat to xi_stat */
 static iotc_bsp_io_fs_state_t iotc_bsp_io_fs_posix_stat_2_iotc_bsp_io_fs_stat(
     const struct stat* const posix_stat,
@@ -92,7 +92,6 @@ static iotc_bsp_io_fs_state_t iotc_bsp_io_fs_posix_stat_2_iotc_bsp_io_fs_stat(
 
   return IOTC_BSP_IO_FS_STATE_OK;
 }
-#endif
 
 /**
  * @brief iotc_bsp_io_fs_posix_file_list_cnd
@@ -119,7 +118,6 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_stat(
 
   iotc_bsp_io_fs_state_t ret = IOTC_BSP_IO_FS_STATE_OK;
 
-#if 0
   struct stat stat_struct;
   memset(&stat_struct, 0, sizeof(stat_struct));
 
@@ -135,7 +133,6 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_stat(
                                                         resource_stat);
 
 err_handling:
-#endif
   return ret;
 }
 
