@@ -75,6 +75,8 @@ void task_function_gcpiot_embedded_c(void *parameters) {
 
   iotc_initialize();
 
+  iotc_context_handle_t context_handle = iotc_create_context();
+
   /* generate the client authentication JWT, which will serve as the MQTT
    * password */
   char jwt[IOTC_JWT_SIZE] = {0};
@@ -91,12 +93,12 @@ void task_function_gcpiot_embedded_c(void *parameters) {
     return;
   }
 
-  iotc_context_handle_t context_handle = iotc_create_context();
+
 
   const uint16_t connection_timeout = 10;
   const uint16_t keepalive_timeout = 3;
 
-  iotc_connect(context_handle, /*username=*/iotc_device_path, /*password=*/jwt,
+  iotc_connect(context_handle, /*username=*/iotc_device_path, /*password=*/"eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NDk1NTgyNDgsImV4cCI6MTU0OTU2MTg0OCwiYXVkIjoiZ29vZ2xlLmNvbTpkZGItdGVzdC1kZXZlbG9wbWVudCJ9.3BM1IfRG2MpglcTPUKc88cp0rR1j2VV4sdbls6ZFbzH1igylUdaaNTssHJIiefGN5OBQedgvK9LT476rXb4YxA==",
                /*client_id=*/ iotc_device_path, connection_timeout, keepalive_timeout,
                &on_connection_state_changed);
 
@@ -104,7 +106,7 @@ void task_function_gcpiot_embedded_c(void *parameters) {
     printf(".");
     fflush(stdout);
 
-#if 0
+#if 1
     /* Calling the non-blocking tick call processes a single client cycle making
      * the client a bit slower than calling the blocking call. */
     iotc_events_process_tick();
@@ -118,9 +120,6 @@ void task_function_gcpiot_embedded_c(void *parameters) {
      */
     iotc_events_process_blocking();
 #endif
-
-    iotc_delete_context(context_handle);
-    iotc_shutdown();
 
     vTaskDelay(task_delay);
     (void)task_delay;
