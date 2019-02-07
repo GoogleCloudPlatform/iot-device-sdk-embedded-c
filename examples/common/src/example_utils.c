@@ -91,7 +91,7 @@ int load_ec_private_key_pem_from_posix_fs(char* buf_ec_private_key_pem, size_t b
     printf(
         "private key file size of %lu bytes is larger that certificate buffer "
         "size of %lu bytes\n",
-        file_size, buf_len);
+        file_size, (long)buf_len);
     fclose(fp);
     return -1;
   }
@@ -111,11 +111,15 @@ void on_connection_state_changed(iotc_context_handle_t in_context_handle,
                                  void* data, iotc_state_t state) {
   iotc_connection_data_t* conn_data = (iotc_connection_data_t*)data;
 
+  if (NULL == conn_data) {
+    return;
+  }
+
   switch (conn_data->connection_state) {
     /* IOTC_CONNECTION_STATE_OPENED means that the connection has been
        established and the IoTC Client is ready to send/recv messages */
     case IOTC_CONNECTION_STATE_OPENED:
-      printf("connected!\n");
+      printf("connected to %s:%d\n", conn_data->host, conn_data->port);
 
       /* Publish immediately upon connect. 'publish_function' is defined
          in this example file and invokes the IoTC API to publish a
