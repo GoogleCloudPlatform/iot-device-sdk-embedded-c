@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
     return -1;
   }
 
-  /* This example assumes the private key which will sign the IoT Core
+  /* This example assumes the private key to be used to  sign the IoT Core
      Connect JWT credential is a PEM encoded ES256 private key,
      and passes it IoT Core Device Client functions as a byte array.
      There are other ways of passing key data to the client, including
@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
   }
 
   /* Format the key type descriptors so the client understands
-     what type of key is being represeted. In this case, a PEM encoded
+     which type of key is being reprenseted. In this case, a PEM encoded
      byte array of a ES256 key. */
   iotc_connect_private_key_data.crypto_key_signature_algorithm =
       IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256;

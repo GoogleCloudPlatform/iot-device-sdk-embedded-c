@@ -44,7 +44,7 @@ extern "C" {
  *
  * The function currently supports ES256 key types only, as its intended
  * for small devices where ECC algorithims should be used to their smaller
- * keyfootprint requirements.
+ * key footprint requirements.
  *
  * Note: This function invokes the Crypto BSP functions
  * iotc_bsp_sha256(), iotc_bsp_ecc(), and iotc_bsp_base64_encode_urlsafe()

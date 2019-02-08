@@ -429,7 +429,7 @@ iotc_state_t iotc_connect_to(
   if (NULL != iotc->context_data.connection_data) {
     IOTC_CHECK_STATE(iotc_connection_data_update_lastwill(
         iotc->context_data.connection_data, host, port, username, password,
-        client_id,  connection_timeout, keepalive_timeout,
+        client_id, connection_timeout, keepalive_timeout,
         IOTC_SESSION_CLEAN, NULL, NULL, (iotc_mqtt_qos_t)0,
         (iotc_mqtt_retain_t)0));
   } else {

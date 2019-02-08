@@ -52,8 +52,11 @@ typedef enum iotc_session_type_e {
   IOTC_SESSION_CONTINUE /**< MQTT unclean session */
 } iotc_session_type_t;
 
-/* Remove the project_id from the structure as we’re no longer
- * creating the JWT internally.
+/**
+ * @struct  iotc_connection_data_t
+ * @brief   Connection parameters received by iotc_connect's callback function.
+ * These values may be reused to request another connection from within the
+ * callback.
  */
 typedef struct {
   char* host;

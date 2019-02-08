@@ -93,8 +93,6 @@ void task_function_gcpiot_embedded_c(void *parameters) {
     return;
   }
 
-
-
   const uint16_t connection_timeout = 10;
   const uint16_t keepalive_timeout = 3;
 
@@ -106,7 +104,7 @@ void task_function_gcpiot_embedded_c(void *parameters) {
     printf(".");
     fflush(stdout);
 
-#if 1
+#if 0
     /* Calling the non-blocking tick call processes a single client cycle making
      * the client a bit slower than calling the blocking call. */
     iotc_events_process_tick();
@@ -164,7 +162,7 @@ int main(int argc, char *argv[]) {
   }
 
   /* Format the key type descriptors so the client understands
-     what type of key is being represeted. In this case, a PEM encoded
+     what type of key is being represented. In this case, a PEM encoded
      byte array of a ES256 key. */
   iotc_connect_private_key_data.crypto_key_signature_algorithm =
       IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256;

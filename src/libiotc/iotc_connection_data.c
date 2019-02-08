@@ -92,7 +92,6 @@ err_handling:
   return 0;
 }
 
-/* ddb continue here. */
 iotc_state_t iotc_connection_data_update(
     iotc_connection_data_t* conn_data, const char* host, uint16_t port,
     const char* username, const char* password, const char* client_id,
@@ -173,3 +172,4 @@ void iotc_free_connection_data(iotc_connection_data_t** data) {
 
   IOTC_SAFE_FREE(*data);
 }
+

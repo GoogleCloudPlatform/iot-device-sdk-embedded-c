@@ -60,7 +60,7 @@ void main(void) {
   }
 
   /* Format the key type descriptors so the client understands
-     what type of key is being represeted. In this case, a PEM encoded
+     what type of key is being represented. In this case, a PEM encoded
      byte array of a ES256 key. */
   iotc_connect_private_key_data.crypto_key_signature_algorithm =
       IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256;
@@ -88,7 +88,7 @@ void main(void) {
                              &iotc_connect_private_key_data, jwt,
                              IOTC_JWT_SIZE, &bytes_written);
 
-  if (IOTC_STATE_OK != state ) {
+  if (IOTC_STATE_OK != state) {
     printk("iotc_create_iotcore_jwt returned with error: %ul", state);
     return;
   }
