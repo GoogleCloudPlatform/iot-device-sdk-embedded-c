@@ -18,7 +18,7 @@
 #include <kernel.h>
 
 // https://docs.zephyrproject.org/1.10.0/kernel/memory/pools.html
-K_MEM_POOL_DEFINE(iotc_mem_pool, 128, 32768, 16, 4);
+K_MEM_POOL_DEFINE(iotc_mem_pool, 128, 32768, 4, 4);
 
 void* iotc_bsp_mem_alloc(size_t byte_count) {
   void* ret = (void*)k_mem_pool_malloc(&iotc_mem_pool, byte_count);
