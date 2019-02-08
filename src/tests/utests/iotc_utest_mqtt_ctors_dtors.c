@@ -932,7 +932,7 @@ IOTC_TT_TESTCASE(
       tt_want_int_op(msg->connect.username, ==, 0);
       tt_want_int_op(msg->connect.password, ==, 0);
       tt_want_int_op(memcmp(msg->connect.client_id->data_ptr, client_id,
-                            strlen(client_id) - 1),
+                            strlen(client_id)),
                      ==, 0);
 
       /* Check the last will elements */
