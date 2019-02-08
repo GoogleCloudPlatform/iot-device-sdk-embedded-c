@@ -112,7 +112,7 @@ int main(int argc, char* argv[]) {
     return -1;
   }
 
-  iotc_connect(iotc_context, /*username=*/iotc_device_path, /*password=*/jwt,
+  iotc_connect(iotc_context, /*username=*/NULL, /*password=*/jwt,
                /*client_id=*/ iotc_device_path, connection_timeout, keepalive_timeout,
                &on_connection_state_changed);
 

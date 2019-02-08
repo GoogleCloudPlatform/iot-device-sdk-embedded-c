@@ -386,6 +386,9 @@ iotc_state_t iotc_connect_to(
   IOTC_CHECK_CND_DBGMESSAGE(IOTC_INVALID_CONTEXT_HANDLE >= iotc_h,
                             IOTC_NULL_CONTEXT, state,
                             "ERROR: invalid context handle provided");
+  if( NULL == username ) {
+    username = "";
+  }
 
   iotc = iotc_object_for_handle(iotc_globals.context_handles_vector, iotc_h);
 
@@ -422,7 +425,7 @@ iotc_state_t iotc_connect_to(
         iotc->context_data.connection_data->connection_state);
     return IOTC_ALREADY_INITIALIZED;
   }
-
+ 
   input_layer = iotc->layer_chain.top;
   iotc->protocol = IOTC_MQTT;
 

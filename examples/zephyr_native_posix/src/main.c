@@ -93,8 +93,8 @@ void main(void) {
     return;
   }
 
-  iotc_connect(iotc_context, /*username=*/iotc_device_path, /*password=*/jwt,
-               /*client_id=*/ iotc_device_path, connection_timeout,
+  iotc_connect(iotc_context, /*username=*/NULL, /*password=*/jwt,
+               /*client_id=*/iotc_device_path, connection_timeout,
                keepalive_timeout, &on_connection_state_changed);
 
   iotc_events_process_blocking();

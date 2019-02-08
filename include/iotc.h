@@ -255,14 +255,14 @@ extern void iotc_events_stop();
  * @param [in] iotc_h a context handle created by invoking
  * iotc_create_context.
  * @param [in] username the MQTT Connect Username. For IoT Core, this
- * should be the device path. For more information on device paths, please
- * see https://cloud.google.com/iot/docs/how-tos/mqtt-bridge which details
- * how to construct the device path string.
+ * parameter is unused.
  * @param [in] password the MQTT Connect Password. For IoT Core, this
- * should the IoT Core Connecting JWT created by the function
+ * should be the IoT Core Connecting JWT created by the function
  * iotc_create_iotcore_jwt.
  * @param [in] client_id the MQTT connect client identifier. For IoT Core, this
- * can be an empty string.
+ * must be the device_path of your device. Please see
+ * https://cloud.google.com/iot/docs/how-tos/mqtt-bridge which details
+ * how to construct the device path string.
  * @param [in] connection_timeout Number of seconds that the socket will be
  * kept before CONNACK without data coming from the server. In case of 0,
  * the TCP timeout will be used.
