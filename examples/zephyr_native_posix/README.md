@@ -1,4 +1,4 @@
-# Zephyr RTOS port
+# Zephyr RTOS example
 ___
 
 This example connects a Zephyr native_posix board application to
@@ -42,5 +42,3 @@ For debugging purposes it might be useful to detach from the Zephyr solution and
 - run `./bin/mqtt_logic_producer -p <GCP IoT Core Project ID> -d projects/<GCP IoT Core Project ID>/locations/<Region>/registries/<GCP IoT Core Registry ID>/devices/<GCP IoT Core Device ID> -t /devices/<GCP IoT Core DeviceID>/state`
 
 Switching the Zephyr and linux builds back and forth has a flaw though. The mbedTLS library needs to be 32bit or 64bit respectively. Therefore, switching targets will requires the deletetion of the mbedTLS directory forcing an mbedTLS rebuild: `rm -rf third_party/tls/mbedtls`
-
-#### 
