@@ -22,7 +22,6 @@
 #include "iotc_bsp_crypto.h"
 #include "iotc_heapcheck_test.h"
 #include "iotc_jwt.h"
-#include "iotc_jwt_internal.h"
 #include "iotc_openssl_utils.h"
 
 namespace iotctest {
@@ -70,7 +69,7 @@ class IotcJwt : public IotcHeapCheckTest {
 };
 
 TEST_F(IotcJwt, IoTCoreJwtCreateNullProjectIdReturnsInvalidParameter) {
-  unsigned char jwt_buffer[IOTC_JWT_SIZE] = {0};
+  char jwt_buffer[IOTC_JWT_SIZE] = {0};
   size_t bytes_written = 0;
   EXPECT_EQ(iotc_create_iotcore_jwt(NULL, /*expiration_period_sec=*/600,
                                     &private_key_, jwt_buffer,
@@ -79,7 +78,7 @@ TEST_F(IotcJwt, IoTCoreJwtCreateNullProjectIdReturnsInvalidParameter) {
 }
 
 TEST_F(IotcJwt, IoTCoreJwtCreateNullPrivateKeyReturnsInvalidParameter) {
-  unsigned char jwt_buffer[IOTC_JWT_SIZE] = {0};
+  char jwt_buffer[IOTC_JWT_SIZE] = {0};
   size_t bytes_written = 0;
   EXPECT_EQ(iotc_create_iotcore_jwt("projectID", /*expiration_period_sec=*/600,
                                     NULL, jwt_buffer,
@@ -96,7 +95,7 @@ TEST_F(IotcJwt, IoTCoreJwtCreateNullJwtBufferReturnsInvalidParameter) {
 }
 
 TEST_F(IotcJwt, IoTCoreJwtCreateJwtInvalidAlogirthmReturnsAlgNotSupportedError) {
-  unsigned char jwt_buffer[IOTC_JWT_SIZE] = {0};
+  char jwt_buffer[IOTC_JWT_SIZE] = {0};
   size_t bytes_written = 0;
   private_key_.crypto_key_signature_algorithm =
       IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_INVALID;
@@ -107,7 +106,7 @@ TEST_F(IotcJwt, IoTCoreJwtCreateJwtInvalidAlogirthmReturnsAlgNotSupportedError) 
 }
 
 TEST_F(IotcJwt, IoTCoreJwtCreateCreateReturnsSmallBufferError) {
-  unsigned char jwt_buffer[IOTC_JWT_SIZE] = {0};
+  char jwt_buffer[IOTC_JWT_SIZE] = {0};
   size_t bytes_written = 0;
   EXPECT_EQ(iotc_create_iotcore_jwt("projectID", /*expiration_period_sec=*/600,
                                     &private_key_, jwt_buffer,
@@ -116,7 +115,7 @@ TEST_F(IotcJwt, IoTCoreJwtCreateCreateReturnsSmallBufferError) {
 }
 
 TEST_F(IotcJwt, IoTCoreJwtStringConsistsOfThreeDotSeparatedStrings) {
-  unsigned char jwt_buffer[IOTC_JWT_SIZE] = {0};
+  char jwt_buffer[IOTC_JWT_SIZE] = {0};
   size_t bytes_written = 0;
   ASSERT_EQ(iotc_create_iotcore_jwt("projectID", /*expiration_period_sec=*/600,
                                     &private_key_, jwt_buffer, IOTC_JWT_SIZE,
@@ -130,7 +129,7 @@ TEST_F(IotcJwt, IoTCoreJwtStringConsistsOfThreeDotSeparatedStrings) {
 TEST_F(IotcJwt, IoTCoreJwtCreateReturnsProjectIdTooLongError) {
   const std::string kTooLongProjectId(IOTC_JWT_SIZE - 1, 'x');
 
-  unsigned char jwt_buffer[IOTC_JWT_SIZE] = {0};
+  char jwt_buffer[IOTC_JWT_SIZE] = {0};
   size_t bytes_written = 0;
   EXPECT_EQ(iotc_create_iotcore_jwt(kTooLongProjectId.c_str(),
                                     /*expiration_period_sec=*/600, &private_key_,
@@ -147,7 +146,7 @@ TEST_F(IotcJwt, IoTCoreJwtCreateReturnsProjectIdTooLongError) {
 }
 
 TEST_F(IotcJwt, IoTCoreJwtCreateES256ReturnsCorrectDecodableBase64Sections) {
-  unsigned char jwt_buffer[IOTC_JWT_SIZE] = {0};
+  char jwt_buffer[IOTC_JWT_SIZE] = {0};
   size_t bytes_written = 0;
   const uint32_t expiration_period_sec = 1600;
   ASSERT_EQ(
@@ -182,7 +181,7 @@ TEST_F(IotcJwt, IoTCoreJwtCreateES256ReturnsCorrectDecodableBase64Sections) {
 }
 
 TEST_F(IotcJwt, IoTCoreJwtCreateReturnsCorrectES256) {
-  unsigned char jwt_buffer[IOTC_JWT_SIZE] = {0};
+  char jwt_buffer[IOTC_JWT_SIZE] = {0};
   size_t bytes_written = 0;
   ASSERT_EQ(iotc_create_iotcore_jwt("projectID", /*expiration_period_sec=*/600,
                                     &private_key_, jwt_buffer, IOTC_JWT_SIZE,

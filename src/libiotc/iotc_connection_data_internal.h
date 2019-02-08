@@ -35,47 +35,32 @@ extern "C" {
 #endif
 
 extern iotc_connection_data_t* iotc_alloc_connection_data(
-    const char* host, uint16_t port, const char* project_id,
-    const char* device_path,
-    const iotc_crypto_key_data_t* private_key_data,
-    uint32_t jwt_expiration_period_sec, uint16_t connection_timeout,
+    const char* host, uint16_t port, const char* username,
+    const char* password, const char* client_id, uint16_t connection_timeout,
     uint16_t keepalive_timeout, iotc_session_type_t session_type);
 
 extern iotc_connection_data_t* iotc_alloc_connection_data_lastwill(
-    const char* host, uint16_t port, const char* project_id,
-    const char* device_path,
-    const iotc_crypto_key_data_t* private_key_data,
-    uint32_t jwt_expiration_period_sec, uint16_t keepalive_timeout,
+    const char* host, uint16_t port, const char* username,
+    const char* password, const char* client_id, uint16_t keepalive_timeout,
     uint16_t connection_timeout, iotc_session_type_t session_type,
     const char* will_topic, const char* will_apssword,
     iotc_mqtt_qos_t will_qios, iotc_mqtt_retain_t will_retain);
 
 iotc_state_t iotc_connection_data_update(
     iotc_connection_data_t* conn_data, const char* host, uint16_t port,
-    const char* project_id, const char* device_path,
-    const iotc_crypto_key_data_t* private_key_data,
-    uint32_t jwt_expiration_period_sec, uint16_t connection_timeout,
-    uint16_t keepalive_timeout, iotc_session_type_t session_type);
+    const char* username, const char* password, const char* client_id,
+    uint16_t connection_timeout, uint16_t keepalive_timeout,
+    iotc_session_type_t session_type);
 
 iotc_state_t iotc_connection_data_update_lastwill(
     iotc_connection_data_t* conn_data, const char* host, uint16_t port,
-    const char* project_id, const char* device_path,
-    const iotc_crypto_key_data_t* private_key_data,
-    uint32_t jwt_expiration_period_sec, uint16_t connection_timeout,
-    uint16_t keepalive_timeout, iotc_session_type_t session_type,
-    const char* will_topic, const char* will_message, iotc_mqtt_qos_t will_qos,
+    const char* username, const char* password, const char* client_id,
+    uint16_t connection_timeout, uint16_t keepalive_timeout,
+    iotc_session_type_t session_type, const char* will_topic,
+    const char* will_message, iotc_mqtt_qos_t will_qos,
     iotc_mqtt_retain_t will_retain);
 
 extern void iotc_free_connection_data(iotc_connection_data_t** data);
-
-int iotc_crypto_private_key_data_cmp(
-    const iotc_crypto_key_data_t* key1,
-    const iotc_crypto_key_data_t* key2);
-
-iotc_crypto_key_data_t* iotc_crypto_private_key_data_dup(
-    const iotc_crypto_key_data_t* src_key);
-
-void iotc_crypto_private_key_data_free(iotc_crypto_key_data_t* key);
 
 #ifdef __cplusplus
 }

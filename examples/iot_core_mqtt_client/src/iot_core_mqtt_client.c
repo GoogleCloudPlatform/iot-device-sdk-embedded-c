@@ -30,6 +30,8 @@
 #include <iotc_jwt.h>
 
 /* Application variables. */
+iotc_crypto_key_data_t iotc_connect_private_key_data;
+char ec_private_key_pem[PRIVATE_KEY_BUFFER_SIZE] = {0};
 iotc_context_handle_t iotc_context = IOTC_INVALID_CONTEXT_HANDLE;
 
 /*  -main-
@@ -44,14 +46,32 @@ int main(int argc, char* argv[]) {
     return -1;
   }
 
-  char ec_private_key_pem[PRIVATE_KEY_BUFFER_SIZE] = {0};
+  /* This example assumes the private key which will sign the IoT Core
+     Connect JWT credential is a PEM encoded ES256 private key,
+     and passes it IoT Core Device Client functions as a byte array.
+     There are other ways of passing key data to the client, including
+     passing Key Slot IDs for using keys stored in secure elements.
+     For more information, please see the iotc_crypto_key_data_t
+     documentation in include/iotc_types.h. */
 
-  if (0 != load_ec_private_key_pem_from_posix_fs(ec_private_key_pem, PRIVATE_KEY_BUFFER_SIZE)) {
-    printf("\nApplication exiting due to private key load error.\n\n");
+  /* Use the example utils function to load the key from disk into memory. */
+  if (0 != load_ec_private_key_pem_from_posix_fs(ec_private_key_pem,
+                                                 PRIVATE_KEY_BUFFER_SIZE)) {
+    printf("\nError loading IoT Core private key from disk.\n\n");
     return -1;
   }
 
-  /* initialize iotc library and create a context to use to connect to the
+  /* Format the key type descriptors so the client understands
+     what type of key is being represeted. In this case, a PEM encoded
+     byte array of a ES256 key. */
+  iotc_connect_private_key_data.crypto_key_signature_algorithm =
+      IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256;
+  iotc_connect_private_key_data.crypto_key_union_type =
+      IOTC_CRYPTO_KEY_UNION_TYPE_PEM;
+  iotc_connect_private_key_data.crypto_key_union.key_pem.key =
+      ec_private_key_pem;
+
+  /* Initialize iotc library and create a context to use to connect to the
    * GCP IoT Core Service. */
   const iotc_state_t error_init = iotc_initialize();
 
@@ -77,15 +97,24 @@ int main(int argc, char* argv[]) {
   const uint16_t connection_timeout = 10;
   const uint16_t keepalive_timeout = 20;
 
-  iotc_crypto_key_data_t key_data;
-  key_data.crypto_key_signature_algorithm =
-      IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256;
-  key_data.crypto_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM;
-  key_data.crypto_key_union.key_pem.key = ec_private_key_pem;
+  /* Generate the client authentication JWT, which will serve as the MQTT
+   * password. */
+  char jwt[IOTC_JWT_SIZE] = {0};
+  size_t bytes_written = 0;
+  iotc_state_t state =
+    iotc_create_iotcore_jwt( iotc_project_id,
+                             /*jwt_expiration_period_sec=*/3600,
+                             &iotc_connect_private_key_data, jwt,
+                             IOTC_JWT_SIZE, &bytes_written);
 
-  iotc_connect(iotc_context, iotc_project_id, iotc_device_path, &key_data,
-               /*{jwt_expiration_period_sec=*/3600, connection_timeout,
-               keepalive_timeout, &on_connection_state_changed);
+  if (IOTC_STATE_OK != state ) {
+    printf("iotc_create_iotcore_jwt returned with error: %ul", state);
+    return -1;
+  }
+
+  iotc_connect(iotc_context, /*username=*/iotc_device_path, /*password=*/jwt,
+               /*client_id=*/ iotc_device_path, connection_timeout, keepalive_timeout,
+               &on_connection_state_changed);
 
   /* The IoTC Client was designed to be able to run on single threaded devices.
      As such it does not have its own event loop thread. Instead you must
@@ -105,4 +134,3 @@ int main(int argc, char* argv[]) {
 
   return 0;
 }
-

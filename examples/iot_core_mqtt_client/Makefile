@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-IOTC_EXAMPLE_NAME := mqtt_logic_producer
+IOTC_EXAMPLE_NAME := iot_core_mqtt_client
 
 include ../common/rules.mk
 include ../common/targets.mk

@@ -23,6 +23,19 @@
 extern "C" {
 #endif
 
+#define IOTC_JWT_HEADER_BUF_SIZE 40
+#define IOTC_JWT_HEADER_BUF_SIZE_BASE64 (((IOTC_JWT_HEADER_BUF_SIZE+2)/3)*4)
+
+#define IOTC_JWT_PAYLOAD_BUF_SIZE 256
+#define IOTC_JWT_PAYLOAD_BUF_SIZE_BASE64 (((IOTC_JWT_PAYLOAD_BUF_SIZE+2)/3)*4)
+
+#define IOTC_JWT_MAX_SIGNATURE_SIZE 132
+#define IOTC_JWT_MAX_SIGNATURE_SIZE_BASE64 (((IOTC_JWT_MAX_SIGNATURE_SIZE+2)/3)*4)
+
+#define IOTC_JWT_SIZE                                                       \
+  (IOTC_JWT_HEADER_BUF_SIZE_BASE64 + 1 + IOTC_JWT_PAYLOAD_BUF_SIZE_BASE64 + \
+   1 + IOTC_JWT_MAX_SIGNATURE_SIZE_BASE64)
+
 /**
  * @function
  * @brief Creates a JWT which will be used to connect to the IoT Core service.
@@ -31,7 +44,7 @@ extern "C" {
  *
  * The function currently supports ES256 key types only, as its intended
  * for small devices where ECC algorithims should be used to their smaller
- * key footprint requirements.
+ * keyfootprint requirements.
  *
  * Note: This function invokes the Crypto BSP functions
  * iotc_bsp_sha256(), iotc_bsp_ecc(), and iotc_bsp_base64_encode_urlsafe()
@@ -69,7 +82,7 @@ extern "C" {
 
 iotc_state_t iotc_create_iotcore_jwt(
     const char* project_id, uint32_t expiration_period_sec,
-    const iotc_crypto_key_data_t* private_key_data, unsigned char* dst_jwt_buf,
+    const iotc_crypto_key_data_t* private_key_data, char* dst_jwt_buf,
     size_t dst_jwt_buf_len, size_t* bytes_written);
 
 #ifdef __cplusplus

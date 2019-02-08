@@ -104,6 +104,7 @@ typedef enum {
   IOTC_NULL_DEVICE_PATH_ERROR,             /* 73 */
   IOTC_BUFFER_TOO_SMALL_ERROR,             /* 74 */
   IOTC_NULL_KEY_DATA_ERROR,                /* 75 */
+  IOTC_NULL_CLIENT_ID_ERROR,               /* 76 */
 
   IOTC_ERROR_COUNT /* add above this line, and this sould always be last. */
 } iotc_state_t;
