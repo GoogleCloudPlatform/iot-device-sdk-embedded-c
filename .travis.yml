@@ -104,6 +104,6 @@ script:
         elif [[ $PRESET == 'ZEPHYR' ]]; then
                 make -C examples/zephyr_native_posix/build VERBOSE=1;
         else
-                make -C examples/mqtt_logic_producer IOTC_CLIENT_LIB_PATH=../../bin/linux IOTC_BSP_TLS=$IOTC_BSP_TLS;
+                make -C examples/iot_core_mqtt_client IOTC_CLIENT_LIB_PATH=../../bin/linux IOTC_BSP_TLS=$IOTC_BSP_TLS;
         fi;
     fi;"

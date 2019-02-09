@@ -40,7 +40,7 @@ iotc_bsp_crypto_state_t iotc_bsp_sha256(uint8_t* dst_buf_32_bytes,
 }
 
 iotc_bsp_crypto_state_t iotc_bsp_ecc(
-    const iotc_crypto_private_key_data_t* private_key_data, uint8_t* dst_buf,
+    const iotc_crypto_key_data_t* private_key_data, uint8_t* dst_buf,
     size_t dst_buf_size, size_t* bytes_written, const uint8_t* src_buf,
     size_t src_buf_size) {
   IOTC_UNUSED(private_key_data);

@@ -136,9 +136,7 @@ void iotc_driver_init(int argc, char const* argv[],
 }
 
 int main(int argc, char const* argv[]) {
-  IOTC_UNUSED(DEFAULT_PROJECT_ID);
-  IOTC_UNUSED(DEFAULT_DEVICE_PATH);
-  IOTC_UNUSED(DEFAULT_PRIVATE_KEY);
+  IOTC_UNUSED(DEFAULT_CLIENT_ID);
 
   /*************************************
    * libiotc initialization **********

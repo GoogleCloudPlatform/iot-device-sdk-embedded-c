@@ -15,11 +15,14 @@
  */
 
 #include <stdio.h>
+#include <iotc_jwt.h>
 
 #include "example_utils.h"
 #include "commandline.h"
 
 #define IOTC_UNUSED(x) (void)(x)
+
+extern iotc_crypto_key_data_t iotc_connect_private_key_data;
 
 static iotc_timed_task_handle_t delayed_publish_task =
     IOTC_INVALID_TIMED_TASK_HANDLE;
@@ -169,14 +172,25 @@ void on_connection_state_changed(iotc_context_handle_t in_context_handle,
         iotc_events_stop();
       } else {
         printf("connection closed - reason %d!\n", state);
-        /* The disconnection was unforeseen.  Try reconnect to the server
-           with previously set configuration, which has been provided
-           to this callback in the conn_data structure. */
-        iotc_connect(
-            in_context_handle, conn_data->project_id, conn_data->device_path,
-            conn_data->private_key_data, conn_data->jwt_expiration_period_sec,
-            conn_data->connection_timeout, conn_data->keepalive_timeout,
-            &on_connection_state_changed);
+        /* The disconnection was unforeseen.  Try to reconnect to the server
+           with the previously set username and client_id, but regenerate
+           the client authentication JWT password in case the disconnection
+           was due to an expired JWT. */
+        char jwt[IOTC_JWT_SIZE] = {0};
+        size_t bytes_written = 0;
+        state = iotc_create_iotcore_jwt(iotc_project_id,
+                                        /*jwt_expiration_period_sec=*/3600,
+                                        &iotc_connect_private_key_data, jwt,
+                                        IOTC_JWT_SIZE, &bytes_written);
+        if (IOTC_STATE_OK != state ) {
+          printf("iotc_create_iotcore_jwt returned with error"
+                 " when attempting to reconnect: %ul\n", state);
+        } else {
+          iotc_connect(
+            in_context_handle, conn_data->username, jwt,
+            conn_data->client_id, conn_data->connection_timeout,
+            conn_data->keepalive_timeout, &on_connection_state_changed);
+        }
       }
     } break;
     default:

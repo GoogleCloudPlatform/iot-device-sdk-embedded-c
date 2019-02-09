@@ -153,12 +153,9 @@ iotc_state_t iotc_driver_logic_layer_pull(void* context, void* data,
         iotc_globals.default_context_handle,
         message_API_call->connect->server_address->host,
         message_API_call->connect->server_address->port,
-        // message_API_call->connect->username,
-        // message_API_call->connect->password,
-        DEFAULT_PROJECT_ID,     /* TODO(ddb): add this to the protobuf */
-        DEFAULT_DEVICE_PATH,    /* TODO(ddb): add this to the protobuf */
-        &DEFAULT_PRIVATE_KEY,   /* TODO(ddb): add this to the protobuf */
-        DEFAULT_JWT_EXPIRATION, /* TODO(ddb): add this to the protobuf */
+        message_API_call->connect->username,
+        message_API_call->connect->password,
+        DEFAULT_CLIENT_ID,     /* TODO(ddb): add this to the protobuf */
         message_API_call->connect->has_connection_timeout
             ? message_API_call->connect->connection_timeout
             : 10,

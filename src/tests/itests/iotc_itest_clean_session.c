@@ -256,15 +256,9 @@ void clean_session_on_connection_state_changed(
 }
 
 static void iotc_itest_clean_session_act() {
-  const iotc_crypto_private_key_data_t dummy_private_key = {
-      .private_key_signature_algorithm =
-          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-      .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-      .private_key_union.key_pem.key = "dummy key"};
-
-  iotc_connect(iotc_context_handle, "itest_projectid", "itest_device_path",
-               &dummy_private_key, /*jwt_expiration_period_sec=*/600,
-               /*connection_timeout=*/20, /*keepalive_timeout=*/20,
+  iotc_connect(iotc_context_handle, "itest_username", "itest_password",
+               "itest_client_id", /*connection_timeout=*/20,
+               /*keepalive_timeout=*/20,
                &clean_session_on_connection_state_changed);
 
   iotc_evtd_step(iotc_context->context_data.evtd_instance,

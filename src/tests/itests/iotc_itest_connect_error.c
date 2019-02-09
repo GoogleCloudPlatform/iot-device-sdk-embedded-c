@@ -161,21 +161,10 @@ void connect_error_on_connection_state_changed(
 static void iotc_itest_connect_error__call_connect(void** fixture_void) {
   IOTC_UNUSED(fixture_void);
 
-  const iotc_crypto_private_key_data_t private_key = {
-      .private_key_signature_algorithm =
-          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-      .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-      .private_key_union.key_pem.key =
-          "-----BEGIN EC PRIVATE KEY-----\n"
-          "MHcCAQEEIG2oKC+2qRWysluHHVrJZCsDE8U8vkpdbeKVCi4a3crdoAoGCCqGSM49\n"
-          "AwEHoUQDQgAELHWyhm6oLLd2adMUUqqyQKHAW0ULiCWn1WUkeuDII2IO5R4js4XG\n"
-          "c6AhJcaNmI3lmSyu6iWDuduvA1+qzvb5PQ==\n"
-          "-----END EC PRIVATE KEY-----"};
-
   const iotc_state_t local_state =
-      iotc_connect(iotc_context_handle, "itest_projectid", "itest_device_path",
-                   &private_key, /*jwt_expiration_period_sec=*/600,
-                   /*connection_timeout=*/20, /*keepalive_timeout=*/20,
+      iotc_connect(iotc_context_handle, "itest_username", "itest_password",
+                   "itest_client_id", /*connection_timeout=*/20,
+                   /*keepalive_timeout=*/20,
                    &connect_error_on_connection_state_changed);
 
   check_expected(local_state);

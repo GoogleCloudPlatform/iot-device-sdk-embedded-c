@@ -113,18 +113,11 @@ void iotc_itest_tls_layer__act(void** fixture_void,
   iotc_itest_tls_layer__test_fixture_t* fixture =
       (iotc_itest_tls_layer__test_fixture_t*)*fixture_void;
 
-  const iotc_crypto_private_key_data_t dummy_private_key = {
-      .private_key_signature_algorithm =
-          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-      .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-      .private_key_union.key_pem.key = "dummy_key"};
-
   if (init_connection_data_flag != 0) {
     iotc_context__itest_tls_layer->context_data.connection_data =
         iotc_alloc_connection_data("target.broker.com", /*port=*/8883,
-                                   "itest_projectid", "itest_device_path",
-                                   &dummy_private_key,
-                                   /*jwt_expiration_period_sec=*/600,
+                                   "itest_username", "itest_password",
+                                   "itest_client_id",
                                    /*connection_timeout=*/20,
                                    /*keepalive_timeout=*/5, IOTC_SESSION_CLEAN);
   }
