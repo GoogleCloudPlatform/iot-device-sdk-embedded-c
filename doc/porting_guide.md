@@ -1,5 +1,5 @@
 # Google Cloud IoT Edge Embedded C Client Porting Guide
-##### Copyright 2018 Google LLC
+##### Copyright 2018-2019 Google LLC
 
 ## Table of Contents
 1. [Introduction](#introduction)
