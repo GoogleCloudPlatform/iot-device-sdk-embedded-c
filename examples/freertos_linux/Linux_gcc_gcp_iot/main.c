@@ -38,7 +38,7 @@
 
 /* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Device SDK for Embedded C,
+ * This is part of the Google Cloud IoT Edge Embedded C Client,
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -93,10 +93,12 @@ void task_function_gcpiot_embedded_c(void *parameters) {
     return;
   }
 
+
+
   const uint16_t connection_timeout = 10;
   const uint16_t keepalive_timeout = 3;
 
-  iotc_connect(context_handle, /*username=*/NULL, /*password=*/jwt,
+  iotc_connect(context_handle, /*username=*/iotc_device_path, /*password=*/"eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NDk1NTgyNDgsImV4cCI6MTU0OTU2MTg0OCwiYXVkIjoiZ29vZ2xlLmNvbTpkZGItdGVzdC1kZXZlbG9wbWVudCJ9.3BM1IfRG2MpglcTPUKc88cp0rR1j2VV4sdbls6ZFbzH1igylUdaaNTssHJIiefGN5OBQedgvK9LT476rXb4YxA==",
                /*client_id=*/ iotc_device_path, connection_timeout, keepalive_timeout,
                &on_connection_state_changed);
 
@@ -162,7 +164,7 @@ int main(int argc, char *argv[]) {
   }
 
   /* Format the key type descriptors so the client understands
-     what type of key is being represented. In this case, a PEM encoded
+     what type of key is being represeted. In this case, a PEM encoded
      byte array of a ES256 key. */
   iotc_connect_private_key_data.crypto_key_signature_algorithm =
       IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256;
