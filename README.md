@@ -30,7 +30,7 @@ To get the source, clone from the master branch of the Google IoT Device SDK for
 
 The default build environment for the IoT Device SDK for Embedded C is `make`. It invokes [GCC ](https://www.gnu.org/software/gcc/) to produce a native build on a POSIX host. This serves as the default development environment on Ubuntu.
 
-To build the Google Cloud IoT Edge Embedded C Client simply run:
+To build the IoT Device SDK simply run:
 
         make
 
