@@ -31,9 +31,9 @@ extern "C" {
 
 /*! \file
  * @brief The main API for compiling your Application against the
- * the IoT Edge Embedded C Client (IoTC).
+ * the Google Cloud IoT Device SDK for Embedded C (IoTC).
  *
- * \mainpage Google Cloud IoT Edge Embedded C Client API
+ * \mainpage Google Cloud IoT Device SDK for Embedded C API
  *
  * # Welcome
  * The functions of the main IoTC Client API are used to build a client

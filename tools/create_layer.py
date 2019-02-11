@@ -28,7 +28,7 @@ functions = [
 
 def tabs_2_spaces( s ):
    return s.replace( "\t", "    " )
-h_pro               = tabs_2_spaces( "// Copyright 2018-2019 Google LLC\n// This is part of Google Cloud IoT Edge Embedded C Client." )
+h_pro               = tabs_2_spaces( "// Copyright 2018-2019 Google LLC\n// This is part of Google Cloud IoT Device SDK for Embedded C." )
 h_guard_beg         = tabs_2_spaces( "#ifndef __%(layer_name)s_H__\n#define __%(layer_name)s_H__" )
 h_guard_end         = tabs_2_spaces( "#endif // __%s_H__" )
 c_includes          = tabs_2_spaces( "#include \"%(layer_name)s.h\"\n#include \"%(layer_name)s_data.h\"\n#include \"iotc_macros.h\"\n#include \"iotc_layer_api.h\"" )
