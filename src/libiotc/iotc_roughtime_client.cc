@@ -1,7 +1,7 @@
 #define WOLFSSL_LEANPSK // 20190124
-#ifndef __linux
-#define __linux // 20190124
-#endif
+// #ifndef __linux
+// #define __linux // 20190124
+// #endif
 
 #include <iotc_bsp_io_net.h>
 #include <iotc_roughtime_client.h>
@@ -21,8 +21,9 @@
 #include "client.h"
 #include "clock.h"
 #include "protocol.h"
+#include <iostream>
 #include <stdio.h>
-#include <string>
+#include <string.h>
 
 // kTimeoutSeconds is the number of seconds that we will wait for a reply
 // from the server.
@@ -44,17 +45,17 @@ bool iotc_roughtime_create_socket(int* out_socket, const char* server_address) {
   }
   std::string host(address.substr(0, kColonOffset));
   const std::string kPortStr(address.substr(kColonOffset + 1));
+  int port = std::stoi(kPortStr.c_str());
 
   if (IOTC_BSP_IO_NET_STATE_OK !=
       iotc_bsp_io_net_socket_connect(
           reinterpret_cast<iotc_bsp_socket_t*>(out_socket), host.c_str(),
-          kPortStr.c_str())) {
+          port)) {
     perror("Connect to the socket");
   }
 
   if (IOTC_BSP_IO_NET_STATE_OK !=
-      iotc_bsp_io_net_connection_check(*out_socket, host.c_str(),
-                                       kPortStr.c_str())) {
+      iotc_bsp_io_net_connection_check(*out_socket, host.c_str(), port)) {
     perror("Check the connection");
   }
 

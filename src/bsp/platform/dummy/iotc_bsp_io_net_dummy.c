@@ -28,7 +28,7 @@ extern "C" {
 
 iotc_bsp_io_net_state_t
 iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
-                               const char* port) {
+                               uint16_t port) {
   IOTC_UNUSED(iotc_socket);
   IOTC_UNUSED(host);
   IOTC_UNUSED(port);
@@ -37,7 +37,7 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
 
 iotc_bsp_io_net_state_t
 iotc_bsp_io_net_connection_check(iotc_bsp_socket_t iotc_socket,
-                                 const char* host, const char* port) {
+                                 const char* host, uint16_t port) {
   IOTC_UNUSED(iotc_socket);
   IOTC_UNUSED(host);
   IOTC_UNUSED(port);

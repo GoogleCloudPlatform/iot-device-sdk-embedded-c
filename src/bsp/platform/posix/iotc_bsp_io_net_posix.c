@@ -37,11 +37,13 @@ extern "C" {
 #endif
 
 iotc_bsp_io_net_state_t
-iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
-                               const char* port) {
+iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t *iotc_socket, const char *host,
+                               uint16_t port) {
   struct addrinfo hints;
   struct addrinfo *result, *rp = NULL;
   int status;
+  const char *port_s;
+  sprintf(port_s, "%d", port);
 
   memset(&hints, 0, sizeof(hints));
   hints.ai_family = AF_UNSPEC;
@@ -49,7 +51,7 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
   hints.ai_flags = 0;
   hints.ai_protocol = 0;
 
-  status = getaddrinfo(host, port, &hints, &result);
+  status = getaddrinfo(host, port_s, &hints, &result);
   if (0 != status) {
     return IOTC_BSP_IO_NET_STATE_ERROR;
   }
@@ -82,14 +84,14 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
 
 iotc_bsp_io_net_state_t
 iotc_bsp_io_net_connection_check(iotc_bsp_socket_t iotc_socket,
-                                 const char* host, const char* port) {
+                                 const char *host, uint16_t port) {
   IOTC_UNUSED(host);
   IOTC_UNUSED(port);
 
   int valopt = 0;
   socklen_t lon = sizeof(int);
 
-  if (getsockopt(iotc_socket, SOL_SOCKET, SO_ERROR, (void*)(&valopt), &lon) <
+  if (getsockopt(iotc_socket, SOL_SOCKET, SO_ERROR, (void *)(&valopt), &lon) <
       0) {
     return IOTC_BSP_IO_NET_STATE_ERROR;
   }
@@ -102,8 +104,8 @@ iotc_bsp_io_net_connection_check(iotc_bsp_socket_t iotc_socket,
 }
 
 iotc_bsp_io_net_state_t iotc_bsp_io_net_write(iotc_bsp_socket_t iotc_socket,
-                                              int* out_written_count,
-                                              const uint8_t* buf,
+                                              int *out_written_count,
+                                              const uint8_t *buf,
                                               size_t count) {
   if (NULL == out_written_count || NULL == buf) {
     return IOTC_BSP_IO_NET_STATE_ERROR;
@@ -112,7 +114,7 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_write(iotc_bsp_socket_t iotc_socket,
   int errval = 0;
   socklen_t lon = sizeof(int);
 
-  if (getsockopt(iotc_socket, SOL_SOCKET, SO_ERROR, (void*)(&errval), &lon) <
+  if (getsockopt(iotc_socket, SOL_SOCKET, SO_ERROR, (void *)(&errval), &lon) <
       0) {
     errval = errno;
     errno = 0;
@@ -145,7 +147,7 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_write(iotc_bsp_socket_t iotc_socket,
 }
 
 iotc_bsp_io_net_state_t iotc_bsp_io_net_read(iotc_bsp_socket_t iotc_socket,
-                                             int* out_read_count, uint8_t* buf,
+                                             int *out_read_count, uint8_t *buf,
                                              size_t count) {
   if (NULL == out_read_count || NULL == buf) {
     return IOTC_BSP_IO_NET_STATE_ERROR;
@@ -179,7 +181,7 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_read(iotc_bsp_socket_t iotc_socket,
 }
 
 iotc_bsp_io_net_state_t
-iotc_bsp_io_net_close_socket(iotc_bsp_socket_t* iotc_socket) {
+iotc_bsp_io_net_close_socket(iotc_bsp_socket_t *iotc_socket) {
   if (NULL == iotc_socket) {
     return IOTC_BSP_IO_NET_STATE_ERROR;
   }
@@ -194,7 +196,7 @@ iotc_bsp_io_net_close_socket(iotc_bsp_socket_t* iotc_socket) {
 }
 
 iotc_bsp_io_net_state_t
-iotc_bsp_io_net_select(iotc_bsp_socket_events_t* socket_events_array,
+iotc_bsp_io_net_select(iotc_bsp_socket_events_t *socket_events_array,
                        size_t socket_events_array_size, long timeout_sec) {
   fd_set rfds;
   fd_set wfds;
@@ -215,7 +217,7 @@ iotc_bsp_io_net_select(iotc_bsp_socket_events_t* socket_events_array,
    */
   size_t socket_id = 0;
   for (socket_id = 0; socket_id < socket_events_array_size; ++socket_id) {
-    iotc_bsp_socket_events_t* socket_events = &socket_events_array[socket_id];
+    iotc_bsp_socket_events_t *socket_events = &socket_events_array[socket_id];
 
     if (NULL == socket_events) {
       return IOTC_BSP_IO_NET_STATE_ERROR;
@@ -255,7 +257,7 @@ iotc_bsp_io_net_select(iotc_bsp_socket_events_t* socket_events_array,
   if (0 < kResult) {
     /* translate the result back to the socket events structure */
     for (socket_id = 0; socket_id < socket_events_array_size; ++socket_id) {
-      iotc_bsp_socket_events_t* socket_events = &socket_events_array[socket_id];
+      iotc_bsp_socket_events_t *socket_events = &socket_events_array[socket_id];
 
       if (FD_ISSET(socket_events->iotc_socket, &rfds)) {
         socket_events->out_socket_can_read = 1;

@@ -30,7 +30,6 @@
 
 iotc_state_t iotc_io_net_layer_connect(void* context, void* data,
                                        iotc_state_t in_out_state) {
-  char port_str[10];
   IOTC_LAYER_FUNCTION_PRINT_FUNCTION_DIGEST();
 
   /* check the state before doing anything */
@@ -52,7 +51,6 @@ iotc_state_t iotc_io_net_layer_connect(void* context, void* data,
   iotc_connection_data_t* connection_data = (iotc_connection_data_t*)data;
   iotc_evtd_instance_t* event_dispatcher =
       IOTC_CONTEXT_DATA(context)->evtd_instance;
-  sprintf(port_str, "%d", connection_data->port);
 
   IOTC_CR_START(layer_data->layer_connect_cs)
 
@@ -72,8 +70,8 @@ iotc_state_t iotc_io_net_layer_connect(void* context, void* data,
         layer_data->socket);
   }
 
-  state = iotc_bsp_io_net_socket_connect(&layer_data->socket,
-                                         connection_data->host, port_str);
+  state = iotc_bsp_io_net_socket_connect(
+      &layer_data->socket, connection_data->host, connection_data->port);
 
   IOTC_CHECK_CND_DBGMESSAGE(IOTC_BSP_IO_NET_STATE_OK != state,
                             IOTC_SOCKET_CONNECTION_ERROR, in_out_state,
@@ -82,8 +80,8 @@ iotc_state_t iotc_io_net_layer_connect(void* context, void* data,
   /* return here whenever we can write */
   IOTC_CR_YIELD(layer_data->layer_connect_cs, IOTC_STATE_OK);
 
-  state = iotc_bsp_io_net_connection_check(layer_data->socket,
-                                           connection_data->host, port_str);
+  state = iotc_bsp_io_net_connection_check(
+      layer_data->socket, connection_data->host, connection_data->port);
 
   IOTC_CHECK_CND_DBGMESSAGE(IOTC_BSP_IO_NET_STATE_OK != state,
                             IOTC_SOCKET_GETSOCKOPT_ERROR, in_out_state,
