@@ -1,36 +1,36 @@
-# Google Cloud IoT Edge SDK for Embedded C
+# Google Cloud IoT Device SDK for Embedded C
 ___
 
-The Google Cloud IoT Edge SDK for Embedded C consists of one main element: the Google Cloud IoT Edge Embedded C Client.  This codebase is an easy-to-port, open source C client that connects low-end IoT devices to Google Cloud IoT Core.
+The Google Cloud IoT Device SDK for Embedded C is an easy-to-port, open source C client that connects low-end IoT devices to Google Cloud IoT Core.
 
-The Embedded C Client supports concurrent Pub/Sub traffic on a non-blocking socket implementation that runs on POSIX, RTOS, and no-OS devices. A Board Support Package (BSP) facilitates portability and provides platform-specific implementations through a set of functions and directories. The BSP helps you implement networking, Transport Layer Security (TLS), memory management, random number generators, crypto and time functions, without working through MQTT internals.
+The IoT Device SDK supports concurrent Pub/Sub traffic on a non-blocking socket implementation that runs on POSIX, RTOS, and no-OS devices. A Board Support Package (BSP) facilitates portability and provides platform-specific implementations through a set of functions and directories. The BSP helps you implement networking, Transport Layer Security (TLS), memory management, random number generators, crypto and time functions, without working through MQTT internals.
 
 For more details, see the User Guide in the `docs` directory.
 
 ## Source
-To get the source, clone from the master branch of the Google Cloud IoT Edge Embedded C Client GitHub repository:
+To get the source, clone from the master branch of the Google IoT Device SDK for Embedded C GitHub repository:
 
-[https://github.com/googlecloudplatform/iot-edge-sdk-embedded-c](https://github.com/googlecloudplatform/iot-edge-sdk-embedded-c)
+[https://github.com/googlecloudplatform/iot-device-sdk-embedded-c](https://github.com/googlecloudplatform/iot-device-sdk-embedded-c)
 
 ### Directory structure
 
 - **bin**: Executables and libraries produced by a build.
 - **doc**: Documentation: Doxygen API, User Guide, Porting Guide.
 - **examples**: Example source with makefiles. After you build with make, this directory also contains the example executables.
-- **include**: Header files of the Cloud IoT Edge Embedded C Client API. You must add this directory to the header include path when compiling your application against the source.
+- **include**: Header files of the IoT Device SDK API. You must add this directory to the header include path when compiling your application against the source.
 - **include/bsp**: Header files of the Board Support Package (BSP). Functions declared here must be defined in a device-specific BSP implementation. When compiling your BSP source, make sure this directory is on the include path.
 - **make**: Build system configuration files.
 - **obj**: Object files generated during a build.
 - **res**: Resource files (for example, trusted root CA certificates.)
-- **src**: The source files of the Cloud IoT Edge Embedded C Client. A BSP implementation is provided for POSIX.
+- **src**: The source files of the IoT Device SDK. A BSP implementation is provided for POSIX.
 - **third_party**: Third-party open source components.
 - **tools**: Scripts used by the maintainers of the repository.
 
 ## Building
 
-The default build environment for the Google Cloud IoT Edge Embedded C Client is `make`. It invokes [GCC ](https://www.gnu.org/software/gcc/) to produce a native build on a POSIX host. This serves as the default development environment on Ubuntu.
+The default build environment for the IoT Device SDK for Embedded C is `make`. It invokes [GCC ](https://www.gnu.org/software/gcc/) to produce a native build on a POSIX host. This serves as the default development environment on Ubuntu.
 
-To build the Google Cloud IoT Edge Embedded C Client simply run:
+To build the IoT Device SDK simply run:
 
         make
 
@@ -39,7 +39,7 @@ The source can be cross-compiled to other target platforms via custom toolchains
 
 ### Building a TLS static library
 
-By default, the Embedded C Client is built with secure connection support and thus requires a third-party TLS implementation to link against. When executing `make`, the build system defaults to mbedTLS.
+By default, the IoT Device SDK is built with secure connection support and thus requires a third-party TLS implementation to link against. When executing `make`, the build system defaults to mbedTLS.
 
 As a result, the following commands are synonymous:
 
@@ -75,7 +75,7 @@ By default, the build process for `tests` includes test execution as the final s
 
 ### Building the examples
 
-Before building the examples, build both the Google Cloud IoT Edge Embedded C Client static library and a TLS library, as described in the preceding sections. Then build the examples:
+Before building the examples, build both the IoT Device SDK static library and a a third party TLS library, as described in the preceding sections. Then build the examples:
 
     cd examples
     make
@@ -97,21 +97,21 @@ For complete details, see the Porting Guide in `doc/porting_guide.md`.
 
 ## Security
 
-The Cloud IoT Edge Embedded C Client supports secure connection through a third-party TLS library. The client has been tested against [mbedTLS](https://tls.mbed.org), and [wolfSSL](https://www.wolfssl.com).
+The Cloud IoT Devce SDK supports secure connection through a third-party TLS library. The SDK has been tested against [mbedTLS](https://tls.mbed.org), and [wolfSSL](https://www.wolfssl.com).
 
 This repository does not directly include TLS libraries; you can clone the TLS git repositories and place them in the `third_party/tls/mbedtls` and `third_party/tls/wolfssl` directories, respectively. Running `make` without any parameters will start a build that includes git checkout, build configuration, and compilation of the mbedTLS library.
 
-The Cloud IoT Edge Embedded C Client supports other TLS libraries through the BSP TLS API. See the Porting Guide in `doc/porting_guide.md` for information about configuring the build process to work with your preferred library.  Additionally, check the user guide `doc/user_guide.md` to make sure your TLS implementation meets the security requirements for connecting to Cloud IoT Core.
+The Cloud IoT Device SDK supports other TLS libraries through the BSP TLS API. See the Porting Guide in `doc/porting_guide.md` for information about configuring the build process to work with your preferred library.  Additionally, check the user guide `doc/user_guide.md` to make sure your TLS implementation meets the security requirements for connecting to Cloud IoT Core.
 
 ## Stability and QA
 
-19 combinations of compilers and feature sets are continuously built. 58 functional, 23 integration and 199 unit tests are executed after each build. Tests are executed against the TLS libraries [mbedTLS](https://tls.mbed.org) and [wolfSSL](https://www.wolfssl.com).
+19 combinations of compilers and feature sets are continuously built. 58 functional, 23 integration and 217 unit tests are executed after each build. Tests are executed against the TLS libraries [mbedTLS](https://tls.mbed.org) and [wolfSSL](https://www.wolfssl.com).
 
 Branch      | Build status
 ------------|-------------
 master      | ![travis-private-repo-icon-master]
 
-[travis-private-repo-icon-master]: https://travis-ci.com/GoogleCloudPlatform/iot-edge-sdk-embedded-c.svg?token=tzWdJymp9duuAGWpamkM&branch=master
+[travis-private-repo-icon-master]: https://travis-ci.com/GoogleCloudPlatform/iot-device-sdk-embedded-c.svg?token=tzWdJymp9duuAGWpamkM&branch=master
 
 
 ## Contributing
@@ -128,7 +128,7 @@ Review the following documentation:
 
 ## License
 
-Copyright 2018 Google LLC
+Copyright 2018-2019 Google LLC
 
 Licensed under the BSD 3-Clause license.
 

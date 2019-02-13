@@ -1,5 +1,5 @@
-# Google Cloud IoT Edge Embedded C Client Porting Guide
-##### Copyright 2018 Google LLC
+# Google Cloud IoT Device SDK for Embedded C Porting Guide
+##### Copyright 2018-2019 Google LLC
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -9,28 +9,28 @@
 
 # Introduction
 
-To port the Google Cloud IoT Edge Embedded C Client to new platforms, you'll need to:
+To port the Google Cloud IoT Device SDK for Embedded C to new platforms, you'll need to:
 
-* Adapt the make build environment to your toolchain
-* Write the code for a custom Board Support Package (BSP) implementation to tie client functionality to the device SDK
+* Adapt the make build environment to your toolchain.
+* Write the code for a custom Board Support Package (BSP) implementation to tie SDK functionality to the device/platform SDK.
 
 This document contains two main sections: Building and Porting.
 
 **Building** describes how to configure the provided makefile system to build different library configurations on a host/target POSIX system. This section will help you understand the build system before you attempt to cross-compile to an embedded target.
 
-**Porting** describes the steps you can take to implement a version of the Board Support Package (BSP) to run the client on your target embedded device. This section also walks you through defining the make variables required to build a client static library for your target.
+**Porting** describes the steps you can take to implement a version of the Board Support Package (BSP) to run the SDK on your target embedded device. This section also walks you through defining the make variables required to build a SDK static library for your target.
 
 ## Audience and scope
-This document is intended for developers of embedded devices who have access to the source code of the [Google Cloud IoT Edge Embedded C Client](https://github.com/googlecloudplatform/iot-edge-sdk-embedded-c) and want to run it on their custom device SDK.
+This document is intended for developers of embedded devices who have access to the source code of the [Google Cloud IoT Device SDK for Embedded C](https://github.com/googlecloudplatform/iot-device-sdk-embedded-c) and want to run it on their custom device SDK.
 
-This document provides details of the C Client's build steps, build configuration flags, and the location of the functions needed to port the client to new platforms.
+This document provides details of the SDK's build steps, build configuration flags, and the location of the functions needed to port the SDK to new platforms.
 
-For general information about the Embedded C Client's features and application usage, see the Google Cloud IoT Edge Embedded C Client User Guide in `docs/user_guide.md` within the client repository.
+For general information about the IoT Device SDK's features and application usage, see the IoT SDK's User Guide in `docs/user_guide.md` in the IoT Device SDK's repository.
 
 
 ## Notes about the codebase
 
-The Embedded C Client has been designed to accommodate a variety of IoT devices. Default host/target support is provided for POSIX systems (tested on Ubuntu Linux), and the client has also been tested on RTOS and no-OS devices.
+The IoT Device SDK has been designed to accommodate a variety of IoT devices. Default host/target support is provided for POSIX systems (tested on Ubuntu Linux), and the SDK has also been tested on RTOS and no-OS devices.
 
 Most of the codebase is cross-platform and resides in the `src/libiotc/` directory. Platform-specific code is in the `src/bsp/` directory.
 
@@ -38,27 +38,27 @@ The codebase is built against C99 standards.
 
 # Building
 
-We recommend building the Embedded C Client for Linux before attempting to cross-compile to another target platform. The process can serve as an introduction to the basic architecture, tools, and building steps of the Embedded C Client source. This basic knowledge will help you later do a full cross-compiled port of the software to an embedded device.
+We recommend building the IoT Device SDK for Linux before attempting to cross-compile to another target platform. The process can serve as an introduction to the basic architecture, tools, and building steps of the IoT Device SDK source. This basic knowledge will help you later do a full cross-compiled port of the software to an embedded device.
 
 ## Build system: make environment
 
 Note: this document assumes you're familiar with the default build process as described in the `README.md` in the root directory of this repository.
 
-The Embedded C Client uses `make` to build its source files. The main makefile is in the root directory of the repository.
+The IoT Device SDK uses `make` to build its source files. The main makefile is in the root directory of the repository.
 
 More make-related files (.mk files) are included by the main makefile depending on the build configuration.  These supporting files alter the list of compiled source files, toolchain command line arguments, and so on. Three main makefile flags define the configuration:  TARGET, CONFIG and IOTC_BSP_TLS.
 
-* **TARGET** determines which target platform you're compiling for. This affects toolchain flags, toolchain and file pathing, and the BSP sources you're attempting to compile.  If not specified, this flag defaults to **TARGET=linux-static-release** or **TARGET=osx-static-release**, depending your host system.  Note that currently OS X builds are unsupported.
+* **TARGET** determines which target platform you're compiling for. This affects tool chain flags, tool chain and file pathing, and the BSP sources you're attempting to compile.  If not specified, this flag defaults to **TARGET=linux-static-release** or **TARGET=osx-static-release**, depending your host system.  Note that currently OS X host builds are unsupported.
 
-* **CONFIG** determines which Cloud IoT Edge Embedded C software modules the system will compile into the library.  Potential modules include components like the memory limiter, the use of TLS BSP, debug logging, stack tracing on reported memory leaks, etc. This value defaults to **CONFIG=posix_fs-posix_platform-tls_bsp-memory_limiter** for your local POSIX machine development purposes.
+* **CONFIG** determines which IoT Device SDK software modules the system will compile into the library.  Potential modules include components like the memory limiter, the use of a TLS BSP, debug logging, stack tracing on reported memory leaks, etc. This value defaults to **CONFIG=posix_fs-posix_platform-tls_bsp-memory_limiter** for your local POSIX machine development purposes.
   * Specific CONFIG options are described in the section **CONFIG and TARGET Parameters** below.
 
-* **IOTC_BSP_TLS** determines which Transport Layer Security (TLS) BSP implementation the makefile will attempt to compile.  The selected BSP interfaces with your desired embedded TLS library to encrypt data sent from the client over the network socket.  If you do not define this explicitly on the make command line, the default **IOTC_BSP_TLS=mbedtls** will be used.  The other out-of-the-box alternative is **IOTC_BSP_TLS=wolfssl**. Both of these options will attempt to configure and build the third-party TLS library sources in the `third_party/tls/mbedtls` or `third_party/tls/wolfssl`, respectively, and the build system will prompt the user with instructions on how to populate these directories with the required TLS library sources.
-  * Note: The source for the third-party libraries are not included in the repo by default. Our make command will attempt to download mbedtls automatically and configure it for use with this client.  For wolfSSL, no automatic download script is provided, but instructions on how and where to download the wolfSSL sources will be provided to you when you run make.
+* **IOTC_BSP_TLS** determines which Transport Layer Security (TLS) BSP implementation the makefile will attempt to compile.  Your TLS BSP selection will configure the SDK to use your desired embedded TLS library to encrypt data sent from the SDK over the network socket.  If you do not define this explicitly on the make command line, the default **IOTC_BSP_TLS=mbedtls** will be used. This implemenation reisdes in `src/bsp/tls/mbedtls`. The other out-of-the-box alternative is **IOTC_BSP_TLS=wolfssl**, which resides in `src/bsp/tls/wolfssl`. Both of these options will attempt to configure and build the third-party TLS library sources in the `third_party/tls/mbedtls` or `third_party/tls/wolfssl`, respectively, and the build system will prompt the user with instructions on how to populate these directories with the required TLS library sources.
+  * Note: The source for the third-party libraries are not included in the repo by default. Our make command will attempt to download mbedtls automatically and configure it for use with this SDK.  For wolfSSL, no automatic download script is provided, but instructions on how and where to download the wolfSSL sources will be provided to you when you run make.
   * If you need to define your own BSP implementation, see the **TLS BSP** section later in this document.
-  * If you're using a hardware TLS option instead of a software one, the best practice is to compile without a TLS BSP. Instead, invoke the device SDK's secure socket API directly from the IoTC Client's Networking BSP. To build with a TLS BSP:
+  * If you're using a hardware TLS option instead of a software one, the best practice is to compile without a TLS BSP and invoke the device SDK's secure socket API directly from the IoT Device SDK's Networking BSP. To build without a TLS BSP:
     * Do not define IOTC_BSP_TLS on the make command line
-    * Change the `tls_bsp` config parameter to`tls_socket`.  For example:  `make CONFIG=posix_fs-posix_platform-tls_socket-memory_limiter`
+    * Change the `tls_bsp` config parameter to `tls_socket`.  For example:  `make CONFIG=posix_fs-posix_platform-tls_socket-memory_limiter`
 
 For specific parameters for CONFIG and TARGET, see the **CONFIG and TARGET parameters** section below.
 
@@ -66,7 +66,7 @@ For specific parameters for CONFIG and TARGET, see the **CONFIG and TARGET param
 
 Although the make build system is suitable for Linux/Unix builds, some embedded SDKs and toolchains may not support building via `make`. Often these SDKs supply their own Integrated Development Environments (IDEs).
 
-It may be helpful to create a native IoT Edge Embedded C Client build on POSIX before attempting to import the client's source into an IDE.  That way you can see the build process working locally and providing the following useful information:
+It may be helpful to create a native IoT Device SDK build on POSIX before attempting to import the SDK's source into an IDE.  That way you can see the build process working locally and providing the following useful information:
 
 - A list of the source files that were compiled (.c)
 - A list of the preprocessor definitions that were required for the build CONFIG you selected (-D)
@@ -136,9 +136,7 @@ A typical CONFIG flag looks like this:
 #### Optional feature flags
 
    - `threading`            - POSIX only. Causes pub, sub, and connection
-                            callbacks to be called on separate threads. If not set, application callbacks are
-                            called on the sole main thread of the Cloud IoT Edge
-                            Embedded C Client.
+                            callbacks to be called on separate threads. If not set, application callbacks are called on the sole main thread of the Cloud IoT Device SDK's event system.
 
 #### File system flags
 
@@ -151,27 +149,26 @@ Used for reading public root CAs for service authentication during the TLS hands
 
 #### Development flags
 
-   - `memory_limiter`    - Enables memory limiting and monitoring. The purpose of this feature
-                         is to aid the development process by simulating a cap
+   - `memory_limiter`    - Enables memory limiting and monitoringto aid the
+                         development process by simulating a cap
                          on the available amount of memory. Additionally, a
                          memory monitor is employed for tracking and hunting
-                         down memory leaks while testing.  When a leak occurs,
-                         a stack trace of the initial allocation is logged
-                         if posix_platform was also defined.
-   - `mqtt_localhost`    - Instructs the client to connect to a localhost MQTT server
-                         instead of the Cloud IoT Core MQTT bridge. This may
-                         be helpful if testing with a local MQTT broker.
+                         down memory leaks while testing.  If `posix_platform` (see
+                         below) is defined, then a stack trace of the initial
+                         allocation is also logged.
+   - `mqtt_localhost`    - Instructs the MQTT Client of the IoT Device SDK to connect
+                         to a localhost MQTT server instead of the Cloud IoT Core MQTT bridge. This may be helpful if testing with a local MQTT broker.
    - `no_certverify`     - Reduces security by disabling TLS certificate
                          verification of the service's identifying cert.
                          For development purposes only.
-   - `tls_bsp`           - Instructs the client to use third-party TLS 1.2
-                         implementations to encrypt data before it's sent over
-                         network sockets.
-   - `tls_socket`        - Counterpart of `tls_bsp`: the client will not
+   - `tls_bsp`           - Instructs the MQTT client of the IoT Device SDK to use
+                         third-party TLS 1.2 implementations to encrypt data before
+                         it's sent over network sockets.
+   - `tls_socket`        - Counterpart of `tls_bsp`: the MQTT client will not
                          include a TLS layer that invokes a TLS BSP for
                          network security. This be may helpful in connecting
                          to a local and unsecure mosquitto broker to test, or
-                        when working with SDKs in which TLS is handled directly in
+                         when working with SDKs in which TLS is handled directly in
                          the socket API. Note that the   Cloud IoT Core MQTT
                          bridge will not accept connections without TLS.
 
@@ -184,18 +181,18 @@ Platform configurations will eventually be deprecated. Currently they configure 
 
 For best results, define `posix_platform` and omit `threading` from your CONFIG options when building for custom platforms.  `threading` is currently omitted by default.
 
-For more information about threadsafe callback support, see the Cloud IoT Edge Embedded C Client User Guide: `doc/user_guide.md`.
+For more information about threadsafe callback support, see the Cloud IoT Device SDK User Guide: `doc/user_guide.md`.
 
 
 ## Example applications
 
-Application binaries and source can be found in the directory `examples/`.
+Application binaries and sources can be found in the directory `examples/`.
 
-These examples use the Embedded C Client to connect to Google Cloud IoT Core service, subscribe to topics, publish data, and receive data.  They can be built on POSIX by running `make` in the `examples/` directory.
+These examples use the IoT Device SDK to connect to Google Cloud IoT Core service, subscribe to topics, publish data, and receive data, etc.  They main POSIX example can be built by running `make` in the `examples/` directory.
 
-The source of the examples can help you understand how to initialize and use the C API of the client.  Consult the comments in the example code, as well as the `readme.md`, `doc/user_guide.md`, and API reference in `doc/doxygen/api`.
+The source of the examples can help you understand how to initialize and use the C API of the IoT Device SDK.  Consult the comments in the example code, as well as the `readme.md`, `doc/user_guide.md`, and API reference in `doc/doxygen/api` for more information.
 
-You must pass Cloud IoT Core device credentials over the command line to the examples.  For more information, execute the example with no arguments and a list of argument options will be returned.
+You must pass Cloud IoT Core device credentials over the command line to the examples. For more information, execute the example with no arguments and a list of argument options will be returned.
 
 For more information on generating Cloud IoT Core device credentials, see [Create Public/Private Key Pairs](https://cloud.google.com/iot/docs/how-tos/credentials/keys) in the Cloud IoT Core documentation.
 
@@ -204,9 +201,9 @@ For more information on generating Cloud IoT Core device credentials, see [Creat
 
 ## Board Support Package (BSP) source locations
 
-The Board Support Package (BSP) is the well-defined set of functions that the Cloud IoT Edge Embedded C Client invokes in order to interact with a platform's specific networking, file IO, [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security), memory management, random number generator, crypto, and time SDKs.
+The Board Support Package (BSP) is the well-defined set of functions that the Cloud IoT Device SDK invokes in order to interact with a platform's specific networking, file IO, [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security), memory management, random number generator, crypto, and time SDKs.
 
-The BSP implementation resides in the directory `src/bsp`. Use this directory when porting the C Client to your device SDK. You can ignore the MQTT codec and the non-blocking/asynchronous engine that appear elsewhere in the source.
+The BSP implementation resides in the directory `src/bsp`. Use this directory when porting the IoT Device SDK to your device/platform SDK. You can ignore the MQTT codec and the non-blocking/asynchronous engine that appear elsewhere in the source.
 
 BSP **function declarations** are in the `include/bsp`
 directory. For generated function documentation, see `doc/doxygen/bsp/html/index.html`.
@@ -248,18 +245,18 @@ A reference implementation of a TLS BSP is provided for both `mbedTLS` and `wolf
 
 If neither mbedTLS nor wolfSSL fits your target platform or licensing requirements, the build system can be configured to use other TLS BSP implementations.
 
-Before selecting a TLS solution other than those mentioned above, make sure it meets the TLS Implementation Requirements in `doc/user_guide.md`.
+Before selecting a TLS solution other than those mentioned above, make sure it meets the TLS Implementation Requirements defined in `doc/user_guide.md`.
 
 To create a new BSP implementation for TLS:
 
 - Implement all of the BSP TLS API functions found in `include/bsp/iotc_bsp_tls.h`. Refer to at least one of the mbedTLS or wolfSSL implementations throughout this process to guide your development.
 - Put this implementation in the directory `src/bsp/tls/[NEW_TLS_LIBRARY_NAME]`.
 - Copy the file `make/mt-config/mt-tls-mbedtls.mk` to `make/mt-config/mt-tls-[NEW_TLS_LIBRARY_NAME].mk` and set the path variables inside according to the new TLS library's internal directory structure, relative to the base directory of the main makefile:
-   - IOTC_TLS_LIB_INC_DIR will be added to the toolchain include path when compiling the Cloud IoT Edge Embedded C Client source.
+   - IOTC_TLS_LIB_INC_DIR will be added to the toolchain include path when compiling the Cloud IoT Device SDK source.
    - IOTC_TLS_LIB_DIR will be added to the link path during the link step of example applications.
    - IOTC_TLS_LIB_NAME will be added as a `-l` library name parameter during the linking step.
    - IOTC_TLS_LIB_DEP is a path to a library as a makefile dependency. The build will fail and warn you if this file is missing. See `make/mt-config/mt-tls.mk` for more information.
-   - IOTC_CONFIG_FLAGS (optional) augment the compile-time preprocessor flags for the rest of your Cloud IoT Edge Embedded C Client source compilation steps. Append to this value only with the makefile += operator.
+   - IOTC_CONFIG_FLAGS (optional) augment the compile-time preprocessor flags for the rest of your Cloud IoT Device SDK source compilation steps. Append to this value only with the makefile += operator.
 
 - Call `make` with the parameter `IOTC_BSP_TLS=[NEW_TLS_LIBRARY_NAME]`.
    - Note that this name must match the directory name you created under `src/bsp/tls` above.  Additionally, this will not build your TLS library directly. Instead, it will build your TLS BSP to work with that library, assuming that the headers are in IOTC_TLS_LIB_INC_DIR and the TLS library is in IOTC_TLS_LIB_DIR, as defined in the previous step.
@@ -269,16 +266,16 @@ To create a new BSP implementation for TLS:
 
 ## BSP code porting process
 
-Building a Cloud IoT Edge Embedded C Client consists of building the C Client static library and the TLS static library, and then linking them to the actual client application.
+Building a Cloud IoT Device SDK application consists of building the SDK static library and the TLS static library, and then linking them to your client application.
 
 For reference, see existing platform config files like `make/mt-os/mt-linux.mk` and `make/mt-os/mt-osx.mk`.
 
 
 ### Cross-compilation with the `make` Build System
 
-This tutorial uses the platform *NP4000* for illustration purposes.
+This tutorial uses a ficticious platform *NP4000* for illustration purposes.
 
-Your goal is construct the following command to build the Cloud IoT Edge Embedded C Client for the NP4000:
+Your goal is construct the following command to build the Cloud IoT Device SDK for the NP4000:
 
   make PRESET=np4000
 
@@ -314,7 +311,7 @@ The next section explains how to create these commands.
 
 - [x] Modify `make/mt-config/mt-presets.mk` by adding the following details for your new platform:
 
-   - Define the Cloud IoT Edge Embedded C client feature and target configurations:
+   - Define the Cloud IoT Device SDK feature and target configurations:
 
            CONFIG_NP4000_MIN = memory_fs-tls_bsp
            TARGET_NP4000_REL = -static-release
@@ -343,7 +340,7 @@ The next section explains how to create these commands.
         - `src/bsp/np4000/iotc_bsp_mem_np4000.c`
         - `src/bsp/np4000/iotc_bsp_rng_np4000.c`
         - `src/bsp/np4000/iotc_bsp_time_np4000.c`
-   - In these files, define the functions declared in the following corresponding Google Cloud IoT Edge Embedded C Client BSP headers:
+   - In these files, define the functions declared in the following corresponding Google Cloud IoT Device SDK BSP headers:
        - **file storage** ( `include/bsp/iotc_bsp_io_fs.h`)
        - **networking** (`include/bsp/iotc_bsp_io_net.h`)
        - **memory** (`include/bsp/iotc_bsp_mem.h`)
@@ -407,7 +404,7 @@ Tells make to output the commands it would execute,  without executing them.  Yo
 
 
 # Additional Resources
-For more information about the Google Cloud IoT Edge Embedded C Client, see these other documents in the [GitHub repository](https://github.com/googlecloudplatform/iot-edge-sdk-embedded-c):
+For more information about the Google Cloud IoT Device SDK for Embedded C, see these other documents in the [GitHub repository](https://github.com/googlecloudplatform/iot-device-sdk-embedded-c):
 
 
 ### README.md
@@ -416,11 +413,11 @@ Provides general information about the file structure of the source, how to buil
 
 ### doc/user_guide.md
 
-Provides an in-depth description of the client design and features, including MQTT logic, the event system, backoff logic, and platform security requirements.
+Provides an in-depth description of the IoT Device SDK design and features, including MQTT logic, the event system, backoff logic, and platform security requirements.
 
 ### doc/doxygen/api
 
-Contains the function specifications for the Google Cloud IoT Edge Embedded C Client application-level API. The functionality and behavior of Connect, Subscribe, and Publish are outlined here.
+Contains the function specifications for the Google Cloud IoT Device SDK application-level API. The functionality and behavior of Connect, Subscribe, and Publish are outlined here.
 
 
 ### doc/doxygen/bsp
