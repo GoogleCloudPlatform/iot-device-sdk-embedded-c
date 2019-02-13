@@ -15,7 +15,7 @@ This step includes `git clone` of the Zephyr repository, setting Zephyr required
 - `cd examples/zephyr_native_posix/build`
 - run `make`
 
-This step generates the zephyr/zephyr.exe native_posix board application for POSIX.
+This step generates the zephyr/zephyr.exe native_posix board application.
 
 ### Running the example
 The device creation in the GCP IoT Device Manager required a public key to be uploaded to the device. You will need the private key pair now. An `ec_private.pem` file should contain this private key in the current working directory.
