@@ -1,26 +1,26 @@
-# Google Cloud IoT Edge Embedded C Client User Guide
+# Google Cloud IoT Device SDK for Embedded C User Guide
 
-##### Copyright (C) 2018 Google Inc.
+##### Copyright (C) 2018-2019 Google Inc.
 
-This document explains how applications can use the Google Cloud IoT Edge Embedded C Client to connect to Google Cloud IoT Core. It also describes the security and communication features of the client.
+This document explains how applications can use the Google Cloud IoT Device SDK for Embedded C to connect to Google Cloud IoT Core. It also describes the security and communication features of the SDK.
 
-This User Guide does not provide full API details or code examples. For more information, see the following directories in the [Google Cloud IoT Edge Embedded C Client GitHub repository](https://github.com/googlecloudplatform/iot-edge-sdk-embedded-c):
+This User Guide does not provide full API details or code examples. For more information, see the following directories in the [Google Cloud IoT Device SDK for Embedded C Client GitHub repository](https://github.com/googlecloudplatform/iot-device-sdk-embedded-c):
 
  * **`examples/`**: Includes an example of how to connect and then publish/subscribe to Cloud IoT Core MQTT topics
- * **`doc/doxygen/`**: HTML documentation for the client API and BSP functions
+ * **`doc/doxygen/`**: HTML documentation for the SDK's API and BSP functions
 
-The first part of this document summarizes features and requirements. If you're ready to start using the client, review the [Typical client application workflow](#typical-client-application-workflow).
+The first part of this document summarizes features and requirements. If you're ready to start using the SDK, review the [Typical SDK application workflow](#typical-sdk-application-workflow).
 
 
 ## Feature overview
 
-The Google Cloud IoT Edge Embedded C Client provides MQTT connectivity over TLS. The client architecture targets constrained devices running embedded Linux, an RTOS, or a no-OS configuration. An event system is provided to enable your applications to publish and receive MQTT messages. The client can run on a single thread with a non-blocking socket connection and can publish, subscribe and receive messages concurrently.
+The Google Cloud IoT Device SDK provides MQTT connectivity over TLS. The SDK's architecture targets constrained devices running embedded Linux, an RTOS, or a no-OS configuration. An event system is provided to enable your applications to publish and receive MQTT messages asynchronously. The client can run on a single thread with a non-blocking socket connection and can publish, subscribe and receive messages concurrently.
 
-The Cloud IoT Edge Embedded C Client offers the following features:
+This Cloud IoT Device SDK offers the following features:
 
 ### Flexibility
 
-These characteristics allow the client to scale to meet the needs of the platform:
+The SDK scales to meet the needs of the platform:
 
 * Operates on a single thread and runs in non-blocking mode by default.
 * Does not impact the CPU while waiting for operations. Power consumption can be minimized as required.
@@ -32,7 +32,7 @@ These characteristics allow the client to scale to meet the needs of the platfor
 Through the use of [coroutines](http://en.wikipedia.org/wiki/Coroutine), the client can handle multiple publish and subscribe requests concurrently. This facilitates multiple ongoing communications, even on no-OS devices.
 
 * The client can send and receive simultaneously on a single socket, and, if required, return to the OS for tick operations.
-* Because the client is non-blocking, your application will not interfere with the usability of your device.
+* Because the client is non-blocking, your client application will not interfere with the usability of your device.
 
 ### Distributed Denial of Service (DDoS) prevention
 
@@ -43,18 +43,18 @@ The client includes a backoff system that uses intelligent networking behavior t
 
 ### Abstracted implementation
 
-The client is designed to adapt to the rapid evolution of the IoT landscape:
+The SDK is designed to adapt to the rapid evolution of the IoT landscape:
 
-* Written in C with a Board Support Package (BSP) architecture: can be easily ported to support custom network stacks, operating systems, toolchains, and third-party TLS implementations.
+* Written in C with a Board Support Package (BSP) architecture: can be easily ported to support custom network stacks, operating systems, tool chains, and third-party TLS implementations.
 * Uses MQTT for client/broker communications, with the ability to support other IoT protocols in the future.
 
 ### Client footprint
 
-The client footprint is approximately 25 KB for embedded devices with optimized toolchains. This footprint includes:
+The client footprint is approximately 25 KB for embedded devices with optimized tool chains. This footprint includes:
 
-* the event dispatcher and scheduler
-* the connection backoff system
-* the Board Support Package implementations (networking, time, random number generator, memory management and crypto functions)
+* the event dispatcher and scheduler,
+* the connection backoff system,
+* the Board Support Package implementations (networking, time, random number generator, memory management and crypto functions.)
 
 The footprint also includes a TLS adaptation layer but does not include a TLS implementation itself. If the platform already has a TLS implementation, the size requirement for interfacing with it is negligible.
 
@@ -62,7 +62,7 @@ The footprint also includes a TLS adaptation layer but does not include a TLS im
 
 [MQTT Standard v3.1.1 Reference](http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html)
 
-The Cloud IoT Edge Embedded C Client uses MQTT messages to communicate over a publish/subscribe topic structure. The client connects a TCP socket to the Cloud IoT Core MQTT bridge and uses that socket to request subscriptions to one or many topics. After the client subscribes, all data published to those topics is delivered to the client application on the embedded device. Similarly, devices can publish to one or many topics to communicate to listeners through Cloud IoT Core.
+The Cloud IoT Device SDK uses MQTT messages to communicate over a publish/subscribe topic structure. The client connects a TCP socket to the Cloud IoT Core MQTT bridge and uses that socket to request subscriptions to one or many topics. After the client subscribes, all data published to those topics is delivered to the client application on the embedded device. Similarly, devices can publish to one or many topics to communicate to listeners through Cloud IoT Core.
 
 In the pub/sub paradigm, the device can be relatively unaware of listeners. It doesn't need to keep track of numerous connections, report connection state, or broadcast messages to multiple addresses. Instead, the device simply publishes a message to a topic and lets Cloud IoT Core route the message to any and all listeners.
 
@@ -72,77 +72,77 @@ In the pub/sub paradigm, the device can be relatively unaware of listeners. It d
     * **QoS 1 (AT\_LEAST\_ONCE)**: When the message is delivered to Cloud IoT Core, a "receipt" is sent to the client. The message may be sent multiple times before it is acknowledged by the service.
     * **QoS 2 (EXACTLY\_ONCE)**: Includes acknowledgment as in QoS 1, but the message is guaranteed to reach the target only once.
 
-Note: Google Cloud IoT Core does not support QoS 2.
+Note: While this SDK supports QoS 2, the Google Cloud IoT Core does not.
 
 With the MQTT toolbox, embedded devices can subscribe to and publish to various topics, and messages are automatically routed to the correct recipients based on the current subscriptions and permissions set. Because routing and permissions are handled in the cloud, communication overhead is reduced on the device.
 
 
 ### TLS Support
 
-The Cloud IoT Edge Embedded C Client includes two working implementations of its TLSv1.2 Board Support Package (BSP) for embedded devices: [mbedTLS](https://tls.mbed.org) and [wolfSSL](https://www.wolfssl.com/). The GitHub repository includes the source required to interface the Embedded C Client with either of these implementations (but does not provide the source for the TLS libraries themselves).
+The Cloud IoT Device SDK includes two working implementations of its TLSv1.2 Board Support Package (BSP) for embedded devices: [mbedTLS](https://tls.mbed.org) and [wolfSSL](https://www.wolfssl.com/). The GitHub repository includes the source required to interface the Cloud IoT Device SDK with either of these implementations (but does not provide the source for the TLS libraries themselves).
 
-If you have your own TLS implementation or one is included in your platform software, you can use the modular Networking and TLS BSPs. For more information on how to write and build with a custom TLS or Networking BSP, see the [Google Cloud IoT Edge Embedded C Client Porting Guide](https://github.com/googlecloudplatform/iot-edge-sdk-embedded-c/blob/master/doc/porting_guide.md). Be sure to also refer to the [TLS implementation requirements](#tls-implementation-requirements).
+If you wish to use another hardware or software based TLS you can use the modular Networking and TLS BSPs to invoke it instead. For more information on how to write and build with a custom TLS or Networking BSP, see the [Cloud IoT Device SDK for Embedded C Client Porting Guide](https://github.com/googlecloudplatform/iot-device-sdk-embedded-c/blob/master/doc/porting_guide.md). Be sure to also refer to the [TLS implementation requirements](#tls-implementation-requirements) in this document.
 
 
 ### RTOS support
 
-The client was designed to be adaptable to the platform it's running on. Applications call the client's event system to process incoming and outgoing messages.
+The SDK was designed to be adaptable to the platform it's running on. Applications call the SDK's event system to process incoming and outgoing messages.
 
-On Linux systems, you can call a function that processes an event loop continuously, blocking and returning only if shutdown or an unrecoverable error occurs. But this architecture is insufficient for no-OS and some RTOS devices. These devices need to yield control to the OS or platform software to handle execution on a common task, ticking network stacks, timers, and so on.
+On Linux systems, you may call a function that processes an event loop continuously, blocking and returning only if shutdown or an unrecoverable error occurs. But this architecture is insufficient for no-OS and some RTOS devices. These devices need to yield control to the OS or platform software to handle execution on a common task, ticking network stacks, timers, and so on.
 
-For these limited systems, the event loop processes a small series of events before returning control to the main platform loop. The platform loop can maintain system tick tasks, and then invoke the client to process another series of events. This makes the client nonblocking: it can handle both incoming and outgoing publishing in a tick operation.
+For these limited systems, the event loop processes a small series of events before returning control to the main platform loop. The platform loop can maintain system tick tasks, and then invoke the SDK to process another series of events.
 
 For more information, see the functions **`iotc_events_process_blocking()`** and **`iotc_events_process_tick()`** in `include/iotc.h`.
 
 
 ### Backoff
 
-Deploying a large fleet of connected devices can be problematic. If, for example, a Cloud IoT Core service disruption were to occur, millions of devices could attempt to connect to the service simultaneously. This would tax the service heavily, and the high load would make recovery even more difficult.
+Deploying a large fleet of connected devices can be problematic. If, for example, a Cloud IoT Core service disruption were to occur, millions of devices could attempt to reconnect to the service simultaneously. This would tax the service heavily, and the high load would make recovery even more difficult.
 
-In order to avoid such scenarios, the Cloud IoT Edge Embedded C Client includes a backoff system that monitors connection state on the client. It counts disconnects and errant MQTT operations, and monitors healthy connection durations.
+In order to avoid such scenarios, the Cloud IoT Device SDK includes a backoff system that monitors connection state on the device. It counts disconnects and errant MQTT operations, and monitors healthy connection durations to determine if a device might contribute to a DDoS attack.
 
 * A device that produces errant behavior or becomes disconnected will enter backoff mode. In this mode, connection requests are queued in the client's internal event system and processed later.
 * The delay in fulfilling the request is determined by the backoff severity level:
     * A single disconnection event might delay the device's next connection attempt by only a second.
     * Repeated connection issues will increase the penalty over time, up to a max of approximately 15 minutes (using a standard penalty growth schedule).
     * Some randomness is added to each delay calculation, to help distribute connection attempts across a fleet of devices.
-    * Penalties diminish over time.
+    * Penalties diminish over time if a connection is healthy.
 
-Backoff penalties do not affect devices that have successfully connected to Cloud IoT Core.
+Backoff penalties do not affect devices that have successfully connected to Cloud IoT Core, only in reconnection attempts.
 
 ### Memory limiter
 
-When working with restricted systems, memory usage is always an issue. The Cloud IoT Edge Embedded C Client includes an optional memory limiter that sets thresholds on the heap memory allocated during client operations. Memory is allocated and freed for various operations, including MQTT serialization/deserialization operations, TLS system tasks, and so on. By setting memory limits, you create a strict contract ensuring the client does not exceed a certain runtime heap footprint.
+When working with restricted systems, memory usage is always an issue. The Cloud IoT Device SDK includes an optional memory limiter that sets thresholds on the heap memory allocated during client operations. Memory is allocated and freed for various operations, including MQTT serialization/deserialization operations, TLS system tasks, and so on. By setting memory limits, you create a strict contract which ensures the client does not exceed a certain runtime heap footprint.
 
 * If certain operations would cause the client to allocate memory beyond the defined bounds, IOTC_OUT_OF_MEMORY errors are returned.
-* If the memory exhaustion event occurs while processing an already enqueued task (send, receive, etc.), the client shuts down the connection, cleans up its allocated resources, and calls the connect callback method with an error.
+* If the memory exhaustion event occurs while processing an already queued task (send, receive, etc.), the client shuts down the connection, cleans up its allocated resources, and calls the connect callback method with an error.
 
 Note: The memory limiter does not preallocate its heap, so heap monitoring software will not register an initial jump in usage. Additionally, if memory is being consumed on the device by another subsystem, heap exhaustion could still occur at the system level, hanging your device.
 
 #### Memory limiter functions
 
-Use the following functions to work with the memory limiter. Note: if the memory limiter was not compiled into the current client, these functions  return `XI_NOT_SUPPORTED`.
+Use the following functions to work with the memory limiter. Note: if the memory limiter was not compiled into the current client, these functions will return `XI_NOT_SUPPORTED`.
 
 **`iotc_state_t iotc_set_maximum_heap_usage( const size_t max_bytes)`**
 
 Sets the maximum number of bytes to be allocated on the heap during runtime operations. Depending on the TLS BSP implementation, this may include the TLS handshake.
 
-Returns an error if the specified limit is less than the amount of memory currently allocated or smaller than the Embedded C Client's system allocation pool (see below for details).
+Returns an error if the specified limit is less than the amount of memory currently allocated or smaller than the IoT Device SDK's system allocation pool (see below for details).
 
 **`iotc_state_t iotc_get_heap_usage( size_t* const heap_usage )`**
 
-Queries the amount of memory currently allocated for Embedded C Client operations, including buffers for ongoing MQTT transmissions; TLS encodings; and scheduled event handlers.
+Queries the amount of memory currently allocated for IoT Device SDK operations, including buffers for ongoing MQTT transmissions; TLS encodings; and scheduled event handlers.
 
-### Cloud IoT Edge Embedded C Client system allocation reservations
+### Cloud IoT Device SDK system allocation reservations
 
-The client reserves some space in memory so that it can continue operations during a memory exhaustion event. This reservation allows the client to continue processing ongoing coroutines, clean up scheduled tasks, unroll ongoing transmissions and buffers, and shut down sockets properly.
+The SDK reserves some space in memory so that it can continue operations during a memory exhaustion event. This reservation allows the SDK to continue processing ongoing coroutines, clean up scheduled tasks, unroll ongoing transmissions and buffers, and shut down sockets properly.
 
 By default, this memory space is set to 2 KB. For example, if you run `iotc_maximum_heap_usage` to set a max heap size of 20 KB, 2 KB will still be reserved for cleanup scenarios, resulting in 18 KB being available for all other operations -- including creating connections, sending and receiving buffers, and TLS processing.
 
 
 ## Platform security requirements
 
-The Embedded C Client requires TLS v1.2 to securely connect to the Cloud IoT Core service. However, simply connecting with TLS isn't sufficient. For a truly secure connection, the following embedded device components must be in place.
+The IoT Device SDK requires TLS v1.2 to securely connect to the Cloud IoT Core service. However, simply connecting with TLS isn't sufficient. For a truly secure connection, the following embedded device components must be in place.
 
 ### True random number generator
 
@@ -154,16 +154,16 @@ Note: Random number generators seeded by the current time are not truly random, 
 
 ### Accurate real-time clock
 
-The device's ability to know the time is essential to two major security processes that occur during the initial connection:
+The device's ability to know the time is essential for two major security processes which occur during the initial connection:
 
 * In order to [authenticate to Cloud IoT Core](https://cloud.google.com/iot/docs/how-tos/credentials/jwts), connecting clients must create a signed JSON Web Token (JWT) that includes the current date/time. The JWT is valid for only one day and must be regenerated with the accurate time on subsequent connections.
 * The TLS implementation on the device checks the service's identifying certificate during TLS handshaking: the current date/time must be within the certificate's date/time validity range. If the date is outside the range, the TLS handshake is aborted and the device cannot connect.
 
 ## TLS implementation requirements
 
-If you want to use a TLS library other than [mbedTLS](https://tls.mbed.org) or [wolfSSL](https://www.wolfssl.com), review this section to ensure that your TLS implementation meets the requirements. See also the [Client Porting Guide](https://github.com/googlecloudplatform/iot-edge-sdk-embedded-c/blob/master/doc/porting_guide.md) for information on configuring builds to support other TLS BSPs.
+If you want to use a TLS library other than [mbedTLS](https://tls.mbed.org) or [wolfSSL](https://www.wolfssl.com), review this section to ensure that your TLS implementation meets the requirements. See also the [Client Porting Guide](https://github.com/googlecloudplatform/iot-device-sdk-embedded-c/blob/master/doc/porting_guide.md) for information on configuring builds to support other TLS BSPs.
 
-Note: Some versions of TLS in Wi-Fi hardware do not have all of the required features, such as OCSP support. In such cases, the best practice is to use a software library for TLS (assuming the platform has sufficient flash storage available).
+Note: Some versions of TLS in Wi-Fi hardware do not have all of the required features, such as OCSP support. In such cases, the best practice is to use a software library for TLS (assuming the platform has sufficient flash storage available.)
 
 * Server certificate root CA validation
     * The TLS implementation must accept a series of root CA certificates stored on the client. These are used to determine whether the server certificate (provided at TLS handshaking) has been signed by one of the root CAs.
@@ -180,11 +180,11 @@ Note: Some versions of TLS in Wi-Fi hardware do not have all of the required fea
     * Requires an accurate clock.
 
 
-## Typical client application workflow
+## Typical SDK client application workflow
 
-The Google Cloud IoT Edge Embedded C Client is an asynchronous communication tool. In order to maintain a communication channel with Cloud IoT Core, client applications must use callbacks to monitor the state of connections and subscriptions. This section summarizes the high-level steps.
+The Google Cloud IoT Device SDK is an asynchronous communication tool. In order to maintain a communication channel with Cloud IoT Core, client applications must use callbacks to monitor the state of connections and subscriptions. This section summarizes the high-level steps.
 
-Note that this section provides an overview rather than complete details. For more information, see the API reference in the `doc/doxygen` directory of the [ Cloud IoT Edge Embedded C Client GitHub repository](https://github.com/googlecloudplatform/iot-edge-sdk-embedded-c/tree/master/).
+Note that this section provides an overview rather than complete details. For more information, see the API reference in the `doc/doxygen` directory of the [Cloud IoT Device SDK for Embedded C Client GitHub repository](https://github.com/googlecloudplatform/iot-device-sdk-embedded-c/tree/master/).
 
 **Note: Provisioning credentials**
 
@@ -199,7 +199,7 @@ Additional information about callbacks is provided after the summary steps.
 
 ### Step 1: Create a context
 
-A Cloud IoT Edge Embedded C context represents a socket connection to the  Cloud IoT Core service. All pending messages, incoming MQTT messages, subscription callbacks function pointers, and so on are associated with the  context.
+A Cloud IoT Device SDK context represents a socket connection to the  Cloud IoT Core service. All pending messages, incoming MQTT messages, subscription callbacks function pointers, and so on are associated with the context.
 
 Contexts are created by calling **`iotc_create_context()`**. Creating the context does not connect you to the Cloud IoT Core service directly. To start the connection process, provide the context to the **`iotc_connect`** function, as described below.
 
@@ -216,9 +216,7 @@ Note: The call to connect returns immediately. The connection operation is fulfi
 
 #### Connect callback
 
-When making a connection request, your client operation must provide a callback function. This function is invoked when a connection to the Cloud IoT Core service has been established, as well as when the connection was unsuccessful.
-
-The connect callback function is also invoked when an established connection to the Cloud IoT Core service has been lost or purposefully shut down. See [**Step 6: Disconnect and Shut Down**](step-6-disconnect-and-shut-down) for details.
+When making a connection request, your client operation must provide a callback function. This function is invoked when a connection to the Cloud IoT Core service has been established, as well as when the connection was unsuccessful, disrupted, or purposefully shutdown. See [**Step 6: Disconnect and Shut Down**](step-6-disconnect-and-shut-down) for details.
 
 ### Step 3: Process events
 
@@ -233,11 +231,11 @@ Subscription requests must include the following:
 
 #### Topics
 
-There is no hard limit to the number of topics an application can subscribe to with a particular context. Note, however, that each subscription has some memory overhead (topic name and function pointer.)
+There is no hard limit to the number of topics an application can subscribe to with a particular context. Note, however, that each subscription has some memory overhead (topic name and a function pointer.)
 
 #### Subscription callback
 
-The subscription callback function is invoked by Cloud IoT Edge Embedded C Client when the IoT Core service has acknowledged the subscription request, as well as when a message arrives to your device on a subscribed topic.
+The subscription callback function is invoked by Cloud IoT Device SDKwhen the IoT Core service has acknowledged the subscription request, as well as when a message arrives to your device on a subscribed topic.
 
 Incoming messages include the topic data as part of the callback parameters. You can either use the same subscription callback function for multiple topics, or have a unique callback function for each topic your client application subscribes to.
 
@@ -247,7 +245,7 @@ The QoS level is the *maximum* QoS level of incoming messages. That is, if you s
 
 ### Step 5: Publish
 
-Once a connection has been established, the client application can publish messages to the Cloud IoT Core service.
+Once a connection has been established, your application can publish messages to the Cloud IoT Core service.
 
 To publish a message to a topic, use either **`iotc_publish()`** or **`iotc_publish_data()`**. Each message must include the following:
 
@@ -263,7 +261,7 @@ The callback is useful in environments with severe memory restrictions. For exam
 
 ### Step 6: Disconnect and shut down
 
-As noted in **Step 2: Connect**, the Cloud IoT Edge Embedded C Client invokes the connect callback upon a disconnection event. Disconnection can occur for various reasons, including loss of internet connection, the Cloud IoT Core service closing the connection due to errant behavior (such as malformed MQTT packets), or an expired JWT. Additionally, the client application itself can disconnect or can instigate a shutdown.
+As noted in **Step 2: Connect**, the Cloud IoT Device SDK invokes the connect callback upon a disconnection event. Disconnection can occur for various reasons, including loss of internet connection, the Cloud IoT Core service closing the connection due to errant behavior (such as malformed MQTT packets), or an expired JWT. Additionally, the client application itself can instigate a shutdown.
 
 To close the connection directly, the client application can invoke **`iotc_shutdown_connection()`**. This function enqueues an event to close the socket connection in a clean manner, invoking the connect callback once the connection has been fully terminated.
 
@@ -271,11 +269,11 @@ Note: Do not delete the context until the the connect callback has been invoked 
 
 #### Disconnection types and reconnecting
 
-The client application can determine the type of disconnection event (valid disconnect versus error) by checking various parameters of the connect callback. See the [**Connect callback**](#connect-callback) section for more information.
+Your client application can determine the type of disconnection event (valid disconnect versus error) by checking various parameters of the connect callback. See the [**Connect callback**](#connect-callback) section for more information.
 
-If the disconnection wasn't expected, the client application can call connect again immediately from within the connect callback. This will queue a new connection request, just as in **Step 2: Connect**.
+If the disconnection wasn't expected, your client application can call connect again immediately from within the connect callback. This will queue a new connection request, just as in **Step 2: Connect**.
 
-If the client application closed the connection intentionally, it can retain the Embedded C Client context and invoke the connect function again later.
+If your client application closed the connection intentionally, it can retain the IoT Device SDK context and invoke the connect function again later.
 
 #### Freeing memory and shutting down
 
@@ -287,11 +285,11 @@ The **`iotc_shutdown()`** function should be called sparingly -- not on every di
 
 ## Standard operation callbacks (connect, subscribe, publish, and shutdown)
 
-The network dependent functions -- connect, subscribe, publish, and shutdown -- are all asynchronous. Although these functions return errors immediately if some simple sanity checks fail, normal operation will cause requests to be queued in the Cloud IoT Edge Embedded C Client event system. They will be  processed in the next iteration of the event processor.
+The network dependent functions -- connect, subscribe, publish, and shutdown -- are all asynchronous. Although these functions return errors immediately if some simple sanity checks fail, normal operation will cause requests to be queued in the IoT Device SDK event system. They will be processed in the next iteration of the event processor.
 
 In order for client applications to determine whether a request was successful, you'll need to provide a pointer to a callback function for these requests. These callback functions are detailed below.
 
-**Note:** For system simplification, the connect, publish, and shutdown callbacks share the same function signature. The only distinction is the subscribe callback, which requires more information and slightly different treatment. This section details the use of parameters in each callback scenario.
+**Note:** For system simplification, the connect, publish, and shutdown callbacks share the same function signature. The only distinction is the subscribe callback which requires more information than the others. This section details the use of parameters in each callback scenario.
 
 ### Connect callback
 
@@ -315,7 +313,7 @@ Used internally to track the state of the ongoing connection. Can be provided to
 Cast this as `iotc_connection_data_t*` and observe the `connection_state` to determine the type of connection state change. Possible values:
 
 * **IOTC_CONNECTION_STATE_OPENED:** The connection was successfully opened and TLS handshaking has occurred.
-* **IOTC_CONNECTION_STATE_OPEN_FAILED:** The connection was not successfully  opened. The state parameter will be set to an `iotc_err` noting why the connection failed.
+* **IOTC_CONNECTION_STATE_OPEN_FAILED:** The connection was not successfully opened. The state parameter will be set to an `iotc_err` noting why the connection failed.
 * **IOTC_CONNECTION_STATE_CLOSED:** A previously opened connection was shut down. If the state parameter is `IOTC_STATE_OK`, the disruption was due to the client application queuing a shutdown request via `iotc_shutdown_connection()`. Otherwise, the connection was closed either because of a network interruption or because the Cloud IoT Core service encountered errant client behavior or an expired JWT.
 
 **`state`**
@@ -324,7 +322,7 @@ Used in IOTC_CONNECTION_STATE_CLOSED messages, where `IOTC_STATE_OK` is set if t
 
 ### Subscription callback
 
-The subscription callback is invoked when the Cloud IoT Core service sends a MQTT SUBACK response with the granted QoS level of the subscription request. This function is also invoked each time the Cloud IoT Core service delivers a message to the subscribed topic.
+The subscription callback is invoked when the Cloud IoT Core service sends a MQTT SUBACK response with the granted QoS level of the subscription request. This function is also invoked each time the Cloud IoT Core service delivers a message to the device on the subscribed topic.
 
 #### Function signature
 
@@ -369,17 +367,17 @@ If `IOTC_SUB_CALL_SUBACK `is set, the **`params suback`** structure's fields are
 If `call_type` is set to `IOTC_SUB_CALL_MESSAGE`, **`params`** holds a **`message`** structure. This structure type can include the following information:
 
 * const char\* **topic**
-    - Topic name the message arrived on
+    - Topic name the message arrived on.
 * const uint8_t\* **temporary_payload_data**
     - Holds memory of length temporary_payload_data_length bytes, to be freed after the invocation is completed. The data must be copied if it needs to be retained.
 * size_t **temporary_payload_data_length**
-    - The length of the temporary_payload_data array
+    - The length of the temporary_payload_data array.
 * iotc_mqtt_retain_t **retain**
-    - Can be IOTC_MQTT_RETAIN_FALSE or IOTC_MQTT_RETAIN_TRUE
+    - Can be IOTC_MQTT_RETAIN_FALSE or IOTC_MQTT_RETAIN_TRUE.
 * iotc_mqtt_qos_t **qos**
-    - Can be one of: IOTC_MQTT_QOS_AT_MOST_ONCE, IOTC_MQTT_QOS_AT_LEAST_ONCE, IOTC_MQTT_QOS_EXACTLY_ONCE
+    - Can be one of: IOTC_MQTT_QOS_AT_MOST_ONCE, IOTC_MQTT_QOS_AT_LEAST_ONCE, IOTC_MQTT_QOS_EXACTLY_ONCE.
 * iotc_mqtt_dup_t **dup_flag**
-    - Can be one of: IOTC_MQTT_DUP_FALSE, IOTC_MQTT_DUP_TRUE
+    - Can be one of: IOTC_MQTT_DUP_FALSE, IOTC_MQTT_DUP_TRUE.
 
 **`state`**
 
@@ -389,11 +387,11 @@ Provides information about the state of the execution. If the value is something
 
 `void* data` can be associated with each subscription request. This allows a single callback function implementation to handle multiple message subscriptions.
 
-**Tip:** This data can contain application-specific information, or it can be used to differentiate channels more quickly and easily than by comparing topic names.
+**Tip:** This data can contain application-specific information, or it can be used as a custom tag to differentiate topics more quickly and easily than by comparing topic names.
 
 ### Publication callback
 
-The publication callback is invoked when the Cloud IoT Edge Embedded C Client successfully publishes to Cloud IoT Core. This callback is intended for use with devices that have very little memory capacity and need to gate the rate of publication. To facilitate this, the publication callback accepts a `void* data` variable for marking the specific publication that this callback is tracking.
+The publication callback is invoked when the Cloud IoT Device SDK successfully publishes to Cloud IoT Core. This callback is intended for use with devices that have very little memory capacity and need to gate the rate of publication. To facilitate this, the publication callback accepts a `void* data` variable for marking the specific publication that this callback is tracking.
 
 #### Function signature
 
@@ -418,7 +416,7 @@ On publication success, set to IOTC_STATE_WRITTEN. Otherwise, provides an `iotc_
 
 ### Event system
 
-The Cloud IoT Edge Embedded C Client has its own event processor for handle asynchronous communication (such as publication, subscription, and connection). To use this event system to schedule callbacks, provide a function pointer, a valid context, and the elapsed time in seconds when the function should be called.
+The Cloud IoT Device SDK Client has its own event processor for handle asynchronous communication (such as publication, subscription, and connection). To use this event system to schedule callbacks, provide a function pointer, a valid context, and the elapsed time in seconds when the function should be called.
 
 By making use of the event system, you can schedule publications to occur regularly (for example, to get device status), set a timer for a timeout, or schedule new connections. The latter can be useful if the device actively communicates with the Cloud IoT Core service only a few times per day.
 
@@ -480,7 +478,7 @@ if( IOTC_INVALID_TIMED_TASK_HANDLE != timed_task_handle )
 
 #### Sample usage
 
-An example of a scheduled callback is provided in the base `examples/` directory of the Cloud IoT Edge Embedded C Client GitHub repository. It includes source that schedules a callback to `delayed_publish()`, to publish a message every five seconds after the client has connected to the Cloud IoT Core service.
+An example of a scheduled callback is provided in the base `examples/` directory of the Cloud IoT Device SDK GitHub repository. It includes source that schedules a callback to `delayed_publish()`, to publish a message every five seconds after the client has connected to the Cloud IoT Core service.
 
 ## Learn more
 
@@ -488,12 +486,12 @@ An example of a scheduled callback is provided in the base `examples/` directory
 
 The following documentation is available:
 
-* [Google Cloud IoT Edge Embedded C Client Releases](https://github.com/googlecloudplatform/iot-edge-sdk-embedded-c/releases)
-* [Google Cloud IoT Edge Embedded C Client GitHub](https://github.com/googlecloudplatform/iot-edge-sdk-embedded-c)
-* [Google Cloud IoT Edge Embedded C Client Porting Guide](https://github.com/googlecloudplatform/iot-edge-sdk-embedded-c/blob/master/doc/porting_guide.md)
+* [Google Cloud IoT Device SDK for Embedded C Releases](https://github.com/googlecloudplatform/iot-device-sdk-embedded-c/releases)
+* [Google Cloud IoT Device SDK for Embedded C GitHub](https://github.com/googlecloudplatform/iot-device-sdk-embedded-c)
+* [Google Cloud IoT Device SDK for Embedded C Porting Guide](https://github.com/googlecloudplatform/iot-device-sdk-embedded-c/blob/master/doc/porting_guide.md)
 * [Google Cloud Google Cloud IoT Core Quickstart](https://cloud.google.com/iot/docs/quickstart)
-* Cloud IoT Edge Embedded C Client API reference, in `doc/doxygen/api` within the GitHub repo.
-* Cloud IoT Edge Embedded C Client BSP reference, in `doc/doxygen/bsp` within the GitHub repo.
+* Cloud IoT Device SDK for Embedded C API reference, in `doc/doxygen/api` within the GitHub repo.
+* Cloud IoT Device SDK for Embedded C BSP reference, in `doc/doxygen/bsp` within the GitHub repo.
 
 
 ### External resources
@@ -515,12 +513,12 @@ The following documentation is available:
 
 ### Backoff
 
-A state in which the Cloud IoT Edge Embedded C Client delays connection attempts to the Cloud IoT Core service, in order to prevent accidental Distributed Denial of Service attacks.
+A state in which the Cloud IoT Device SDK delays connection attempts to the Cloud IoT Core service, in order to prevent accidental Distributed Denial of Service attacks.
 
 ### Client application
 
-Software written for the target platform. Resides above the Cloud IoT Edge Embedded C Client on the application software stack. The client application calls into the Google Cloud IoT Edge Embedded C Client to fulfill its communication requests to the Cloud IoT Core service.
+Software written for the target platform. Resides above the Cloud IoT Device SDK on the application software stack. The client application calls into the Google Cloud IoT Device SDK to fulfill its communication requests to the Cloud IoT Core service.
 
-### Cloud IoT Edge Embedded C Client
+### Cloud IoT Device SDK for Embedded C
 
-Software written in C and intended for embedded devices. The client facilitates connections to the Cloud IoT Core service on behalf of the client application running on the device.
+Software written in C and intended for embedded devices. The SDK facilitates connections to the Cloud IoT Core service on behalf of the client application running on the device.

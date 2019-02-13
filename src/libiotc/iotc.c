@@ -1,6 +1,6 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Edge Embedded C Client,
+ * This is part of the Google Cloud IoT Device SDK for Embedded C,
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -280,6 +280,7 @@ iotc_state_t iotc_delete_context_with_custom_layers(
 }
 
 iotc_state_t iotc_delete_context(iotc_context_handle_t context_handle) {
+  printf("delete context.\n");
   iotc_context_t* context = iotc_object_for_handle(
       iotc_globals.context_handles_vector, context_handle);
   assert(context != NULL);
@@ -319,6 +320,7 @@ extern uint8_t iotc_is_context_connected(iotc_context_handle_t iotc_h) {
     return 0;
   }
 
+  printf("iotc_is_context_connected.\n");
   iotc_context_t* iotc = (iotc_context_t*)iotc_object_for_handle(
       iotc_globals.context_handles_vector, iotc_h);
 
@@ -386,10 +388,8 @@ iotc_state_t iotc_connect_to(
   IOTC_CHECK_CND_DBGMESSAGE(IOTC_INVALID_CONTEXT_HANDLE >= iotc_h,
                             IOTC_NULL_CONTEXT, state,
                             "ERROR: invalid context handle provided");
-  if( NULL == username ) {
-    username = "";
-  }
 
+  printf("iotc_connect_to.\n");
   iotc = iotc_object_for_handle(iotc_globals.context_handles_vector, iotc_h);
 
   IOTC_CHECK_CND_DBGMESSAGE(NULL == iotc, IOTC_NULL_CONTEXT, state,
@@ -425,14 +425,14 @@ iotc_state_t iotc_connect_to(
         iotc->context_data.connection_data->connection_state);
     return IOTC_ALREADY_INITIALIZED;
   }
- 
+
   input_layer = iotc->layer_chain.top;
   iotc->protocol = IOTC_MQTT;
 
   if (NULL != iotc->context_data.connection_data) {
     IOTC_CHECK_STATE(iotc_connection_data_update_lastwill(
         iotc->context_data.connection_data, host, port, username, password,
-        client_id, connection_timeout, keepalive_timeout,
+        client_id,  connection_timeout, keepalive_timeout,
         IOTC_SESSION_CLEAN, NULL, NULL, (iotc_mqtt_qos_t)0,
         (iotc_mqtt_retain_t)0));
   } else {
@@ -485,6 +485,7 @@ iotc_state_t iotc_publish_data_impl(iotc_context_handle_t iotc_h,
                                     void* user_data) {
   /* PRE-CONDITIONS */
   assert(IOTC_INVALID_CONTEXT_HANDLE < iotc_h);
+  printf("iotc_publish_data_impl\n");
   iotc_context_t* iotc = (iotc_context_t*)iotc_object_for_handle(
       iotc_globals.context_handles_vector, iotc_h);
   assert(NULL != iotc);
@@ -591,6 +592,7 @@ iotc_state_t iotc_subscribe(iotc_context_handle_t iotc_h, const char* topic,
   iotc_layer_t* input_layer = NULL;
   iotc_event_handle_t event_handle = iotc_make_empty_event_handle();
 
+  printf("iotc_subscribe\n");
   iotc_context_t* iotc = (iotc_context_t*)iotc_object_for_handle(
       iotc_globals.context_handles_vector, iotc_h);
 
@@ -635,6 +637,7 @@ err_handling:
 
 iotc_state_t iotc_shutdown_connection(iotc_context_handle_t iotc_h) {
   assert(IOTC_INVALID_CONTEXT_HANDLE < iotc_h);
+  printf("iotc_shutdown connection.\n");
   iotc_context_t* itoc =
       iotc_object_for_handle(iotc_globals.context_handles_vector, iotc_h);
   assert(NULL != itoc);
