@@ -2,51 +2,51 @@
 
 ##### Copyright (C) 2018-2019 Google Inc.
 
-This document explains how applications can use the Google Cloud IoT Device Embedded C Client to connect to Google Cloud IoT Core. It also describes the security and communication features of the client.
+This document explains how applications can use the Google Cloud IoT Device SDK for Embedded C to connect to Google Cloud IoT Core. It also describes the security and communication features of the client.
 
-For a complete API reference and code samples, see the following directories in the [Google Cloud IoT Edge Embedded C Client GitHub repository](https://github.com/googlecloudplatform/iot-edge-sdk-embedded-c).
+For a complete API reference and code samples, see the following directories in the [Google Cloud IoT Device SDK for Embedded C GitHub repository](https://github.com/googlecloudplatform/iot-edge-sdk-embedded-c).
 
  * **`examples/`**: Includes an example of how to connect and then publish/subscribe to Cloud IoT Core MQTT topics
- * **`doc/doxygen/`**: HTML documentation for the client API and BSP functions
+ * **`doc/doxygen/`**: HTML documentation for the SDK API and BSP functions
 
-The first part of this user guide summarizes features and requirements. If you're ready to start using the client, review the [Typical client application workflow](#typical-client-application-workflow).
+The first part of this user guide summarizes features and requirements. If you're ready to start using the Device SDK, review the [Typical client application workflow](#typical-client-application-workflow).
 
 
 ## Feature overview
 
-The Google Cloud IoT Device Embedded C Client provides MQTT connectivity over TLS. The client architecture targets constrained devices running embedded Linux, an RTOS, or a no-OS configuration. An event system enables your applications to publish and receive MQTT messages. The client can run on a single thread with a non-blocking socket connection and can publish, subscribe and receive messages concurrently.
+The Device SDK provides MQTT connectivity over TLS. The Device SDK architecture targets constrained devices running embedded Linux, an RTOS, or a no-OS configuration. An event system enables your applications to publish and receive MQTT messages. The client can run on a single thread with a non-blocking socket connection and can publish, subscribe and receive messages concurrently.
 
-The Cloud IoT Device Embedded C Client offers the following features.
+The Device SDK offers the following features.
 
 ### Flexibility
 
-The client scales to meet the needs of the platform.
+The Device SDK scales to meet the needs of each platform.
 
-* The client operates on a single thread and runs in non-blocking mode by default.
-* The client doesn't impact the CPU while waiting for operations. Power consumption can be minimized as required.
-* The client operates a thread-safe event queue and an optional thread pool for callbacks. These characteristics support robust applications and platforms beyond standard embedded environments.
-* The client includes a Transport Layer Security (TLS) Board Support Package (BSP) that leverages features in embedded Wi-Fi chips and software libraries like [mbedTLS](https://tls.mbed.org/) and [wolfSSL](https://www.wolfssl.com). For more information on device security, see [Platform security requirements](#platform-security-requirements).
+* The Device SDK operates on a single thread and runs in non-blocking mode by default.
+* The Device SDK doesn't impact the CPU while waiting for operations. Power consumption can be minimized as required.
+* The Device SDK operates a thread-safe event queue and an optional thread pool for callbacks. These characteristics support robust applications and platforms beyond standard embedded environments.
+* The Device SDK includes a Transport Layer Security (TLS) Board Support Package (BSP) that leverages features in embedded Wi-Fi chips and software libraries like [mbedTLS](https://tls.mbed.org/) and [wolfSSL](https://www.wolfssl.com). For more information on device security, see [Platform security requirements](#platform-security-requirements).
 
 ### Asynchronous publish/subscribe
 
-The client uses [coroutines](http://en.wikipedia.org/wiki/Coroutine) to cocurrently handle multiple publish and subscribe requests. This facilitates multiple ongoing communications, even on no-OS devices.
+The Device SDK uses [coroutines](http://en.wikipedia.org/wiki/Coroutine) to cocurrently handle multiple publish and subscribe requests. This facilitates multiple ongoing communications, even on no-OS devices.
 
-* The client can simultaneously send and receive information on a single socket, and, if required, return to the OS for tick operations.
-* Because the client is non-blocking, your application won't interfere with the usability of your device.
+* The Device SDK can simultaneously send and receive information on a single socket, and, if required, return to the OS for tick operations.
+* Because the Device SDK is non-blocking, your application won't interfere with the usability of your device.
 
 ### Distributed Denial of Service (DDoS) prevention
 
-The client includes a backoff system that uses intelligent networking behavior to prevent fleets of devices from causing unintentional DDoS attacks on Google Cloud IoT Core.
+The Device SDK includes a backoff system that uses intelligent networking behavior to prevent fleets of devices from causing unintentional DDoS attacks on Google Cloud IoT Core.
 
-* The backoff system prevents individual clients from performing tight-loop reconnection attempts.
+* The backoff system prevents individual client applications from performing tight-loop reconnection attempts.
 * Client applications are informed of pending connection attempts, disconnects, and backoff status changes.
 
 ### Abstracted implementation
 
-The client is designed to adapt to the rapid evolution of the IoT landscape:
+The Device SDK is designed to adapt to the rapid evolution of the IoT landscape:
 
-* The client is written in C with a Board Support Package (BSP) architecture. The client can be easily ported to support custom network stacks, operating systems, toolchains, and third-party TLS implementations.
-* The client uses MQTT for client/broker communications.
+* The Device SDK is written in C with a Board Support Package (BSP) architecture. The Device SDK can be easily ported to support custom network stacks, operating systems, toolchains, and third-party TLS implementations.
+* The Device SDK uses MQTT for client/broker communications.
 
 ### Client footprint
 
