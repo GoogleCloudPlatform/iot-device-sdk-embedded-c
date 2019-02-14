@@ -1,7 +1,7 @@
 # Google Cloud IoT Device SDK for Embedded C
 ___
 
-The Google Cloud IoT Device SDK for Embedded C consists is an easy-to-port, open-source C client that connects low-end IoT devices to Google Cloud IoT Core.
+The Google Cloud IoT Device SDK for Embedded C is an easy-to-port, open-source C client that connects low-end IoT devices to Google Cloud IoT Core.
 
 The Device SDK supports concurrent Pub/Sub traffic on a non-blocking socket implementation that runs on POSIX, RTOS, and no-OS devices. A Board Support Package (BSP) facilitates portability and provides platform-specific implementations through a set of functions and directories. The BSP helps you implement crypto and time functions, networking, Transport Layer Security (TLS), memory management, and random number generators—without working through MQTT internals.
 
@@ -22,7 +22,7 @@ To get the source, clone from the master branch of the Google Cloud IoT Device S
 - **make**: Build system configuration files.
 - **obj**: Object files generated during a build.
 - **res**: Resource files (for example, trusted root CA certificates.)
-- **src**: The source files of the Cloud IoT Device Device SDK. A BSP implementation is provided for POSIX.
+- **src**: The source files of the Device SDK. A BSP implementation is provided for POSIX.
 - **third_party**: Third-party open-source components.
 - **tools**: Scripts used by the maintainers of the repository.
 
