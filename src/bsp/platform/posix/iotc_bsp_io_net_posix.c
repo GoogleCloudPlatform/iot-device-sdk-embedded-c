@@ -25,6 +25,7 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <sys/time.h>
+#include <sys/types.h>
 #include <unistd.h>
 
 #ifdef __cplusplus
@@ -37,48 +38,53 @@ extern "C" {
 
 iotc_bsp_io_net_state_t
 iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
-                               const char* port) {
+                               uint16_t port) {
   struct addrinfo hints;
   struct addrinfo *result, *rp = NULL;
   int status;
+  char port_s[10];
+  sprintf(port_s, "%d", port);
 
-  /* Resolve address infoinformation */
   memset(&hints, 0, sizeof(hints));
   hints.ai_family = AF_UNSPEC;
   hints.ai_socktype = 0;
   hints.ai_flags = 0;
   hints.ai_protocol = 0;
 
-  status = getaddrinfo(host, port, &hints, &result);
+  status = getaddrinfo(host, port_s, &hints, &result);
   if (0 != status) {
     return IOTC_BSP_IO_NET_STATE_ERROR;
   }
-
   for (rp = result; rp != NULL; rp = rp->ai_next) {
-    /* Create endpoint for communication */
     *iotc_socket = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
     if (-1 == *iotc_socket)
       continue;
 
-    /* Attempt to connect on socket with address */
-    if (-1 != connect(*iotc_socket, rp->ai_addr, rp->ai_addrlen)) {
-      freeaddrinfo(result);
-      return IOTC_BSP_IO_NET_STATE_OK;
-    } else if (EINPROGRESS == errno) {
+    status = connect(*iotc_socket, rp->ai_addr, rp->ai_addrlen);
+    const int kFlags = fcntl(*iotc_socket, F_GETFL);
+    if (fcntl(*iotc_socket, F_SETFL, kFlags | O_NONBLOCK) == -1) {
+      perror("Enable nonblocking mode");
+    }
+
+    if (-1 != status) {
       freeaddrinfo(result);
       return IOTC_BSP_IO_NET_STATE_OK;
     } else {
-      close(*iotc_socket);
+      if (EINPROGRESS == errno) {
+        freeaddrinfo(result);
+        return IOTC_BSP_IO_NET_STATE_OK;
+      } else {
+        close(*iotc_socket);
+      }
     }
   }
   freeaddrinfo(result);
-  freeaddrinfo(&hints);
   return IOTC_BSP_IO_NET_STATE_ERROR;
 }
 
 iotc_bsp_io_net_state_t
 iotc_bsp_io_net_connection_check(iotc_bsp_socket_t iotc_socket,
-                                 const char* host, const char* port) {
+                                 const char* host, uint16_t port) {
   IOTC_UNUSED(host);
   IOTC_UNUSED(port);
 
@@ -134,7 +140,6 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_write(iotc_bsp_socket_t iotc_socket,
     if (ECONNRESET == errval || EPIPE == errval) {
       return IOTC_BSP_IO_NET_STATE_CONNECTION_RESET;
     }
-
     return IOTC_BSP_IO_NET_STATE_ERROR;
   }
 
@@ -242,14 +247,14 @@ iotc_bsp_io_net_select(iotc_bsp_socket_events_t* socket_events_array,
   }
 
   /* calculate max fd */
-  const int max_fd = MAX(max_fd_read, MAX(max_fd_write, max_fd_error));
+  const int kMaxFd = MAX(max_fd_read, MAX(max_fd_write, max_fd_error));
 
   tv.tv_sec = timeout_sec;
 
   /* call the actual posix select */
-  const int result = select(max_fd + 1, &rfds, &wfds, &efds, &tv);
+  const int kResult = select(kMaxFd + 1, &rfds, &wfds, &efds, &tv);
 
-  if (0 < result) {
+  if (0 < kResult) {
     /* translate the result back to the socket events structure */
     for (socket_id = 0; socket_id < socket_events_array_size; ++socket_id) {
       iotc_bsp_socket_events_t* socket_events = &socket_events_array[socket_id];
@@ -274,7 +279,7 @@ iotc_bsp_io_net_select(iotc_bsp_socket_events_t* socket_events_array,
     }
 
     return IOTC_BSP_IO_NET_STATE_OK;
-  } else if (0 == result) {
+  } else if (0 == kResult) {
     return IOTC_BSP_IO_NET_STATE_TIMEOUT;
   }
 

@@ -28,6 +28,14 @@
 
 #include <iostream>
 
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#include <stdio.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <unistd.h>
+
 namespace iotctest {
 namespace {
 using namespace std;
@@ -35,18 +43,16 @@ class NetTest : public IotcHeapCheckTest {
 public:
   NetTest() { iotc_initialize(); }
   ~NetTest() { iotc_shutdown(); }
+  void open_server();
   iotc_bsp_socket_t test_socket;
-  const char* host_ipv6 = "localhost";
+  const char* host_ipv6 = "::1";
   // const char *host_ipv4 = "127.0.0.1";
   const char* msg = "hello\n";
-  const char* port = "2000";
-  char port_str[10];
+  uint16_t port = 2000;
   int out_written_count;
 };
 
 TEST_F(NetTest, SocketCreation) {
-  sprintf(port_str, "%d", port);
-
   EXPECT_EQ(iotc_bsp_io_net_socket_connect(&test_socket, host_ipv6, port),
             IOTC_BSP_IO_NET_STATE_OK);
 }

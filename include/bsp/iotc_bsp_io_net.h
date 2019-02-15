@@ -205,8 +205,8 @@ typedef struct iotc_bsp_socket_events_s {
  * - IOTC_BSP_IO_NET_STATE_ERROR - otherwise.
  */
 iotc_bsp_io_net_state_t
-iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
-                               const char* port);
+iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t *iotc_socket, const char *host,
+                               uint16_t port);
 
 /**
  * @function
@@ -263,8 +263,8 @@ iotc_bsp_io_net_select(iotc_bsp_socket_events_t* socket_events_array,
  * - IOTC_BSP_IO_NET_STATE_ERROR - otherwise.
  */
 iotc_bsp_io_net_state_t
-iotc_bsp_io_net_connection_check(iotc_bsp_socket_t iotc_socket_nonblocking,
-                                 const char* host, const char* port);
+iotc_bsp_io_net_connection_check(iotc_bsp_socket_t iotc_socket,
+                                 const char *host, uint16_t port);
 
 /**
  * @function
