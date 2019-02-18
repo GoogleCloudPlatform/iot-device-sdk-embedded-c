@@ -98,8 +98,8 @@ void task_function_gcpiot_embedded_c(void *parameters) {
   const uint16_t connection_timeout = 10;
   const uint16_t keepalive_timeout = 3;
 
-  iotc_connect(context_handle, /*username=*/iotc_device_path, /*password=*/"eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NDk1NTgyNDgsImV4cCI6MTU0OTU2MTg0OCwiYXVkIjoiZ29vZ2xlLmNvbTpkZGItdGVzdC1kZXZlbG9wbWVudCJ9.3BM1IfRG2MpglcTPUKc88cp0rR1j2VV4sdbls6ZFbzH1igylUdaaNTssHJIiefGN5OBQedgvK9LT476rXb4YxA==",
-               /*client_id=*/ iotc_device_path, connection_timeout, keepalive_timeout,
+  iotc_connect(context_handle, /*username=*/iotc_device_path, /*password=*/jwt,
+               /*client_id=*/iotc_device_path, connection_timeout, keepalive_timeout,
                &on_connection_state_changed);
 
   while (1) {
