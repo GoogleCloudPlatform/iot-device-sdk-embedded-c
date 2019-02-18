@@ -23,6 +23,8 @@ ifneq (,$(findstring tls_bsp,$(CONFIG)))
 	include make/mt-config/mt-tls.mk
 endif
 
+include make/mt-config/mt-crypto.mk
+
 IOTC_UNIT_TEST_TARGET ?= native
 
 IOTC_OBJDIR_BASE ?= $(LIBIOTC)/obj
