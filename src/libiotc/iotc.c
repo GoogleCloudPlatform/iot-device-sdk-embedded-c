@@ -280,7 +280,6 @@ iotc_state_t iotc_delete_context_with_custom_layers(
 }
 
 iotc_state_t iotc_delete_context(iotc_context_handle_t context_handle) {
-  printf("delete context.\n");
   iotc_context_t* context = iotc_object_for_handle(
       iotc_globals.context_handles_vector, context_handle);
   assert(context != NULL);
@@ -320,7 +319,6 @@ extern uint8_t iotc_is_context_connected(iotc_context_handle_t iotc_h) {
     return 0;
   }
 
-  printf("iotc_is_context_connected.\n");
   iotc_context_t* iotc = (iotc_context_t*)iotc_object_for_handle(
       iotc_globals.context_handles_vector, iotc_h);
 
