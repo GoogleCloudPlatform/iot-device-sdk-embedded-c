@@ -346,12 +346,11 @@ iotc_state_t iotc_events_process_tick() {
   return IOTC_EVENT_PROCESS_STOPPED;
 }
 
-iotc_state_t iotc_connect(
-  iotc_context_handle_t iotc_h, const char* username,
-  const char* password, const char* client_id,
-  uint16_t connection_timeout, uint16_t keepalive_timeout,
-  iotc_user_callback_t* client_callback ) {
-
+iotc_state_t iotc_connect(iotc_context_handle_t iotc_h, const char* username,
+                          const char* password, const char* client_id,
+                          uint16_t connection_timeout,
+                          uint16_t keepalive_timeout,
+                          iotc_user_callback_t* client_callback) {
   typedef struct iotc_static_host_desc_s {
     char* name;
     uint16_t port;
@@ -359,18 +358,18 @@ iotc_state_t iotc_connect(
 
 #define IOTC_MQTT_HOST_ACCESSOR ((iotc_static_host_desc_t)IOTC_MQTT_HOST)
 
-  return iotc_connect_to(
-      iotc_h, IOTC_MQTT_HOST_ACCESSOR.name, IOTC_MQTT_HOST_ACCESSOR.port,
-      username, password, client_id, connection_timeout,
-      keepalive_timeout, client_callback);
+  return iotc_connect_to(iotc_h, IOTC_MQTT_HOST_ACCESSOR.name,
+                         IOTC_MQTT_HOST_ACCESSOR.port, username, password,
+                         client_id, connection_timeout, keepalive_timeout,
+                         client_callback);
 }
 
-iotc_state_t iotc_connect_to(
-  iotc_context_handle_t iotc_h, const char* host, uint16_t port,
-  const char* username, const char* password,
-  const char* client_id, uint16_t connection_timeout,
-  uint16_t keepalive_timeout, iotc_user_callback_t* client_callback) {
-
+iotc_state_t iotc_connect_to(iotc_context_handle_t iotc_h, const char* host,
+                             uint16_t port, const char* username,
+                             const char* password, const char* client_id,
+                             uint16_t connection_timeout,
+                             uint16_t keepalive_timeout,
+                             iotc_user_callback_t* client_callback) {
   iotc_state_t state = IOTC_STATE_OK;
   iotc_context_t* iotc = NULL;
   iotc_event_handle_t event_handle = iotc_make_empty_event_handle();
@@ -386,7 +385,7 @@ iotc_state_t iotc_connect_to(
   IOTC_CHECK_CND_DBGMESSAGE(IOTC_INVALID_CONTEXT_HANDLE >= iotc_h,
                             IOTC_NULL_CONTEXT, state,
                             "ERROR: invalid context handle provided");
-  if(NULL == username) {
+  if (NULL == username) {
     username = "";
   }
 
@@ -432,9 +431,8 @@ iotc_state_t iotc_connect_to(
   if (NULL != iotc->context_data.connection_data) {
     IOTC_CHECK_STATE(iotc_connection_data_update_lastwill(
         iotc->context_data.connection_data, host, port, username, password,
-        client_id,  connection_timeout, keepalive_timeout,
-        IOTC_SESSION_CLEAN, NULL, NULL, (iotc_mqtt_qos_t)0,
-        (iotc_mqtt_retain_t)0));
+        client_id, connection_timeout, keepalive_timeout, IOTC_SESSION_CLEAN,
+        NULL, NULL, (iotc_mqtt_qos_t)0, (iotc_mqtt_retain_t)0));
   } else {
     iotc->context_data.connection_data = iotc_alloc_connection_data_lastwill(
         host, port, username, password, client_id, connection_timeout,
@@ -485,7 +483,6 @@ iotc_state_t iotc_publish_data_impl(iotc_context_handle_t iotc_h,
                                     void* user_data) {
   /* PRE-CONDITIONS */
   assert(IOTC_INVALID_CONTEXT_HANDLE < iotc_h);
-  printf("iotc_publish_data_impl\n");
   iotc_context_t* iotc = (iotc_context_t*)iotc_object_for_handle(
       iotc_globals.context_handles_vector, iotc_h);
   assert(NULL != iotc);
@@ -592,7 +589,6 @@ iotc_state_t iotc_subscribe(iotc_context_handle_t iotc_h, const char* topic,
   iotc_layer_t* input_layer = NULL;
   iotc_event_handle_t event_handle = iotc_make_empty_event_handle();
 
-  printf("iotc_subscribe\n");
   iotc_context_t* iotc = (iotc_context_t*)iotc_object_for_handle(
       iotc_globals.context_handles_vector, iotc_h);
 
@@ -637,7 +633,6 @@ err_handling:
 
 iotc_state_t iotc_shutdown_connection(iotc_context_handle_t iotc_h) {
   assert(IOTC_INVALID_CONTEXT_HANDLE < iotc_h);
-  printf("iotc_shutdown connection.\n");
   iotc_context_t* itoc =
       iotc_object_for_handle(iotc_globals.context_handles_vector, iotc_h);
   assert(NULL != itoc);
