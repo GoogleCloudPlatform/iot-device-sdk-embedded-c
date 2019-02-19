@@ -166,7 +166,7 @@ If you want to use a TLS library other than [mbedTLS](https://tls.mbed.org) or [
     * Actively used at the time of connection to determine whether a server certificate has been revoked by building a separate connection to the root certificate authority.
     * Circumvents the need for certificate revocation lists on the device.
     * Requires the use of two sockets per connection, at least for the duration of the TLS handshaking process.
-    * Requires an accurate clock.\
+    * Requires an accurate clock.
 
 Some versions of TLS in Wi-Fi hardware do not have all of the required features, such as OCSP support. In such cases, the best practice is to use a software library for TLS (assuming the platform has sufficient flash storage available).
 
@@ -183,13 +183,15 @@ Before you begin building a client application, [generate device credentials](ht
  - project ID
  - [device path](https://cloud.google.com/iot/docs/how-tos/mqtt-bridge)
  - private key (e.g., `./ec_private.pem`)
- - path to Google's [roots.pem](https://pki.google.com/roots.pem) file (e.g., `./roots.pem`)
+ - path to Google's [roots.pem](https://pki.google.com/roots.pem) file, like `./roots.pem`)
+
+When you create a context, the Device SDK uses this information to authenticate your client application to Cloud IoT Core.
 
 ### Step 1: Create a context
 
 A Device SDK context represents a socket connection with the Cloud IoT Core service.
 
-To create a context, call **`iotc_create_context()`**. Then, follow the instructions below to pass the context to the **`iotc_connect()`** function and connect to Cloud IoT Core.
+To create a context, call **`iotc_create_context()`** without any parameters. The Device SDK returns a list of parameters for your client application. Execute the function with these parameters to provision the credentials to you client application. Then, follow the instructions below to pass the context to the **`iotc_connect()`** function and connect to Cloud IoT Core.
 
 ### Step 2: Connect
 
