@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright 2018-2019 Google LLC
 #
@@ -136,7 +136,7 @@ def create_h_file( data, array_name ):
 
 def write_to_file( file_name, s ):
 
-    print "writing to: %s" % file_name
+    print("writing to: %s" % file_name)
 
     with open( file_name, "wb" ) as f:
         f.write( s )
@@ -168,5 +168,5 @@ if __name__ == '__main__':
         write_to_file( h_file_name, create_h_file( data, array_name ) )
         write_to_file( c_file_name, create_c_file( data, array_name ) )
     else:
-        print( create_h_file( data, array_name ) )
-        print( create_c_file( data, array_name ) )
+        print(( create_h_file( data, array_name ) ))
+        print(( create_c_file( data, array_name ) ))
