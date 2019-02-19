@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright 2018-2019 Google LLC
 #
@@ -113,7 +113,7 @@ def write_to_file( file_name, s ):
     if os.path.isfile( file_name ):
         raise RuntimeError( "file already exists" )
 
-    print "writing to: %s" % file_name
+    print("writing to: %s" % file_name)
 
     with open( file_name, "wb" ) as f:
         f.write( s )
@@ -144,9 +144,9 @@ if __name__ == '__main__':
         write_to_file( c_layer_file_name, create_funs_defs( name ) )
         write_to_file( h_data_file_name, create_data_decs( name ) )
     else:
-        print create_funs_defs( name )
-        print create_funs_decs( name )
-        print create_data_decs( name )
+        print(create_funs_defs( name ))
+        print(create_funs_decs( name ))
+        print(create_data_decs( name ))
 
 
 
