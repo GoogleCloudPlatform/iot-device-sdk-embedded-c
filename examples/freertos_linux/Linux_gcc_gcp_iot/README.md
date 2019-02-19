@@ -1,7 +1,6 @@
 # FreeRTOS example
-___
 
-This example uses the Google Cloud IoT Device SDK for Embedded C to connect a FreeRTOS application to [Google Cloud IoT Core MQTT bridge](https://cloud.google.com/iot/docs/how-tos/mqtt-bridge#iot-core-mqtt-auth-run-cpp).
+This example uses the Google Cloud IoT Device SDK for Embedded C to connect a FreeRTOS application to the [Google Cloud IoT Core MQTT bridge](https://cloud.google.com/iot/docs/how-tos/mqtt-bridge#iot-core-mqtt-auth-run-cpp).
 
 ## Getting started
 
@@ -11,7 +10,7 @@ Before you begin, generate a [public/private key pair](https://cloud.google.com/
 
 1. Run `make PRESET=FREERTOS_POSIX_REL` in the root directory of the repository. This command downloads of the [FreeRTOS kernel](https://www.freertos.org/index.html), downloads the [FreeRTOS Linux simulator](https://www.freertos.org/FreeRTOS-simulator-for-Linux.html), and ports the Device SDK to the FreeRTOS application.
 
-2. In the root directory, generate the `Linux_gcc_gcp_iot` application for Linux.
+2. From the root directory, generate the `Linux_gcc_gcp_iot` application for Linux.
 
 ```
 cd examples/freertos_linux/Linux_gcc_gcp_iot \
@@ -28,20 +27,4 @@ make
 
 ### Validating Cloud IoT Core credentials
 
-Follow the steps below to validate your Cloud IoT credentials.
-
-1. Navigate to the root directory of the repository and run `make`.
-
-2. Generate the native example application.
-
-```
-cd examples/iot_core_mqtt_client \
-make
-```
-
-2. Run the following commands, substituting in your device and project information.
-
-```
-make \
-./Linux_gcc_gcp_iot -p <i><b>PROJECT_ID</b></i> -d projects/<i><b>PROJECT_ID</b></i>/locations/<i><b>REGION</b></i>/registries/<i><b>REGISTRY_ID</b></i>/devices/<i><b>DEVICE_ID</b></i> -t /devices/<i><b>DEVICE_ID</b></i>/state
-```
+Build the MQTT client example to validate your Cloud IoT Core credentials.

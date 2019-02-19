@@ -155,16 +155,9 @@ Application binaries and sources are in the `examples/` directory.
 
 These examples use the Device SDK to connect to Cloud IoT Core, subscribe to Cloud Pub/Sub topics, publish information to Cloud IoT Core, and receive data from Cloud IoT Core.
 
-The examples' source code show you how to initialize and use the Device SDK's C API.  For more information about the C API, consult the comments in the [example code](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/examples), `readme.md`, `doc/user_guide.md`, and the API reference in `doc/doxygen/api`.
+The examples' source code show you how to initialize and use the Device SDK's C API.  For more information about the C API, consult the comments in the [example code](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/examples), `README.md`, `doc/user_guide.md`, and the API reference in `doc/doxygen/api`.
 
-Complete the steps below to run the examples.
-
-1. Create a project, registry and device in Cloud IoT Core.
-2. Create [Cloud IoT Core device credentials](https://cloud.google.com/iot/docs/how-tos/credentials/keys).
-3. Provision the device credentials via the command line.
-4. Run `make` in the `examples/` directory. The `make` process automatically downloads the Google Root CA PEM file to the example directory. The file enables TLS when communicating with Cloud IoT Core.
-
-To securely connect to Cloud IoT Core, the [Google Root CA PEM file](https://pki.google.com/roots.pem) must be in the example directory. The `make`process automatically downloads the Google Root CA PEM file to the example directory.
+To build the examples follow the [instructions in the main `README.md`](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/#building-the-examples).
 
 # Porting
 

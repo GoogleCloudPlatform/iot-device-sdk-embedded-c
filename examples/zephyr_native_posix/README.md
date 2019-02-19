@@ -1,14 +1,13 @@
 # Zephyr RTOS example
-___
 
-This example uses the Google Cloud IoT Device SDK for Embedded C to connect a Zephyr native_posix board application to [Google Cloud IoT Core MQTT bridge](https://cloud.google.com/iot/docs/how-tos/mqtt-bridge#iot-core-mqtt-auth-run-cpp).
+This example uses the Google Cloud IoT Device SDK for Embedded C to connect a Zephyr native_posix board application to the [Google Cloud IoT Core MQTT bridge](https://cloud.google.com/iot/docs/how-tos/mqtt-bridge#iot-core-mqtt-auth-run-cpp).
 
 ## Getting started
 Follow the steps below to connect the Zephyr application to the MQTT bridge.
 
 1. Run `make PRESET=ZEPHYR` in the root directory of the repository. This command includes `git clone` of the Zephyr repository, sets Zephyr required environment variables, and auto-generates `.h` files that the Zephyr BSP requries.
 
-2. In the root directory, generate the Zephyr native_posix board application.
+2. From the root directory, generate the Zephyr native_posix board application.
 
 ```
 cd examples/zephyr_native_posix/build \
@@ -38,20 +37,4 @@ Another way to set environment variables is by permanently set up the Zephyr env
 
 ### Validating Cloud IoT Core credentials
 
-Follow the steps below to validate your Cloud IoT credentials.
-
-1. Navigate to the root directory of the repository and run `make`.
-
-2. Generate the native example application.
-
-```
-cd examples/iot_core_mqtt_client \
-make
-```
-
-2. Run the following commands, substituting in your device and project information.
-
-```
-make \
-./Linux_gcc_gcp_iot -p <i><b>PROJECT_ID</b></i> -d projects/<i><b>PROJECT_ID</b></i>/locations/<i><b>REGION</b></i>/registries/<i><b>REGISTRY_ID</b></i>/devices/<i><b>DEVICE_ID</b></i> -t /devices/<i><b>DEVICE_ID</b></i>/state
-```
+Build the [MQTT client example](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/tree/docs_updates/examples/iot_core_mqtt_client) to validate your Cloud IoT Core credentials.

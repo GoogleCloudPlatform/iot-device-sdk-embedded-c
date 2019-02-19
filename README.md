@@ -32,58 +32,56 @@ The default build environment for the Device SDK is `make`. It invokes [GCC](htt
 
 Run the following command to build the Device SDK:
 
-        make
+```
+make
+```
 
 The source can be cross-compiled to other target platforms via custom toolchains and the makefile, or with a specific device SDK’s IDE. For more information, see the porting guide in `doc/porting_guide.md`.
-
 
 ### Building a TLS static library
 
 By default, the Device SDK is built with secure connection support and thus requires a third-party TLS implementation to link against. When executing `make`, the build system defaults to mbedTLS.
 
-As a result, the following commands are synonymous.
-
-        make
-        make IOTC_BSP_TLS=mbedtls
+As a result, the `make` and `make IOTC_BSP_TLS=mbedtls` commands are synonymous.
 
 You can also configure the `make` system to build a library that uses wolfSSL.
 
-        make clean
-        make IOTC_BSP_TLS=wolfssl
+```
+make clean
+make IOTC_BSP_TLS=wolfssl
+```
 
 The value of IOTC_BSP_TLS determines which script is run.
+- mbedTLS: `res/tls/build_mbedtls.sh`
+- wolfSSL: `res/tls/build_wolfssl.sh`
 
-        mbedtls: res/tls/build_mbedtls.sh
-        wolfssl: res/tls/build_wolfssl.sh
-
-
-The mbedTLS build script includes a git clone and branch checkout of the mbedTLS source (upon confirmation of the license agreement). However, the wolfSSL build script requires you to clone the repository yourself. When you run `make IOTC_BSP_TLS=wolfSSL`, instructions are provided for cloning the repo.
+The mbedTLS build script includes a git clone and branch checkout of the mbedTLS source (upon confirmation of the license agreement). However, the wolfSSL build script requires you to clone the repository yourself. When you run `make IOTC_BSP_TLS=wolfSSL`, instructions are provided for cloning the repository.
 
 For more details on running the scripts, see [Security](#security).
 
 ### Building and executing tests
 
-    make tests
+Run `make tests` to build and execute all tests.
 
 By default, test execution is the final step of the `tests` build process. You can also execute the tests manually.
 
-    cd bin/{host_os}/tests
-    ./iotc_utests
-    ./iotc_gtests
-    ./iotc_itests
-
+```
+cd bin/{host_os}/tests
+./iotc_utests
+./iotc_gtests
+./iotc_itests
+```
 
 ### Building the examples
 
-Before building the examples, build both the Device SDK static library and a TLS library, as described in the preceding sections. Then build the examples.
+Before building the examples, build both the Device SDK static library and a TLS library, as described in the preceding sections. Then, complete the steps below to run the examples.
 
-    cd examples
-    make
+1. Create a project, registry and device in Cloud IoT Core.
+2. Create [Cloud IoT Core device credentials](https://cloud.google.com/iot/docs/how-tos/credentials/keys).
+3. Follow the steps in the examples README.md files to provision the device credentials and build the client applications.
+4. Run `make` in the examples home folders. The `make` process automatically downloads the Google Root CA PEM file to the example directories. The file enables TLS when communicating with Cloud IoT Core.
 
-The examples require device credentials for the Google Cloud IoT Core MQTT bridge, including the device's private key. For more information on credentials, see [Creating public/private key pairs](https://cloud.google.com/iot/docs/how-tos/credentials/keys) in the Cloud IoT Core documentation.
-
-To securely connect to Cloud IoT Core, the [Google Root CA PEM file](https://pki.google.com/roots.pem) must be in the example directory. The `make` process downloads the Google Root CA PEM file to the example directory.
-
+To securely connect to Cloud IoT Core, the [Google Root CA PEM file](https://pki.google.com/roots.pem) must be in the example directory. The `make`process automatically downloads the Google Root CA PEM file to the example directory.
 
 ### Cross-compilation
 
