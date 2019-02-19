@@ -88,20 +88,20 @@ build_output: header preset_output
 	$(info .    COMPILER:        [$(CC)] )
 	$(info )
 
-.PHONY: roots_pem
-roots_pem: res/trusted_RootCA_certs/roots.pem
+.PHONY: roots_cert
+roots_cert: res/trusted_RootCA_certs/gtsltsr.crt
 
-all: build_output roots_pem $(XI)
+all: build_output roots_cert $(XI)
 
-res/trusted_RootCA_certs/roots.pem:
+res/trusted_RootCA_certs/gtsltsr.crt:
 	$(info Attempting to download IoT Core Server Authentication)
 	$(info Ceritificate List. If this fails, then please download the list)
-	$(info from https://pki.google.com/roots.pem , and place it in the directory)
+	$(info from https://pki.goog/gtsltsr/gtsltsr.crt , and place it in the directory)
 	$(info res/trusted_RootCA_certs/)
-	wget https://pki.google.com/roots.pem -P res/trusted_RootCA_certs
+	wget https://pki.goog/gtsltsr/gtsltsr.crt -P res/trusted_RootCA_certs
 
 .PHONY: tests
-tests: build_output roots_pem utests gtests itests
+tests: build_output roots_cert utests gtests itests
 
 .PHONY: utests
 utests: $(IOTC_UTESTS) $(IOTC_TEST_TOOLS_OBJS) $(IOTC_TEST_TOOLS)
