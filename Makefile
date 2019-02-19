@@ -88,20 +88,10 @@ build_output: header preset_output
 	$(info .    COMPILER:        [$(CC)] )
 	$(info )
 
-.PHONY: roots_cert
-roots_cert: res/trusted_RootCA_certs/gtsltsr.crt
-
-all: build_output roots_cert $(XI)
-
-res/trusted_RootCA_certs/gtsltsr.crt:
-	$(info Attempting to download IoT Core Server Authentication)
-	$(info Ceritificate List. If this fails, then please download the list)
-	$(info from https://pki.goog/gtsltsr/gtsltsr.crt , and place it in the directory)
-	$(info res/trusted_RootCA_certs/)
-	wget https://pki.goog/gtsltsr/gtsltsr.crt -P res/trusted_RootCA_certs
+all: build_output $(XI)
 
 .PHONY: tests
-tests: build_output roots_cert utests gtests itests
+tests: build_output utests gtests itests
 
 .PHONY: utests
 utests: $(IOTC_UTESTS) $(IOTC_TEST_TOOLS_OBJS) $(IOTC_TEST_TOOLS)
@@ -199,8 +189,30 @@ $(IOTC_OBJDIR)/%.o : $(LIBIOTC)/src/%.cc $(IOTC_BUILD_PRECONDITIONS)
 	$(MD) $(CXX) $(IOTC_CONFIG_FLAGS) $(IOTC_COMMON_COMPILER_FLAGS) $(IOTC_CXX_FLAGS) $(IOTC_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
 	$(IOTC_POST_COMPILE_ACTION_CXX)
 
+###
+#### Builtin root CA certificates
+###
+IOTC_BUILTIN_ROOTCA_CERTS := $(LIBIOTC)/res/trusted_RootCA_certs/roots.pem
+
+$(IOTC_BUILTIN_ROOTCA_CERTS):
+	curl -s "https://pki.goog/gtsltsr/gtsltsr.crt" \
+		| openssl x509 -inform der -outform pem \
+		> $@
+
+	curl -s "https://pki.goog/gsr4/GSR4.crt" \
+		| openssl x509 -inform der -outform pem \
+		>> $@
+
+.PHONY: update_builtin_cert_buffer
+update_builtin_cert_buffer: $(IOTC_BUILTIN_ROOTCA_CERTS)
+	./tools/create_buffer.py \
+		--file_name $< \
+		--array_name iotc_RootCA_list \
+		--out_path ./src/libiotc/tls/certs \
+		--no-pretend
+
 # gather all of the binary directories
-IOTC_RESOURCE_FILES := $(LIBIOTC)/res/trusted_RootCA_certs/roots.pem
+IOTC_RESOURCE_FILES := $(IOTC_BUILTIN_ROOTCA_CERTS)
 
 ifneq (,$(findstring posix_fs,$(CONFIG)))
 IOTC_PROVIDE_RESOURCE_FILES = ON
@@ -268,7 +280,7 @@ $(IOTC_FUZZ_TESTS_BINDIR)/%: $(IOTC_FUZZ_TESTS_SOURCE_DIR)/%.cpp
 $(IOTC_FUZZ_TESTS): $(XI)
 
 .PHONY: fuzz_tests
-fuzz_tests: build_output roots_pem $(IOTC_LIBFUZZER) $(IOTC_FUZZ_TESTS) $(IOTC_FUZZ_TESTS_CORPUS_DIRS)
+fuzz_tests: build_output $(IOTC_LIBFUZZER) $(IOTC_FUZZ_TESTS) $(IOTC_FUZZ_TESTS_CORPUS_DIRS)
 	$(foreach fuzztest, $(IOTC_FUZZ_TESTS), $(call IOTC_RUN_FUZZ_TEST,$(fuzztest)))
 
 .PHONY: static_analysis
@@ -296,19 +308,3 @@ update_docs_branch:
 		&& git add . \
 		&& git commit -m "[docs] Regenerated documentation for $(REV)" \
 		&& git push github master:gh-pages -f
-
-CRT_URL := https://secure.globalsign.net/cacert/Root-R1.crt
-
-ca.pem:
-	curl -s $(CRT_URL) \
-		| openssl x509 \
-			-out $@ \
-			-outform pem
-
-update_builtin_cert: ca.pem
-	./tools/create_buffer.py \
-		--file_name ./ca.pem \
-		--array_name iotc_ca \
-		--out_path ./src/libiotc/tls/ \
-		--no-pretend
-	-rm -rf ./ca.pem
