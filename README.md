@@ -81,8 +81,6 @@ Before building the examples, build both the Device SDK static library and a TLS
 3. Follow the steps in the examples README.md files to provision the device credentials and build the client applications.
 4. Run `make` in the examples home folders. The `make` process automatically downloads the Google Root CA PEM file to the example directories. The file enables TLS when communicating with Cloud IoT Core.
 
-To securely connect to Cloud IoT Core, the [Google Root CA PEM file](https://pki.google.com/roots.pem) must be in the example directory. The `make`process automatically downloads the Google Root CA PEM file to the example directory.
-
 ### Cross-compilation
 
 Follow the steps below to perform the cross-compilation process.

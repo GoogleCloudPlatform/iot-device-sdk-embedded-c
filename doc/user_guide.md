@@ -183,7 +183,6 @@ Before you begin building a client application, [generate device credentials](ht
  - project ID
  - [device path](https://cloud.google.com/iot/docs/how-tos/mqtt-bridge)
  - private key (e.g., `./ec_private.pem`)
- - path to Google's [roots.pem](https://pki.google.com/roots.pem) file, like `./roots.pem`)
 
 When you create a context, the Device SDK uses this information to authenticate your client application to Cloud IoT Core.
 
@@ -191,7 +190,7 @@ When you create a context, the Device SDK uses this information to authenticate 
 
 A Device SDK context represents a socket connection with the Cloud IoT Core service.
 
-To create a context, call **`iotc_create_context()`** without any parameters. The Device SDK returns a list of parameters for your client application. Execute the function with these parameters to provision the credentials to you client application. Then, follow the instructions below to pass the context to the **`iotc_connect()`** function and connect to Cloud IoT Core.
+To create a context, call **`iotc_create_context()`** without any parameters. The Device SDK returns a list of parameters for your client application. Execute the function with these parameters to provision the credentials to your client application. Then, follow the instructions below to pass the context to the **`iotc_connect()`** function and connect to Cloud IoT Core.
 
 ### Step 2: Connect
 
