@@ -50,7 +50,7 @@ IOTC_FLAGS_COMPILER ?= -Wall -Werror -Wno-pointer-arith -Wno-format -fstrict-ali
 
 # -lm is only needed by linux
 # -lpthread only if both linux and multithreading is enabled in the
-# Google Cloud IoT EmbeddedC Client at compile time
+# Google Cloud IoT Device SDK Client at compile time
 IOTC_FLAGS_LINKER := -L$(IOTC_CLIENT_LIB_PATH) -liotc -lm -lpthread
 
 # TLS BSP related configuration
