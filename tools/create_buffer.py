@@ -146,7 +146,7 @@ def write_to_file(file_name, s):
 
     print("writing to: %s" % file_name)
 
-    with open(file_name, "wb") as f:
+    with open(file_name, "w") as f:
         f.write(s)
 
 
