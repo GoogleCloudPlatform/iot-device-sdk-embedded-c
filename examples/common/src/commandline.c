@@ -43,6 +43,10 @@ const char* iotc_publish_topic;
 const char* iotc_publish_message;
 const char* iotc_private_key_filename;
 
+#ifdef ENABLE_CRYPTOAUTHLIB
+uint8_t iotc_private_key_slot;
+#endif
+
 int iotc_parse(int argc, char** argv, char* valid_options,
                unsigned options_length) {
   int c;
@@ -50,8 +54,11 @@ int iotc_parse(int argc, char** argv, char* valid_options,
   iotc_project_id = NULL;
   iotc_device_path = NULL;
   iotc_publish_topic = NULL;
-  iotc_private_key_filename = DEFAULT_PRIVATE_KEY_FIILENAME;
   iotc_publish_message = "Hello From Your IoTC client!";
+  iotc_private_key_filename = DEFAULT_PRIVATE_KEY_FIILENAME;
+#ifdef ENABLE_CRYPTOAUTHLIB
+  iotc_private_key_slot = 0xFF;
+#endif
 
   while (1) {
     static struct option long_options[] = {
@@ -61,6 +68,9 @@ int iotc_parse(int argc, char** argv, char* valid_options,
         {"publish_topic", required_argument, 0, 't'},
         {"publish_message", required_argument, 0, 'm'},
         {"private_key_filename", optional_argument, 0, 'f'},
+#ifdef ENABLE_CRYPTOAUTHLIB
+        {"private_key_slot", required_argument, 0, 's'},
+#endif
         {0, 0, 0, 0}};
 
     /* getopt_long stores the option index here. */
@@ -89,6 +99,11 @@ int iotc_parse(int argc, char** argv, char* valid_options,
       case 'f':
         iotc_private_key_filename = optarg;
         break;
+#ifdef ENABLE_CRYPTOAUTHLIB
+      case 's':
+        iotc_private_key_slot = (uint8_t) strtol(optarg, NULL, 10);
+        break;
+#endif
       case 'h':
       default:
         iotc_help_flag = 1;
@@ -155,6 +170,12 @@ void iotc_usage(const char* options, unsigned options_length) {
         printf(" \t of the device identifying private_key. Defaults to: %s\n",
                DEFAULT_PRIVATE_KEY_FIILENAME);
         break;
+#ifdef ENABLE_CRYPTOAUTHLIB
+      case 's':
+        printf(
+            "-s --private_key_slot\n\tThe secure element slot ID containing "
+            "\tthe device identifying private_key.");
+#endif
       case 'h': /* Don't print anything for the help option since we're printing
                    usage */
         break;

@@ -46,13 +46,19 @@ int main(int argc, char* argv[]) {
     return -1;
   }
 
-  /* This example assumes the private key to be used to  sign the IoT Core
-     Connect JWT credential is a PEM encoded ES256 private key,
-     and passes it IoT Core Device Client functions as a byte array.
-     There are other ways of passing key data to the client, including
-     passing Key Slot IDs for using keys stored in secure elements.
+  /* This example assumes the key used to sign the IoT Core
+     Connect JWT credential is an ES256 private key.
+     It demonstrates two ways of passing the key:
+      - from a PEM encoded string in a byte array
+      - from a key stored in a secure element
+
+     This behaviour can be selected using the ENABLE_CRYPTOAUTHLIB
+     preprocessor variable.
      For more information, please see the iotc_crypto_key_data_t
      documentation in include/iotc_types.h. */
+
+#ifndef ENABLE_CRYPTOAUTHLIB
+  /* Using a private key in PEM format. */
 
   /* Use the example utils function to load the key from disk into memory. */
   if (0 != load_ec_private_key_pem_from_posix_fs(ec_private_key_pem,
@@ -70,6 +76,19 @@ int main(int argc, char* argv[]) {
       IOTC_CRYPTO_KEY_UNION_TYPE_PEM;
   iotc_connect_private_key_data.crypto_key_union.key_pem.key =
       ec_private_key_pem;
+
+#else
+  /* Using a private key stored in a secure element. */
+
+  init_cryptoauthlib(); // Initialize the secure element
+
+  iotc_connect_private_key_data.crypto_key_signature_algorithm =
+      IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256;
+  iotc_connect_private_key_data.crypto_key_union_type =
+      IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID;
+  iotc_connect_private_key_data.crypto_key_union.key_slot.slot_id =
+      iotc_private_key_slot;
+#endif
 
   /* Initialize iotc library and create a context to use to connect to the
    * GCP IoT Core Service. */

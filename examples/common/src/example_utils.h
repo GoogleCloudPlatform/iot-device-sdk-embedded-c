@@ -32,6 +32,15 @@ int iotc_example_handle_command_line_args(int argc, char* argv[]);
    also be used. Please see the Crypto BSP for more information. */
 int load_ec_private_key_pem_from_posix_fs(char* buf_ec_private_key_pem, size_t buf_len);
 
+#ifdef ENABLE_CRYPTOAUTHLIB
+/**
+ * Initializes Microchip's Cryptoauthlib.
+ *
+ * Used to sign tokens using the private key stored in a secure element.
+ */
+int init_cryptoauthlib();
+#endif
+
 /* A callback function that will be invoked whenever the connection state
    has changed.
 

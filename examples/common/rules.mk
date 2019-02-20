@@ -48,6 +48,11 @@ IOTC_FLAGS_INCLUDE += $(foreach i,$(IOTC_CLIENT_INC_PATH),-I$i)
 
 IOTC_FLAGS_COMPILER ?= -Wall -Werror -Wno-pointer-arith -Wno-format -fstrict-aliasing -Os -Wextra
 
+# -lm is only needed by linux
+# -lpthread only if both linux and multithreading is enabled in the
+# Google Cloud IoT EmbeddedC Client at compile time
+IOTC_FLAGS_LINKER := -L$(IOTC_CLIENT_LIB_PATH) -liotc -lm -lpthread
+
 # TLS BSP related configuration
 IOTC_BSP_TLS ?= mbedtls
 
@@ -58,9 +63,21 @@ ifneq ("$(IOTC_BSP_TLS)", "")
 
   TLS_LIB_CONFIG_FLAGS := -L$(addprefix $(IOTC_CLIENT_PATH),$(IOTC_TLS_LIB_DIR))
   TLS_LIB_CONFIG_FLAGS += $(foreach d, $(IOTC_TLS_LIB_NAME), -l$d)
+  IOTC_FLAGS_LINKER += $(TLS_LIB_CONFIG_FLAGS)
 endif
 
-# -lm is only needed by linux
-# -lpthread only if both linux and multithreading is enabled in the
-# Google Cloud IoT EmbeddedC Client at compile time
-IOTC_FLAGS_LINKER := -L$(IOTC_CLIENT_LIB_PATH) -liotc -lpthread $(TLS_LIB_CONFIG_FLAGS) -lm
+# Crypto BSP related configuration
+IOTC_BSP_CRYPTO ?= mbedtls
+
+ifeq ("$(IOTC_BSP_CRYPTO)", "cryptoauthlib")
+  IOTC_FLAGS_INCLUDE += -I$(addprefix $(IOTC_CLIENT_PATH), third_party/cryptoauthlib/lib)
+  CRYPTO_LIB_CONFIG_FLAGS := -L$(addprefix $(IOTC_CLIENT_PATH), third_party/cryptoauthlib/build)
+  CRYPTO_LIB_CONFIG_FLAGS += -lcryptoauth
+  IOTC_FLAGS_LINKER += $(CRYPTO_LIB_CONFIG_FLAGS)
+
+  # For a secure element connected via USB
+  IOTC_FLAGS_LINKER += -ludev -lusb -lusb-1.0
+
+  # For selectively enabling Cryptoauthlib in the examples
+  IOTC_FLAGS_COMPILER += -DENABLE_CRYPTOAUTHLIB=1
+endif
