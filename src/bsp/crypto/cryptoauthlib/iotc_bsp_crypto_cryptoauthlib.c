@@ -94,7 +94,7 @@ iotc_bsp_ecc( const iotc_crypto_key_data_t* private_key_data, uint8_t* dst_buf,
     if (private_key_data->crypto_key_union_type != IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID) {
         iotc_debug_format(
             "Cryptoauthlib impl of iotc_bsp_ecc() only supports slot ID keys. "
-            "Got key type %d", private_key_data->private_key_union_type);
+            "Got key type %d", private_key_data->crypto_key_union_type);
 
         return IOTC_BSP_CRYPTO_ERROR;
     }
