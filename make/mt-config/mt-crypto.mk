@@ -19,13 +19,13 @@ ifeq ($(IOTC_BSP_CRYPTO), mbedtls)
     ifneq ($(IOTC_BSP_TLS), mbedtls)
         $(error mbedtls as crypto BSP requires IOTC_BSP_TLS=mbedtls, was "$(IOTC_BSP_TLS)")
     endif
-    # Nothing else to to, rely on IOTC_BSP_TLS to configure dependencies
+    # Nothing else to do, rely on IOTC_BSP_TLS to configure dependencies
 
 else ifeq ($(IOTC_BSP_CRYPTO), wolfssl)
     ifneq ($(IOTC_BSP_TLS), wolfssl)
         $(error wolfssl as crypto BSP requires IOTC_BSP_TLS=wolfssl, was "$(IOTC_BSP_TLS)")
     endif
-    # Nothing else to to, rely on IOTC_BSP_TLS to configure dependencies
+    # Nothing else to do, rely on IOTC_BSP_TLS to configure dependencies
 
 else ifeq ($(IOTC_BSP_CRYPTO), cryptoauthlib)
 CRYPTOAUTHLIB_DIR := ./third_party/cryptoauthlib/lib
