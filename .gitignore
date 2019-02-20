@@ -1,5 +1,4 @@
 bin/
 obj/
-res/trusted_RootCA_certs/roots.pem
 test_coverage/
 .vscode/
