@@ -6,7 +6,7 @@ This example uses the Google Cloud IoT Device SDK for Embedded C to connect a Fr
 
 Follow the steps below to connect the FreeRTOS application to the MQTT bridge.
 
-Before you begin, generate a [public/private key pair](https://cloud.google.com/iot/docs/how-tos/credentials/keys), store the private key in `examples/freertos_linux/Linux_gcc_gcp_iot` directory, and name the key `ec_private.pem`. 
+Before you begin, generate a [public/private key pair](https://cloud.google.com/iot/docs/how-tos/credentials/keys), store the private key in the `examples/freertos_linux/Linux_gcc_gcp_iot` directory, and name the key `ec_private.pem`. 
 
 1. Run `make PRESET=FREERTOS_POSIX_REL` in the root directory of the repository. This command downloads of the [FreeRTOS kernel](https://www.freertos.org/index.html), downloads the [FreeRTOS Linux simulator](https://www.freertos.org/FreeRTOS-simulator-for-Linux.html), and ports the Device SDK to the FreeRTOS application.
 
