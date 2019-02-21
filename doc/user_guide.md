@@ -128,7 +128,7 @@ Use the following functions to work with the memory limiter. If the memory limit
 
 ### Device SDK system allocation reservations
 
-The client reserves some space in memory so that it can continue operations during a memory exhaustion event. This reservation allows the client to continue processing ongoing coroutines, clean up scheduled tasks, unroll ongoing transmissions and buffers, and shut down sockets.
+The Device SDK reserves some space in memory so that it can continue operations during a memory exhaustion event. This reservation allows the Device SDK to continue processing ongoing coroutines, clean up scheduled tasks, unroll ongoing transmissions and buffers, and shut down sockets.
 
 By default, this memory space is set to 2 KB. For example, if you run `iotc_maximum_heap_usage` to set a maximum heap size of 20 KB, 2 KB is reserved for cleanup scenarios. 18 KB are then available for all other operations.
 
@@ -154,20 +154,22 @@ The embedded device must keep time in order to perform the following security pr
 
 If you want to use a TLS library other than [mbedTLS](https://tls.mbed.org) or [wolfSSL](https://www.wolfssl.com), review this section and read the [porting guide](https://github.com/googlecloudplatform/iot-edge-sdk-embedded-c/blob/master/doc/porting_guide.md) for details on configuring builds to support other TLS BSPs. All TLS implementations must meet the following requirements.
 
-* Server certificate root CA validation
-    * The TLS implementation must accept a series of root CA certificates stored on the client to determine whether the server certificate (provided at TLS handshaking) has been signed by one of the root CAs.
-        * The root certificates are currently provided in the [Google root CA PEM file](https://pki.google.com/roots.pem).
-        * The `make` process automatically downloads the Google Root CA PEM file to the example directory. To maintain a secure connection with Cloud IoT Core, we strongly recommend that you perform frequent security-related firmware updates.
-    * Requires an accurate clock.
+### Server certificate root CA validation
 
-* Server domain checking
-    * Wildcard support for checking the domain name of server certificates.
+The TLS implementation must accept a series of root CA certificates stored on the Device SDK to determine whether the server certificate (provided at TLS handshaking) has been signed by one of the root CAs. The TLS implementation must meet the following requirements to validate the server certificate.
+   * The root certificates are provided in the `res/trusted_RootCA_certs/roots.pem` file.
+   * The `make` process automatically moves this file from `res/trusted_RootCA_certs/roots.pem` to the correct location in the current working directory. To maintain a secure connection with Cloud IoT Core, we strongly recommend that you perform frequent security-related firmware updates.
+   * Requires an accurate clock.
 
-* [Online Certificate Status Protocol (OCSP)](http://en.wikipedia.org/wiki/Online_Certificate_Status_Protocol) (optional, highly recommended)
-    * Actively used at the time of connection to determine whether a server certificate has been revoked by building a separate connection to the root certificate authority.
-    * Circumvents the need for certificate revocation lists on the device.
-    * Requires the use of two sockets per connection, at least for the duration of the TLS handshaking process.
-    * Requires an accurate clock.
+### Server domain checking
+    
+The TLS implementation must have the following features to securely check server domains.
+   * Wildcard support for checking the domain name of server certificates.
+   * [Online Certificate Status Protocol (OCSP)](http://en.wikipedia.org/wiki/Online_Certificate_Status_Protocol) (optional, highly recommended)
+      * Actively used at the time of connection to determine whether a server certificate has been revoked by building a separate connection to the root certificate authority.
+      * Circumvents the need for certificate revocation lists on the device.
+      * Requires the use of two sockets per connection, at least for the duration of the TLS handshaking process.
+      * Requires an accurate clock.
 
 Some versions of TLS in Wi-Fi hardware do not have all of the required features, such as OCSP support. In such cases, the best practice is to use a software library for TLS (assuming the platform has sufficient flash storage available).
 
