@@ -23,7 +23,7 @@ For general information about the Device SDK's features and application usage, s
 
 ## Notes about the codebase
 
-The Device SDK accommodates a variety of IoT devices. Default host/target support is provided for POSIX systems (tested on Ubuntu Linux). The Device SDK is also tested on RTOS and no-OS devices.
+The Device SDK accommodates a variety of IoT devices. Default host/target support is provided for POSIX systems (tested on Ubuntu Linux). The Device SDK was also tested on RTOS and no-OS devices.
 
 Most of the codebase is cross-platform and resides in the `src/libiotc/` directory. Platform-specific code is in the `src/bsp/` directory.
 
@@ -31,7 +31,7 @@ The codebase is built against [C99 standards](https://en.wikipedia.org/wiki/C99)
 
 # Building
 
-This section describes how to cross-compile the `make` environment for your toolchain.
+This section describes how to configure make to cross-compile the Device SDK for your platform.
 
 We recommend building the Device SDK for a Linux distribution before cross-compiling to another target platform. Building for Linux introduces you to the basic architecture and tools of the Device SDK source. This basic knowledge then helps you cross-compile the software to an embedded device.
 
@@ -43,10 +43,10 @@ Depending on the build configuration, the main makefile includes more make-relat
 
 * `TARGET` determines the platform for which you're compiling. This affects toolchain flags, file pathing, and BSP sources.  If this flag isn't specified, it defaults to `TARGET=linux-static-release` or `TARGET=osx-static-release`, depending your host system. OS X host builds are unsupported.
 
-* `CONFIG` determines the Device SDK software modules, like the memory linter or debug logging, that the system compiles into the library. This value defaults to `CONFIG=posix_fs-posix_platform-tls_bsp-memory_limiter` for local POSIX machine development.
+* `CONFIG` determines the Device SDK software modules, like the memory limiter or debug logging, that the system compiles into the library. This value defaults to `CONFIG=posix_fs-posix_platform-tls_bsp-memory_limiter` for local POSIX machine development.
 
 * `IOTC_BSP_TLS` determines the Transport Layer Security (TLS) BSP implementation that the makefile compiles. The TLS BSP selection configures the Device SDK to encrypt data sent from the Device SDK over the network socket with the desired embedded TLS library. The default value of this flag is `IOTC_BSP_TLS=mbedtls`; the default implemenation is in `src/bsp/tls/mbedtls`. The flag for the out-of-the-box wolfSSL implemenation, which resides in `src/bsp/tls/wolfssl`, is `IOTC_BSP_TLS=wolfssl`. Both of these implementations configure and build the third-party TLS library sources in the `third_party/tls/mbedtls` or `third_party/tls/wolfssl`, respectively. The build system prompts the user with instructions on how to populate these directories with the required TLS library sources.
-  * The sources for the third-party SSL libraries aren't included in the repo by default. The `make` command automatically downloads mbedtls and configures it for the Device SDK. The `make` command doesn't automatically download wolfSSL; however, running `make` automatically provides instructions on how and where to download wolfSSL.
+  * The sources for the third-party TLS libraries aren't included in the repo by default. The `make` command automatically downloads mbedtls and configures it for the Device SDK. The `make` command doesn't automatically download wolfSSL; however, running `make` automatically provides instructions on how and where to download wolfSSL.
   * To define your own BSP implementation, see the [TLS BSP](#tls-bsp) section later in this document.
   * If you use a hardware TLS instead of a software TLS, compile without a TLS BSP and invoke the Device SDK's secure socket API directly from the Device SDK's networking BSP. To compile without a TLS BSP, follow the additional steps below.
     * Do not define `IOTC_BSP_TLS` on the `make` command line.
@@ -111,7 +111,7 @@ A typical `CONFIG` argument consists of an option feature flag, a file system fl
 
 #### Optional feature flag
 
-   - `threading`            - POSIX only. Causes publication, subcription, and
+   - `threading`            - POSIX only. Causes publication, subscription, and
                             connection callbacks to be called on separate threads. If not set, application callbacks are called on the main thread of the Device SDK's event system.
 
 #### File system flag
