@@ -1,5 +1,4 @@
 # Google Cloud IoT Device SDK for Embedded C
-___
 
 The Google Cloud IoT Device SDK for Embedded C is an easy-to-port, open-source C library that connects low-end IoT devices to Google Cloud IoT Core.
 
@@ -81,7 +80,7 @@ Before building the examples, build both the Device SDK static library and a TLS
 3. Follow the steps in the examples README.md files to provision the device credentials and build the client applications.
 4. Run `make` in the examples home folders. The `make` process automatically downloads the Google Root CA PEM file to the example directories. The file enables TLS when communicating with Cloud IoT Core.
 
-To securely connect to Cloud IoT Core, the [Google Root CA PEM file](https://pki.google.com/roots.pem) must be in the example directory. The `make` process automatically downloads the Google Root CA PEM file to the example directory.
+To securely connect to Cloud IoT Core, a root CA `.pem` file must be in the current working directory of the example executables. By default, the file is in `res/trusted_RootCA_certs/roots.pem` and contains two certificates that validate Cloud IoT Core credentials. The `make` process automatically moves this file from `res/trusted_RootCA_certs/roots.pem` to the correct location.
 
 To maintain a secure connection with Cloud IoT Core, we strongly recommend that you perform frequent security-related firmware updates.
 
