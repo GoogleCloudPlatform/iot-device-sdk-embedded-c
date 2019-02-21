@@ -157,6 +157,7 @@ If you want to use a TLS library other than [mbedTLS](https://tls.mbed.org) or [
 * Server certificate root CA validation
     * The TLS implementation must accept a series of root CA certificates stored on the client to determine whether the server certificate (provided at TLS handshaking) has been signed by one of the root CAs.
         * The root certificates are currently provided in the [Google root CA PEM file](https://pki.google.com/roots.pem).
+        * The `make` process automatically downloads the Google Root CA PEM file to the example directory. To maintain a secure connection with Cloud IoT Core, we strongly recommend that you perform frequent security-related firmware updates.
     * Requires an accurate clock.
 
 * Server domain checking
@@ -184,7 +185,7 @@ Before you begin building a client application, [generate device credentials](ht
  - [device path](https://cloud.google.com/iot/docs/how-tos/mqtt-bridge)
  - private key (e.g., `./ec_private.pem`)
 
-When you create a context, the Device SDK uses this information to authenticate your client application to Cloud IoT Core.
+The Device SDK uses the context to authenticate your client application to Cloud IoT Core.
 
 ### Step 1: Create a context
 

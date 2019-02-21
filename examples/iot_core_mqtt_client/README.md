@@ -20,5 +20,3 @@ make \
 cd bin \
 ./iot_core_mqtt_client -p <i><b>PROJECT_ID</b></i> -d projects/<i><b>PROJECT_ID</b></i>/locations/<i><b>REGION</b></i>/registries/<i><b>REGISTRY_ID</b></i>/devices/<i><b>DEVICE_ID</b></i> -t /devices/<i><b>DEVICE_ID</b></i>/state
 </pre>
-
-To securely connect to Cloud IoT Core, the [Google Root CA PEM file](https://pki.google.com/roots.pem) must be in the example directory. The `make`process automatically downloads the Google Root CA PEM file to the example directory.
