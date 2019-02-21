@@ -4,7 +4,7 @@ This example uses the Google Cloud IoT Device SDK for Embedded C to connect a na
 
 ## Getting started
 
-Before you begin, generate a [public/private key pair](https://cloud.google.com/iot/docs/how-tos/credentials/keys), store the private key in `examples/iot_core_mqtt_client/bin` directory, and name the key `ec_private.pem`.
+Before you begin, generate a [public/private key pair](https://cloud.google.com/iot/docs/how-tos/credentials/keys), store the private key in the `examples/iot_core_mqtt_client/bin` directory, and name the key `ec_private.pem`.
 
 1. Run `make` in the root directory of the repository.
 
