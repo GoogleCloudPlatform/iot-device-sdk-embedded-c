@@ -21,7 +21,9 @@ IOTC_LIB_FLAGS += -liotc
 
 ifneq (,$(findstring tls_bsp,$(CONFIG)))
 	include make/mt-config/mt-tls.mk
+	include make/mt-config/mt-crypto.mk
 endif
+
 
 IOTC_UNIT_TEST_TARGET ?= native
 

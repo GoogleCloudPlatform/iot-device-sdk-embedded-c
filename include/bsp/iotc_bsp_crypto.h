@@ -28,13 +28,14 @@ extern "C" {
 
 /**
  * @file iotc_bsp_crypto.h
- * @brief IoTC Client's Board Support Package (BSP) for using a Cryptography
- * library implementation to encode and sign portions of clients Google Cloud
- * IoT Core JWT credential.
+ * @brief The IoT Device SDK Board Support Package (BSP) for using a
+ * Cryptography library implementation to encode and sign portions of clients
+ * Google Cloud IoT Core JWT credential.
  *
  * This file defines the API of a Crypto Board Support Package (BSP) that the
  * IoTC Client would use to generate and sign a JWT using ECC keys and SHA256
- * digests, and formatting results in a URL-Safe Base64 string.
+ * digests, and formatting results in a URL-Safe Base64 string. Reference
+ * implementations reside in the src/bsp/crypto directory of this repository.
  *
  * The BSP has been created in a way that allows for flexibility in
  * implementation. The private key data and/or private key slot number
@@ -43,7 +44,8 @@ extern "C" {
  * implementation of this BSP.
  *
  * Note that this implementation need not worry about how to format the JWT
- * itself, as this has been already done by the IoTC Client internal library.
+ * itself, as this has been already done by the IoT Device SDK in a previous
+ * step.
  *
  * These functions should return one of the Crypto BSP enumerated states
  * defined in iotc_bsp_crypto_state_t to report success or failures.
