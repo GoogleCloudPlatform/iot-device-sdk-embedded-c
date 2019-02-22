@@ -90,7 +90,8 @@ Follow the steps below to perform the cross-compilation process.
 
 - Extend the build system with a new cross-compilation preset in the file `make/mt-config/mt-presets.mk`.
 - Create a set of files that represent the Board Support Package (BSP) implementation you've written for your platform. Store these in the directory `src/bsp/platform/TARGET_PLATFORM`.
-- Build a TLS library for the target platform in the directory `src/bsp/tls/TARGET_TLS_SOLUTION`.
+- Build a TLS BSP implementation to invoke the TLS SDK for your platform. Store these in a new directory directory `src/bsp/tls/TARGET_TLS_SOLUTION`.
+- Build a Cryptography BSP implementation to handle key signatures of JWTs on your target platform in the directory `src/bsp/crypto/TARGET_CRYPTO_SOLUCTION`.
 
 For more details on the cross-compilation process, see the porting guide in `doc/porting_guide.md`.
 

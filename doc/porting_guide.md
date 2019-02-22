@@ -45,7 +45,7 @@ Depending on the build configuration, the main makefile includes more make-relat
 
 * `CONFIG` determines the Device SDK software modules, like the memory limiter or debug logging, that the system compiles into the library. This value defaults to `CONFIG=posix_fs-posix_platform-tls_bsp-memory_limiter` for local POSIX machine development.
 
-* `IOTC_BSP_TLS` determines the Transport Layer Security (TLS) BSP implementation that the makefile compiles. The TLS BSP selection configures the Device SDK to encrypt data sent from the Device SDK over the network socket with the desired embedded TLS library. The default value of this flag is `IOTC_BSP_TLS=mbedtls`; the default implemenation is in `src/bsp/tls/mbedtls`. The flag for the out-of-the-box wolfSSL implemenation, which resides in `src/bsp/tls/wolfssl`, is `IOTC_BSP_TLS=wolfssl`. Both of these implementations configure and build the third-party TLS library sources in the `third_party/tls/mbedtls` or `third_party/tls/wolfssl`, respectively. The build system prompts the user with instructions on how to populate these directories with the required TLS library sources.
+* `IOTC_BSP_TLS` determines the Transport Layer Security (TLS) BSP implementation that the makefile compiles. The TLS BSP selection configures the Device SDK to encrypt data sent from the Device SDK over the network socket with the desired embedded TLS library. The default value of this flag is `IOTC_BSP_TLS=mbedtls`; the default implemenation is in `src/bsp/tls/mbedtls`. This also configures the build system to do cryptographic key signatures in mbedTLS via the implementation in `src/bsp/crypto/mbedtls`. The flag for the out-of-the-box wolfSSL implemenation, which resides in `src/bsp/tls/wolfssl` and `src/bsp/crypto/wolfssl`, is `IOTC_BSP_TLS=wolfssl`. Both of these implementations configure and build the third-party TLS library sources in the `third_party/tls/mbedtls` or `third_party/tls/wolfssl`, respectively. The build system prompts the user with instructions on how to populate these directories with the required TLS library sources.
   * The sources for the third-party TLS libraries aren't included in the repo by default. The `make` command automatically downloads mbedtls and configures it for the Device SDK. The `make` command doesn't automatically download wolfSSL; however, running `make` automatically provides instructions on how and where to download wolfSSL.
   * To define your own BSP implementation, see the [TLS BSP](#tls-bsp) section later in this document.
   * If you use a hardware TLS instead of a software TLS, compile without a TLS BSP and invoke the Device SDK's secure socket API directly from the Device SDK's networking BSP. To compile without a TLS BSP, follow the additional steps below.
@@ -184,7 +184,7 @@ BSP functions are organized into logical subsystems as follows.
 
 ### BSP reference implementations
 
-Reference function implementations of POSIX BSPs and supported TLS libraries are provided in the `src/bsp/platform` and `src/bsp/tls` directories.
+Reference function implementations of POSIX BSPs and supported TLS libraries are provided in the `src/bsp/platform`, `src/bsp/tls`, and `src/bsp/crypto` directories.
 
 The `platform` directory contains reference BSP implementations for networking, file IO, memory management, random number generation, and time functionality. The `tls` directory contains reference BSP implementations for cryptographic functionality and TLS support via the mbedTLS or wolfSSL libraries, which supply secure TLS v1.2 connections over TCP/IP for embedded device footprints.
 
@@ -201,7 +201,7 @@ If your target platform is not POSIX compliant (most IoT embedded devices are no
 
 ### TLS BSP
 
- `mbedTLS` and `wolfSSL` TLS BSP implementations are in the `src/bsp/tls/mbedtls` and `src/bsp/tls/wolfssl/` directories, respectively. The BSP TLS implementations are in `src/bsp/tls/mbedtls/iotc_bsp_tls_mbedtls.c` and `src/bsp/tls/wolfssl/iotc_bsp_tls_wolfssl.c`. The corresponding cryptographic functionalities (for JWT signing) are in `src/bsp/tls/mbedtls/iotc_bsp_crypto.c` and `src/bsp/tls/wolfssl/iotc_bsp_crypto.c`.
+ `mbedTLS` and `wolfSSL` TLS BSP implementations are in the `src/bsp/tls/mbedtls` and `src/bsp/tls/wolfssl/` directories, respectively, with Key signature functionaly leveraged in `src/bsp/crypto/mbedtls` and `src/bsp/crypto/wolfssl`, respectively.. The BSP TLS implementations are in `src/bsp/tls/mbedtls/iotc_bsp_tls_mbedtls.c` and `src/bsp/tls/wolfssl/iotc_bsp_tls_wolfssl.c`. The corresponding cryptographic functionalities (for JWT signing) are in `src/bsp/crypto/mbedtls/iotc_bsp_crypto.c` and `src/bsp/crypto/wolfssl/iotc_bsp_crypto.c`.
 
 ### Custom TLS BSP
 
@@ -212,7 +212,7 @@ Make sure the custom TLS BSP meets the TLS Implementation Requirements defined i
 Complete the following steps to create a new BSP implementation for TLS.
 
 1. Implement the BSP TLS API functions in `include/bsp/iotc_bsp_tls.h`. Refer to at least one of the mbedTLS or wolfSSL implementations throughout this process to guide your development.
-2. Create a directory <code>src/bsp/tls/<i><b>NEW_TLS_LIBRARY_NAME</b></i></code> to store the new TLS implementation.
+2. Create a directory <code>src/bsp/tls/<i><b>NEW_TLS_LIBRARY_NAME</b></i></code> and a directory <code>src/bsp/crypto/<i><b>NEW_TLS_LIBRARY_NAME</b></i></code> to store the new TLS and crypto implementation.
 3. Copy the file `make/mt-config/mt-tls-mbedtls.mk` to <code>make/mt-config/mt-tls-<i><b>NEW_TLS_LIBRARY_NAME</b></i>.mk</code>. 
 4. Redefine the path variables in <code>make/mt-config/mt-tls-<i><b>NEW_TLS_LIBRARY_NAME</b></i>.mk</code> according to the new TLS library's internal directory structure, relative to the base directory of the main makefile:
    - IOTC_TLS_LIB_INC_DIR is added to the toolchain include path when the Device SDK compiles.
