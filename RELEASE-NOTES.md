@@ -1,5 +1,5 @@
 # Google Cloud IoT Core Device SDK for Embedded C version  1.0
-#### February XYZ 2018
+#### February 22 2019
 
 - Added FreeRTOS example. See `examples/freertos_linux/Linux_gcc_gcp_iot/README.md` for more information.
 
