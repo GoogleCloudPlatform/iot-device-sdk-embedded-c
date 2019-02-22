@@ -201,7 +201,7 @@ If your target platform is not POSIX compliant (most IoT embedded devices are no
 
 ### TLS BSP
 
- `mbedTLS` and `wolfSSL` TLS BSP implementations are in the `src/bsp/tls/mbedtls` and `src/bsp/tls/wolfssl/` directories, respectively, with Key signature functionaly leveraged in `src/bsp/crypto/mbedtls` and `src/bsp/crypto/wolfssl`, respectively.. The BSP TLS implementations are in `src/bsp/tls/mbedtls/iotc_bsp_tls_mbedtls.c` and `src/bsp/tls/wolfssl/iotc_bsp_tls_wolfssl.c`. The corresponding cryptographic functionalities (for JWT signing) are in `src/bsp/crypto/mbedtls/iotc_bsp_crypto.c` and `src/bsp/crypto/wolfssl/iotc_bsp_crypto.c`.
+ `mbedTLS` and `wolfSSL` TLS BSP implementations are in the `src/bsp/tls/mbedtls` and `src/bsp/tls/wolfssl/` directories, respectively, with Key signature functionaly leveraged in `src/bsp/crypto/mbedtls` and `src/bsp/crypto/wolfssl`, respectively. The BSP TLS implementations are in `src/bsp/tls/mbedtls/iotc_bsp_tls_mbedtls.c` and `src/bsp/tls/wolfssl/iotc_bsp_tls_wolfssl.c`. The corresponding cryptographic implementations (for JWT signing) are in `src/bsp/crypto/mbedtls/iotc_bsp_crypto.c` and `src/bsp/crypto/wolfssl/iotc_bsp_crypto.c`.
 
 ### Custom TLS BSP
 
