@@ -42,6 +42,7 @@ env:
 
     - TESTS=fuzztests
       PRESET=FUZZ_TESTS
+      IOTC_BSP_TLS=""
       IOTC_MAKETARGET="fuzz_tests"
       CXX=clang++
 
