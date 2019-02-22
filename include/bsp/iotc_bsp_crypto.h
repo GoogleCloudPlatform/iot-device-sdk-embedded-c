@@ -45,7 +45,7 @@ extern "C" {
  *
  * Note that this implementation need not worry about how to format the JWT
  * itself, as this has been already done by the IoT Device SDK in a previous
- * step..
+ * step.
  *
  * These functions should return one of the Crypto BSP enumerated states
  * defined in iotc_bsp_crypto_state_t to report success or failures.
