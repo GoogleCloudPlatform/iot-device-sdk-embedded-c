@@ -22,6 +22,12 @@
 #include <portable.h>
 
 void* iotc_bsp_mem_alloc(size_t byte_count) {
+  // workaround: FreeRTOS's pvPortMalloc crashes if 0 size
+  // block is tried to be allocated.
+  if (0 == byte_count) {
+    byte_count = 1;
+  }
+
   void* ptr = (void*)pvPortMalloc(byte_count);
 
   if (NULL == ptr) {
