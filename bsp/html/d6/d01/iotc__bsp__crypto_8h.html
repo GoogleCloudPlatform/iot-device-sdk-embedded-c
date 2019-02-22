@@ -88,10 +88,10 @@ Functions</h2></td></tr>
 <tr class="separator:ac13e506a8aa5fdc49ec0a5191894dd11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>IoTC Client's Board Support Package (BSP) for using a Cryptography library implementation to encode and sign portions of clients Google Cloud IoT Core JWT credential. </p>
-<p>This file defines the API of a Crypto Board Support Package (BSP) that the IoTC Client would use to generate and sign a JWT using ECC keys and SHA256 digests, and formatting results in a URL-Safe Base64 string.</p>
+<div class="textblock"><p>The IoT Device SDK Board Support Package (BSP) for using a Cryptography library implementation to encode and sign portions of clients Google Cloud IoT Core JWT credential. </p>
+<p>This file defines the API of a Crypto Board Support Package (BSP) that the IoTC Client would use to generate and sign a JWT using ECC keys and SHA256 digests, and formatting results in a URL-Safe Base64 string. Reference implementations reside in the src/bsp/crypto directory of this repository.</p>
 <p>The BSP has been created in a way that allows for flexibility in implementation. The private key data and/or private key slot number provided in the iotc_connect call is provided for your use here, and one or both may be NULL depending on your Client Application and your implementation of this BSP.</p>
-<p>Note that this implementation need not worry about how to format the JWT itself, as this has been already done by the IoTC Client internal library.</p>
+<p>Note that this implementation need not worry about how to format the JWT itself, as this has been already done by the IoT Device SDK in a previous step.</p>
 <p>These functions should return one of the Crypto BSP enumerated states defined in iotc_bsp_crypto_state_t to report success or failures. </p>
 
 <p class="definition">Definition in file <a class="el" href="../../d6/d01/iotc__bsp__crypto_8h_source.html">iotc_bsp_crypto.h</a>.</p>
@@ -137,7 +137,7 @@ Functions</h2></td></tr>
 <tr><td class="fieldname"><a id="a373aca3a308916b2a8d31a3dbb773401a7c9646ebb84206a512aa22c16adee573"></a>IOTC_BSP_CRYPTO_INVALID_INPUT_PARAMETER_ERROR&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d01/iotc__bsp__crypto_8h_source.html#l00059">59</a> of file <a class="el" href="../../d6/d01/iotc__bsp__crypto_8h_source.html">iotc_bsp_crypto.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d01/iotc__bsp__crypto_8h_source.html#l00061">61</a> of file <a class="el" href="../../d6/d01/iotc__bsp__crypto_8h_source.html">iotc_bsp_crypto.h</a>.</p>
 
 </div>
 </div>

@@ -106,7 +106,7 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>IoTC Client's Board Support Platform (BSP) for Transport Layer Security (TLS) </p>
-<p>This file defines the API of a TLS Board Support Package (BSP) that the IoTC Client would use to secure its connection to the Google Cloud IoT Core service. In order to build this secure connection you will need to implement these functions to utilize a TLS implementation on your device. Reference implementations of this TLS BSP have been provided in source form for your reference in the src/bsp/tls directory.</p>
+<p>This file defines the API of a TLS Board Support Package (BSP) that the IoT Device SDK would use to secure its connection to the Google Cloud IoT Core service. In order to build this secure connection you will need to implement these functions to utilize a TLS implementation on your device. Reference implementations of this TLS BSP have been provided in source form for your reference in the src/bsp/tls directory.</p>
 <p>These functions should be implemented in a non-blocking fashion. </p>
 
 <p class="definition">Definition in file <a class="el" href="../../dd/d79/iotc__bsp__tls_8h_source.html">iotc_bsp_tls.h</a>.</p>
@@ -123,10 +123,10 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>IoTC Client BSP TLS's context representation type. </p>
+<p>IoT Device SDK BSP TLS's context representation type. </p>
 <p>It is assumed that you may need to create a TLS library context in the TLS BSP's initialization function.</p>
-<p>This type can be used to return such a context to the IoTC Client, which will then provide the value to your other TLS BSP functions for use in their implementations.</p>
-<p>The IoTC Client is unaware of the actual content and structure of this value, thus it does not read or write this context directly. </p>
+<p>This type can be used to return such a context to the IoT Device SDK, which will then provide the value to your other TLS BSP functions for use in their implementations.</p>
+<p>The IoT Device SDK is unaware of the actual content and structure of this value, thus it does not read or write this context directly. </p>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d79/iotc__bsp__tls_8h_source.html#l00113">113</a> of file <a class="el" href="../../dd/d79/iotc__bsp__tls_8h_source.html">iotc_bsp_tls.h</a>.</p>
 
@@ -144,8 +144,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>IoTC Client BSP TLS init function parameters. </p>
-<p>Contains data provided by the IoTC Client when it invokes <a class="el" href="../../dd/d79/iotc__bsp__tls_8h.html#a6b3c115bd0072f1da49517f3a4faf15c">iotc_bsp_tls_init()</a>. </p>
+<p>IoT Device SDK BSP TLS init function parameters. </p>
+<p>Contains data provided by the IoT Device SDK when it invokes <a class="el" href="../../dd/d79/iotc__bsp__tls_8h.html#a6b3c115bd0072f1da49517f3a4faf15c">iotc_bsp_tls_init()</a>. </p>
 
 </div>
 </div>
@@ -217,7 +217,7 @@ Functions</h2></td></tr>
 
 <p></p>
 <p>Provides a method for the TLS BSP implementation to free its context.</p>
-<p>Invoked when the IoTC client is cleaning up a closed or closing connection. The implementation of this function must deallocate the TLS library's previously allocated resources. Your implementation should also release any data associated with the tls_context as no further operations will be requested of it.</p>
+<p>Invoked when the IoT Device SDK is cleaning up a closed or closing connection. The implementation of this function must deallocate the TLS library's previously allocated resources. Your implementation should also release any data associated with the tls_context as no further operations will be requested of it.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">[in|out]</td><td>tls_context </td></tr>
@@ -246,7 +246,7 @@ Functions</h2></td></tr>
 
 <p></p>
 <p>Implements the TLS connect functionality.</p>
-<p>This function may be called several times by IoTC Client library before the handshake is completed. This function shouldn't block, and may return IOTC_BSP_TLS_STATE_WANT_WRITE or IOTC_BSP_TLS_STATE_WANT_READ instead.</p>
+<p>This function may be called several times by IoT Device SDK before the handshake is completed. This function shouldn't block, and may return IOTC_BSP_TLS_STATE_WANT_WRITE or IOTC_BSP_TLS_STATE_WANT_READ instead.</p>
 <p>This function will send or receive data internally during it's execution so it is expected that there will be subsequent calls to the TLS library's send and recv functions.</p>
 <p>In case of any error this function must return IOTC_BSP_TLS_STATE_CONNECT_ERROR.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -292,11 +292,11 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p></p>
-<p>Provides a method for the IoTC library to initialize a TLS library.</p>
+<p>Provides a method for the IoT Device SDK to initialize a TLS library.</p>
 <p>Initializes the TLS library and returns its context through a tls_context parameter.</p>
 <p>This function will be called before other BSP TLS functions. The implementation should return IOTC_BSP_TLS_STATE_OK in case of a success or IOTC_BSP_TLS_STATE_INIT_ERROR in case of a failure.</p>
 <p>Content of the init_params will be destroyed after the iotc_bsp_tls_init returns. Any data required from init_params to live outside the scope of this function must be copied and stored by your implementation.</p>
-<p>The IoTC Client library I/O implementation requires the regstration custom send and recv functions in the TLS library. These functions, iotc_bsp_tls_recv_callback and iotc_bsp_tls_send_callback, declared below, are implemented by the IoTC client internally to send and received data through the IoTC Client's I/O system, respecitvely.</p>
+<p>The IoT Device SDK I/O implementation requires the regstration custom send and recv functions in the TLS library. These functions, iotc_bsp_tls_recv_callback and iotc_bsp_tls_send_callback, declared below, are implemented by the IoT Device SDK internally to send and received data through the IoT Device SDK's I/O system, respecitvely.</p>
 <p>For more details please refer to our reference implementations of the TLS BSP in src/bsp/tls.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -382,7 +382,7 @@ Functions</h2></td></tr>
 
 <p></p>
 <p>Implements the a function to read data from the TLS implementation.</p>
-<p>Implementation of this function should call the TLS library's read function. It should also translate the result returned by the TLS read function to one of the following IoTC BSP state values:</p><ul>
+<p>Implementation of this function should call the TLS library's read function. It should also translate the result returned by the TLS read function to one of the following IoT Device SDK BSP state values:</p><ul>
 <li>IOTC_BSP_TLS_STATE_OK - whenever the read operation finished successfully.</li>
 <li>IOTC_BSP_TLS_STATE_WANT_READ - whenever the read operation requires more data.</li>
 <li>IOTC_BSP_TLS_STATE_READ_ERROR - whenever any other error occurred during the read operation.</li>
@@ -444,7 +444,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>These are implemented by IoTC C Client and should not be defined by any BSP TLS solutions. </p>
+<p>These are implemented by IoT Device SDK and should not be defined by any BSP TLS solutions. </p>
 <p>However, pointers to these functions must be provided to the TLS implementation to allow the IoTC client to read and write data to it. </p>
 
 </div>
