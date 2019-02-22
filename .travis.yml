@@ -30,9 +30,11 @@ env:
       # WOLFSSL Tests
     - PRESET=POSIX_DEV
       IOTC_BSP_TLS=wolfssl
+      IOTC_BSP_CRYPTO=wolfssl
 
     - PRESET=POSIX_REL
       IOTC_BSP_TLS=wolfssl
+      IOTC_BSP_CRYPTO=wolfssl
 
     - PRESET=POSIX_THREADING_REL
     # - PRESET=POSIX_UNSECURE_REL
