@@ -5,6 +5,8 @@
 
 - Added Zephyr example.  See `examples/zephyr_native_posix/README.md` for more information.
 
+- Added ATECC608 Secure Element reference implementation for generating JWT signatures with private keys.  See `src/bsp/crypto/cryptoauthlib/iotc_bsp_crypto_cryptoauthlib.c` for more information.
+
 - Connection API Changes:
   - JWT creation and formation was added to a new header file `include/iotc_jwt.h`.
   - `iotc_connect` and `iotc_connect_to` now take the standard MQTT connect credentials of username, password, and client_id.  A JWT, formatted according to [Cloud IoT Core specifications](https://cloud.google.com/iot/docs/how-tos/credentials/jwts), should be passed as the MQTT password when connecting to Cloud IoT Core.
