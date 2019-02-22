@@ -156,10 +156,10 @@ IOTC_TT_TESTCASE_WITH_SETUP(
       /* Call iotc_is_context_connected after creating a context. */
       iotc_context_handle_t iotc_context = iotc_create_context();
       tt_assert(IOTC_INVALID_CONTEXT_HANDLE < iotc_context);
-      state = iotc_connect(
-          iotc_context,  /*username=*/NULL, "test_password", "test_client_id",
-          /*connection_timeout=*/10, /*keepalive_timeout=*/20,
-          &iotc_default_client_callback);
+      state = iotc_connect(iotc_context, /*username=*/NULL, "test_password",
+                           "test_client_id",
+                           /*connection_timeout=*/10, /*keepalive_timeout=*/20,
+                           &iotc_default_client_callback);
       tt_assert(IOTC_STATE_OK == state);
       iotc_delete_context(iotc_context);
     end:;
@@ -173,10 +173,10 @@ IOTC_TT_TESTCASE_WITH_SETUP(
       /* Call iotc_is_context_connected after creating a context. */
       iotc_context_handle_t iotc_context = iotc_create_context();
       tt_assert(IOTC_INVALID_CONTEXT_HANDLE < iotc_context);
-      state = iotc_connect(
-          iotc_context, "test_username", /*password=*/NULL, "test_client_id",
-          /*connection_timeout=*/10, /*keepalive_timeout=*/20,
-          &iotc_default_client_callback);
+      state = iotc_connect(iotc_context, "test_username", /*password=*/NULL,
+                           "test_client_id",
+                           /*connection_timeout=*/10, /*keepalive_timeout=*/20,
+                           &iotc_default_client_callback);
       tt_assert(IOTC_STATE_OK == state);
       iotc_delete_context(iotc_context);
     end:;
@@ -219,47 +219,43 @@ IOTC_TT_TESTCASE_WITH_SETUP(
     })
 
 IOTC_TT_TESTCASE_WITH_SETUP(
-    test_INVALID_connect__null_client_id,
-    iotc_utest_setup_basic,
+    test_INVALID_connect__null_client_id, iotc_utest_setup_basic,
     iotc_utest_teardown_basic, NULL, {
-        iotc_state_t state;
+      iotc_state_t state;
 
-        /* Call iotc_connect_with_callback after creating
-        * a context. */
-        iotc_context_handle_t iotc_context =
-            iotc_create_context();
-        tt_assert(0 <= iotc_context);
+      /* Call iotc_connect_with_callback after creating
+       * a context. */
+      iotc_context_handle_t iotc_context = iotc_create_context();
+      tt_assert(0 <= iotc_context);
 
-        state = iotc_connect(
-            iotc_context, "test_username", "test_password", /*client_id=*/NULL,
-            /*connection_timeout=*/10, /*keepalive_timeout=*/20,
-            &iotc_default_client_callback);
+      state = iotc_connect(iotc_context, "test_username", "test_password",
+                           /*client_id=*/NULL,
+                           /*connection_timeout=*/10, /*keepalive_timeout=*/20,
+                           &iotc_default_client_callback);
 
-        tt_assert(IOTC_NULL_CLIENT_ID_ERROR == state);
-        iotc_delete_context(iotc_context);
+      tt_assert(IOTC_NULL_CLIENT_ID_ERROR == state);
+      iotc_delete_context(iotc_context);
     end:;
     })
 
 IOTC_TT_TESTCASE_WITH_SETUP(
-    test_INVALID_connect_to__null_client_id,
-    iotc_utest_setup_basic,
+    test_INVALID_connect_to__null_client_id, iotc_utest_setup_basic,
     iotc_utest_teardown_basic, NULL, {
-        iotc_state_t state;
+      iotc_state_t state;
 
-        /* Call iotc_connect_with_callback after creating
-        * a context. */
-        iotc_context_handle_t iotc_context =
-            iotc_create_context();
-        tt_assert(0 <= iotc_context);
+      /* Call iotc_connect_with_callback after creating
+       * a context. */
+      iotc_context_handle_t iotc_context = iotc_create_context();
+      tt_assert(0 <= iotc_context);
 
-        state = iotc_connect_to(
-            iotc_context, /*host=*/"random.host.com", /*port=*/12345,
-            "test_username", "test_password", /*client_id=*/NULL,
-            /*connection_timeout=*/10, /*keepalive_timeout=*/20,
-            &iotc_default_client_callback);
+      state = iotc_connect_to(
+          iotc_context, /*host=*/"random.host.com", /*port=*/12345,
+          "test_username", "test_password", /*client_id=*/NULL,
+          /*connection_timeout=*/10, /*keepalive_timeout=*/20,
+          &iotc_default_client_callback);
 
-        tt_assert(IOTC_NULL_CLIENT_ID_ERROR == state);
-        iotc_delete_context(iotc_context);
+      tt_assert(IOTC_NULL_CLIENT_ID_ERROR == state);
+      iotc_delete_context(iotc_context);
     end:;
     })
 

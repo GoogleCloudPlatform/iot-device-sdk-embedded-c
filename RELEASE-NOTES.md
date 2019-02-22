@@ -1,5 +1,17 @@
+# Google Cloud IoT Core Device SDK for Embedded C version  1.0
+#### February 22, 2019
+
+- Added FreeRTOS example. See `examples/freertos_linux/Linux_gcc_gcp_iot/README.md` for more information.
+
+- Added Zephyr example.  See `examples/zephyr_native_posix/README.md` for more information.
+
+- Connection API Changes:
+  - JWT creation and formation was added to a new header file `include/iotc_jwt.h`.
+  - `iotc_connect` and `iotc_connect_to` now take the standard MQTT connect credentials of username, password, and client_id.  A JWT, formatted according to [Cloud IoT Core specifications](https://cloud.google.com/iot/docs/how-tos/credentials/jwts), should be passed as the MQTT password when connecting to Cloud IoT Core.
+  - For more information, see the Doxygen reference in the `include/` directory source files or the `doc/doxygen/api` directory (for the HTML formatted documentation).
+
 # Google Cloud IoT Core Device SDK for Embedded C version 0.7
-#### October 1 2018
+#### October 1, 2018
 
 The initial release of the Cloud IoT Core Device SDK for Embedded C.  The SDK connects embedded devices to Google Cloud IoT Core via MQTT.
 

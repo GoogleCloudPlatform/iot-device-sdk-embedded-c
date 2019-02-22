@@ -100,8 +100,8 @@ static inline iotc_state_t fill_with_connect_data(
   msg->connect.protocol_version = 4;
 
   IOTC_CHECK_MEMORY(
-        msg->connect.client_id = iotc_make_desc_from_string_copy(client_id),
-        local_state);
+      msg->connect.client_id = iotc_make_desc_from_string_copy(client_id),
+      local_state);
 
   if (NULL != username) {
     msg->connect.flags_u.flags_bits.username_follows = 1;

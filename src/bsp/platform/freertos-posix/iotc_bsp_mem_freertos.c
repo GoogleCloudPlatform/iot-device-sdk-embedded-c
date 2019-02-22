@@ -45,11 +45,11 @@ void* iotc_bsp_mem_realloc(void* ptr, size_t byte_count) {
   // new_ptr = iotc_bsp_mem_alloc(byte_count);
 
   if (NULL == new_ptr) {
-    printf("Failed to reallocate %d\n", byte_count);fflush(stdout);
+    printf("Failed to reallocate %d\n", byte_count);
+    fflush(stdout);
   }
 
   return new_ptr;
 }
 
 void iotc_bsp_mem_free(void* ptr) { vPortFree(ptr); }
-

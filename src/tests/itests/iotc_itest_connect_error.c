@@ -161,11 +161,10 @@ void connect_error_on_connection_state_changed(
 static void iotc_itest_connect_error__call_connect(void** fixture_void) {
   IOTC_UNUSED(fixture_void);
 
-  const iotc_state_t local_state =
-      iotc_connect(iotc_context_handle, "itest_username", "itest_password",
-                   "itest_client_id", /*connection_timeout=*/20,
-                   /*keepalive_timeout=*/20,
-                   &connect_error_on_connection_state_changed);
+  const iotc_state_t local_state = iotc_connect(
+      iotc_context_handle, "itest_username", "itest_password",
+      "itest_client_id", /*connection_timeout=*/20,
+      /*keepalive_timeout=*/20, &connect_error_on_connection_state_changed);
 
   check_expected(local_state);
 }

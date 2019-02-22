@@ -35,13 +35,13 @@ extern "C" {
 #endif
 
 extern iotc_connection_data_t* iotc_alloc_connection_data(
-    const char* host, uint16_t port, const char* username,
-    const char* password, const char* client_id, uint16_t connection_timeout,
+    const char* host, uint16_t port, const char* username, const char* password,
+    const char* client_id, uint16_t connection_timeout,
     uint16_t keepalive_timeout, iotc_session_type_t session_type);
 
 extern iotc_connection_data_t* iotc_alloc_connection_data_lastwill(
-    const char* host, uint16_t port, const char* username,
-    const char* password, const char* client_id, uint16_t keepalive_timeout,
+    const char* host, uint16_t port, const char* username, const char* password,
+    const char* client_id, uint16_t keepalive_timeout,
     uint16_t connection_timeout, iotc_session_type_t session_type,
     const char* will_topic, const char* will_apssword,
     iotc_mqtt_qos_t will_qios, iotc_mqtt_retain_t will_retain);

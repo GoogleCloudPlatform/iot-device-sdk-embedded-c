@@ -82,11 +82,10 @@ void main(void) {
    * password. */
   char jwt[IOTC_JWT_SIZE] = {0};
   size_t bytes_written = 0;
-  iotc_state_t state =
-    iotc_create_iotcore_jwt( iotc_project_id,
-                             /*jwt_expiration_period_sec=*/3600,
-                             &iotc_connect_private_key_data, jwt,
-                             IOTC_JWT_SIZE, &bytes_written);
+  iotc_state_t state = iotc_create_iotcore_jwt(
+      iotc_project_id,
+      /*jwt_expiration_period_sec=*/3600, &iotc_connect_private_key_data, jwt,
+      IOTC_JWT_SIZE, &bytes_written);
 
   if (IOTC_STATE_OK != state) {
     printk("iotc_create_iotcore_jwt returned with error: %ul", state);

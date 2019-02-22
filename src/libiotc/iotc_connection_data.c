@@ -20,8 +20,8 @@
 #include "iotc_helpers.h"
 
 iotc_connection_data_t* iotc_alloc_connection_data(
-    const char* host, uint16_t port, const char* username,
-    const char* password, const char* client_id, uint16_t connection_timeout,
+    const char* host, uint16_t port, const char* username, const char* password,
+    const char* client_id, uint16_t connection_timeout,
     uint16_t keepalive_timeout, iotc_session_type_t session_type) {
   return iotc_alloc_connection_data_lastwill(
       host, port, username, password, client_id, connection_timeout,
@@ -30,11 +30,10 @@ iotc_connection_data_t* iotc_alloc_connection_data(
 }
 
 iotc_connection_data_t* iotc_alloc_connection_data_lastwill(
-    const char* host, uint16_t port, const char* username,
-    const char* password, const char* client_id,
-    uint16_t connection_timeout, uint16_t keepalive_timeout,
-    iotc_session_type_t session_type, const char* will_topic,
-    const char* will_message, iotc_mqtt_qos_t will_qos,
+    const char* host, uint16_t port, const char* username, const char* password,
+    const char* client_id, uint16_t connection_timeout,
+    uint16_t keepalive_timeout, iotc_session_type_t session_type,
+    const char* will_topic, const char* will_message, iotc_mqtt_qos_t will_qos,
     iotc_mqtt_retain_t will_retain) {
   iotc_state_t state = IOTC_STATE_OK;
 
@@ -172,4 +171,3 @@ void iotc_free_connection_data(iotc_connection_data_t** data) {
 
   IOTC_SAFE_FREE(*data);
 }
-

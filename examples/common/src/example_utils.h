@@ -30,7 +30,8 @@ int iotc_example_handle_command_line_args(int argc, char* argv[]);
    This example assumes the use of one that must be provided to a TLS
    implementation in a buffer, but secure chips with slot-based key stores can
    also be used. Please see the Crypto BSP for more information. */
-int load_ec_private_key_pem_from_posix_fs(char* buf_ec_private_key_pem, size_t buf_len);
+int load_ec_private_key_pem_from_posix_fs(char* buf_ec_private_key_pem,
+                                          size_t buf_len);
 
 /* A callback function that will be invoked whenever the connection state
    has changed.

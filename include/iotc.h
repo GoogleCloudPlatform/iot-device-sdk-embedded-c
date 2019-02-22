@@ -275,11 +275,12 @@ extern void iotc_events_stop();
  * @retval IOTC_STATE_OK  If the connection request was formatted
  * correctly and the client is processing the request with IoT Core.
  */
-extern iotc_state_t iotc_connect(
-  iotc_context_handle_t iotc_h, const char* username,
-  const char* password, const char* client_id,
-  uint16_t connection_timeout, uint16_t keepalive_timeout,
-  iotc_user_callback_t* client_callback);
+extern iotc_state_t iotc_connect(iotc_context_handle_t iotc_h,
+                                 const char* username, const char* password,
+                                 const char* client_id,
+                                 uint16_t connection_timeout,
+                                 uint16_t keepalive_timeout,
+                                 iotc_user_callback_t* client_callback);
 
 /**
  * @brief Opens a MQTT connection to a custom service endpoint using the
@@ -293,12 +294,13 @@ extern iotc_state_t iotc_connect(
  *
  * @see iotc_connect
  */
-extern iotc_state_t iotc_connect_to(
-    iotc_context_handle_t iotc_h, const char* host, uint16_t port,
-    const char* username, const char* password,
-    const char* client_id, uint16_t connection_timeout,
-    uint16_t keepalive_timeout, iotc_user_callback_t* client_callback);
-
+extern iotc_state_t iotc_connect_to(iotc_context_handle_t iotc_h,
+                                    const char* host, uint16_t port,
+                                    const char* username, const char* password,
+                                    const char* client_id,
+                                    uint16_t connection_timeout,
+                                    uint16_t keepalive_timeout,
+                                    iotc_user_callback_t* client_callback);
 
 /*
  * @detailed  Using the provided context, this function requests that a message
