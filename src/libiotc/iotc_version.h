@@ -17,8 +17,8 @@
 #ifndef __IOTC_VERSION_H__
 #define __IOTC_VERSION_H__
 
-#define IOTC_MAJOR 0
-#define IOTC_MINOR 7
+#define IOTC_MAJOR 1
+#define IOTC_MINOR 0
 #define IOTC_REVISION 0
 
 #endif /* __IOTC_VERSION_H__ */
