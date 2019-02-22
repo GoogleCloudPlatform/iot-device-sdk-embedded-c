@@ -32,6 +32,4 @@ void* iotc_bsp_mem_realloc(void* ptr, size_t byte_count) {
   return NULL;
 }
 
-void iotc_bsp_mem_free(void* ptr) {
-  k_free(ptr);
-}
+void iotc_bsp_mem_free(void* ptr) { k_free(ptr); }

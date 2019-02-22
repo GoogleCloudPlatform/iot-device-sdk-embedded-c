@@ -68,9 +68,9 @@ typedef struct {
   uint16_t keepalive_timeout;
   iotc_connection_state_t connection_state;
   iotc_session_type_t session_type;
-  char* will_topic;   /* UNUSED */
-  char* will_message; /* UNUSED */
-  iotc_mqtt_qos_t will_qos; /* UNUSED */
+  char* will_topic;               /* UNUSED */
+  char* will_message;             /* UNUSED */
+  iotc_mqtt_qos_t will_qos;       /* UNUSED */
   iotc_mqtt_retain_t will_retain; /* UNUSED */
 } iotc_connection_data_t;
 

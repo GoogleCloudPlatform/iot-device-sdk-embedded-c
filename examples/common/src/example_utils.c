@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-#include <stdio.h>
 #include <iotc_jwt.h>
+#include <stdio.h>
 
-#include "example_utils.h"
 #include "commandline.h"
+#include "example_utils.h"
 
 #define IOTC_UNUSED(x) (void)(x)
 
@@ -71,7 +71,8 @@ int iotc_example_handle_command_line_args(int argc, char* argv[]) {
   return 0;
 }
 
-int load_ec_private_key_pem_from_posix_fs(char* buf_ec_private_key_pem, size_t buf_len) {
+int load_ec_private_key_pem_from_posix_fs(char* buf_ec_private_key_pem,
+                                          size_t buf_len) {
   FILE* fp = fopen(iotc_private_key_filename, "rb");
   if (fp == NULL) {
     printf("ERROR!\n");
@@ -182,14 +183,16 @@ void on_connection_state_changed(iotc_context_handle_t in_context_handle,
                                         /*jwt_expiration_period_sec=*/3600,
                                         &iotc_connect_private_key_data, jwt,
                                         IOTC_JWT_SIZE, &bytes_written);
-        if (IOTC_STATE_OK != state ) {
-          printf("iotc_create_iotcore_jwt returned with error"
-                 " when attempting to reconnect: %ul\n", state);
+        if (IOTC_STATE_OK != state) {
+          printf(
+              "iotc_create_iotcore_jwt returned with error"
+              " when attempting to reconnect: %ul\n",
+              state);
         } else {
-          iotc_connect(
-            in_context_handle, conn_data->username, jwt,
-            conn_data->client_id, conn_data->connection_timeout,
-            conn_data->keepalive_timeout, &on_connection_state_changed);
+          iotc_connect(in_context_handle, conn_data->username, jwt,
+                       conn_data->client_id, conn_data->connection_timeout,
+                       conn_data->keepalive_timeout,
+                       &on_connection_state_changed);
         }
       }
     } break;
@@ -219,4 +222,3 @@ void publish_function(iotc_context_handle_t context_handle,
                iotc_example_qos,
                /*callback=*/NULL, /*user_data=*/NULL);
 }
-

@@ -101,8 +101,7 @@ static inline iotc_state_t do_mqtt_connect(
   IOTC_ALLOC_AT(iotc_mqtt_message_t, msg_memory, state);
   IOTC_CHECK_STATE(
       state = fill_with_connect_data(
-          msg_memory,
-          IOTC_CONTEXT_DATA(context)->connection_data->username,
+          msg_memory, IOTC_CONTEXT_DATA(context)->connection_data->username,
           IOTC_CONTEXT_DATA(context)->connection_data->password,
           IOTC_CONTEXT_DATA(context)->connection_data->client_id,
           IOTC_CONTEXT_DATA(context)->connection_data->keepalive_timeout,
