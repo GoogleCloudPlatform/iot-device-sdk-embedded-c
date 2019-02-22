@@ -28,9 +28,9 @@ extern "C" {
 
 /**
  * @file iotc_bsp_crypto.h
- * @brief The IoT Device SDK Board Support Package (BSP) for using a Cryptography
- * library implementation to encode and sign portions of clients Google Cloud
- * IoT Core JWT credential.
+ * @brief The IoT Device SDK Board Support Package (BSP) for using a
+ * Cryptography library implementation to encode and sign portions of clients
+ * Google Cloud IoT Core JWT credential.
  *
  * This file defines the API of a Crypto Board Support Package (BSP) that the
  * IoTC Client would use to generate and sign a JWT using ECC keys and SHA256

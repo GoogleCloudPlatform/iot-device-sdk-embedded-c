@@ -23,11 +23,11 @@
  * Security (TLS)
  *
  * This file defines the API of a TLS Board Support Package (BSP) that the
- * IoT Device SDK would use to secure its connection to the Google Cloud IoT Core
- * service. In order to build this secure connection you will need to implement
- * these functions to utilize a TLS implementation on your device. Reference
- * implementations of this TLS BSP have been provided in source form for your
- * reference in the src/bsp/tls directory.
+ * IoT Device SDK would use to secure its connection to the Google Cloud IoT
+ * Core service. In order to build this secure connection you will need to
+ * implement these functions to utilize a TLS implementation on your device.
+ * Reference implementations of this TLS BSP have been provided in source form
+ * for your reference in the src/bsp/tls directory.
  *
  * These functions should be implemented in a non-blocking fashion.
  */
@@ -148,11 +148,11 @@ iotc_bsp_tls_state_t iotc_bsp_tls_init(iotc_bsp_tls_context_t** tls_context,
  * @function
  * @brief Provides a method for the TLS BSP implementation to free its context.
  *
- * Invoked when the IoT Device SDK is cleaning up a closed or closing connection.
- * The implementation of this function must deallocate the TLS library's
- * previously allocated resources. Your implementation should also release any
- * data associated with the tls_context as no further operations will be
- * requested of it.
+ * Invoked when the IoT Device SDK is cleaning up a closed or closing
+ * connection. The implementation of this function must deallocate the TLS
+ * library's previously allocated resources. Your implementation should also
+ * release any data associated with the tls_context as no further operations
+ * will be requested of it.
  *
  * @param [in|out] tls_context
  * @return IOTC_BSP_TLS_STATE_OK
