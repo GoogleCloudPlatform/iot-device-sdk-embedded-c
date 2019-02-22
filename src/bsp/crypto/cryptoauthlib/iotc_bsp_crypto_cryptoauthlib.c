@@ -33,23 +33,6 @@
     }
 
 iotc_bsp_crypto_state_t
-iotc_bsp_base64_encode( unsigned char* dst_string, size_t dst_string_size, size_t* bytes_written,
-                      const uint8_t* src_buf, size_t src_buf_size )
-{
-    size_t size = dst_string_size; // used for dst size as input & bytes written as output
-    ATCA_STATUS status = atcab_base64encode(src_buf, src_buf_size, (char *) dst_string, &size);
-
-    if (status == ATCA_SUCCESS) {
-        *bytes_written = size;
-        return IOTC_BSP_CRYPTO_STATE_OK;
-    } else if (status == ATCA_SMALL_BUFFER) {
-        return IOTC_BSP_CRYPTO_BUFFER_TOO_SMALL_ERROR;
-    } else {
-        return IOTC_BSP_CRYPTO_ERROR;
-    };
-}
-
-iotc_bsp_crypto_state_t
 iotc_bsp_base64_encode_urlsafe( unsigned char* dst_string, size_t dst_string_size,
                                 size_t* bytes_written, const uint8_t* src_buf, size_t src_buf_size )
 {
