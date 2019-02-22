@@ -44,7 +44,7 @@
 
 #ifndef IOTC_MQTT_HOST
 #define IOTC_MQTT_HOST \
-  { "mqtt.googleapis.com", IOTC_MQTT_PORT }
+  { "mqtt.2030.ltsapis.goog", IOTC_MQTT_PORT }
 #endif
 
 #endif /* __IOTC_CONFIG_H__ */
