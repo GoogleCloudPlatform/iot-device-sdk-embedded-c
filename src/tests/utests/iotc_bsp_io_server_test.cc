@@ -27,7 +27,7 @@ using namespace std;
 const uint16_t kTimeoutSeconds = 1;
 class ServerTest : public ::testing::Test {
 public:
-  int sock_type, protocol_type, recv_len, out_written_count, state;
+  int protocol_type, recv_len, out_written_count, state;
   const uint16_t kTestPort = 2000;
   char* listening_addr;
   const char* test_msg = "hello\n";
@@ -35,7 +35,7 @@ public:
   iotc_bsp_socket_events_t socket_evts[1];
   iotc_bsp_socket_t test_socket;
 
-  iotc_bsp_io_net_state_t create_client();
+  iotc_bsp_io_net_state_t create_client(uint16_t sock_type);
   iotc_bsp_io_net_state_t write_client();
   iotc_bsp_io_net_state_t read_client();
   iotc_bsp_io_net_state_t close_client();
@@ -198,9 +198,9 @@ uint16_t TestingServer::run_server() {
   return 0;
 }
 
-iotc_bsp_io_net_state_t ServerTest::create_client() {
-  if (iotc_bsp_io_net_socket_connect(&test_socket, listening_addr, kTestPort) !=
-      IOTC_BSP_IO_NET_STATE_OK) {
+iotc_bsp_io_net_state_t ServerTest::create_client(uint16_t sock_type) {
+  if (iotc_bsp_io_net_socket_connect(&test_socket, listening_addr, kTestPort,
+                                     sock_type) != IOTC_BSP_IO_NET_STATE_OK) {
     perror("[Client] Error connecting socket");
     return IOTC_BSP_IO_NET_STATE_ERROR;
   }
@@ -265,7 +265,7 @@ TEST_F(ServerTest, TcpIpv4EndToEndCommunicationWorks) {
   TestingServer* test_server =
       new TestingServer(SOCK_STREAM, AF_INET, kTestPort, listening_addr);
   test_server->create_server();
-  create_client();
+  create_client(test_server->sock_type);
 
   std::thread server_thread(&TestingServer::run_server, test_server);
   write_client();
@@ -284,7 +284,7 @@ TEST_F(ServerTest, UdpIpv4EndToEndCommunicationWorks) {
   TestingServer* test_server =
       new TestingServer(SOCK_DGRAM, AF_INET, kTestPort, listening_addr);
   test_server->create_server();
-  create_client();
+  create_client(test_server->sock_type);
 
   std::thread server_thread(&TestingServer::run_server, test_server);
   write_client();
@@ -303,7 +303,7 @@ TEST_F(ServerTest, TcpIpv6EndToEndCommunicationWorks) {
   TestingServer* test_server =
       new TestingServer(SOCK_STREAM, AF_INET6, kTestPort, listening_addr);
   test_server->create_server();
-  create_client();
+  create_client(test_server->sock_type);
 
   std::thread server_thread(&TestingServer::run_server, test_server);
   write_client();
@@ -322,7 +322,7 @@ TEST_F(ServerTest, UdpIpv6EndToEndCommunicationWorks) {
   TestingServer* test_server =
       new TestingServer(SOCK_DGRAM, AF_INET6, kTestPort, listening_addr);
   test_server->create_server();
-  create_client();
+  create_client(test_server->sock_type);
 
   std::thread server_thread(&TestingServer::run_server, test_server);
   write_client();

@@ -206,7 +206,7 @@ typedef struct iotc_bsp_socket_events_s {
  */
 iotc_bsp_io_net_state_t
 iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
-                               uint16_t port);
+                               uint16_t port, uint16_t sock_type);
 
 /**
  * @function
