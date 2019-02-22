@@ -80,7 +80,7 @@ typedef struct iotc_bsp_tls_init_params_s {
   /** length of the buffer containing the above certificate data */
   size_t ca_cert_pem_buf_length;
 
-  /** A set of function pointers to the IoT Device SDK'ss memory management
+  /** A set of function pointers to the IoT Device SDK's memory management
    * functions. As an option, you may provide these to your TLS implementation
    * if you would like to track the TLS implementation's memory allocations
    * with the optional IoTC Client's Memory Limiter functionality. */
