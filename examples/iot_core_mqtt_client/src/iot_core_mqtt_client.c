@@ -26,8 +26,8 @@
 #include "../../common/src/commandline.h"
 #include "../../common/src/example_utils.h"
 
-#include <stdio.h>
 #include <iotc_jwt.h>
+#include <stdio.h>
 
 /* Application variables. */
 iotc_crypto_key_data_t iotc_connect_private_key_data;
@@ -101,20 +101,19 @@ int main(int argc, char* argv[]) {
    * password. */
   char jwt[IOTC_JWT_SIZE] = {0};
   size_t bytes_written = 0;
-  iotc_state_t state =
-    iotc_create_iotcore_jwt( iotc_project_id,
-                             /*jwt_expiration_period_sec=*/3600,
-                             &iotc_connect_private_key_data, jwt,
-                             IOTC_JWT_SIZE, &bytes_written);
+  iotc_state_t state = iotc_create_iotcore_jwt(
+      iotc_project_id,
+      /*jwt_expiration_period_sec=*/3600, &iotc_connect_private_key_data, jwt,
+      IOTC_JWT_SIZE, &bytes_written);
 
-  if (IOTC_STATE_OK != state ) {
+  if (IOTC_STATE_OK != state) {
     printf("iotc_create_iotcore_jwt returned with error: %ul", state);
     return -1;
   }
 
   iotc_connect(iotc_context, /*username=*/NULL, /*password=*/jwt,
-               /*client_id=*/ iotc_device_path, connection_timeout, keepalive_timeout,
-               &on_connection_state_changed);
+               /*client_id=*/iotc_device_path, connection_timeout,
+               keepalive_timeout, &on_connection_state_changed);
 
   /* The IoTC Client was designed to be able to run on single threaded devices.
      As such it does not have its own event loop thread. Instead you must

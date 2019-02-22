@@ -220,8 +220,7 @@ static void iotc_itest_tls_error__act(void** fixture_void, char do_publish_flag,
   const uint16_t keepalive_timeout = fixture->max_loop_count;
 
   iotc_connect(iotc_context_handle, "itest_username", "itest_password",
-               "itest_client_id", /*connection_timeout=*/20,
-               keepalive_timeout,
+               "itest_client_id", /*connection_timeout=*/20, keepalive_timeout,
                &tls_error_on_connection_state_changed);
 
   uint8_t loop_counter = 0;

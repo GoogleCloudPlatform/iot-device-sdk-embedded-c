@@ -227,10 +227,10 @@ void iotc_itest_mqttlogic_prepare_init_and_connect_layer(
                        .type = IOTC_MQTT_TYPE_CONNECT}));
 
   iotc_context__itest_mqttlogic_layer->context_data.connection_data =
-      iotc_alloc_connection_data(
-          "target.broker.com", 8883, "itest_username", "itest_password",
-          "itest_client_id", /*connection_timeout=*/0, keepalive_timeout,
-          session_type);
+      iotc_alloc_connection_data("target.broker.com", 8883, "itest_username",
+                                 "itest_password", "itest_client_id",
+                                 /*connection_timeout=*/0, keepalive_timeout,
+                                 session_type);
 
   IOTC_PROCESS_INIT_ON_PREV_LAYER(&top_layer->layer_connection, NULL,
                                   IOTC_STATE_OK);

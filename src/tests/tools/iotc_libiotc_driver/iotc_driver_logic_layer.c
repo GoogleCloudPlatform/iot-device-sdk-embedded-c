@@ -149,17 +149,16 @@ iotc_state_t iotc_driver_logic_layer_pull(void* context, void* data,
            message_API_call->connect->server_address->host,
            message_API_call->connect->server_address->port);
 
-    iotc_connect_to(
-        iotc_globals.default_context_handle,
-        message_API_call->connect->server_address->host,
-        message_API_call->connect->server_address->port,
-        message_API_call->connect->username,
-        message_API_call->connect->password,
-        DEFAULT_CLIENT_ID,     /* TODO(ddb): add this to the protobuf */
-        message_API_call->connect->has_connection_timeout
-            ? message_API_call->connect->connection_timeout
-            : 10,
-        20, &on_connected);
+    iotc_connect_to(iotc_globals.default_context_handle,
+                    message_API_call->connect->server_address->host,
+                    message_API_call->connect->server_address->port,
+                    message_API_call->connect->username,
+                    message_API_call->connect->password,
+                    DEFAULT_CLIENT_ID, /* TODO(ddb): add this to the protobuf */
+                    message_API_call->connect->has_connection_timeout
+                        ? message_API_call->connect->connection_timeout
+                        : 10,
+                    20, &on_connected);
 
     // use buffer allocated by protobuf
     message_API_call->connect->username = NULL;

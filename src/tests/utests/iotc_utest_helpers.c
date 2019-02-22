@@ -118,7 +118,6 @@ IOTC_TT_TESTCASE(
     test_helpers_iotc_parse_payload_as_string_parse_empty_payload,
     { test_helpers_iotc_parse_payload_as_string_parse_empty_payload_help(); })
 
-
 IOTC_TT_TESTGROUP_END
 
 #ifndef IOTC_TT_TESTCASE_ENUMERATION__SECONDPREPROCESSORRUN

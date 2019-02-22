@@ -168,13 +168,15 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_close_socket(
   return IOTC_BSP_IO_NET_STATE_OK;
 }
 
-#define FD_SET(socket, event, pollfd) pollfd.fd = socket; pollfd.events |= event;
+#define FD_SET(socket, event, pollfd) \
+  pollfd.fd = socket;                 \
+  pollfd.events |= event;
 #define FD_ISSET(event, pollfd) (pollfd.revents | event)
 
 iotc_bsp_io_net_state_t iotc_bsp_io_net_select(
     iotc_bsp_socket_events_t* socket_events_array,
     size_t socket_events_array_size, long timeout_sec) {
-  struct pollfd fds[1]; // note: single socket support
+  struct pollfd fds[1];  // note: single socket support
 
   /* translate the library socket events settings to the event sets used by
    * Zephyr poll mechanism

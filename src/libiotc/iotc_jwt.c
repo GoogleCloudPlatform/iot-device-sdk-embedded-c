@@ -124,8 +124,9 @@ iotc_state_t iotc_create_iotcore_jwt(
 
   // create base64 encoded header and payload: b64(h).b64(p)
   IOTC_CHECK_CRYPTO(ret = _iotc_create_iotcore_jwt_b64h_b64p(
-                        (unsigned char*)dst_jwt_buf, dst_jwt_buf_len, bytes_written, project_id,
-                        expiration_period_sec, "ES256"));
+                        (unsigned char*)dst_jwt_buf, dst_jwt_buf_len,
+                        bytes_written, project_id, expiration_period_sec,
+                        "ES256"));
 
   // create sha256 hash of b64(h).b64(p): sha256(b64(h).b64(p))
   uint8_t sha256_b64h_b64p[32] = {0};
@@ -148,9 +149,9 @@ iotc_state_t iotc_create_iotcore_jwt(
   // base64 encode the ecc signature
   size_t bytes_written_ecc_signature_base64 = 0;
   ret = iotc_bsp_base64_encode_urlsafe(
-      (unsigned char*)dst_jwt_buf + *bytes_written, dst_jwt_buf_len - *bytes_written,
-      &bytes_written_ecc_signature_base64, ecc_signature,
-      bytes_written_ecc_signature);
+      (unsigned char*)dst_jwt_buf + *bytes_written,
+      dst_jwt_buf_len - *bytes_written, &bytes_written_ecc_signature_base64,
+      ecc_signature, bytes_written_ecc_signature);
 
   *bytes_written += bytes_written_ecc_signature_base64;
 
