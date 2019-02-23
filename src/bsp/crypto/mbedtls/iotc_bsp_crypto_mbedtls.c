@@ -1,6 +1,6 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Edge Embedded C Client,
+ * This is part of the Google Cloud IoT Device SDK for Embedded C,
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -125,7 +125,7 @@ typedef struct {
 #endif
 
 iotc_bsp_crypto_state_t iotc_bsp_ecc(
-    const iotc_crypto_private_key_data_t* private_key_data, uint8_t* dst_buf,
+    const iotc_crypto_key_data_t* private_key_data, uint8_t* dst_buf,
     size_t dst_buf_size, size_t* bytes_written, const uint8_t* src_buf,
     size_t src_buf_len) {
   // reusing ctr_drbg from BSP_RNG module
@@ -138,12 +138,12 @@ iotc_bsp_crypto_state_t iotc_bsp_ecc(
 
   /* mbedTLS requires a PEM format private key */
   if (IOTC_CRYPTO_KEY_UNION_TYPE_PEM !=
-          private_key_data->private_key_union_type ||
-      NULL == private_key_data->private_key_union.key_pem.key) {
+          private_key_data->crypto_key_union_type ||
+      NULL == private_key_data->crypto_key_union.key_pem.key) {
     return IOTC_BSP_CRYPTO_INVALID_INPUT_PARAMETER_ERROR;
   }
 
-  const char* private_key_pem = private_key_data->private_key_union.key_pem.key;
+  const char* private_key_pem = private_key_data->crypto_key_union.key_pem.key;
 
   iotc_bsp_crypto_state_t return_code = IOTC_BSP_CRYPTO_STATE_OK;
 

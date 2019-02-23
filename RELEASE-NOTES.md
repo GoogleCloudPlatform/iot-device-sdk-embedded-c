@@ -1,10 +1,24 @@
-# Google IoT Core Embedded C Client version 0.7
-#### October 1 2018
+# Google Cloud IoT Core Device SDK for Embedded C version  1.0
+#### February 22, 2019
 
-The initial release of the IoT Core Embedded C Client.  The client is designed to execute on embedded devices to provide MQTT connectivity to Google Cloud IoT Core.
+- Added FreeRTOS example. See `examples/freertos_linux/Linux_gcc_gcp_iot/README.md` for more information.
 
-The client uses a Board Support Package (BSP) architecture to compartmentalize device-specific code.  This modular approach should aid in the porting process as engineers need only focus on a few set of files to customize the client to their device SDK. A reference BSP implementation has been provided for POSIX systems, and two reference TLS implementations have been provided for use with either the mbedTLS or wolfSSL embedded libraries. TLS implementations are required for both TLS connectivity and for private-key signatures of JWTs, which serve as client authentication tokens when connecting to Google Clout IoT Core.
+- Added Zephyr example.  See `examples/zephyr_native_posix/README.md` for more information.
 
-For more documentation on the process of porting the client to your embedded device, or for using another TLS library, please see the the README.md and the /doc/porting_guide.md of the github repository. For more information about Google Cloud IoT Core, please visit: https://cloud.google.com/iot-core.
+- Added ATECC608 Secure Element reference implementation for generating JWT signatures with private keys.  See `src/bsp/crypto/cryptoauthlib/iotc_bsp_crypto_cryptoauthlib.c` for more information.
 
-The client was developed on Ubuntu Linux using gnu make.
+- Connection API Changes:
+  - JWT creation and formation was added to a new header file `include/iotc_jwt.h`.
+  - `iotc_connect` and `iotc_connect_to` now take the standard MQTT connect credentials of username, password, and client_id.  A JWT, formatted according to [Cloud IoT Core specifications](https://cloud.google.com/iot/docs/how-tos/credentials/jwts), should be passed as the MQTT password when connecting to Cloud IoT Core.
+  - For more information, see the Doxygen reference in the `include/` directory source files or the `doc/doxygen/api` directory (for the HTML formatted documentation).
+
+# Google Cloud IoT Core Device SDK for Embedded C version 0.7
+#### October 1, 2018
+
+The initial release of the Cloud IoT Core Device SDK for Embedded C.  The SDK connects embedded devices to Google Cloud IoT Core via MQTT.
+
+The SDK uses a Board Support Package (BSP) architecture to compartmentalize device-specific code.  This modular approach aids in the porting process. Engineers only need to customize a few files to port the Device SDK to their device. A reference BSP implementation is provided for POSIX systems and two reference TLS implementations are provided for use with either the mbedTLS or wolfSSL embedded libraries. TLS implementations are required for both TLS connectivity and for private-key JWT signatures. JWTs serve as client authentication tokens when connecting to Google Clout IoT Core.
+
+For more documentation on the process of porting the SDK to your embedded device, or for using another TLS library, please see the README.md and the /doc/porting_guide.md documents. For more information about Google Cloud IoT Core, please visit: https://cloud.google.com/iot-core.
+
+The Device SDK is developed on Ubuntu Linux with GNU Make.

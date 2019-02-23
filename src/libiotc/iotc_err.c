@@ -1,6 +1,6 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Edge Embedded C Client,
+ * This is part of the Google Cloud IoT Device SDK for Embedded C,
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -118,7 +118,8 @@ const char* iotc_error_string[IOTC_ERROR_COUNT] = {
                                          */
     "IOTC_NULL_DEVICE_PATH_ERROR",      /* 73 IOTC_NULL_DEVICE_PATH_ERROR */
     "IOTC_BUFFER_TOO_SMALL_ERROR",      /* 74 IOTC_BUFFER_TOO_SMALL_ERROR */
-    "IOTC_NULL_PRIVATE_KEY_DATA_ERROR" /* 75 IOTC_NULL_PRIVATE_KEY_DATA_ERROR */
+    "IOTC_NULL_KEY_DATA_ERROR",         /* 75 IOTC_NULL_KEY_DATA_ERROR */
+    "IOTC_NULL_CLIENT_ID_ERROR"         /* 76 IOTC_NULL_CLIENT_ID_ERROR */
 };
 #else
 const char empty_sting[] = "";

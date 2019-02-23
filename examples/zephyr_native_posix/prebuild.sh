@@ -1,6 +1,6 @@
-# Copyright 2018 Google LLC
+# Copyright 2019 Google LLC
 #
-# This is part of the Google Cloud IoT Edge Embedded C Client,
+# This is part of the Google Cloud IoT Device SDK for Embedded C,
 # it is licensed under the BSD 3-Clause license; you may not use this file
 # except in compliance with the License.
 #
@@ -13,7 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-IOTC_EXAMPLE_NAME := mqtt_logic_producer
+pip3 install --user pyelftools
 
-include ../common/rules.mk
-include ../common/targets.mk
+mkdir -p build; cd build;
+
+cmake -DBOARD=native_posix ..
+
+make zephyr/include/generated/autoconf.h
+make syscall_list_h_target
+make syscall_macros_h_target
+make kobj_types_h_target

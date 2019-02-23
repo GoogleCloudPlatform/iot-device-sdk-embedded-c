@@ -1,6 +1,6 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Edge Embedded C Client,
+ * This is part of the Google Cloud IoT Device SDK for Embedded C,
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -136,9 +136,7 @@ void iotc_driver_init(int argc, char const* argv[],
 }
 
 int main(int argc, char const* argv[]) {
-  IOTC_UNUSED(DEFAULT_PROJECT_ID);
-  IOTC_UNUSED(DEFAULT_DEVICE_PATH);
-  IOTC_UNUSED(DEFAULT_PRIVATE_KEY);
+  IOTC_UNUSED(DEFAULT_CLIENT_ID);
 
   /*************************************
    * libiotc initialization **********
@@ -205,3 +203,15 @@ int main(int argc, char const* argv[]) {
 
   return iotc_memory_limiter_teardown() ? 0 : 1;
 }
+
+void vAssertCalled( unsigned long ulLine, const char * const pcFileName )
+{
+      printf("ASSERT: %s : %d\n", pcFileName, (int)ulLine);fflush(stdout);
+          while(1);
+}
+
+void vApplicationMallocFailedHook(void) {
+  while (1)
+    ;
+}
+

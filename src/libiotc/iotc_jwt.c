@@ -1,6 +1,6 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Edge Embedded C Client,
+ * This is part of the Google Cloud IoT Device SDK for Embedded C,
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -31,9 +31,9 @@
 /**
  * Creates the first two parts of the token: b64(header) + . + b64(payload)
  *
- * Helper function for iotc_create_jwt_es256.
+ * Helper function for iotc_create_iotcore_jwt.
  */
-static iotc_bsp_crypto_state_t _iotc_create_jwt_b64h_b64p(
+static iotc_bsp_crypto_state_t _iotc_create_iotcore_jwt_b64h_b64p(
     unsigned char* dst_string, size_t dst_string_size, size_t* bytes_written,
     const char* project_id, uint32_t expiration_period_sec, const char* algo) {
   iotc_bsp_crypto_state_t ret = IOTC_BSP_CRYPTO_ERROR;
@@ -86,10 +86,35 @@ err_handling:
 // b64 = base64
 // sha = Secure Hash Algorithm
 // ecc = Elliptic Curve Cryptography
-iotc_state_t iotc_create_jwt_es256(
+iotc_state_t iotc_create_iotcore_jwt(
     const char* project_id, uint32_t expiration_period_sec,
-    const iotc_crypto_private_key_data_t* private_key_data,
-    unsigned char* dst_jwt_buf, size_t dst_jwt_buf_len, size_t* bytes_written) {
+    const iotc_crypto_key_data_t* private_key_data, char* dst_jwt_buf,
+    size_t dst_jwt_buf_len, size_t* bytes_written) {
+  if (NULL == project_id || NULL == private_key_data || NULL == dst_jwt_buf ||
+      NULL == bytes_written) {
+    return IOTC_INVALID_PARAMETER;
+  }
+
+  if (IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256 !=
+      private_key_data->crypto_key_signature_algorithm) {
+    return IOTC_ALG_NOT_SUPPORTED_ERROR;
+  }
+
+  switch (private_key_data->crypto_key_union_type) {
+    case IOTC_CRYPTO_KEY_UNION_TYPE_PEM:
+      if (NULL == private_key_data->crypto_key_union.key_pem.key) {
+        return IOTC_NULL_KEY_DATA_ERROR;
+      }
+      break;
+    case IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID:
+    case IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM:
+      /* it's a valid scenario that the custom data could be null, if the
+         key is hard coded in the BSP */
+      break;
+    default:
+      return IOTC_NOT_IMPLEMENTED;
+  }
+
   if (IOTC_JWT_PROJECTID_MAX_LEN < strlen(project_id)) {
     *bytes_written = IOTC_JWT_PROJECTID_MAX_LEN;
     return IOTC_JWT_PROJECTID_TOO_LONG_ERROR;
@@ -98,9 +123,10 @@ iotc_state_t iotc_create_jwt_es256(
   iotc_bsp_crypto_state_t ret = IOTC_BSP_CRYPTO_ERROR;
 
   // create base64 encoded header and payload: b64(h).b64(p)
-  IOTC_CHECK_CRYPTO(ret = _iotc_create_jwt_b64h_b64p(
-                        dst_jwt_buf, dst_jwt_buf_len, bytes_written, project_id,
-                        expiration_period_sec, "ES256"));
+  IOTC_CHECK_CRYPTO(ret = _iotc_create_iotcore_jwt_b64h_b64p(
+                        (unsigned char*)dst_jwt_buf, dst_jwt_buf_len,
+                        bytes_written, project_id, expiration_period_sec,
+                        "ES256"));
 
   // create sha256 hash of b64(h).b64(p): sha256(b64(h).b64(p))
   uint8_t sha256_b64h_b64p[32] = {0};
@@ -123,9 +149,9 @@ iotc_state_t iotc_create_jwt_es256(
   // base64 encode the ecc signature
   size_t bytes_written_ecc_signature_base64 = 0;
   ret = iotc_bsp_base64_encode_urlsafe(
-      dst_jwt_buf + *bytes_written, dst_jwt_buf_len - *bytes_written,
-      &bytes_written_ecc_signature_base64, ecc_signature,
-      bytes_written_ecc_signature);
+      (unsigned char*)dst_jwt_buf + *bytes_written,
+      dst_jwt_buf_len - *bytes_written, &bytes_written_ecc_signature_base64,
+      ecc_signature, bytes_written_ecc_signature);
 
   *bytes_written += bytes_written_ecc_signature_base64;
 

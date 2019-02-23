@@ -1,6 +1,6 @@
-# Copyright 2018 Google LLC
+# Copyright 2018-2019 Google LLC
 #
-# This is part of the Google Cloud IoT Edge Embedded C Client,
+# This is part of the Google Cloud IoT Device SDK for Embedded C,
 # it is licensed under the BSD 3-Clause license; you may not use this file
 # except in compliance with the License.
 #
@@ -32,6 +32,9 @@ MD ?= @
 # TLS related configuration
 IOTC_BSP_TLS ?= mbedtls
 
+# Cryptographic BSP implementation
+IOTC_BSP_CRYPTO ?= mbedtls
+
 #detect if the build happen on Travis
 ifdef TRAVIS_OS_NAME
 IOTC_TRAVIS_BUILD=1
@@ -43,6 +46,7 @@ include make/mt-config/mt-config.mk
 include make/mt-os/mt-os.mk
 include make/mt-os/mt-$(IOTC_CONST_PLATFORM_CURRENT).mk
 include make/mt-config/mt-examples.mk
+include make/mt-config/tests/mt-gtest.mk
 include make/mt-config/tests/mt-tests-tools.mk
 include make/mt-config/tests/mt-tests-unit.mk
 include make/mt-config/tests/mt-tests-integration.mk
@@ -87,20 +91,10 @@ build_output: header preset_output
 	$(info .    COMPILER:        [$(CC)] )
 	$(info )
 
-.PHONY: roots_pem
-roots_pem: res/trusted_RootCA_certs/roots.pem
-
-all: build_output roots_pem $(XI) $(IOTC_POST_BUILD_ACTION)
-
-res/trusted_RootCA_certs/roots.pem:
-	$(info Attempting to download IoT Core Server Authentication)
-	$(info Ceritificate List. If this fails, then please download the list)
-	$(info from https://pki.google.com/roots.pem , and place it in the directory)
-	$(info res/trusted_RootCA_certs/)
-	wget https://pki.google.com/roots.pem -P res/trusted_RootCA_certs
+all: build_output $(XI)
 
 .PHONY: tests
-tests: build_output roots_pem utests itests
+tests: build_output utests gtests itests
 
 .PHONY: utests
 utests: $(IOTC_UTESTS) $(IOTC_TEST_TOOLS_OBJS) $(IOTC_TEST_TOOLS)
@@ -109,6 +103,10 @@ utests: $(IOTC_UTESTS) $(IOTC_TEST_TOOLS_OBJS) $(IOTC_TEST_TOOLS)
 .PHONY: itests
 itests: $(IOTC_ITESTS) $(IOTC_TEST_TOOLS_OBJS) $(IOTC_TEST_TOOLS)
 	$(IOTC_RUN_ITESTS)
+
+.PHONY: gtests
+gtests: $(IOTC_GTESTS)
+	$(IOTC_RUN_GTESTS)
 
 .PHONY: test_coverage
 test_coverage:
@@ -138,7 +136,7 @@ clean_all: clean
 
 libiotc: $(XI)
 
-$(XI): $(IOTC_TLS_LIB_DEP) $(IOTC_PROTOFILES_C) $(IOTC_OBJS) | $(IOTC_BIN_DIRS)
+$(XI): $(IOTC_TLS_LIB_DEP) $(IOTC_CRYPTO_LIB_DEP) $(IOTC_PROTOFILES_C) $(IOTC_OBJS) $(IOTC_BUILD_PRECONDITIONS) | $(IOTC_BIN_DIRS)
 	$(info [$(AR)] $@ )
 	$(MD) $(AR) $(IOTC_ARFLAGS) $(IOTC_OBJS) $(IOTC_EXTRA_ARFLAGS)
 
@@ -158,29 +156,66 @@ $(IOTC_UTEST_OBJDIR)/%.o : $(IOTC_UTEST_SOURCE_DIR)/%.c $(IOTC_BUILD_PRECONDITIO
 	$(MD) $(CC) $(IOTC_UTEST_CONFIG_FLAGS) $(IOTC_UTEST_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
 	$(MD) $(CC) $(IOTC_UTEST_CONFIG_FLAGS) $(IOTC_UTEST_INCLUDE_FLAGS) -MM $< -MT $@ -MF $(@:.o=.d)
 
+# specific compiler flags for gtest objects
+$(IOTC_GTEST_OBJDIR)/%.o : $(LIBIOTC_SRC)/%.cc $(IOTC_BUILD_PRECONDITIONS)
+	@-mkdir -p $(dir $@)
+	$(info [$(CXX)] $@)
+	$(MD) $(CXX) $(IOTC_GTEST_CONFIG_FLAGS) $(IOTC_GTEST_CXX_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
+	$(MD) $(CXX) $(IOTC_GTEST_CONFIG_FLAGS) $(IOTC_GTEST_CXX_FLAGS) -MM $< -MT $@ -MF $(@:.o=.d)
+
 # specific compiler flags for libiotc_driver
 $(IOTC_OBJDIR)/tests/tools/iotc_libiotc_driver/%.o : $(LIBIOTC)/src/tests/tools/iotc_libiotc_driver/%.c $(IOTC_BUILD_PRECONDITIONS)
 	@-mkdir -p $(dir $@)
 	$(info [$(CC)] $@)
-	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) $(IOTC_TEST_TOOLS_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
-	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) $(IOTC_TEST_TOOLS_INCLUDE_FLAGS) -MM $< -MT $@ -MF $(@:.o=.d)
+	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMMON_COMPILER_FLAGS) $(IOTC_C_FLAGS) $(IOTC_INCLUDE_FLAGS) $(IOTC_TEST_TOOLS_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
+	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMMON_COMPILER_FLAGS) $(IOTC_C_FLAGS) $(IOTC_INCLUDE_FLAGS) $(IOTC_TEST_TOOLS_INCLUDE_FLAGS) -MM $< -MT $@ -MF $(@:.o=.d)
 
 -include $(IOTC_OBJS:.o=.d)
 
+# C source files
 $(IOTC_OBJDIR)/%.o : $(LIBIOTC)/src/%.c $(IOTC_BUILD_PRECONDITIONS)
 	@-mkdir -p $(dir $@)
 	$(info [$(CC)] $@)
-	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
-	$(IOTC_POST_COMPILE_ACTION)
+	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMMON_COMPILER_FLAGS) $(IOTC_C_FLAGS) $(IOTC_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
+	$(IOTC_POST_COMPILE_ACTION_CC)
 
-$(IOTC_OBJDIR)/third_party/mqtt-protocol-c/%.o : $(LIBIOTC)/third_party/mqtt-protocol-c/%.c $(IOTC_BUILD_PRECONDITIONS)
+$(IOTC_OBJDIR)/third_party/%.o : $(LIBIOTC)/third_party/%.c $(IOTC_BUILD_PRECONDITIONS)
 	@-mkdir -p $(dir $@)
 	$(info [$(CC)] $@)
-	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
-	$(IOTC_POST_COMPILE_ACTION)
+	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMMON_COMPILER_FLAGS) $(IOTC_C_FLAGS) $(IOTC_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
+	$(IOTC_POST_COMPILE_ACTION_CC)
+
+# C++ source files
+$(IOTC_OBJDIR)/%.o : $(LIBIOTC)/src/%.cc $(IOTC_BUILD_PRECONDITIONS)
+	@-mkdir -p $(dir $@)
+	$(info [$(CXX)] $@)
+	$(MD) $(CXX) $(IOTC_CONFIG_FLAGS) $(IOTC_COMMON_COMPILER_FLAGS) $(IOTC_CXX_FLAGS) $(IOTC_INCLUDE_FLAGS) -c $< $(IOTC_COMPILER_OUTPUT)
+	$(IOTC_POST_COMPILE_ACTION_CXX)
+
+###
+#### Builtin root CA certificates
+###
+IOTC_BUILTIN_ROOTCA_CERTS := $(LIBIOTC)/res/trusted_RootCA_certs/roots.pem
+
+$(IOTC_BUILTIN_ROOTCA_CERTS):
+	curl -s "https://pki.goog/gtsltsr/gtsltsr.crt" \
+		| openssl x509 -inform der -outform pem \
+		> $@
+
+	curl -s "https://pki.goog/gsr4/GSR4.crt" \
+		| openssl x509 -inform der -outform pem \
+		>> $@
+
+.PHONY: update_builtin_cert_buffer
+update_builtin_cert_buffer: $(IOTC_BUILTIN_ROOTCA_CERTS)
+	./tools/create_buffer.py \
+		--file_name $< \
+		--array_name iotc_RootCA_list \
+		--out_path ./src/libiotc/tls/certs \
+		--no-pretend
 
 # gather all of the binary directories
-IOTC_RESOURCE_FILES := $(LIBIOTC)/res/trusted_RootCA_certs/roots.pem
+IOTC_RESOURCE_FILES := $(IOTC_BUILTIN_ROOTCA_CERTS)
 
 ifneq (,$(findstring posix_fs,$(CONFIG)))
 IOTC_PROVIDE_RESOURCE_FILES = ON
@@ -194,8 +229,8 @@ endif
 $(IOTC_EXAMPLE_BINDIR)/internal/%: $(XI)
 	$(info [$(CC)] $@)
 	@-mkdir -p $(IOTC_EXAMPLE_OBJDIR)/$(subst $(IOTC_EXAMPLE_BINDIR)/,,$(dir $@))
-	$(MD) $(CC) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) -L$(IOTC_BINDIR) $(XI) $(LIBIOTC)/examples/common/src/commandline.c $(IOTC_EXAMPLE_DIR)/$(subst $(IOTC_EXAMPLE_BINDIR),,$@).c $(IOTC_LIB_FLAGS) $(IOTC_COMPILER_OUTPUT)
-	$(MD) $(CC) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) -MM $(IOTC_EXAMPLE_DIR)/$(subst $(IOTC_EXAMPLE_BINDIR),,$@).c -MT $@ -MF $(IOTC_EXAMPLE_OBJDIR)/$(subst $(IOTC_EXAMPLE_BINDIR)/,,$@).d
+	$(MD) $(CC) $(IOTC_COMMON_COMPILER_FLAGS) $(IOTC_C_FLAGS)$(IOTC_INCLUDE_FLAGS) -L$(IOTC_BINDIR) $(XI) $(LIBIOTC)/examples/common/src/commandline.c $(IOTC_EXAMPLE_DIR)/$(subst $(IOTC_EXAMPLE_BINDIR),,$@).c $(IOTC_LIB_FLAGS) $(IOTC_COMPILER_OUTPUT)
+	$(MD) $(CC) $(IOTC_COMMON_COMPILER_FLAGS) $(IOTC_C_FLAGS) $(IOTC_INCLUDE_FLAGS) -MM $(IOTC_EXAMPLE_DIR)/$(subst $(IOTC_EXAMPLE_BINDIR),,$@).c -MT $@ -MF $(IOTC_EXAMPLE_OBJDIR)/$(subst $(IOTC_EXAMPLE_BINDIR)/,,$@).d
 
 ###
 #### TEST TOOLS
@@ -204,9 +239,9 @@ $(IOTC_EXAMPLE_BINDIR)/internal/%: $(XI)
 
 $(IOTC_TEST_TOOLS_BINDIR)/%: $(XI) $(IOTC_TEST_TOOLS_OBJS)
 	$(info [$(CC)] $@)
-	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) -L$(IOTC_BINDIR) $(IOTC_TEST_TOOLS_OBJS) $(IOTC_TEST_TOOLS_SRCDIR)/$(notdir $@)/$(notdir $@).c $(IOTC_LIB_FLAGS) $(IOTC_COMPILER_OUTPUT)
+	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMMON_COMPILER_FLAGS) $(IOTC_C_FLAGS) $(IOTC_INCLUDE_FLAGS) -L$(IOTC_BINDIR) $(IOTC_TEST_TOOLS_OBJS) $(IOTC_TEST_TOOLS_SRCDIR)/$(notdir $@)/$(notdir $@).c $(IOTC_LIB_FLAGS) $(IOTC_COMPILER_OUTPUT)
 	@-mkdir -p $(IOTC_TEST_TOOLS_OBJDIR)
-	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS) -MM $(IOTC_TEST_TOOLS_SRCDIR)/$(notdir $@)/$(notdir $@).c -MT $@ -MF $(IOTC_TEST_TOOLS_OBJDIR)/$(notdir $@).d
+	$(MD) $(CC) $(IOTC_CONFIG_FLAGS) $(IOTC_COMMON_COMPILER_FLAGS) $(IOTC_C_FLAGS) $(IOTC_INCLUDE_FLAGS) -MM $(IOTC_TEST_TOOLS_SRCDIR)/$(notdir $@)/$(notdir $@).c -MT $@ -MF $(IOTC_TEST_TOOLS_OBJDIR)/$(notdir $@).d
 	@#$@
 
 ###
@@ -216,11 +251,19 @@ $(IOTC_TEST_TOOLS_BINDIR)/%: $(XI) $(IOTC_TEST_TOOLS_OBJS)
 IOTC_UTESTS_DEPENDENCIES_FILE = $(IOTC_UTEST_OBJDIR)/$(notdir $(IOTC_UTESTS)).d
 -include $(IOTC_UTESTS_DEPENDENCIES_FILE)
 
+IOTC_GTESTS_DEPENDENCIES_FILE = $(IOTC_GTEST_OBJDIR)/$(notdir $(IOTC_GTESTS)).d
+-include $(IOTC_GTESTS_DEPENDENCIES_FILE)
+
 $(IOTC_UTESTS): $(XI) $(IOTC_UTEST_OBJS) $(TINY_TEST_OBJ)
 	$(info [$(CC)] $@)
 	@-mkdir -p $(IOTC_UTEST_OBJDIR)
-	$(MD) $(CC)  $(IOTC_UTEST_CONFIG_FLAGS) $(IOTC_UTEST_INCLUDE_FLAGS) -L$(IOTC_BINDIR) $(IOTC_UTEST_SUITE_SOURCE) $(IOTC_UTEST_OBJS) $(TINY_TEST_OBJ) $(IOTC_LIB_FLAGS) $(IOTC_COMPILER_OUTPUT)
+	$(MD) $(CC) $(IOTC_UTEST_CONFIG_FLAGS) $(IOTC_UTEST_INCLUDE_FLAGS) -L$(IOTC_BINDIR) $(IOTC_UTEST_SUITE_SOURCE) $(IOTC_UTEST_OBJS) $(TINY_TEST_OBJ) $(IOTC_LIB_FLAGS) $(IOTC_COMPILER_OUTPUT)
 	$(MD) $(CC) $(IOTC_UTEST_CONFIG_FLAGS) $(IOTC_UTEST_INCLUDE_FLAGS) -MM $(IOTC_UTEST_SUITE_SOURCE) -MT $@ -MF $(IOTC_UTESTS_DEPENDENCIES_FILE)
+
+$(IOTC_GTESTS): $(XI) $(IOTC_GTEST_OBJS) $(IOTC_UTEST_UTIL_OBJS) $(GTEST_OBJS) $(GMOCK_OBJS)
+	$(info [$(CXX)] $@)
+	@-mkdir -p $(IOTC_GTEST_OBJDIR)
+	$(MD) $(CXX) $(IOTC_GTEST_CONFIG_FLAGS) $(IOTC_GTEST_CXX_FLAGS) -L$(IOTC_BINDIR) $(IOTC_GTEST_OBJS) $(GTEST_OBJS) $(GMOCK_OBJS) $(IOTC_UTEST_UTIL_OBJS) $(IOTC_LIB_FLAGS) $(IOTC_COMPILER_OUTPUT)
 
 # dependencies for integration test binary
 ifneq ($(IOTC_CONST_PLATFORM_CURRENT),$(IOTC_CONST_PLATFORM_ARM))
@@ -240,7 +283,7 @@ $(IOTC_FUZZ_TESTS_BINDIR)/%: $(IOTC_FUZZ_TESTS_SOURCE_DIR)/%.cpp
 $(IOTC_FUZZ_TESTS): $(XI)
 
 .PHONY: fuzz_tests
-fuzz_tests: build_output roots_pem $(IOTC_LIBFUZZER) $(IOTC_FUZZ_TESTS) $(IOTC_FUZZ_TESTS_CORPUS_DIRS)
+fuzz_tests: build_output $(IOTC_LIBFUZZER) $(IOTC_FUZZ_TESTS) $(IOTC_FUZZ_TESTS_CORPUS_DIRS)
 	$(foreach fuzztest, $(IOTC_FUZZ_TESTS), $(call IOTC_RUN_FUZZ_TEST,$(fuzztest)))
 
 .PHONY: static_analysis
@@ -250,7 +293,7 @@ NOW:=$(shell date +"%F-%T")
 
 $(LIBIOTC)/src/%.sa:
 	$(info [clang-tidy] $(@:.sa=.c))
-	@clang-tidy --checks='clang-analyzer-*,-clang-analyzer-cplusplus*,-clang-analyzer-osx*' $(@:.sa=.c) >> static_analysis_$(NOW).log -- $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS) $(IOTC_INCLUDE_FLAGS)
+	@clang-tidy --checks='clang-analyzer-*,-clang-analyzer-cplusplus*,-clang-analyzer-osx*' $(@:.sa=.c) >> static_analysis_$(NOW).log -- $(IOTC_CONFIG_FLAGS) $(IOTC_COMMON_COMPILER_FLAGS) $(IOTC_C_FLAGS) $(IOTC_INCLUDE_FLAGS)
 
 $(IOTC_BIN_DIRS):
 	@mkdir -p $@
@@ -268,19 +311,3 @@ update_docs_branch:
 		&& git add . \
 		&& git commit -m "[docs] Regenerated documentation for $(REV)" \
 		&& git push github master:gh-pages -f
-
-CRT_URL := https://secure.globalsign.net/cacert/Root-R1.crt
-
-ca.pem:
-	curl -s $(CRT_URL) \
-		| openssl x509 \
-			-out $@ \
-			-outform pem
-
-update_builtin_cert: ca.pem
-	./tools/create_buffer.py \
-		--file_name ./ca.pem \
-		--array_name iotc_ca \
-		--out_path ./src/libiotc/tls/ \
-		--no-pretend
-	-rm -rf ./ca.pem

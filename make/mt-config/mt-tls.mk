@@ -1,6 +1,6 @@
-# Copyright 2018 Google LLC
+# Copyright 2018-2019 Google LLC
 #
-# This is part of the Google Cloud IoT Edge Embedded C Client,
+# This is part of the Google Cloud IoT Device SDK for Embedded C,
 # it is licensed under the BSD 3-Clause license; you may not use this file
 # except in compliance with the License.
 #
@@ -34,7 +34,7 @@ ifneq (,$(findstring Windows,$(IOTC_HOST_PLATFORM)))
 else ifeq ($(IOTC_USE_EXTERNAL_TLS_LIB),1)
     TLS_LIB_PREPARE_CMD :=
 else
-    TLS_LIB_PREPARE_CMD := (cd $(LIBIOTC)/res/tls && ./build_$(IOTC_BSP_TLS).sh)
+    TLS_LIB_PREPARE_CMD = (cd $(LIBIOTC)/res/tls && ./build_$(IOTC_BSP_TLS).sh $(IOTC_BSP_TLS_BUILD_ARGS))
 endif
 
 $(IOTC_TLS_LIB_DEP):

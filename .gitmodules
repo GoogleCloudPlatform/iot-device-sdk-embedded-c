@@ -1,0 +1,6 @@
+[submodule "third_party/googletest"]
+	path = third_party/googletest
+	url = https://github.com/google/googletest
+[submodule "third_party/cryptoauthlib"]
+	path = third_party/cryptoauthlib
+	url = https://github.com/MicrochipTech/cryptoauthlib.git

@@ -1,6 +1,6 @@
-# Copyright 2018 Google LLC
+# Copyright 2018-2019 Google LLC
 #
-# This is part of the Google Cloud IoT Edge Embedded C Client,
+# This is part of the Google Cloud IoT Device SDK for Embedded C,
 # it is licensed under the BSD 3-Clause license; you may not use this file
 # except in compliance with the License.
 #
@@ -17,8 +17,6 @@ IOTC_TEST_SIM := qemu-system-arm -machine integratorcp -cpu cortex-m3 -nographic
 
 ifeq ($(IOTC_HOST_PLATFORM),Linux)
     IOTC_RUN_UTESTS := $(IOTC_TEST_SIM) $(IOTC_UTESTS) -append "-l0"
-    IOTC_RUN_ITESTS := $(IOTC_TEST_SIM) $(IOTC_ITESTS)
 else ifeq ($(IOTC_HOST_PLATFORM),Darwin)
     IOTC_RUN_UTESTS := @echo "WARNING: no qemu on OSX yet, utests are not executed"
-    IOTC_RUN_ITESTS := @echo "WARNING: no qemu on OSX yet, itests are not executed"
 endif

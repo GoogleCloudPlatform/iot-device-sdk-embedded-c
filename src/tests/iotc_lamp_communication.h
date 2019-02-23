@@ -1,6 +1,6 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Edge Embedded C Client,
+ * This is part of the Google Cloud IoT Device SDK for Embedded C,
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -25,7 +25,7 @@
 extern "C" {
 #endif
 
-#ifdef IOTC_BUILD_OSX
+#ifdef IOTC_PLATFORM_IS_OSX
 
 static const char IOTC_TEST_RESULT_COMMAND_TEMPLATE[] =
     "open -g \"unittest-notifier://iotc.unittest/{"

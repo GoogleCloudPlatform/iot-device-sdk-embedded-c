@@ -1,8 +1,4 @@
 bin/
 obj/
-res/trusted_RootCA_certs/roots.pem
 test_coverage/
 .vscode/
-third_party/tls/mbedtls
-third_party/tls/wolfssl
-third_party/protobuf-c/library/*.o

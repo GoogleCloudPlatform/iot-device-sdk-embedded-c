@@ -1,6 +1,6 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Edge Embedded C Client,
+ * This is part of the Google Cloud IoT Device SDK for Embedded C,
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -149,15 +149,15 @@ extern iotc_event_handle_t iotc_make_handle_argc6(
     iotc_event_handle_arg5_t a5, iotc_event_handle_arg5_t a6);
 #endif /* IOTC_DEBUG_EXTRA_INFO */
 
-#ifdef __cplusplus
-}
-#endif
-
 iotc_state_t iotc_pointerize_handle(iotc_event_handle_t handle,
                                     iotc_event_handle_t** pointer);
 
 extern void iotc_dispose_handle(iotc_event_handle_t* handle);
 
 extern uint8_t iotc_handle_disposed(iotc_event_handle_t* handle);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __IOTC_EVENT_HANDLE_H__ */
