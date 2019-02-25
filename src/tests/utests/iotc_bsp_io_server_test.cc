@@ -27,27 +27,27 @@ using namespace std;
 
 class ServerTest : public ::testing::Test {
 public:
-  int protocol_type, recv_len, out_written_count, state;
   const uint16_t kTestPort = 2000;
-  char* listening_addr;
-  const char* test_msg = "hello\n";
-  char recv_buf[kBufferSize];
-  iotc_bsp_socket_events_t socket_evts[1];
-  iotc_bsp_socket_t test_socket;
+  const char* kTestMsg = "hello\n";
+  int sock_type_, recv_len_, out_written_count_, state_;
+  char* listening_addr_;
+  char recv_buf_[kBufferSize];
+  iotc_bsp_socket_events_t socket_evts_[1];
+  iotc_bsp_socket_t test_socket_;
 
-  iotc_bsp_io_net_state_t create_client(uint16_t sock_type);
-  iotc_bsp_io_net_state_t write_client();
-  iotc_bsp_io_net_state_t read_client();
-  iotc_bsp_io_net_state_t close_client();
+  iotc_bsp_io_net_state_t CreateClient(uint16_t sock_type);
+  iotc_bsp_io_net_state_t WriteClient();
+  iotc_bsp_io_net_state_t ReadClient();
+  iotc_bsp_io_net_state_t CloseClient();
 };
 
-iotc_bsp_io_net_state_t ServerTest::create_client(uint16_t sock_type) {
-  if (iotc_bsp_io_net_socket_connect(&test_socket, listening_addr, kTestPort,
+iotc_bsp_io_net_state_t ServerTest::CreateClient(uint16_t sock_type) {
+  if (iotc_bsp_io_net_socket_connect(&test_socket_, listening_addr_, kTestPort,
                                      sock_type) != IOTC_BSP_IO_NET_STATE_OK) {
     perror("[Client] Error connecting socket");
     return IOTC_BSP_IO_NET_STATE_ERROR;
   }
-  if (iotc_bsp_io_net_connection_check(test_socket, listening_addr,
+  if (iotc_bsp_io_net_connection_check(test_socket_, listening_addr_,
                                        kTestPort) != IOTC_BSP_IO_NET_STATE_OK) {
     perror("[Client]Error checking connection");
     return IOTC_BSP_IO_NET_STATE_ERROR;
@@ -56,16 +56,16 @@ iotc_bsp_io_net_state_t ServerTest::create_client(uint16_t sock_type) {
   return IOTC_BSP_IO_NET_STATE_OK;
 }
 
-iotc_bsp_io_net_state_t ServerTest::write_client() {
-  memset(socket_evts, 0, sizeof(iotc_bsp_socket_events_t));
-  socket_evts[0].iotc_socket = test_socket;
-  socket_evts[0].in_socket_want_write = 1;
+iotc_bsp_io_net_state_t ServerTest::WriteClient() {
+  memset(socket_evts_, 0, sizeof(iotc_bsp_socket_events_t));
+  socket_evts_[0].iotc_socket = test_socket_;
+  socket_evts_[0].in_socket_want_write = 1;
   bool ready_to_write = false;
   while (!ready_to_write) {
-    state = iotc_bsp_io_net_select(socket_evts, 1, kTimeoutSeconds);
-    switch (state) {
+    state_ = iotc_bsp_io_net_select(socket_evts_, 1, kTimeoutSeconds);
+    switch (state_) {
     case IOTC_BSP_IO_NET_STATE_OK:
-      if (socket_evts[0].out_socket_can_write == 1) {
+      if (socket_evts_[0].out_socket_can_write == 1) {
         ready_to_write = true;
       }
       break;
@@ -73,20 +73,20 @@ iotc_bsp_io_net_state_t ServerTest::write_client() {
       break;
     }
   }
-  return iotc_bsp_io_net_write(test_socket, &out_written_count,
-                               (uint8_t*)test_msg, strlen(test_msg));
+  return iotc_bsp_io_net_write(test_socket_, &out_written_count_,
+                               (uint8_t*)kTestMsg, strlen(kTestMsg));
 }
 
-iotc_bsp_io_net_state_t ServerTest::read_client() {
-  memset(socket_evts, 0, sizeof(iotc_bsp_socket_events_t));
-  socket_evts[0].iotc_socket = test_socket;
-  socket_evts[0].in_socket_want_read = 1;
+iotc_bsp_io_net_state_t ServerTest::ReadClient() {
+  memset(socket_evts_, 0, sizeof(iotc_bsp_socket_events_t));
+  socket_evts_[0].iotc_socket = test_socket_;
+  socket_evts_[0].in_socket_want_read = 1;
   bool ready_to_read = false;
   while (!ready_to_read) {
-    state = iotc_bsp_io_net_select(socket_evts, 1, kTimeoutSeconds);
-    switch (state) {
+    state_ = iotc_bsp_io_net_select(socket_evts_, 1, kTimeoutSeconds);
+    switch (state_) {
     case IOTC_BSP_IO_NET_STATE_OK:
-      if (socket_evts[0].out_socket_can_read == 1) {
+      if (socket_evts_[0].out_socket_can_read == 1) {
         ready_to_read = true;
       }
       break;
@@ -94,89 +94,89 @@ iotc_bsp_io_net_state_t ServerTest::read_client() {
       break;
     }
   }
-  return iotc_bsp_io_net_read(test_socket, &recv_len,
-                              reinterpret_cast<uint8_t*>(recv_buf),
-                              sizeof(recv_buf));
+  return iotc_bsp_io_net_read(test_socket_, &recv_len_,
+                              reinterpret_cast<uint8_t*>(recv_buf_),
+                              sizeof(recv_buf_));
 }
 
-iotc_bsp_io_net_state_t ServerTest::close_client() {
-  return iotc_bsp_io_net_close_socket(&test_socket);
+iotc_bsp_io_net_state_t ServerTest::CloseClient() {
+  return iotc_bsp_io_net_close_socket(&test_socket_);
 }
 
 TEST_F(ServerTest, TcpIpv4EndToEndCommunicationWorks) {
-  listening_addr = const_cast<char*>("127.0.0.1");
-  EchoTestServer* test_server =
-      new EchoTestServer(SOCK_STREAM, kTestPort, listening_addr);
-  test_server->create_server();
-  create_client(SOCK_STREAM);
+  sock_type_ = SOCK_STREAM;
+  listening_addr_ = const_cast<char*>("127.0.0.1");
+  EchoTestServer* test_server = new EchoTestServer(sock_type_, kTestPort);
+  test_server->CreateServer();
+  CreateClient(sock_type_);
 
-  std::thread server_thread(&EchoTestServer::run_server, test_server);
-  write_client();
-  read_client();
+  std::thread server_thread(&EchoTestServer::RunServer, test_server);
+  WriteClient();
+  ReadClient();
 
   test_server->stop_server();
-  close_client();
+  CloseClient();
   server_thread.join();
 
-  EXPECT_STREQ(test_server->get_recv_buf(), test_msg);
-  EXPECT_STREQ(recv_buf, test_msg);
+  EXPECT_STREQ(test_server->get_recv_buf(), kTestMsg);
+  EXPECT_STREQ(recv_buf_, kTestMsg);
 }
 
 TEST_F(ServerTest, UdpIpv4EndToEndCommunicationWorks) {
-  listening_addr = const_cast<char*>("127.0.0.1");
-  EchoTestServer* test_server =
-      new EchoTestServer(SOCK_DGRAM, kTestPort, listening_addr);
-  test_server->create_server();
-  create_client(SOCK_DGRAM);
+  sock_type_ = SOCK_DGRAM;
+  listening_addr_ = const_cast<char*>("127.0.0.1");
+  EchoTestServer* test_server = new EchoTestServer(sock_type_, kTestPort);
+  test_server->CreateServer();
+  CreateClient(sock_type_);
 
-  std::thread server_thread(&EchoTestServer::run_server, test_server);
-  write_client();
-  read_client();
+  std::thread server_thread(&EchoTestServer::RunServer, test_server);
+  WriteClient();
+  ReadClient();
 
   test_server->stop_server();
-  close_client();
+  CloseClient();
   server_thread.join();
 
-  EXPECT_STREQ(test_server->get_recv_buf(), test_msg);
-  EXPECT_STREQ(recv_buf, test_msg);
+  EXPECT_STREQ(test_server->get_recv_buf(), kTestMsg);
+  EXPECT_STREQ(recv_buf_, kTestMsg);
 }
 
 TEST_F(ServerTest, TcpIpv6EndToEndCommunicationWorks) {
-  listening_addr = const_cast<char*>("::1");
-  EchoTestServer* test_server =
-      new EchoTestServer(SOCK_STREAM, kTestPort, listening_addr);
-  test_server->create_server();
-  create_client(SOCK_STREAM);
+  sock_type_ = SOCK_STREAM;
+  listening_addr_ = const_cast<char*>("::1");
+  EchoTestServer* test_server = new EchoTestServer(sock_type_, kTestPort);
+  test_server->CreateServer();
+  CreateClient(sock_type_);
 
-  std::thread server_thread(&EchoTestServer::run_server, test_server);
-  write_client();
-  read_client();
+  std::thread server_thread(&EchoTestServer::RunServer, test_server);
+  WriteClient();
+  ReadClient();
 
   test_server->stop_server();
-  close_client();
+  CloseClient();
   server_thread.join();
 
-  EXPECT_STREQ(test_server->get_recv_buf(), test_msg);
-  EXPECT_STREQ(recv_buf, test_msg);
+  EXPECT_STREQ(test_server->get_recv_buf(), kTestMsg);
+  EXPECT_STREQ(recv_buf_, kTestMsg);
 }
 
 TEST_F(ServerTest, UdpIpv6EndToEndCommunicationWorks) {
-  listening_addr = const_cast<char*>("::1");
-  EchoTestServer* test_server =
-      new EchoTestServer(SOCK_DGRAM, kTestPort, listening_addr);
-  test_server->create_server();
-  create_client(SOCK_DGRAM);
+  sock_type_ = SOCK_DGRAM;
+  listening_addr_ = const_cast<char*>("::1");
+  EchoTestServer* test_server = new EchoTestServer(sock_type_, kTestPort);
+  test_server->CreateServer();
+  CreateClient(sock_type_);
 
-  std::thread server_thread(&EchoTestServer::run_server, test_server);
-  write_client();
-  read_client();
+  std::thread server_thread(&EchoTestServer::RunServer, test_server);
+  WriteClient();
+  ReadClient();
 
   test_server->stop_server();
-  close_client();
+  CloseClient();
   server_thread.join();
 
-  EXPECT_STREQ(test_server->get_recv_buf(), test_msg);
-  EXPECT_STREQ(recv_buf, test_msg);
+  EXPECT_STREQ(test_server->get_recv_buf(), kTestMsg);
+  EXPECT_STREQ(recv_buf_, kTestMsg);
 }
 
 } // namespace

@@ -12,24 +12,23 @@ const uint16_t kTimeoutSeconds = 1;
 const uint16_t kBufferSize = 1024;
 class EchoTestServer {
 public:
-  EchoTestServer(uint16_t sockType, uint16_t port, const char* listeningAddr)
-      : sock_type(sockType), test_port(port), listening_addr(listeningAddr) {}
+  EchoTestServer(uint16_t sockType, uint16_t port)
+      : sock_type_(sockType), test_port_(port) {}
 
-  int recv_len;
-  char recv_buf[kBufferSize];
-  bool runnable = true;
+  int recv_len_;
+  char recv_buf_[kBufferSize];
+  bool runnable_ = true;
 
-  uint16_t create_server();
-  uint16_t run_server();
-  uint16_t run_tcp_server();
-  uint16_t run_udp_server();
+  uint16_t CreateServer();
+  uint16_t RunServer();
+  uint16_t RunTcpServer();
+  uint16_t RunTdpServer();
   char* get_recv_buf();
   void stop_server();
 
 private:
-  uint16_t sock_type, test_port, server_addr_size;
-  int server_sock, client_sock, rc;
-  const char* listening_addr;
+  uint16_t sock_type_, test_port_;
+  int server_sock_, client_sock_;
 };
 };
 #endif
