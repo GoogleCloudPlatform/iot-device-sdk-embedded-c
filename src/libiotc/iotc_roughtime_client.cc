@@ -35,7 +35,7 @@ extern "C" {
 
 namespace roughtime {
 
-bool iotc_roughtime_create_socket(int* out_socket, const char* server_address) {
+bool iotc_roughtime_create_socket(int *out_socket, const char *server_address) {
   std::string address(server_address);
 
   const size_t kColonOffset = address.rfind(':');
@@ -49,8 +49,8 @@ bool iotc_roughtime_create_socket(int* out_socket, const char* server_address) {
 
   if (IOTC_BSP_IO_NET_STATE_OK !=
       iotc_bsp_io_net_socket_connect(
-          reinterpret_cast<iotc_bsp_socket_t*>(out_socket), host.c_str(),
-          port)) {
+          reinterpret_cast<iotc_bsp_socket_t *>(out_socket), host.c_str(), port,
+          SOCK_DGRAM)) {
     perror("Connect to the socket");
   }
 
@@ -62,8 +62,8 @@ bool iotc_roughtime_create_socket(int* out_socket, const char* server_address) {
   return true;
 }
 
-int iotc_roughtime_getcurrenttime(int socket, const char* name,
-                                  const char* public_key) {
+int iotc_roughtime_getcurrenttime(int socket, const char *name,
+                                  const char *public_key) {
 
   std::string server_name(name);
   std::string server_public_key(public_key);
@@ -101,11 +101,12 @@ int iotc_roughtime_getcurrenttime(int socket, const char* name,
 
   int bytes_written = 0;
   state = iotc_bsp_io_net_write(
-      socket, &bytes_written, reinterpret_cast<const uint8_t*>(kRequest.data()),
-      kRequest.size());
+      socket, &bytes_written,
+      reinterpret_cast<const uint8_t *>(kRequest.data()), kRequest.size());
   if (IOTC_BSP_IO_NET_STATE_ERROR == state) {
     perror("Write to the socket");
-    iotc_bsp_io_net_close_socket(reinterpret_cast<iotc_bsp_socket_t*>(&socket));
+    iotc_bsp_io_net_close_socket(
+        reinterpret_cast<iotc_bsp_socket_t *>(&socket));
     return kExitNetworkError;
   }
   const uint64_t start_us = roughtime::MonotonicUs();
@@ -146,13 +147,14 @@ int iotc_roughtime_getcurrenttime(int socket, const char* name,
   state = iotc_bsp_io_net_read(socket, &buf_len, recv_buf, sizeof(recv_buf));
   if (IOTC_BSP_IO_NET_STATE_ERROR == state) {
     perror("Read from the socket");
-    iotc_bsp_io_net_close_socket(reinterpret_cast<iotc_bsp_socket_t*>(&socket));
+    iotc_bsp_io_net_close_socket(
+        reinterpret_cast<iotc_bsp_socket_t *>(&socket));
     return kExitNetworkError;
   }
   const uint64_t kEndUs = roughtime::MonotonicUs();
   const uint64_t kEndRealtimeUs = roughtime::RealtimeUs();
 
-  iotc_bsp_io_net_close_socket(reinterpret_cast<iotc_bsp_socket_t*>(&socket));
+  iotc_bsp_io_net_close_socket(reinterpret_cast<iotc_bsp_socket_t *>(&socket));
 
   if (buf_len == -1) {
     if (errno == EINTR) {
@@ -170,7 +172,7 @@ int iotc_roughtime_getcurrenttime(int socket, const char* name,
   std::string error;
   if (!roughtime::ParseResponse(
           &timestamp, &radius, &error,
-          reinterpret_cast<const uint8_t*>(server_public_key.data()), recv_buf,
+          reinterpret_cast<const uint8_t *>(server_public_key.data()), recv_buf,
           buf_len, nonce)) {
     fprintf(stderr, "Response from %s failed verification: %s",
             server_name.c_str(), error.c_str());

@@ -205,8 +205,8 @@ typedef struct iotc_bsp_socket_events_s {
  * - IOTC_BSP_IO_NET_STATE_ERROR - otherwise.
  */
 iotc_bsp_io_net_state_t
-iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t *iotc_socket, const char *host,
-                               uint16_t port);
+iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
+                               uint16_t port, uint16_t sock_type);
 
 /**
  * @function
@@ -235,7 +235,7 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t *iotc_socket, const char *host,
  * - IOTC_BSP_IO_NET_STATE_ERROR - if select call finished with error.
  */
 iotc_bsp_io_net_state_t
-iotc_bsp_io_net_select(iotc_bsp_socket_events_t *socket_events_array,
+iotc_bsp_io_net_select(iotc_bsp_socket_events_t* socket_events_array,
                        size_t socket_events_array_size, long timeout_sec);
 
 /**
@@ -254,7 +254,7 @@ iotc_bsp_io_net_select(iotc_bsp_socket_events_t *socket_events_array,
  * platforms, and networking tick operations invoked on No-OS devcies to
  * complete the connection process.
  *
- * @param [in] iotc_socket the socket on which to perform the
+ * @param [in] iotc_socket_nonblocking the socket on which to perform the
  * connection check.
  * @param [in] host Null terminated IP or FQDN of the host to connect to.
  * @param [in] port the port number of the endpoint.
@@ -264,7 +264,7 @@ iotc_bsp_io_net_select(iotc_bsp_socket_events_t *socket_events_array,
  */
 iotc_bsp_io_net_state_t
 iotc_bsp_io_net_connection_check(iotc_bsp_socket_t iotc_socket,
-                                 const char *host, uint16_t port);
+                                 const char* host, uint16_t port);
 
 /**
  * @function
@@ -303,7 +303,7 @@ iotc_bsp_io_net_connection_check(iotc_bsp_socket_t iotc_socket,
  */
 iotc_bsp_io_net_state_t
 iotc_bsp_io_net_write(iotc_bsp_socket_t iotc_socket_nonblocking,
-                      int *out_written_count, const uint8_t *buf, size_t count);
+                      int* out_written_count, const uint8_t* buf, size_t count);
 
 /**
  * @function
@@ -331,7 +331,7 @@ iotc_bsp_io_net_write(iotc_bsp_socket_t iotc_socket_nonblocking,
  */
 iotc_bsp_io_net_state_t
 iotc_bsp_io_net_read(iotc_bsp_socket_t iotc_socket_nonblocking,
-                     int *out_read_count, uint8_t *buf, size_t count);
+                     int* out_read_count, uint8_t* buf, size_t count);
 
 /**
  * @function
@@ -345,7 +345,7 @@ iotc_bsp_io_net_read(iotc_bsp_socket_t iotc_socket_nonblocking,
  * - IOTC_BSP_IO_NET_STATE_ERROR - otherwise.
  */
 iotc_bsp_io_net_state_t
-iotc_bsp_io_net_close_socket(iotc_bsp_socket_t *iotc_socket_nonblocking);
+iotc_bsp_io_net_close_socket(iotc_bsp_socket_t* iotc_socket_nonblocking);
 
 #ifdef __cplusplus
 }
