@@ -114,7 +114,7 @@ TEST_F(ServerTest, TcpIpv4EndToEndCommunicationWorks) {
   WriteClient();
   ReadClient();
 
-  test_server->stop_server();
+  test_server->StopServer();
   CloseClient();
   server_thread.join();
 
@@ -133,7 +133,7 @@ TEST_F(ServerTest, UdpIpv4EndToEndCommunicationWorks) {
   WriteClient();
   ReadClient();
 
-  test_server->stop_server();
+  test_server->StopServer();
   CloseClient();
   server_thread.join();
 
@@ -152,7 +152,7 @@ TEST_F(ServerTest, TcpIpv6EndToEndCommunicationWorks) {
   WriteClient();
   ReadClient();
 
-  test_server->stop_server();
+  test_server->StopServer();
   CloseClient();
   server_thread.join();
 
@@ -171,7 +171,7 @@ TEST_F(ServerTest, UdpIpv6EndToEndCommunicationWorks) {
   WriteClient();
   ReadClient();
 
-  test_server->stop_server();
+  test_server->StopServer();
   CloseClient();
   server_thread.join();
 
