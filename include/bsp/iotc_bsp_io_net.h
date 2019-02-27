@@ -88,13 +88,13 @@
  * <ul><li>
  * <a href="../../api/html/index.html">The IoTC Client doxygen</a></li>
  * <li>The Google Cloud IoT Device SDK for Embedded C User Guide in:
- *   <code>/doc/user_guide.md</code></li>
+ *   <code>/docs/user_guide.md</code></li>
  * </ul>
  *
  * ### Porting Process
  * Documentation on the porting process and more information about
  * the BSP can be found in the Google Cloud IoT Device SDK Porting
- * Guide located in: <code>/doc/porting_guide.md</code>.
+ * Guide located in: <code>/docs/porting_guide.md</code>.
  *
  */
 

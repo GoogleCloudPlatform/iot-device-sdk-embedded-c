@@ -40,7 +40,7 @@ extern "C" {
  * connection to the Google Cloud IoT Core Service over a secure socket, and
  * publish / subscribe to messages over MQTT.
  * This documention, in conjuction with the IoTC Client User Guide
- * (<code>/doc/user_guide.md</code>) and source examples in
+ * (<code>/docs/user_guide.md</code>) and source examples in
  * <code>/examples/</code>, should provide
  * you with enough information to create your custom
  * IoTC Client-enabled applications.
@@ -48,7 +48,7 @@ extern "C" {
  * If you're looking for information on how to port the IoTC Client
  * to your custom embedded device, then please direct your attention to the
  * Board Support Package (BSP) documentation.  This exists in two parts, the
- * IoTC Client Porting Guide (<code>/doc/porting_guide.md</code>) and the
+ * IoTC Client Porting Guide (<code>/docs/porting_guide.md</code>) and the
  * <a href="../../bsp/html/index.html">BSP doxygen</a>.
  *
  * # Where to Start
@@ -70,8 +70,8 @@ extern "C" {
  * <li>
  * <a href="http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html">
  * MQTT v3.1.1 Specification</a></li>
- * <li> IoTC Client Users Guide (<code>/doc/user_guide.md</code>)</li>
- * <li> IoTC Client Porting Guide (<code>/doc/porting_guide.md</code>)</il>
+ * <li> IoTC Client Users Guide (<code>/docs/user_guide.md</code>)</li>
+ * <li> IoTC Client Porting Guide (<code>/docs/porting_guide.md</code>)</il>
 
  * </ul>
  */

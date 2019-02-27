@@ -147,7 +147,7 @@ Platform configurations configure the build system to include critical section i
 
 For best results, define `posix_platform` and omit `threading` from your `CONFIG` options when building for custom platforms. `threading` is currently omitted by default.
 
-For more information about threadsafe callback support, see the user guide in `doc/user_guide.md`.
+For more information about threadsafe callback support, see the user guide in `docs/user_guide.md`.
 
 ## Example applications
 
@@ -155,7 +155,7 @@ Application binaries and sources are in the `examples/` directory.
 
 These examples use the Device SDK to connect to Cloud IoT Core, subscribe to Cloud Pub/Sub topics, publish information to Cloud IoT Core, and receive data from Cloud IoT Core.
 
-The examples' source code show you how to initialize and use the Device SDK's C API.  For more information about the C API, consult the comments in the [example code](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/examples), `README.md`, `doc/user_guide.md`, and the API reference in `doc/doxygen/api`.
+The examples' source code show you how to initialize and use the Device SDK's C API.  For more information about the C API, consult the comments in the [example code](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/examples), `README.md`, `docs/user_guide.md`, and the API reference in `doc/doxygen/api`.
 
 To build the examples follow the [instructions in the main `README.md`](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/#building-the-examples).
 
@@ -207,7 +207,7 @@ If your target platform is not POSIX compliant (most IoT embedded devices are no
 
 If neither mbedTLS nor wolfSSL fits your target platform or licensing requirements, you can configure the build system to use other TLS BSP implementations.
 
-Make sure the custom TLS BSP meets the TLS Implementation Requirements defined in `doc/user_guide.md`.
+Make sure the custom TLS BSP meets the TLS Implementation Requirements defined in `docs/user_guide.md`.
 
 Complete the following steps to create a new BSP implementation for TLS.
 
@@ -356,7 +356,7 @@ For more information about the Device SDK, see these other documents in the [Git
 
 - [`README.md`](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c) provides general information about the file structure of the source, how to build on Linux, and a general overview of security.
 
-- [`doc/user_guide.md`](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/blob/development/doc/user_guide.md) provides an in-depth description of the Device SDK design and features, including MQTT logic, the event system, backoff logic, and platform security requirements.
+- [`docs/user_guide.md`](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/blob/development/docs/user_guide.md) provides an in-depth description of the Device SDK design and features, including MQTT logic, the event system, backoff logic, and platform security requirements.
 
 - [`doc/doxygen/api`](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/tree/development/doc/doxygen/api) contains the function specifications for the Device SDK application-level API. This references outlines the behavior of the Connect, Subscribe, and Publish functions.
 

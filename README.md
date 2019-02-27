@@ -35,7 +35,7 @@ Run the following command to build the Device SDK:
 make
 ```
 
-The source can be cross-compiled to other target platforms via custom toolchains and the makefile, or with a specific device SDK’s IDE. For more information, see the porting guide in `doc/porting_guide.md`.
+The source can be cross-compiled to other target platforms via custom toolchains and the makefile, or with a specific device SDK’s IDE. For more information, see the porting guide in `docs/porting_guide.md`.
 
 ### Building a TLS static library
 
@@ -93,7 +93,7 @@ Follow the steps below to perform the cross-compilation process.
 - Build a TLS BSP implementation to invoke the TLS SDK for your platform. Store these in a new directory `src/bsp/tls/TARGET_TLS_SOLUTION`.
 - Build a Cryptography BSP implementation to handle key signatures of JWTs on your target platform in the directory `src/bsp/crypto/TARGET_CRYPTO_SOLUCTION`.
 
-For more details on the cross-compilation process, see the porting guide in `doc/porting_guide.md`.
+For more details on the cross-compilation process, see the porting guide in `docs/porting_guide.md`.
 
 ## Security
 
@@ -101,7 +101,7 @@ The Device SDK supports secure connection through a third-party TLS library. The
 
 This repository does not directly include TLS libraries; you can clone the TLS git repositories and place them in the `third_party/tls/mbedtls` and `third_party/tls/wolfssl` directories, respectively. Running `make` without any parameters will start a build that includes git checkout, build configuration, and compilation of the mbedTLS library.
 
-The Device SDK supports other TLS libraries through the BSP TLS API. For information about configuring the build process to work with your preferred library, see the porting guide in `doc/porting_guide.md`.  Additionally, check the user guide `doc/user_guide.md` to make sure your TLS implementation meets the security requirements to connect to Cloud IoT Core.
+The Device SDK supports other TLS libraries through the BSP TLS API. For information about configuring the build process to work with your preferred library, see the porting guide in `docs/porting_guide.md`.  Additionally, check the user guide `docs/user_guide.md` to make sure your TLS implementation meets the security requirements to connect to Cloud IoT Core.
 
 ## Stability and QA
 
@@ -122,8 +122,8 @@ For information about contributing to this repository, see `CONTRIBUTING.MD`.
 
 Review the following documentation.
 
-- **doc/user_guide.md**: User guide that covers Device SDK features and usage.
-- **doc/porting_guide.md**: Porting guide that provides information about porting the Device SDK to target devices.
+- **docs/user_guide.md**: User guide that covers Device SDK features and usage.
+- **docs/porting_guide.md**: Porting guide that provides information about porting the Device SDK to target devices.
 - **doc/doxygen/**: Generated API reference.
 
 ## License

@@ -77,7 +77,7 @@ Note: Google Cloud IoT Core does not support QoS 2. Visit the [MQTT Standard v3.
 
 The Device SDK includes two working implementations of its TLSv1.2 Board Support Package (BSP) for embedded devices: [mbedTLS](https://tls.mbed.org) and [wolfSSL](https://www.wolfssl.com/). The GitHub repository includes the source required for the Device SDK to interface with either of these implementations (but does not provide the source for the TLS libraries themselves).
 
-If you have your own TLS implementation or one is included in your platform software, you can use the modular Networking and TLS BSPs. For more information on how to write and build with a custom TLS or Networking BSP, see the [porting guide](https://github.com/googlecloudplatform/iot-edge-sdk-embedded-c/blob/master/doc/porting_guide.md) and [TLS implementation requirements](#tls-implementation-requirements).
+If you have your own TLS implementation or one is included in your platform software, you can use the modular Networking and TLS BSPs. For more information on how to write and build with a custom TLS or Networking BSP, see the [porting guide](https://github.com/googlecloudplatform/iot-edge-sdk-embedded-c/blob/master/docs/porting_guide.md) and [TLS implementation requirements](#tls-implementation-requirements).
 
 
 ### RTOS support
@@ -152,7 +152,7 @@ The embedded device must keep time in order to perform the following security pr
 
 ## TLS implementation requirements
 
-If you want to use a TLS library other than [mbedTLS](https://tls.mbed.org) or [wolfSSL](https://www.wolfssl.com), review this section and read the [porting guide](https://github.com/googlecloudplatform/iot-edge-sdk-embedded-c/blob/master/doc/porting_guide.md) for details on configuring builds to support other TLS BSPs. All TLS implementations must meet the following requirements.
+If you want to use a TLS library other than [mbedTLS](https://tls.mbed.org) or [wolfSSL](https://www.wolfssl.com), review this section and read the [porting guide](https://github.com/googlecloudplatform/iot-edge-sdk-embedded-c/blob/master/docs/porting_guide.md) for details on configuring builds to support other TLS BSPs. All TLS implementations must meet the following requirements.
 
 ### Server certificate root CA validation
 
@@ -475,7 +475,7 @@ The following documentation is also available:
 
 * [Device SDK releases](https://github.com/googlecloudplatform/iot-device-sdk-embedded-c/releases)
 * [Device SDK GitHub](https://github.com/googlecloudplatform/iot-device-sdk-embedded-c)
-* [Device SDK porting guide](https://github.com/googlecloudplatform/iot-device-sdk-embedded-c/blob/master/doc/porting_guide.md)
+* [Device SDK porting guide](https://github.com/googlecloudplatform/iot-device-sdk-embedded-c/blob/master/docs/porting_guide.md)
 * [Cloud IoT Core quickstart](https://cloud.google.com/iot/docs/quickstart)
 * Device SDK API reference in `doc/doxygen/api`.
 * Device SDK BSP in `doc/doxygen/bsp`.
