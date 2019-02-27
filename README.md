@@ -133,5 +133,3 @@ Copyright 2018-2019 Google LLC
 Licensed under the BSD 3-Clause license.
 
 For more information, see `LICENSE.md`.
-
-This is not an officially supported Google product.
