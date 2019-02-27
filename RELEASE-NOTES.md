@@ -10,7 +10,7 @@
 - Connection API Changes:
   - JWT creation and formation was added to a new header file `include/iotc_jwt.h`.
   - `iotc_connect` and `iotc_connect_to` now take the standard MQTT connect credentials of username, password, and client_id.  A JWT, formatted according to [Cloud IoT Core specifications](https://cloud.google.com/iot/docs/how-tos/credentials/jwts), should be passed as the MQTT password when connecting to Cloud IoT Core.
-  - For more information, see the Doxygen reference in the `include/` directory source files or the `doc/doxygen/api` directory (for the HTML formatted documentation).
+  - For more information, see the Device SDK [API](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/api/html/index.html) or [BSP](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/bsp/html/index.html) reference.
 
 # Google Cloud IoT Core Device SDK for Embedded C version 0.7
 #### October 1, 2018

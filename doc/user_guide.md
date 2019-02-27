@@ -6,8 +6,8 @@ This document explains how applications can use the Google Cloud IoT Device SDK 
 
 For a complete API reference and code samples, see the following directories in the [Google Cloud IoT Device SDK for Embedded C GitHub repository](https://github.com/googlecloudplatform/iot-edge-sdk-embedded-c).
 
- * **`examples/`**: Includes an example of how to connect and then publish/subscribe to Cloud IoT Core MQTT topics
- * **`doc/doxygen/`**: HTML documentation for the Device SDK API and BSP functions
+ * `examples/`: Includes an example of how to connect and then publish/subscribe to Cloud IoT Core MQTT topics
+ * Device SDK [API](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/api/html/index.html) and [BSP](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/bsp/html/index.html) reference documentation.
 
 The first part of this user guide summarizes features and requirements. If you're ready to start using the Device SDK, review the [Typical client application workflow](#typical-client-application-workflow).
 
@@ -477,9 +477,8 @@ The following documentation is also available:
 * [Device SDK GitHub](https://github.com/googlecloudplatform/iot-device-sdk-embedded-c)
 * [Device SDK porting guide](https://github.com/googlecloudplatform/iot-device-sdk-embedded-c/blob/master/doc/porting_guide.md)
 * [Cloud IoT Core quickstart](https://cloud.google.com/iot/docs/quickstart)
-* Device SDK API reference in `doc/doxygen/api`.
-* Device SDK BSP in `doc/doxygen/bsp`.
-
+* Device SDK [API reference](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/api/html/index.html).
+* Device SDK [BSP reference](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/bsp/html/index.html).
 
 ### External resources
 

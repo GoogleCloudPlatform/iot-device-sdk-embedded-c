@@ -14,7 +14,7 @@ To get the source, clone from the master branch of the Google Cloud IoT Device S
 ### Directory structure
 
 - **bin**: Executables and libraries produced by a build.
-- **doc**: Documentation: Doxygen API, user guide, and porting guide.
+- **doc**: Documentation: Doxygen references, user guide, and porting guide.
 - **examples**: Example source with makefiles. After you build with `make`, this directory will also contain the example executables.
 - **include**: Header files of the Device SDK API. You must add this directory to the header include path when compiling your application against the source.
 - **include/bsp**: Header files of the Board Support Package (BSP). Functions declared here must be defined in a device-specific BSP implementation. When compiling your BSP source, make sure this directory is on the include path.
@@ -122,9 +122,9 @@ For information about contributing to this repository, see `CONTRIBUTING.MD`.
 
 Review the following documentation.
 
-- **doc/user_guide.md**: User guide that covers Device SDK features and usage.
-- **doc/porting_guide.md**: Porting guide that provides information about porting the Device SDK to target devices.
-- **doc/doxygen/**: Generated API reference.
+- [doc/user_guide.md](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/blob/master/doc/user_guide.md): User guide that covers Device SDK features and usage.
+- [doc/porting_guide.md](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/blob/master/doc/porting_guide.md): Porting guide that provides information about porting the Device SDK to target devices.
+- Device SDK [API](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/api/html/index.html) and [BSP](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/bsp/html/index.html) references.
 
 ## License
 
