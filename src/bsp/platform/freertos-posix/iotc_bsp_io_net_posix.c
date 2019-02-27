@@ -38,7 +38,7 @@ extern "C" {
 
 iotc_bsp_io_net_state_t
 iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
-                               uint16_t port, uint16_t sock_type) {
+                               uint16_t port, uint16_t socket_type) {
   struct addrinfo hints;
   struct addrinfo *result, *rp = NULL;
   int status;
@@ -47,7 +47,7 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
 
   memset(&hints, 0, sizeof(hints));
   hints.ai_family = AF_UNSPEC;
-  hints.ai_socktype = sock_type;
+  hints.ai_socktype = socket_type;
   hints.ai_flags = 0;
   hints.ai_protocol = 0;
 
@@ -61,8 +61,8 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
       continue;
 
     status = connect(*iotc_socket, rp->ai_addr, rp->ai_addrlen);
-    const int kFlags = fcntl(*iotc_socket, F_GETFL);
-    if (fcntl(*iotc_socket, F_SETFL, kFlags | O_NONBLOCK) == -1) {
+    const int flags = fcntl(*iotc_socket, F_GETFL);
+    if (fcntl(*iotc_socket, F_SETFL, flags | O_NONBLOCK) == -1) {
       perror("Enable nonblocking mode");
     }
 
@@ -247,12 +247,12 @@ iotc_bsp_io_net_select(iotc_bsp_socket_events_t* socket_events_array,
   }
 
   /* calculate max fd */
-  const int kMaxFd = MAX(max_fd_read, MAX(max_fd_write, max_fd_error));
+  const int max_fd = MAX(max_fd_read, MAX(max_fd_write, max_fd_error));
 
   tv.tv_sec = timeout_sec;
 
   /* call the actual posix select */
-  const int kResult = select(kMaxFd + 1, &rfds, &wfds, &efds, &tv);
+  const int kResult = select(max_fd + 1, &rfds, &wfds, &efds, &tv);
 
   if (0 < kResult) {
     /* translate the result back to the socket events structure */

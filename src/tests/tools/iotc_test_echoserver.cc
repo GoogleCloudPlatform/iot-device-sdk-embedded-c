@@ -3,9 +3,70 @@
 #include <netinet/in.h>
 #include <stdio.h>
 #include <string.h>
+#include <thread>
 #include <unistd.h>
 
-uint16_t EchoTestServer::CreateServer() {
+namespace iotctest {
+
+EchoTestServer::EchoTestServer(uint16_t socket_type, uint16_t port)
+    : socket_type_(socket_type), test_port_(port) {
+  CreateServer();
+}
+
+EchoTestServer::~EchoTestServer() { server_thread_.join(); }
+
+void EchoTestServer::Run() {
+  server_thread_ = std::thread(&EchoTestServer::RunServer, this);
+}
+
+EchoTestServer::ServerError EchoTestServer::RunTcpServer() {
+  struct sockaddr_storage client_addr;
+  socklen_t client_addr_size = sizeof(struct sockaddr_storage);
+
+  // Accept and read message from client.
+  while (runnable_) {
+    client_socket_ = accept(server_socket_, (struct sockaddr*)&client_addr,
+                            &client_addr_size);
+    if (client_socket_ < 0) {
+      close(client_socket_);
+      close(server_socket_);
+      return ServerError::kFailedAccept;
+    }
+    recv_len_ = read(client_socket_, recv_buf_, kBufferSize);
+    recv_buf_[recv_len_] = '\0';
+    write(client_socket_, recv_buf_, recv_len_);
+    close(client_socket_);
+  }
+
+  close(server_socket_);
+  return ServerError::kSuccess;
+}
+
+EchoTestServer::ServerError EchoTestServer::RunUdpServer() {
+  struct sockaddr_storage client_addr;
+  socklen_t client_addr_size = sizeof(struct sockaddr_storage);
+
+  // Receive message from client.
+  while (runnable_) {
+    if ((recv_len_ =
+             recvfrom(server_socket_, recv_buf_, kBufferSize, 0,
+                      (struct sockaddr*)&client_addr, &client_addr_size)) < 0) {
+      close(server_socket_);
+      return ServerError::kFailedRecvFrom;
+    }
+    recv_buf_[recv_len_] = '\0';
+    if (sendto(server_socket_, recv_buf_, recv_len_, 0,
+               (struct sockaddr*)&client_addr, client_addr_size) != recv_len_) {
+      close(server_socket_);
+      return ServerError::kFailedSendTo;
+    }
+  }
+
+  close(server_socket_);
+  return ServerError::kSuccess;
+}
+
+EchoTestServer::ServerError EchoTestServer::CreateServer() {
   struct timeval tv;
   struct addrinfo hints;
   struct addrinfo *result, *rp;
@@ -15,71 +76,64 @@ uint16_t EchoTestServer::CreateServer() {
 
   memset(&hints, 0, sizeof(struct addrinfo));
   hints.ai_family = AF_UNSPEC;
-  hints.ai_socktype = sock_type_;
+  hints.ai_socktype = socket_type_;
   hints.ai_flags = AI_PASSIVE;
   status = getaddrinfo(NULL, port_s, &hints, &result);
   if (0 != status) {
-    return 1;
+    return ServerError::kFailedGetAddrInfo;
   }
 
   for (rp = result; rp != NULL; rp = rp->ai_next) {
-    if ((server_sock_ =
+    if ((server_socket_ =
              socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol)) < 0) {
       continue;
     }
     printf("protocol type: %d\n", rp->ai_family);
     int reuseAddress = 1;
-    if (setsockopt(server_sock_, SOL_SOCKET, SO_REUSEADDR, &reuseAddress,
+    if (setsockopt(server_socket_, SOL_SOCKET, SO_REUSEADDR, &reuseAddress,
                    sizeof(reuseAddress))) {
-      perror("[Server] Error setting socket reuseaddr option");
-      close(server_sock_);
-      return 1;
+      close(server_socket_);
+      return ServerError::kFailedSetSockOpt;
     }
-    if (bind(server_sock_, rp->ai_addr, rp->ai_addrlen) == 0)
+    if (bind(server_socket_, rp->ai_addr, rp->ai_addrlen) == 0)
       break;
     else
-      close(server_sock_);
+      close(server_socket_);
   }
 
   if (rp == NULL) {
     perror("Error binding");
-    return 1;
+    return ServerError::kError;
   }
   freeaddrinfo(result);
 
   tv.tv_sec = kTimeoutSeconds;
   tv.tv_usec = 0;
-  if (setsockopt(server_sock_, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv)) < 0) {
-    perror("[Server] Error setting socket timeout option");
-    close(server_sock_);
-    return 1;
+  if (setsockopt(server_socket_, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv)) <
+      0) {
+    close(server_socket_);
+    return ServerError::kFailedSetSockOpt;
   }
-  if (sock_type_ == SOCK_STREAM) {
-    if (listen(server_sock_, 5) < 0) {
-      perror("[Server] Error listening connection");
-      return 1;
+  if (socket_type_ == SOCK_STREAM) {
+    if (listen(server_socket_, 5) < 0) {
+      return ServerError::kFailedListen;
     }
   }
 
-  return 0;
+  return ServerError::kSuccess;
 }
 
-uint16_t EchoTestServer::RunServer() {
-  if (sock_type_ == SOCK_STREAM) {
-    if (RunTcpServer() != 0) {
-      return 1;
-    }
-  } else if (sock_type_ == SOCK_DGRAM) {
-    if (RunUdpServer() != 0) {
-      return 1;
-    }
+EchoTestServer::ServerError EchoTestServer::RunServer() {
+  if (socket_type_ == SOCK_STREAM) {
+    return RunTcpServer();
+  } else if (socket_type_ == SOCK_DGRAM) {
+    return RunUdpServer();
   }
-  return 0;
+  return ServerError::kSuccess;
 }
-
-char* EchoTestServer::get_recv_buf() { return recv_buf_; }
 
 void EchoTestServer::StopServer() {
   runnable_ = false;
   return;
 }
+} // namespace iotctest

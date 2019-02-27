@@ -111,12 +111,13 @@
  * environment of the IoTC client, which is designed not to block on any
  * one operation.
  *
- * A device connecting to the Could IoT Core service would have a standard
- * flow looks like the following:
- *   1. socket_connect
- *   2. connection_check
- *   3. Iterations of read-write operations
- *   4. close_socket when the application shuts down the connection.
+ * A device connecting to the Cloud IoT Core service would go through
+ * the following steps:
+ *   1. Call iotc_bsp_io_net_socket_connect() to create a socket and establish
+ * connection,
+ *   2. Call iotc_bsp_io_net_connection_check() to verify connection status,
+ *   3. Do read/write operations,
+ *   4. Call iotc_bsp_io_net_close_socket() to terminate connection.
  */
 
 #include <stddef.h>
@@ -193,20 +194,21 @@ typedef struct iotc_bsp_socket_events_s {
  * @brief Creates and Connects the socket to an endpoint defined by the host and
  * port parameters.
  *
- * @param [out] iotc_socket_nonblocking the platform specific socket
+ * @param [out] iotc_socket the platform specific socket
  * representation should be stored in this variable. This value will be passed
  * along to all further Networking BSP calls.
  *
  * @param [in] host Null terminated IP or Fully Qualified Domain Name (FQDN)
  * of the host to connect to.
  * @param [in] port the port of the endpoint.
+ * @param [in] socket_type the type of socket(TCP/ UDP).
  * @return
  * - IOTC_BSP_IO_NET_STATE_OK - if successfully created and connected.
  * - IOTC_BSP_IO_NET_STATE_ERROR - otherwise.
  */
 iotc_bsp_io_net_state_t
 iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
-                               uint16_t port, uint16_t sock_type);
+                               uint16_t port, uint16_t socket_type);
 
 /**
  * @function
@@ -242,14 +244,14 @@ iotc_bsp_io_net_select(iotc_bsp_socket_events_t* socket_events_array,
  * @function
  * @brief Reports to the IoTC Client whether the provided socket is connected.
  *
- * This is called after the 'socket_connect' function. If the socket is
+ * This is called after the 'socket_connect' operation. If the socket is
  * connected, the IoTC will start to use read/write to handshake the TLS
  * connection.  If the return value is otherwise, then a failed connection will
  * be reported to the client Application via its IoTC Connection Callback.
  *
  * The two separate functions (connect and connection_check) may be confusing.
  * The asynchronous property of the IoTC Client requires the separation of
- * these functions. The actual TCP/IP socket connection is performed in the
+ * these functions. The actual socket connection is performed in the
  * time between these two function calls, when select will be called on POSIX
  * platforms, and networking tick operations invoked on No-OS devcies to
  * complete the connection process.
