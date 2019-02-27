@@ -136,7 +136,7 @@ The file system flag is for reading public root CAs for service authentication d
    - `tls_bsp`           - Instructs the Device SDK's MQTT client to use
                          third-party TLS 1.2 implementations to encrypt data before sending it over network sockets.
    - `tls_socket`        - Counterpart of `tls_bsp`. Prevents the MQTT client
-                         from including a TLS layer that invokes a TLS BSP. This increases network security. Note that the Cloud IoT Core MQTT bridge](https://cloud.google.com/iot/docs/how-tos/mqtt-bridge) will not accept connections without TLS.
+                         from including a TLS layer that invokes a TLS BSP. This increases network security. Note that the [Cloud IoT Core MQTT bridge](https://cloud.google.com/iot/docs/how-tos/mqtt-bridge) will not accept connections without TLS.
 
 #### Platform selector flag
 
@@ -155,7 +155,7 @@ Application binaries and sources are in the `examples/` directory.
 
 These examples use the Device SDK to connect to Cloud IoT Core, subscribe to Cloud Pub/Sub topics, publish information to Cloud IoT Core, and receive data from Cloud IoT Core.
 
-The examples' source code show you how to initialize and use the Device SDK's C API.  For more information about the C API, consult the comments in the [example code](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/examples), `README.md`, `doc/user_guide.md`, and the API reference in `doc/doxygen/api`.
+The examples' source code show you how to initialize and use the Device SDK's C API.  For more information about the C API, consult the comments in the [example code](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/examples), `README.md`, `doc/user_guide.md`, and the [API reference](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/api/html/index.html).
 
 To build the examples follow the [instructions in the main `README.md`](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/#building-the-examples).
 
@@ -169,7 +169,7 @@ The Board Support Package (BSP) is the well-defined set of functions that the De
 
 The BSP implementation is in the `src/bsp` directory. When porting the Device SDK to your platform SDK, ignore the MQTT codec and the non-blocking/asynchronous engine that appear elsewhere in the source.
 
-BSP function declarations are in the `include/bsp` directory. For generated function documentation, see `doc/doxygen/bsp/html/index.html`.
+BSP function declarations are in the `include/bsp` directory. For generated function documentation, see the Device SDK [BSP reference](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/bsp/html/index.html).
 
 BSP functions are organized into logical subsystems as follows.
 
@@ -358,6 +358,6 @@ For more information about the Device SDK, see these other documents in the [Git
 
 - [`doc/user_guide.md`](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/blob/development/doc/user_guide.md) provides an in-depth description of the Device SDK design and features, including MQTT logic, the event system, backoff logic, and platform security requirements.
 
-- [`doc/doxygen/api`](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/tree/development/doc/doxygen/api) contains the function specifications for the Device SDK application-level API. This references outlines the behavior of the Connect, Subscribe, and Publish functions.
+- [`doc/doxygen/api`](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/api/html/index.html) contains the function specifications for the Device SDK application-level API. This references outlines the behavior of the Connect, Subscribe, and Publish functions.
 
-- [`doc/doxygen/bsp`](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/tree/development/doc/doxygen/bsp) contains the declarations and documentation for the abstracted Board Support Package (BSP) functions to port the Device SDK to new platforms.
+- [`doc/doxygen/bsp`](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/bsp/html/index.html) contains the declarations and documentation for the abstracted Board Support Package (BSP) functions to port the Device SDK to new platforms.
