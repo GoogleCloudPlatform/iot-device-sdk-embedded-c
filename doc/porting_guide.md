@@ -136,7 +136,7 @@ The file system flag is for reading public root CAs for service authentication d
    - `tls_bsp`           - Instructs the Device SDK's MQTT client to use
                          third-party TLS 1.2 implementations to encrypt data before sending it over network sockets.
    - `tls_socket`        - Counterpart of `tls_bsp`. Prevents the MQTT client
-                         from including a TLS layer that invokes a TLS BSP. This increases network security. Note that the Cloud IoT Core MQTT bridge](https://cloud.google.com/iot/docs/how-tos/mqtt-bridge) will not accept connections without TLS.
+                         from including a TLS layer that invokes a TLS BSP. This increases network security. Note that the [Cloud IoT Core MQTT bridge](https://cloud.google.com/iot/docs/how-tos/mqtt-bridge) will not accept connections without TLS.
 
 #### Platform selector flag
 
