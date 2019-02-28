@@ -168,8 +168,4 @@ iotc_bsp_crypto_state_t iotc_bsp_ecc(
 }
 #endif
 
-#ifdef __cplusplus
-}
-#endif
-
 #endif /* __IOTC_BSP_CRYPTO_H__ */
