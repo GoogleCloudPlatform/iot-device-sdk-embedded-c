@@ -41,7 +41,7 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
   struct addrinfo hints;
   struct addrinfo *result, *rp = NULL;
   int status;
-  const char* port_s;
+  char port_s[10];
   sprintf(port_s, "%d", port);
 
   memset(&hints, 0, sizeof(hints));
@@ -50,20 +50,25 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
   hints.ai_flags = 0;
   hints.ai_protocol = 0;
 
+  // Address resolution
   status = getaddrinfo(host, port_s, &hints, &result);
   if (0 != status) {
     return IOTC_BSP_IO_NET_STATE_ERROR;
   }
+
   for (rp = result; rp != NULL; rp = rp->ai_next) {
     *iotc_socket = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
     if (-1 == *iotc_socket)
       continue;
 
-    status = connect(*iotc_socket, rp->ai_addr, rp->ai_addrlen);
+    // Set the socket to be non-blocking
     const int flags = fcntl(*iotc_socket, F_GETFL);
-    if (fcntl(*iotc_socket, F_SETFL, flags | O_NONBLOCK) == -1) {
+    if (-1 == fcntl(*iotc_socket, F_SETFL, flags | O_NONBLOCK)) {
       return IOTC_BSP_IO_NET_STATE_ERROR;
     }
+
+    // Attempt to connect
+    status = connect(*iotc_socket, rp->ai_addr, rp->ai_addrlen);
 
     if (-1 != status) {
       freeaddrinfo(result);
