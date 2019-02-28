@@ -28,8 +28,6 @@
 #include "iotc_globals.h"
 #include "iotc_io_timeouts.h"
 
-#include <sys/socket.h>
-
 iotc_state_t iotc_io_net_layer_connect(void* context, void* data,
                                        iotc_state_t in_out_state) {
   IOTC_LAYER_FUNCTION_PRINT_FUNCTION_DIGEST();
@@ -74,7 +72,7 @@ iotc_state_t iotc_io_net_layer_connect(void* context, void* data,
 
   state =
       iotc_bsp_io_net_socket_connect(&layer_data->socket, connection_data->host,
-                                     connection_data->port, SOCK_STREAM);
+                                     connection_data->port, SOCKET_STREAM);
 
   IOTC_CHECK_CND_DBGMESSAGE(IOTC_BSP_IO_NET_STATE_OK != state,
                             IOTC_SOCKET_CONNECTION_ERROR, in_out_state,

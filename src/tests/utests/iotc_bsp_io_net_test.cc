@@ -1,6 +1,6 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Edge Embedded C Client,
+ * This is part of the Google Cloud IoT Device SDK for Embedded C,
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -25,7 +25,7 @@ namespace iotctest {
 namespace {
 
 typedef struct NetworkTestCase {
-  int socket_type;
+  iotc_bsp_socket_type_t socket_type;
   char* listening_addr;
 } NetworkType;
 
@@ -35,8 +35,9 @@ class ServerTest : public ::testing::TestWithParam<NetworkType*> {
     const char* kTestMsg = "hello\n";
     bool WaitUntilSocketReadyForWrite();
     bool WaitUntilSocketReadyForRead();
-    int socket_type_, out_written_count_, state_;
+    int out_written_count_, state_;
     const char* listening_addr_;
+    iotc_bsp_socket_type_t socket_type_;
     iotc_bsp_socket_events_t socket_evts_[1];
     iotc_bsp_socket_t test_socket_;
 };
@@ -110,10 +111,10 @@ TEST_P(ServerTest, EndToEndCommunicationWorks) {
 INSTANTIATE_TEST_CASE_P(
     NetTestSuite, ServerTest,
     ::testing::Values(
-        new NetworkType{SOCK_STREAM, const_cast<char*>("127.0.0.1")},
-        new NetworkType{SOCK_STREAM, const_cast<char*>("::1")},
-        new NetworkType{SOCK_DGRAM, const_cast<char*>("127.0.0.1")},
-        new NetworkType{SOCK_DGRAM, const_cast<char*>("::1")}));
+        new NetworkType{SOCKET_STREAM, const_cast<char*>("127.0.0.1")},
+        new NetworkType{SOCKET_STREAM, const_cast<char*>("::1")},
+        new NetworkType{SOCKET_DGRAM, const_cast<char*>("127.0.0.1")},
+        new NetworkType{SOCKET_DGRAM, const_cast<char*>("::1")}));
 
 } // namespace
 } // namespace iotctest

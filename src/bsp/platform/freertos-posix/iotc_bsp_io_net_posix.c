@@ -1,6 +1,6 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Edge Embedded C Client,
+ * This is part of the Google Cloud IoT Device SDK for Embedded C,
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -38,7 +38,7 @@ extern "C" {
 
 iotc_bsp_io_net_state_t
 iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
-                               uint16_t port, uint16_t socket_type) {
+                               uint16_t port, iotc_bsp_socket_type_t socket_type) {
   struct addrinfo hints;
   struct addrinfo *result, *rp = NULL;
   int status;
