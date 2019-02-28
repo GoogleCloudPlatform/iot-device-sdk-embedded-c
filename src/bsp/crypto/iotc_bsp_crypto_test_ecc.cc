@@ -26,11 +26,6 @@
 #include "iotc_macros.h"
 #include "iotc_openssl_utils.h"
 #include "iotc_types.h"
-// #include <openssl/bio.h>
-// #include <openssl/ec.h>
-// #include <openssl/ecdsa.h>
-// #include <openssl/err.h>
-// #include <openssl/pem.h>
 
 namespace iotctest {
 namespace {
