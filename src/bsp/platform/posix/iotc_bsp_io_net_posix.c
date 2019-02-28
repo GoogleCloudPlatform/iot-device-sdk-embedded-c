@@ -59,7 +59,6 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
     *iotc_socket = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
     if (-1 == *iotc_socket)
       continue;
-    printf("client protocol type: %d\n", rp->ai_family);
     status = connect(*iotc_socket, rp->ai_addr, rp->ai_addrlen);
     const int flags = fcntl(*iotc_socket, F_GETFL);
     if (fcntl(*iotc_socket, F_SETFL, flags | O_NONBLOCK) == -1) {

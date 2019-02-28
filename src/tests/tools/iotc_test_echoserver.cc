@@ -88,7 +88,6 @@ EchoTestServer::ServerError EchoTestServer::CreateServer() {
              socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol)) < 0) {
       continue;
     }
-    printf("protocol type: %d\n", rp->ai_family);
     int reuseAddress = 1;
     if (setsockopt(server_socket_, SOL_SOCKET, SO_REUSEADDR, &reuseAddress,
                    sizeof(reuseAddress))) {
