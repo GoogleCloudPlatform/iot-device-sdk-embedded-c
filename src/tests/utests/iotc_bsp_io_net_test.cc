@@ -94,6 +94,7 @@ TEST_P(ServerTest, EndToEndCommunicationWorks) {
             IOTC_BSP_IO_NET_STATE_OK);
   char recv_buf_[strlen(kTestMsg)];
   int recv_len_ = 0;
+  memset(recv_buf_, 0, sizeof(recv_buf_));
   ASSERT_TRUE(WaitUntilSocketReadyForRead());
   EXPECT_EQ(iotc_bsp_io_net_read(test_socket_, &recv_len_,
                                  reinterpret_cast<uint8_t*>(recv_buf_),
