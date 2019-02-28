@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-#include "gmock.h"
-#include "gtest.h"
+#include <cstring>
+#include <iostream>
 
+#include "gtest.h"
 #include "iotc.h"
 #include "iotc_bsp_crypto.h"
 #include "iotc_heapcheck_test.h"
@@ -24,9 +25,6 @@
 #include "iotc_jwt.h"
 #include "iotc_macros.h"
 #include "iotc_types.h"
-
-#include <cstring>
-#include <iostream>
 #include <openssl/bio.h>
 #include <openssl/ec.h>
 #include <openssl/ecdsa.h>
@@ -50,26 +48,26 @@ E0KOix7rJyli6tiAJJDL4lbdf0YRo45THQ==\n\
 -----END EC PRIVATE KEY-----";
 
 class IotcBspCryptoEcc : public IotcHeapCheckTest {
-public:
-  IotcBspCryptoEcc() {
-    iotc_initialize();
-    DefaultPrivateKey.private_key_signature_algorithm =
-        IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-    DefaultPrivateKey.private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-    DefaultPrivateKey.private_key_union.key_pem.key =
-        const_cast<char *>(kPrivateKey);
-  }
-  ~IotcBspCryptoEcc() { iotc_shutdown(); }
-  static constexpr uint8_t *kDefaultDataToSign =
-      (uint8_t *)"this text is ecc signed";
-  static constexpr size_t kDefaultDataToSignLength =
-      strlen((char *)kDefaultDataToSign);
+  public:
+    IotcBspCryptoEcc() {
+      iotc_initialize();
+      DefaultPrivateKey.private_key_signature_algorithm =
+          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
+      DefaultPrivateKey.private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
+      DefaultPrivateKey.private_key_union.key_pem.key =
+          const_cast<char*>(kPrivateKey);
+    }
+    ~IotcBspCryptoEcc() { iotc_shutdown(); }
+    static constexpr uint8_t* kDefaultDataToSign =
+        (uint8_t*)"this text is ecc signed";
+    static constexpr size_t kDefaultDataToSignLength =
+        strlen((char*)kDefaultDataToSign);
 
-protected:
-  iotc_crypto_private_key_data_t DefaultPrivateKey;
-  static int ec_verify_openssl(const uint8_t *hash, size_t hash_len,
-                               const uint8_t *sig, size_t sig_len,
-                               const char *pub_key_pem);
+  protected:
+    iotc_crypto_private_key_data_t DefaultPrivateKey;
+    static int ec_verify_openssl(const uint8_t* hash, size_t hash_len,
+                                const uint8_t* sig, size_t sig_len,
+                                const char* pub_key_pem);
 };
 
 /**
@@ -82,26 +80,26 @@ protected:
  * @param pub_key_pem public key in PEM format.
  * @returns 0 if the verification succeeds.
  */
-int IotcBspCryptoEcc ::ec_verify_openssl(const uint8_t *hash, size_t hash_len,
-                                         const uint8_t *sig, size_t sig_len,
-                                         const char *pub_key_pem) {
+int IotcBspCryptoEcc ::ec_verify_openssl(const uint8_t* hash, size_t hash_len,
+                                         const uint8_t* sig, size_t sig_len,
+                                         const char* pub_key_pem) {
   if (sig_len != 64) {
     iotc_debug_format("sig_len expected to be 64, was %d", sig_len);
     return -1;
   }
 
   int ret = -1;
-  EC_KEY *ec_key_openssl = nullptr;
-  ECDSA_SIG *sig_openssl = nullptr;
+  EC_KEY* ec_key_openssl = nullptr;
+  ECDSA_SIG* sig_openssl = nullptr;
 
   // Parse the signature to OpenSSL representation
   constexpr int kIntLength = 32; // as per RFC7518 section-3.4
-  BIGNUM *r = BN_bin2bn(sig, kIntLength, nullptr);
-  BIGNUM *s = BN_bin2bn(sig + kIntLength, kIntLength, nullptr);
+  BIGNUM* r = BN_bin2bn(sig, kIntLength, nullptr);
+  BIGNUM* s = BN_bin2bn(sig + kIntLength, kIntLength, nullptr);
   sig_openssl = ECDSA_SIG_new();
 
   // Parse the public key to OpenSSL representation
-  BIO *pub_key_pem_bio = BIO_new(BIO_s_mem());
+  BIO* pub_key_pem_bio = BIO_new(BIO_s_mem());
   BIO_puts(pub_key_pem_bio, pub_key_pem);
   ec_key_openssl =
       PEM_read_bio_EC_PUBKEY(pub_key_pem_bio, nullptr, nullptr, nullptr);
@@ -119,7 +117,7 @@ int IotcBspCryptoEcc ::ec_verify_openssl(const uint8_t *hash, size_t hash_len,
   sig_openssl->s = s;
 #endif
 
-  if (1 == ECDSA_do_verify((const unsigned char *)hash, hash_len, sig_openssl,
+  if (1 == ECDSA_do_verify((const unsigned char*)hash, hash_len, sig_openssl,
                            ec_key_openssl)) {
     ret = 0; // Verify success
   }
@@ -133,7 +131,7 @@ cleanup:
   return ret;
 }
 
-TEST_F(IotcBspCryptoEcc, SmallBuffer) {
+TEST_F(IotcBspCryptoEcc, ReturnsErrorWhenBufferIsTooSmall) {
   constexpr size_t kEccSignatureBufferLength = 1;
   uint8_t ecc_signature[kEccSignatureBufferLength];
   size_t bytes_written = 0;
@@ -153,12 +151,12 @@ TEST_F(IotcBspCryptoEcc, SmallBufferProperMinSize) {
                          kEccSignatureBufferLength, &bytes_written,
                          kDefaultDataToSign, kDefaultDataToSignLength),
             IOTC_BSP_CRYPTO_BUFFER_TOO_SMALL_ERROR);
-  // Two 32-byte integers(r and s) build up a JWT ECC signature
+  // Two 32-byte integers(r and s) build up a JWT ECC signature.
   EXPECT_EQ(bytes_written, 64u);
 
   const size_t kEccSignatureNewBufferLen = bytes_written;
 
-  // by definition, the expected JWT ECC signature size is 64 bytes
+  // By definition, the expected JWT ECC signature size is 64 bytes.
   // https://tools.ietf.org/html/rfc7518#section-3.4
   ASSERT_EQ(64u, kEccSignatureNewBufferLen);
   EXPECT_EQ(iotc_bsp_ecc(&DefaultPrivateKey, ecc_signature_new,
@@ -171,7 +169,7 @@ TEST_F(IotcBspCryptoEcc, SmallBufferProperMinSize) {
 TEST_F(IotcBspCryptoEcc, ReportsErrorOnInvalidPrivateKey) {
   constexpr char kInvalid[] = "invalid key";
   const iotc_crypto_private_key_data_t kInvalidKey = {
-      IOTC_CRYPTO_KEY_UNION_TYPE_PEM, const_cast<char *>(kInvalid),
+      IOTC_CRYPTO_KEY_UNION_TYPE_PEM, const_cast<char*>(kInvalid),
       IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256};
   const size_t kEccSignatureBufferLength = 128;
   uint8_t ecc_signature[kEccSignatureBufferLength];
@@ -204,25 +202,24 @@ TEST_F(IotcBspCryptoEcc, ReportsErrorWhenInputBufferIsNull) {
 }
 
 TEST_F(IotcBspCryptoEcc, JwtSignatureValidation) {
-  const char *kJwtHeaderPayloadB64 =
+  const char* kJwtHeaderPayloadB64 =
       R"(eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.
       eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUs
       ImlhdCI6MTUxNjIzOTAyMn0)";
   uint8_t hash_sha256[32] = {0};
-  iotc_bsp_sha256(hash_sha256, (const uint8_t *)kJwtHeaderPayloadB64,
+  iotc_bsp_sha256(hash_sha256, (const uint8_t*)kJwtHeaderPayloadB64,
                   strlen(kJwtHeaderPayloadB64));
   size_t bytes_written_ecc_signature = 0;
   uint8_t ecc_signature[IOTC_JWT_MAX_SIGNATURE_SIZE] = {0};
 
-  size_t i = 0;
-  for (; i < IOTC_JWT_MAX_SIGNATURE_SIZE; ++i) {
+  for (size_t i = 0; i < IOTC_JWT_MAX_SIGNATURE_SIZE; ++i) {
     ecc_signature[i] = 'x';
   }
 
   iotc_bsp_ecc(&DefaultPrivateKey, ecc_signature, IOTC_JWT_MAX_SIGNATURE_SIZE,
                &bytes_written_ecc_signature, hash_sha256, /*hash_len=*/32);
 
-  // assure no overwrite happens
+  // Assure no overwrite happens.
   if (bytes_written_ecc_signature < sizeof(ecc_signature)) {
     ASSERT_EQ('x', ecc_signature[bytes_written_ecc_signature]);
   }
@@ -233,22 +230,21 @@ TEST_F(IotcBspCryptoEcc, JwtSignatureValidation) {
 }
 
 TEST_F(IotcBspCryptoEcc, SimpleTextValidation) {
-  const char *kSimpleText = "hi, I am the sipmle text, please sign me Mr. Ecc!";
+  const char* kSimpleText = "hi, I am the sipmle text, please sign me Mr. Ecc!";
   size_t bytes_written_ecc_signature = 0;
   uint8_t ecc_signature[IOTC_JWT_MAX_SIGNATURE_SIZE] = {0};
 
-  size_t i = 0;
-  for (; i < IOTC_JWT_MAX_SIGNATURE_SIZE; i++) {
+  for (size_t i = 0; i < IOTC_JWT_MAX_SIGNATURE_SIZE; i++) {
     ecc_signature[i] = 'x';
   }
   iotc_bsp_ecc(&DefaultPrivateKey, ecc_signature, IOTC_JWT_MAX_SIGNATURE_SIZE,
-               &bytes_written_ecc_signature, (uint8_t *)kSimpleText,
+               &bytes_written_ecc_signature, (uint8_t*)kSimpleText,
                strlen(kSimpleText));
-  // assure no everwriting happens
+  // Assure no everwriting happens.
   if (bytes_written_ecc_signature < sizeof(ecc_signature)) {
     ASSERT_EQ('x', ecc_signature[bytes_written_ecc_signature]);
   }
-  EXPECT_EQ(ec_verify_openssl((uint8_t *)kSimpleText, strlen(kSimpleText),
+  EXPECT_EQ(ec_verify_openssl((uint8_t*)kSimpleText, strlen(kSimpleText),
                               ecc_signature, bytes_written_ecc_signature,
                               kPemKey),
             0);

@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
+#include <iostream>
+
 #include "gmock.h"
 #include "gtest.h"
-#include <iostream>
-using namespace std;
 #include "iotc_bsp_crypto.h"
 
 namespace iotctest {
@@ -29,7 +29,7 @@ constexpr unsigned int kSHA256HashSize = 32;
 
 TEST(IotcBspCryptoSha256, OutputBufferIsNull) {
   EXPECT_EQ(iotc_bsp_sha256(nullptr,
-                            reinterpret_cast<const unsigned char *>("abc"),
+                            reinterpret_cast<const unsigned char*>("abc"),
                             /* src_buf_size = */ 3),
             IOTC_BSP_CRYPTO_INVALID_INPUT_PARAMETER_ERROR);
 }
@@ -51,7 +51,7 @@ TEST(IotcBspCryptoSha256, ExtremeInputString) {
   uint8_t sha256_encoded[kSHA256HashSize] = {0};
 
   EXPECT_EQ(iotc_bsp_sha256(sha256_encoded,
-                            reinterpret_cast<const unsigned char *>("a"),
+                            reinterpret_cast<const unsigned char*>("a"),
                             /* src_buf_size = */ 1),
             IOTC_BSP_CRYPTO_STATE_OK);
   EXPECT_THAT(
@@ -65,7 +65,7 @@ TEST(IotcBspCryptoSha256, ExtremeInputString) {
             IOTC_BSP_CRYPTO_INVALID_INPUT_PARAMETER_ERROR);
 
   EXPECT_EQ(iotc_bsp_sha256(sha256_encoded,
-                            reinterpret_cast<const unsigned char *>(""),
+                            reinterpret_cast<const unsigned char*>(""),
                             /* src_buf_size = */ 0),
             IOTC_BSP_CRYPTO_STATE_OK);
   EXPECT_THAT(
@@ -77,7 +77,7 @@ TEST(IotcBspCryptoSha256, ExtremeInputString) {
 
   EXPECT_EQ(
       iotc_bsp_sha256(sha256_encoded,
-                      reinterpret_cast<const unsigned char *>("abcde\0fghi"),
+                      reinterpret_cast<const unsigned char*>("abcde\0fghi"),
                       /* src_buf_size = */ sizeof("abcde\0fghi") - 1),
       IOTC_BSP_CRYPTO_STATE_OK);
   EXPECT_THAT(
@@ -90,10 +90,10 @@ TEST(IotcBspCryptoSha256, ExtremeInputString) {
 
 TEST(IotcBspCryptoSha256, LongerInputString) {
   uint8_t sha256_encoded[kSHA256HashSize] = {0};
-  const char *kSrcString =
+  const char* kSrcString =
       "Dear unit test please sha256 hash this string! Thank you!";
   EXPECT_EQ(iotc_bsp_sha256(sha256_encoded,
-                            reinterpret_cast<const unsigned char *>(kSrcString),
+                            reinterpret_cast<const unsigned char*>(kSrcString),
                             /* src_buf_size = */ strlen(kSrcString)),
             IOTC_BSP_CRYPTO_STATE_OK);
   EXPECT_THAT(
