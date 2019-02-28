@@ -1,6 +1,6 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Edge Embedded C Client,
+ * This is part of the Google Cloud IoT Device SDK for Embedded C,
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -22,6 +22,12 @@
 #include <portable.h>
 
 void* iotc_bsp_mem_alloc(size_t byte_count) {
+  // workaround: FreeRTOS's pvPortMalloc crashes if 0 size
+  // block is tried to be allocated.
+  if (0 == byte_count) {
+    byte_count = 1;
+  }
+
   void* ptr = (void*)pvPortMalloc(byte_count);
 
   if (NULL == ptr) {
@@ -39,11 +45,11 @@ void* iotc_bsp_mem_realloc(void* ptr, size_t byte_count) {
   // new_ptr = iotc_bsp_mem_alloc(byte_count);
 
   if (NULL == new_ptr) {
-    printf("Failed to reallocate %d\n", byte_count);fflush(stdout);
+    printf("Failed to reallocate %d\n", byte_count);
+    fflush(stdout);
   }
 
   return new_ptr;
 }
 
 void iotc_bsp_mem_free(void* ptr) { vPortFree(ptr); }
-

@@ -1,6 +1,6 @@
-# Copyright 2018 Google LLC
+# Copyright 2018-2019 Google LLC
 #
-# This is part of the Google Cloud IoT Edge Embedded C Client,
+# This is part of the Google Cloud IoT Device SDK for Embedded C,
 # it is licensed under the BSD 3-Clause license; you may not use this file
 # except in compliance with the License.
 #
@@ -16,7 +16,7 @@
 include make/mt-config/tests/mt-tests.mk
 
 IOTC_ITESTS_OBJDIR := $(IOTC_TEST_OBJDIR)/itests
-IOTC_ITESTS_CFLAGS = $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS)
+IOTC_ITESTS_CFLAGS = $(IOTC_CONFIG_FLAGS) $(IOTC_COMMON_COMPILER_FLAGS) $(IOTC_C_FLAGS)
 
 # CMOCKA LIBRARY SECTION
 CMOCKA_DIR := $(LIBIOTC)/third_party/cmocka

@@ -1,6 +1,6 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Edge Embedded C Client,
+ * This is part of the Google Cloud IoT Device SDK for Embedded C,
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -103,7 +103,8 @@ typedef enum {
   IOTC_JWT_PROJECTID_TOO_LONG_ERROR,       /* 72 */
   IOTC_NULL_DEVICE_PATH_ERROR,             /* 73 */
   IOTC_BUFFER_TOO_SMALL_ERROR,             /* 74 */
-  IOTC_NULL_PRIVATE_KEY_DATA_ERROR,        /* 75 */
+  IOTC_NULL_KEY_DATA_ERROR,                /* 75 */
+  IOTC_NULL_CLIENT_ID_ERROR,               /* 76 */
 
   IOTC_ERROR_COUNT /* add above this line, and this sould always be last. */
 } iotc_state_t;

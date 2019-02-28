@@ -1,6 +1,6 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Edge Embedded C Client,
+ * This is part of the Google Cloud IoT Device SDK for Embedded C,
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -14,12 +14,15 @@
  * limitations under the License.
  */
 
+#include <iotc_jwt.h>
 #include <stdio.h>
 
-#include "example_utils.h"
 #include "commandline.h"
+#include "example_utils.h"
 
 #define IOTC_UNUSED(x) (void)(x)
+
+extern iotc_crypto_key_data_t iotc_connect_private_key_data;
 
 static iotc_timed_task_handle_t delayed_publish_task =
     IOTC_INVALID_TIMED_TASK_HANDLE;
@@ -68,7 +71,8 @@ int iotc_example_handle_command_line_args(int argc, char* argv[]) {
   return 0;
 }
 
-int load_ec_private_key_pem_from_posix_fs(char* buf_ec_private_key_pem, size_t buf_len) {
+int load_ec_private_key_pem_from_posix_fs(char* buf_ec_private_key_pem,
+                                          size_t buf_len) {
   FILE* fp = fopen(iotc_private_key_filename, "rb");
   if (fp == NULL) {
     printf("ERROR!\n");
@@ -91,7 +95,7 @@ int load_ec_private_key_pem_from_posix_fs(char* buf_ec_private_key_pem, size_t b
     printf(
         "private key file size of %lu bytes is larger that certificate buffer "
         "size of %lu bytes\n",
-        file_size, buf_len);
+        file_size, (long)buf_len);
     fclose(fp);
     return -1;
   }
@@ -111,11 +115,15 @@ void on_connection_state_changed(iotc_context_handle_t in_context_handle,
                                  void* data, iotc_state_t state) {
   iotc_connection_data_t* conn_data = (iotc_connection_data_t*)data;
 
+  if (NULL == conn_data) {
+    return;
+  }
+
   switch (conn_data->connection_state) {
     /* IOTC_CONNECTION_STATE_OPENED means that the connection has been
        established and the IoTC Client is ready to send/recv messages */
     case IOTC_CONNECTION_STATE_OPENED:
-      printf("connected!\n");
+      printf("connected to %s:%d\n", conn_data->host, conn_data->port);
 
       /* Publish immediately upon connect. 'publish_function' is defined
          in this example file and invokes the IoTC API to publish a
@@ -165,14 +173,27 @@ void on_connection_state_changed(iotc_context_handle_t in_context_handle,
         iotc_events_stop();
       } else {
         printf("connection closed - reason %d!\n", state);
-        /* The disconnection was unforeseen.  Try reconnect to the server
-           with previously set configuration, which has been provided
-           to this callback in the conn_data structure. */
-        iotc_connect(
-            in_context_handle, conn_data->project_id, conn_data->device_path,
-            conn_data->private_key_data, conn_data->jwt_expiration_period_sec,
-            conn_data->connection_timeout, conn_data->keepalive_timeout,
-            &on_connection_state_changed);
+        /* The disconnection was unforeseen.  Try to reconnect to the server
+           with the previously set username and client_id, but regenerate
+           the client authentication JWT password in case the disconnection
+           was due to an expired JWT. */
+        char jwt[IOTC_JWT_SIZE] = {0};
+        size_t bytes_written = 0;
+        state = iotc_create_iotcore_jwt(iotc_project_id,
+                                        /*jwt_expiration_period_sec=*/3600,
+                                        &iotc_connect_private_key_data, jwt,
+                                        IOTC_JWT_SIZE, &bytes_written);
+        if (IOTC_STATE_OK != state) {
+          printf(
+              "iotc_create_iotcore_jwt returned with error"
+              " when attempting to reconnect: %ul\n",
+              state);
+        } else {
+          iotc_connect(in_context_handle, conn_data->username, jwt,
+                       conn_data->client_id, conn_data->connection_timeout,
+                       conn_data->keepalive_timeout,
+                       &on_connection_state_changed);
+        }
       }
     } break;
     default:
@@ -201,4 +222,3 @@ void publish_function(iotc_context_handle_t context_handle,
                iotc_example_qos,
                /*callback=*/NULL, /*user_data=*/NULL);
 }
-

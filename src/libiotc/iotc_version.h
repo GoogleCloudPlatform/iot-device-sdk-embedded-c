@@ -1,6 +1,6 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Edge Embedded C Client,
+ * This is part of the Google Cloud IoT Device SDK for Embedded C,
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -17,8 +17,8 @@
 #ifndef __IOTC_VERSION_H__
 #define __IOTC_VERSION_H__
 
-#define IOTC_MAJOR 0
-#define IOTC_MINOR 7
+#define IOTC_MAJOR 1
+#define IOTC_MINOR 0
 #define IOTC_REVISION 0
 
 #endif /* __IOTC_VERSION_H__ */

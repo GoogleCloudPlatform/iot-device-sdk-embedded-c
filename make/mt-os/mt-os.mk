@@ -1,6 +1,6 @@
-# Copyright 2018 Google LLC
+# Copyright 2018-2019 Google LLC
 #
-# This is part of the Google Cloud IoT Edge Embedded C Client,
+# This is part of the Google Cloud IoT Device SDK for Embedded C,
 # it is licensed under the BSD 3-Clause license; you may not use this file
 # except in compliance with the License.
 #
@@ -17,6 +17,7 @@ IOTC_CONST_PLATFORM_LINUX := linux
 IOTC_CONST_PLATFORM_OSX := osx
 IOTC_CONST_PLATFORM_ARM := arm-linux
 IOTC_CONST_PLATFORM_FREERTOS_LINUX := freertos-linux
+IOTC_CONST_PLATFORM_ZEPHYR := zephyr
 
 ifneq (,$(findstring $(IOTC_CONST_PLATFORM_ARM),$(TARGET)))
   IOTC_CONST_PLATFORM_CURRENT := $(IOTC_CONST_PLATFORM_ARM)
@@ -36,6 +37,10 @@ endif
 ifneq (,$(findstring $(IOTC_CONST_PLATFORM_FREERTOS_LINUX),$(TARGET)))
   IOTC_CONST_PLATFORM_CURRENT := $(IOTC_CONST_PLATFORM_FREERTOS_LINUX)
   IOTC_PLATFORM_IS_FREERTOS=1
+endif
+
+ifneq (,$(findstring $(IOTC_CONST_PLATFORM_ZEPHYR),$(TARGET)))
+  IOTC_CONST_PLATFORM_CURRENT := $(IOTC_CONST_PLATFORM_ZEPHYR)
 endif
 
 IOTC_BINDIR := $(IOTC_BINDIR_BASE)/$(IOTC_CONST_PLATFORM_CURRENT)

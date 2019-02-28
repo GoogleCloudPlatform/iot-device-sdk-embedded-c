@@ -1,6 +1,6 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Edge Embedded C Client,
+ * This is part of the Google Cloud IoT Device SDK for Embedded C,
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -30,7 +30,8 @@ int iotc_example_handle_command_line_args(int argc, char* argv[]);
    This example assumes the use of one that must be provided to a TLS
    implementation in a buffer, but secure chips with slot-based key stores can
    also be used. Please see the Crypto BSP for more information. */
-int load_ec_private_key_pem_from_posix_fs(char* buf_ec_private_key_pem, size_t buf_len);
+int load_ec_private_key_pem_from_posix_fs(char* buf_ec_private_key_pem,
+                                          size_t buf_len);
 
 /* A callback function that will be invoked whenever the connection state
    has changed.

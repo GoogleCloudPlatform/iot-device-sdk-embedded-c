@@ -1,6 +1,6 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Edge Embedded C Client,
+ * This is part of the Google Cloud IoT Device SDK for Embedded C,
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -28,12 +28,6 @@
 extern void iotc_default_client_callback(
     iotc_context_handle_t in_context_handle, void* data, iotc_state_t state);
 
-static const iotc_crypto_private_key_data_t DUMMY_PRIVATE_KEY = {
-    .private_key_signature_algorithm =
-        IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-    .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-    .private_key_union.key_pem.key = "dummy key"};
-
 #endif
 
 IOTC_TT_TESTGROUP_BEGIN(utest_connect)
@@ -48,9 +42,8 @@ IOTC_TT_TESTCASE_WITH_SETUP(test_INVALID_connect_context,
                               iotc_context_handle_t iotc_invalid_context = -1;
 
                               state = iotc_connect(
-                                  iotc_invalid_context, "test_project_id",
-                                  "test_device_path", &DUMMY_PRIVATE_KEY,
-                                  /*jwt_expiration_period_sec=*/600,
+                                  iotc_invalid_context, "test_username",
+                                  "test_password", "test_client_id",
                                   /*connection_timeout=*/10,
                                   /*keepalive_timeout=*/20,
                                   &iotc_default_client_callback);
@@ -70,9 +63,8 @@ IOTC_TT_TESTCASE_WITH_SETUP(test_VALID_connect_context, iotc_utest_setup_basic,
                               tt_assert(0 <= iotc_context);
 
                               state = iotc_connect(
-                                  iotc_context, "test_project_id",
-                                  "test_device_path", &DUMMY_PRIVATE_KEY,
-                                  /*jwt_expiration_period_sec=*/600,
+                                  iotc_context, "test_username",
+                                  "test_password", "test_client_id",
                                   /*connection_timeout=*/10,
                                   /*keepalive_timeout=*/20,
                                   &iotc_default_client_callback);
@@ -94,9 +86,8 @@ IOTC_TT_TESTCASE_WITH_SETUP(test_connect_to__valid_host, iotc_utest_setup_basic,
 
                               state = iotc_connect_to(
                                   iotc_context, /*host=*/"random.host.com",
-                                  /*port=*/12345, "test_project_id",
-                                  "test_device_path", &DUMMY_PRIVATE_KEY,
-                                  /*jwt_expiration_period_sec=*/600,
+                                  /*port=*/12345, "test_username",
+                                  "test_password", "test_client_id",
                                   /*connection_timeout=*/10,
                                   /*keepalive_timeout=*/20,
                                   &iotc_default_client_callback);
@@ -116,10 +107,8 @@ IOTC_TT_TESTCASE_WITH_SETUP(
       tt_assert(0 <= iotc_context);
 
       state = iotc_connect_to(
-          iotc_context, /*host=*/NULL, /*port=*/1234, "test_project_id",
-          "test_device_path", &DUMMY_PRIVATE_KEY,
-          /*jwt_expiration_period_sec=*/600,
-          /*connection_timeout=*/10,
+          iotc_context, /*host=*/NULL, /*port=*/1234, "test_username",
+          "test_password", "test_client_id", /*connection_timeout=*/10,
           /*keepalive_timeout=*/20, &iotc_default_client_callback);
 
       tt_assert(IOTC_NULL_HOST == state);
@@ -160,56 +149,41 @@ IOTC_TT_TESTCASE_WITH_SETUP(
     })
 
 IOTC_TT_TESTCASE_WITH_SETUP(
-    test_connect_to__key_type_invalid, iotc_utest_setup_basic,
+    test_connect__null_username, iotc_utest_setup_basic,
     iotc_utest_teardown_basic, NULL, {
-      static const iotc_crypto_private_key_data_t PRIVATE_KEY = {
-          .private_key_signature_algorithm =
-              IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_INVALID,
-          .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-          .private_key_union.key_pem.key = "invalid algorithm key"};
-
       iotc_state_t state;
 
       /* Call iotc_is_context_connected after creating a context. */
       iotc_context_handle_t iotc_context = iotc_create_context();
       tt_assert(IOTC_INVALID_CONTEXT_HANDLE < iotc_context);
-      state = iotc_connect_to(
-          iotc_context, /*host=*/"host.address",
-          /*port=*/1234, "test_project_id", "test_device_path", &PRIVATE_KEY,
-          /*jwt_expiration_period_sec=*/600,
-          /*connection_timeout=*/10,
-          /*keepalive_timeout=*/20, &iotc_default_client_callback);
-      tt_assert(IOTC_ALG_NOT_SUPPORTED_ERROR == state);
+      state = iotc_connect(iotc_context, /*username=*/NULL, "test_password",
+                           "test_client_id",
+                           /*connection_timeout=*/10, /*keepalive_timeout=*/20,
+                           &iotc_default_client_callback);
+      tt_assert(IOTC_STATE_OK == state);
       iotc_delete_context(iotc_context);
     end:;
     })
 
 IOTC_TT_TESTCASE_WITH_SETUP(
-    test_connect_to__key_type_out_of_bounds, iotc_utest_setup_basic,
+    test_connect__null_password, iotc_utest_setup_basic,
     iotc_utest_teardown_basic, NULL, {
-      static const iotc_crypto_private_key_data_t PRIVATE_KEY = {
-          .private_key_signature_algorithm = 250,
-          .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-          .private_key_union.key_pem.key = "dummy key"};
-
       iotc_state_t state;
 
       /* Call iotc_is_context_connected after creating a context. */
       iotc_context_handle_t iotc_context = iotc_create_context();
       tt_assert(IOTC_INVALID_CONTEXT_HANDLE < iotc_context);
-      state = iotc_connect_to(
-          iotc_context, /*host=*/"host.address",
-          /*port=*/1234, "test_project_id", "test_device_path", &PRIVATE_KEY,
-          /*jwt_expiration_period_sec=*/600,
-          /*connection_timeout=*/10,
-          /*keepalive_timeout=*/20, &iotc_default_client_callback);
-      tt_assert(IOTC_ALG_NOT_SUPPORTED_ERROR == state);
+      state = iotc_connect(iotc_context, "test_username", /*password=*/NULL,
+                           "test_client_id",
+                           /*connection_timeout=*/10, /*keepalive_timeout=*/20,
+                           &iotc_default_client_callback);
+      tt_assert(IOTC_STATE_OK == state);
       iotc_delete_context(iotc_context);
     end:;
     })
 
 IOTC_TT_TESTCASE_WITH_SETUP(
-    test_connect_to__null_project_id, iotc_utest_setup_basic,
+    test_connect_to__null_username, iotc_utest_setup_basic,
     iotc_utest_teardown_basic, NULL, {
       iotc_state_t state;
 
@@ -218,17 +192,16 @@ IOTC_TT_TESTCASE_WITH_SETUP(
       tt_assert(IOTC_INVALID_CONTEXT_HANDLE < iotc_context);
       state = iotc_connect_to(
           iotc_context, /*host=*/"random.host.com", /*port=*/12345,
-          /*project_id=*/NULL, "test_device_path", &DUMMY_PRIVATE_KEY,
-          /*jwt_expiration_period_sec=*/600,
-          /*connection_timeout=*/10,
-          /*keepalive_timeout=*/20, &iotc_default_client_callback);
-      tt_assert(IOTC_NULL_PROJECT_ID_ERROR == state);
+          /*username=*/NULL, "test_password", "test_client_id",
+          /*connection_timeout=*/10, /*keepalive_timeout=*/20,
+          &iotc_default_client_callback);
+      tt_assert(IOTC_STATE_OK == state);
       iotc_delete_context(iotc_context);
     end:;
     })
 
 IOTC_TT_TESTCASE_WITH_SETUP(
-    test_connect_to__null_device_path, iotc_utest_setup_basic,
+    test_connect_to__null_password, iotc_utest_setup_basic,
     iotc_utest_teardown_basic, NULL, {
       iotc_state_t state;
 
@@ -237,11 +210,51 @@ IOTC_TT_TESTCASE_WITH_SETUP(
       tt_assert(IOTC_INVALID_CONTEXT_HANDLE < iotc_context);
       state = iotc_connect_to(
           iotc_context, /*host=*/"random.host.com", /*port=*/12345,
-          "test_project_id", /*device_path=*/NULL, &DUMMY_PRIVATE_KEY,
-          /*jwt_expiration_period_sec=*/600,
-          /*connection_timeout=*/10,
-          /*keepalive_timeout=*/20, &iotc_default_client_callback);
-      tt_assert(IOTC_NULL_DEVICE_PATH_ERROR == state);
+          "test_username", /*password=*/NULL, "test_client_id",
+          /*connection_timeout=*/10, /*keepalive_timeout=*/20,
+          &iotc_default_client_callback);
+      tt_assert(IOTC_STATE_OK == state);
+      iotc_delete_context(iotc_context);
+    end:;
+    })
+
+IOTC_TT_TESTCASE_WITH_SETUP(
+    test_INVALID_connect__null_client_id, iotc_utest_setup_basic,
+    iotc_utest_teardown_basic, NULL, {
+      iotc_state_t state;
+
+      /* Call iotc_connect_with_callback after creating
+       * a context. */
+      iotc_context_handle_t iotc_context = iotc_create_context();
+      tt_assert(0 <= iotc_context);
+
+      state = iotc_connect(iotc_context, "test_username", "test_password",
+                           /*client_id=*/NULL,
+                           /*connection_timeout=*/10, /*keepalive_timeout=*/20,
+                           &iotc_default_client_callback);
+
+      tt_assert(IOTC_NULL_CLIENT_ID_ERROR == state);
+      iotc_delete_context(iotc_context);
+    end:;
+    })
+
+IOTC_TT_TESTCASE_WITH_SETUP(
+    test_INVALID_connect_to__null_client_id, iotc_utest_setup_basic,
+    iotc_utest_teardown_basic, NULL, {
+      iotc_state_t state;
+
+      /* Call iotc_connect_with_callback after creating
+       * a context. */
+      iotc_context_handle_t iotc_context = iotc_create_context();
+      tt_assert(0 <= iotc_context);
+
+      state = iotc_connect_to(
+          iotc_context, /*host=*/"random.host.com", /*port=*/12345,
+          "test_username", "test_password", /*client_id=*/NULL,
+          /*connection_timeout=*/10, /*keepalive_timeout=*/20,
+          &iotc_default_client_callback);
+
+      tt_assert(IOTC_NULL_CLIENT_ID_ERROR == state);
       iotc_delete_context(iotc_context);
     end:;
     })

@@ -23,7 +23,7 @@
  * # Welcome
  * This doxygen catalogs the Board Support Package (BSP), an abstracted
  * framework for hosting all of the platform-specific code used by the
- * Google Cloud IoT Edge Embedded C Client (IoTC).
+ * Google Cloud IoT Device SDK for Embedded C (IoTC).
  *
  * Porting engineers should focus most of their work to a custom
  * implementation of these collection of files. The rest of the
@@ -83,18 +83,18 @@
  *
  * # Further Reading
  * ### IoTC Client
- * Information on how to use the Google IoT Edge Embedded C Client from the
- * applications perspective can be found in:
+ * Information on how to use the Google Cloud IoT Device SDK for Embedded C
+ * from the applications perspective can be found in:
  * <ul><li>
  * <a href="../../api/html/index.html">The IoTC Client doxygen</a></li>
- * <li>The Google Cloud IoT Edge Embedded C User Guide in:
+ * <li>The Google Cloud IoT Device SDK for Embedded C User Guide in:
  *   <code>/doc/user_guide.md</code></li>
  * </ul>
  *
  * ### Porting Process
  * Documentation on the porting process and more information about
- * the IoTC Client BSP can be found in the Google Cloud IoT Edge Embedded C
- * Client Porting Guide located in: <code>/doc/porting_guide.md</code>.
+ * the BSP can be found in the Google Cloud IoT Device SDK Porting
+ * Guide located in: <code>/doc/porting_guide.md</code>.
  *
  */
 
