@@ -58,6 +58,14 @@ iotc_state_t iotc_io_net_layer_connect(void* context, void* data,
                     IOTC_THIS_LAYER(context)->layer_type_id,
                     connection_data->host, connection_data->port);
 
+  state =
+      iotc_bsp_io_net_socket_connect(&layer_data->socket, connection_data->host,
+                                     connection_data->port, SOCKET_STREAM);
+
+  IOTC_CHECK_CND_DBGMESSAGE(IOTC_BSP_IO_NET_STATE_OK != state,
+                            IOTC_SOCKET_CONNECTION_ERROR, in_out_state,
+                            "Connecting to the endpoint [failed]");
+
   {
     iotc_evtd_register_socket_fd(
         event_dispatcher, layer_data->socket,
@@ -70,15 +78,7 @@ iotc_state_t iotc_io_net_layer_connect(void* context, void* data,
         layer_data->socket);
   }
 
-  state =
-      iotc_bsp_io_net_socket_connect(&layer_data->socket, connection_data->host,
-                                     connection_data->port, SOCKET_STREAM);
-
-  IOTC_CHECK_CND_DBGMESSAGE(IOTC_BSP_IO_NET_STATE_OK != state,
-                            IOTC_SOCKET_CONNECTION_ERROR, in_out_state,
-                            "Connecting to the endpoint [failed]");
-
-  /* return here whenever we can write */
+  // return here whenever we can write
   IOTC_CR_YIELD(layer_data->layer_connect_cs, IOTC_STATE_OK);
 
   state = iotc_bsp_io_net_connection_check(
@@ -220,7 +220,7 @@ iotc_state_t iotc_io_net_layer_pull(void* context, void* data,
   iotc_bsp_io_net_state_t bsp_state = IOTC_BSP_IO_NET_STATE_OK;
 
   if (IOTC_THIS_LAYER_NOT_OPERATIONAL(context) || layer_data == NULL) {
-    if (data != NULL) /* let's clean the memory */
+    if (data != NULL) // let's clean the memory
     {
       buffer_desc = (iotc_data_desc_t*)data;
       iotc_free_desc(&buffer_desc);
