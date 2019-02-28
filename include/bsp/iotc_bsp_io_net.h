@@ -126,7 +126,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#define IOTC_UNUSED(x) (void)(x)
+
 /**
  * @typedef iotc_bsp_io_net_state_e
  * @brief Return value of the BSP NET API functions.

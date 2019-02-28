@@ -26,6 +26,7 @@
 #include <sys/time.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include "iotc_macros.h"
 
 #ifdef __cplusplus
 extern "C" {
