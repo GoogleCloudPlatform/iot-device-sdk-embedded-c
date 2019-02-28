@@ -22,7 +22,7 @@ extern "C" {
 #endif
 
 /**
- * @name iotc_time_t
+ * @name  iotc_time_t
  * @brief Time storage type.
  *
  * Provide a consistent time type. Use a 64-bit time type whenever possible to

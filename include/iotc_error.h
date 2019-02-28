@@ -22,8 +22,8 @@ extern "C" {
 #endif
 
 /**
- * @name    iotc_state_t
- * @brief   Internal error codes.
+ * @name  iotc_state_t
+ * @brief Internal error codes.
  *
  * IOTC_STATE_OK represents success. Others represent errors.
  */

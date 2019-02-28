@@ -135,8 +135,8 @@ extern iotc_state_t iotc_delete_context(iotc_context_handle_t context_handle);
  * @see iotc_connect
  * @see iotc_connect_to
  *
- * @retval 1 if the context is currently connected
- * @retval 0 if the context is invalid or the connection is currently any one
+ * @retval 1 the context is currently connected
+ * @retval 0 the context is invalid or the connection is currently any one
  * of the other following states: unitialized, connecting, closing, or closed.
  */
 extern uint8_t iotc_is_context_connected(iotc_context_handle_t context_handle);

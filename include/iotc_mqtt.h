@@ -22,7 +22,7 @@ extern "C" {
 #endif
 
 /**
- * @name iotc_mqtt_retain_t
+ * @name  iotc_mqtt_retain_t
  * @brief MQTT retain flag
  *
  * For details, see the <a href"http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718030">MQTT retain specifications</a>.
@@ -33,7 +33,7 @@ typedef enum iotc_mqtt_retain_e {
 } iotc_mqtt_retain_t;
 
 /**
- * @name iotc_mqtt_qos_t
+ * @name  iotc_mqtt_qos_t
  * @brief MQTT Quality of Service levels
  *
  * For details, see the <a href"http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718099">MQTT QoS specifications</a>.
@@ -45,7 +45,7 @@ typedef enum iotc_mqtt_qos_e {
 } iotc_mqtt_qos_t;
 
 /**
- * @name iotc_mqtt_suback_status_t
+ * @name  iotc_mqtt_suback_status_t
  * @brief MQTT SUBACK status
  *
  * For details, see the <a href"http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718068">MQTT SUBACK payload specifications</a>.
@@ -58,7 +58,7 @@ typedef enum iotc_mqtt_suback_status_e {
 } iotc_mqtt_suback_status_t;
 
 /**
- * @name iotc_mqtt_dup_t
+ * @name  iotc_mqtt_dup_t
  * @brief MQTT DUP flag
  *
  * For details, see the <a href"http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718038">MQTT DUP specifications</a>.
