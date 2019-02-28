@@ -1,6 +1,6 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Edge Embedded C Client,
+ * This is part of the Google Cloud IoT Device SDK for Embedded C,
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -21,14 +21,7 @@
 #include "iotc_types_internal.h"
 
 static const uint32_t DEFAULT_JWT_EXPIRATION = 600;
-
-static const char* DEFAULT_PROJECT_ID = "project_id";
-static const char* DEFAULT_DEVICE_PATH = "device_path";
-static iotc_crypto_private_key_data_t DEFAULT_PRIVATE_KEY = {
-    .private_key_signature_algorithm =
-        IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-    .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-    .private_key_union.key_pem.key = "dummy key"};
+static const char* DEFAULT_CLIENT_ID = "client_id";
 
 typedef struct iotc_libiotc_driver_s {
   iotc_evtd_instance_t* evtd_instance;

@@ -1,6 +1,6 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Edge Embedded C Client,
+ * This is part of the Google Cloud IoT Device SDK for Embedded C,
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -44,7 +44,7 @@
 
 #ifndef IOTC_MQTT_HOST
 #define IOTC_MQTT_HOST \
-  { "mqtt.googleapis.com", IOTC_MQTT_PORT }
+  { "mqtt.2030.ltsapis.goog", IOTC_MQTT_PORT }
 #endif
 
 #endif /* __IOTC_CONFIG_H__ */

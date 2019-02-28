@@ -1,6 +1,6 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Edge Embedded C Client,
+ * This is part of the Google Cloud IoT Device SDK for Embedded C,
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -234,9 +234,6 @@ struct testgroup_t groups[] = {
     {"utest_bsp_crypto_base64 - ", utest_bsp_crypto_base64},
     {"utest_bsp_crypto_sha256 - ", utest_bsp_crypto_sha256},
     {"utest_bsp_crypto_ecc - ", utest_bsp_crypto_ecc},
-#ifdef IOTC_LIBCRYPTO_AVAILABLE
-    {"utest_jwt_openssl_validation - ", utest_jwt_openssl_validation},
-#endif
 #endif
 
     END_OF_GROUPS};

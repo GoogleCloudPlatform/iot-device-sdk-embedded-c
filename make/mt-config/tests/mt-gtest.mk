@@ -1,6 +1,6 @@
-# Copyright 2018 Google LLC
+# Copyright 2018-2019 Google LLC
 #
-# This is part of the Google Cloud IoT Edge Embedded C Client,
+# This is part of the Google Cloud IoT Device SDK for Embedded C,
 # it is licensed under the BSD 3-Clause license; you may not use this file
 # except in compliance with the License.
 #
@@ -72,5 +72,5 @@ IOTC_GTEST_CXX_FLAGS += -I$(LIBIOTC)/src/tests
 IOTC_GTEST_CXX_FLAGS += $(foreach platformdep,$(IOTC_PLATFORM_MODULES) \
             ,-I$(IOTC_GTEST_SOURCE_DIR)/platform/$(IOTC_PLATFORM_BASE)/$(platformdep))
 
-IOTC_GTEST_CONFIG_FLAGS = $(IOTC_CONFIG_FLAGS) $(IOTC_COMPILER_FLAGS)
+IOTC_GTEST_CONFIG_FLAGS = $(IOTC_CONFIG_FLAGS) $(IOTC_COMMON_COMPILER_FLAGS)
 IOTC_GTEST_CONFIG_FLAGS += -DNO_FORKING

@@ -1,6 +1,6 @@
-# Copyright 2018 Google LLC
+# Copyright 2018-2019 Google LLC
 #
-# This is part of the Google Cloud IoT Edge Embedded C Client,
+# This is part of the Google Cloud IoT Device SDK for Embedded C,
 # it is licensed under the BSD 3-Clause license; you may not use this file
 # except in compliance with the License.
 #
@@ -51,7 +51,7 @@ mkdir test_coverage
 
 echo
 echo building and running unit tests...
-make IOTC_COMPILER_FLAGS="-fprofile-arcs -ftest-coverage" utests -j
+make IOTC_COMMON_COMPILER_FLAGS="-fprofile-arcs -ftest-coverage" utests -j
 
 echo
 echo generating unit tests report...
@@ -72,7 +72,7 @@ make clean
 
 echo
 echo building and running integration testsxi
-make IOTC_COMPILER_FLAGS="-fprofile-arcs -ftest-coverage" itests -j
+make IOTC_COMMON_COMPILER_FLAGS="-fprofile-arcs -ftest-coverage" itests -j
 
 echo
 echo generating integration test report...

@@ -36,9 +36,9 @@
  *
  ***************************************************************************/
 
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Edge Embedded C Client,
+ * This is part of the Google Cloud IoT Device SDK for Embedded C.
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -57,9 +57,11 @@
 #include "task.h"
 
 #include <iotc.h>
+#include <iotc_jwt.h>
 #include "commandline.h"
 #include "example_utils.h"
 
+iotc_crypto_key_data_t iotc_connect_private_key_data;
 char ec_private_key_pem[PRIVATE_KEY_BUFFER_SIZE] = {0};
 
 /**
@@ -75,18 +77,27 @@ void task_function_gcpiot_embedded_c(void *parameters) {
 
   iotc_context_handle_t context_handle = iotc_create_context();
 
+  /* generate the client authentication JWT, which will serve as the MQTT
+   * password */
+  char jwt[IOTC_JWT_SIZE] = {0};
+  size_t bytes_written = 0;
+  iotc_state_t state = iotc_create_iotcore_jwt(
+      iotc_project_id,
+      /*jwt_expiration_period_sec=*/3600, &iotc_connect_private_key_data, jwt,
+      IOTC_JWT_SIZE, &bytes_written);
+
+  if (IOTC_STATE_OK != state) {
+    printf("iotc_create_iotcore_jwt returned with error: %ul", state);
+    iotc_shutdown();
+    return;
+  }
+
   const uint16_t connection_timeout = 10;
   const uint16_t keepalive_timeout = 3;
 
-  iotc_crypto_private_key_data_t key_data;
-  key_data.private_key_signature_algorithm =
-      IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256;
-  key_data.private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM;
-  key_data.private_key_union.key_pem.key = ec_private_key_pem;
-
-  iotc_connect(context_handle, iotc_project_id, iotc_device_path, &key_data,
-               /*{jwt_expiration_period_sec=*/3600, connection_timeout,
-               keepalive_timeout, on_connection_state_changed);
+  iotc_connect(context_handle, /*username=*/NULL, /*password=*/jwt,
+               /*client_id=*/iotc_device_path, connection_timeout,
+               keepalive_timeout, &on_connection_state_changed);
 
   while (1) {
     printf(".");
@@ -148,6 +159,16 @@ int main(int argc, char *argv[]) {
     printf("\nApplication exiting due to private key load error.\n\n");
     return -1;
   }
+
+  /* Format the key type descriptors so the client understands
+     what type of key is being represeted. In this case, a PEM encoded
+     byte array of a ES256 key. */
+  iotc_connect_private_key_data.crypto_key_signature_algorithm =
+      IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256;
+  iotc_connect_private_key_data.crypto_key_union_type =
+      IOTC_CRYPTO_KEY_UNION_TYPE_PEM;
+  iotc_connect_private_key_data.crypto_key_union.key_pem.key =
+      ec_private_key_pem;
 
   /**
    * Create the Embedded C Client task.

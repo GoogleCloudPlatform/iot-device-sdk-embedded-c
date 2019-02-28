@@ -1,6 +1,6 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Edge Embedded C Client,
+ * This is part of the Google Cloud IoT Device SDK for Embedded C,
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -69,12 +69,18 @@ static inline iotc_state_t fill_with_connack_data(iotc_mqtt_message_t* msg,
 
 static inline iotc_state_t fill_with_connect_data(
     iotc_mqtt_message_t* msg, const char* username, const char* password,
-    uint16_t keepalive_timeout, iotc_session_type_t session_type,
-    const char* will_topic, const char* will_message, iotc_mqtt_qos_t will_qos,
+    const char* client_id, uint16_t keepalive_timeout,
+    iotc_session_type_t session_type, const char* will_topic,
+    const char* will_message, iotc_mqtt_qos_t will_qos,
     iotc_mqtt_retain_t will_retain) {
   iotc_state_t local_state = IOTC_STATE_OK;
 
   memset(msg, 0, sizeof(iotc_mqtt_message_t));
+
+  /* MQTT Client Identifiers are not optional. */
+  if (NULL == client_id) {
+    return IOTC_NULL_CLIENT_ID_ERROR;
+  }
 
   msg->common.common_u.common_bits.retain = IOTC_MQTT_RETAIN_FALSE;
   msg->common.common_u.common_bits.qos = IOTC_MQTT_QOS_AT_MOST_ONCE;
@@ -87,22 +93,15 @@ static inline iotc_state_t fill_with_connect_data(
   msg->connect.flags_u.flags_bits.will = 0;
   msg->connect.flags_u.flags_bits.will_retain = 0;
   msg->connect.flags_u.flags_bits.will_qos = 0;
-  const char* client_id = NULL;
 
   IOTC_CHECK_MEMORY(
       msg->connect.protocol_name = iotc_make_desc_from_string_copy("MQTT"),
       local_state);
   msg->connect.protocol_version = 4;
 
-  /* our brokers require that we send client_id and username as the same
-   * value */
-  client_id = username;
-
-  if (NULL != client_id) {
-    IOTC_CHECK_MEMORY(
-        msg->connect.client_id = iotc_make_desc_from_string_copy(client_id),
-        local_state);
-  }
+  IOTC_CHECK_MEMORY(
+      msg->connect.client_id = iotc_make_desc_from_string_copy(client_id),
+      local_state);
 
   if (NULL != username) {
     msg->connect.flags_u.flags_bits.username_follows = 1;

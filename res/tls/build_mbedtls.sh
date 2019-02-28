@@ -1,7 +1,7 @@
 #!/bin/bash
-# Copyright 2018 Google LLC
+# Copyright 2018-2019 Google LLC
 #
-# This is part of the Google Cloud IoT Edge Embedded C Client,
+# This is part of the Google Cloud IoT Device SDK for Embedded C,
 # it is licensed under the BSD 3-Clause license; you may not use this file
 # except in compliance with the License.
 #
@@ -46,6 +46,6 @@ cd ../../third_party/tls
 git clone -b mbedtls-2.12.0 https://github.com/ARMmbed/mbedtls.git
 cd mbedtls
 # "-O2" comes from mbedtls/library/Makefile "CFLAGS ?= -O2" define
-make CFLAGS="-O2 -DMBEDTLS_PLATFORM_MEMORY"
+make CFLAGS="-O2 -DMBEDTLS_PLATFORM_MEMORY $1"
 echo "mbedTLS Build Complete."
 

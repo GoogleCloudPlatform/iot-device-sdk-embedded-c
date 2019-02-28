@@ -1,6 +1,6 @@
-# Copyright 2018 Google LLC
+# Copyright 2018-2019 Google LLC
 #
-# This is part of the Google Cloud IoT Edge Embedded C Client,
+# This is part of the Google Cloud IoT Device SDK for Embedded C,
 # it is licensed under the BSD 3-Clause license; you may not use this file
 # except in compliance with the License.
 #
@@ -14,9 +14,10 @@
 # limitations under the License.
 
 CC ?= gcc
+CXX ?= g++
 AR ?= ar
 
-IOTC_COMPILER_FLAGS += -fPIC
+IOTC_COMMON_COMPILER_FLAGS += -fPIC
 IOTC_LIB_FLAGS += $(IOTC_TLS_LIBFLAGS) -lpthread -lm -lcrypto
 
 include make/mt-os/mt-os-common.mk
@@ -30,7 +31,7 @@ else
 endif
 
 # Temporarily disable these warnings until the code gets changed.
-IOTC_COMPILER_FLAGS += -Wno-format
+IOTC_COMMON_COMPILER_FLAGS += -Wno-format
 
 IOTC_CONFIG_FLAGS += -DIOTC_MULTI_LEVEL_DIRECTORY_STRUCTURE
 IOTC_CONFIG_FLAGS += -DIOTC_LIBCRYPTO_AVAILABLE
