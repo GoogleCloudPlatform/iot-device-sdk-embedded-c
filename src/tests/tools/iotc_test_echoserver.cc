@@ -17,10 +17,8 @@
 #include "iotc_test_echoserver.h"
 
 #include <netinet/in.h>
-#include <stdio.h>
 #include <string.h>
 #include <thread>
-#include <unistd.h>
 
 namespace iotctest {
 
@@ -117,7 +115,6 @@ EchoTestServer::ServerError EchoTestServer::CreateServer() {
   }
 
   if (rp == NULL) {
-    perror("Error binding");
     return ServerError::kError;
   }
   freeaddrinfo(result);

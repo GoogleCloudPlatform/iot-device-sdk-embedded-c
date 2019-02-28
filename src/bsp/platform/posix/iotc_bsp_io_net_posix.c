@@ -21,7 +21,6 @@
 #include <fcntl.h>
 #include <netdb.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <sys/socket.h>
 #include <sys/time.h>
@@ -62,7 +61,7 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
     status = connect(*iotc_socket, rp->ai_addr, rp->ai_addrlen);
     const int flags = fcntl(*iotc_socket, F_GETFL);
     if (fcntl(*iotc_socket, F_SETFL, flags | O_NONBLOCK) == -1) {
-      perror("Enable nonblocking mode");
+      return IOTC_BSP_IO_NET_STATE_ERROR;
     }
     if (-1 != status) {
       freeaddrinfo(result);
