@@ -131,7 +131,7 @@ cleanup:
   return ret;
 }
 
-TEST_F(IotcBspCryptoEcc, ReturnsErrorWhenBufferIsTooSmall) {
+TEST_F(IotcBspCryptoEcc, ReportsErrorWhenBufferIsTooSmall) {
   constexpr size_t kEccSignatureBufferLength = 1;
   uint8_t ecc_signature[kEccSignatureBufferLength];
   size_t bytes_written = 0;
