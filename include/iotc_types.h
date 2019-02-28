@@ -1,7 +1,7 @@
 /* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Device SDK for Embedded C,
- * it is licensed under the BSD 3-Clause license; you may not use this file
+ * This is part of the Google Cloud IoT Device SDK for Embedded C.
+ * It is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
  * You may obtain a copy of the License at:
@@ -30,66 +30,59 @@ extern "C" {
 #define IOTC_INVALID_TIMED_TASK_HANDLE -1
 
 /**
- * @name    iotc_context_handle_t
- * @brief   Internal context handle, no user action required on these type
- * variables apart from passing them around properly through API calls.
+ * @name iotc_context_handle_t
+ * @brief Internal context handle. No user action required.
  */
 typedef int32_t iotc_context_handle_t;
 
 /**
- * @name    iotc_timed_task_handle_t
- * @brief   Timed task handle to facilitate timed tasks identification.
+ * @name iotc_timed_task_handle_t
+ * @brief Timed task handle to identify timed tasks.
  */
 typedef int32_t iotc_timed_task_handle_t;
 
 /**
- * @name    iotc_user_task_callback_t
- * @brief   User custom action which can be passed to the
- * iotc_schedule_timed_task to have it executed in the given time intervals.
+ * @name iotc_user_task_callback_t
+ * @brief Custom callback for timed tasks.
+ * @detailed This is a user-defined custom callback. Pass the callback to
+ * <code>iotc_schedule_timed_task()</code> repeatedly execute the callback at
+ * the given interval.
  *
- * @param [in]  in_context_handle the context handle provided to
- * iotc_schedule_timed_task.
- * @param [in]  timed_task_handle is the handle that identifies timed task and
- * it allows to manipulate the timed task from within the callback e.g. to
- * cancel the task if it's no longer needed.
- * @param [in]  user_data is the data provided to iotc_schedule_timed_task.
+ * @param [in] in_context_handle the context handle provided to
+ * <code>iotc_schedule_timed_task()</code>.
+ * @param [in] timed_task_handle the handle that identifies the timed task.
+ * @param [in] user_data the data provided to <code>iotc_schedule_timed_task()</code>.
  */
 typedef void(iotc_user_task_callback_t)(
     const iotc_context_handle_t context_handle,
     const iotc_timed_task_handle_t timed_task_handle, void* user_data);
 
 /**
- * @name    iotc_user_callback_t
- * @brief   Some API functions notify the application about the result through
- *          callbacks, these callbacks can be passed as iotc_user_callback_t to
- *          the API.
+ * @name     iotc_user_callback_t
+ * @brief    Custom callback.
+ * @detailed Callbacks are passed to <code>iotc_user_callback_t</code> Callbacks
+ *           notify the client application after a function executes.
  *
- * @param [in]  in_context_handle the context handle which was provided to the
- *              original API call.
- * @param [in]  data contains API specific information. Before usage it should
- *              be cast to specific type depending on the original API call.
- *              E.g. iotc_connect's callback receives iotc_connection_data_t*
- *              in the data attribute. Thus its usage is as follows:
- *              iotc_connection_data_t* conn_data =
- *              (iotc_connection_data_t*)data;
- * @param [in]  state is the result of the API call. IOTC_STATE_OK in case of
- *              success. For other error codes please see the IoTC User Guide
- *              or Examples.
+ * @param [in] in_context_handle the context handle provided to the original
+ * API call.
+ * @param [in] data API-specific information. Cast to a specific type depending
+ * on the original API call. For example, the <code>iotc_connect()</code>
+ * callback returns the iotc_connection_data_t* type so <code>iotc_connection_data_t* conn_data = (iotc_connection_data_t*)data;</code>.
+ * @param [in] state IOTC_STATE_OK if the connection succeeds. See <code><a href="~/include/iotc_error.h">iotc_error.h</a></code>
+ * for more error codes.
  */
 typedef void(iotc_user_callback_t)(iotc_context_handle_t in_context_handle,
                                    void* data, iotc_state_t state);
 
 /**
  * @enum iotc_sub_call_type_t
- * @brief determines the subscription callback type and the data passed to the
- * user callback through iotc_subscription_data_t.
+ * @brief Determine the subscription callback type.
+ * @detailed Establish the data type that <code>iotc_subscription_data_t()</code> 
+ * passes to the custom callback.
  *
- *    - IOTC_SUB_UNKNOWN - whenever the type of the call is not known (user
- * should check the state value.)
- *    - IOTC_SUBSCRIPTION_DATA_SUBACK - callback is a SUBACK notification thus
- * suback part should be used from the params.
- * IOTC_SUBSCRIPTION_DATA_MESSAGE - callback is a MESSAGE notification thus
- * message part should be used from the params.
+ *    - IOTC_SUB_UNKNOWN: unknown callback type. Check the state value.
+ *    - IOTC_SUBSCRIPTION_DATA_SUBACK: callback is a SUBACK notification.
+ *    - IOTC_SUBSCRIPTION_DATA_MESSAGE: callback is a MESSAGE notification.
  */
 typedef enum iotc_subscription_data_type_e {
   IOTC_SUB_CALL_UNKNOWN = 0,
@@ -99,14 +92,10 @@ typedef enum iotc_subscription_data_type_e {
 
 /**
  * @union iotc_sub_call_params_u
- * @brief A union which describes the type of data that is passed through the
- * user subscription callback
+ * @brief A union that describes data type passed to the subscription callback.
  *
- * suback - contains information important from perspective of processing mqtt
- * suback by user
- *
- * message - contains information important from perspective of processing mqtt
- * message on subscribed topic
+ *    - suback: callback is a SUBACK notification.
+ *    - message: callback is a MESSAGE notification.
  */
 typedef union iotc_sub_call_params_u {
   struct {
@@ -116,8 +105,8 @@ typedef union iotc_sub_call_params_u {
 
   struct {
     const char* topic;
-    const uint8_t* temporary_payload_data; /* automatically free'd when the
-                                              callback returned */
+    const uint8_t* temporary_payload_data; /* automatically freed when the
+                                              callback returns */
     size_t temporary_payload_data_length;
     iotc_mqtt_retain_t retain;
     iotc_mqtt_qos_t qos;
@@ -138,18 +127,17 @@ typedef union iotc_sub_call_params_u {
   }
 
 /**
- * @name  iotc_user_subscription_callback_t
- * @brief subscription callback used to notify user about changes in topic
- * subscription and about messages that has been received on subscribed topics
+ * @name     iotc_user_subscription_callback_t
+ * @brief    Subscription callback.
+ * @detailed The subscription callback notifies the user that the subscribed
+ * topic recieved messages.
  *
- * @param in_context_handle - context on which callback has been invoked
- * @param call_type - gives user information about which information type is
- * passed in data parameter
- * @param params - pointer to a structure that holds the details
- * @param topic - name of the topic
- * @param user_data - pointer previously registered via user during the
- * subscription callback registration, may be used for identification or
- * carrying some helper data
+ * @param [in] in_context_handle context on which the callback is invoked.
+ * @param [in] call_type data type of the data parameter.
+ * @param [in] params pointer to a structure that holds parameter details
+ * @param [in] topic name of the topic
+ * @param [in] user_data pointer specified when registering the subscription
+ * callback.
  */
 typedef void(iotc_user_subscription_callback_t)(
     iotc_context_handle_t in_context_handle, iotc_sub_call_type_t call_type,
@@ -158,18 +146,15 @@ typedef void(iotc_user_subscription_callback_t)(
 
 /**
  * @enum iotc_crypto_key_union_type_t
- * @brief used to denote how the iotc_crypto_key_union_t union structure
- * should be evaluated.
+ * @brief Describe the iotc_crypto_key_union_t union structure.
  *
- *      - IOTC_CRYPTO_KEY_UNION_TYPE_PEM - if the key_pem.key pointer contains
- * a null terminated PEM key string.
- *      - IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID - if the implementation is using
- * a secure element for private_key storage which indexes keys by slots,  then
- * this parameter will signal to the BSP which key storage slot to use for
- * cryptographic operations.
- *      - IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM - the uinion contains untyped data
- * which will be passed to the BSP for cryptographic operations. The BSP must
- * know the format of this data for its proper use.
+ *     - IOTC_CRYPTO_KEY_UNION_TYPE_PEM: the key_pem.key pointer contains
+ * a null-terminated PEM key string.
+ *     - IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID: a secure element for private_key
+ * storage indexes keys by slots. Signal to the BSP the slot for cryptographic
+ * operations.
+ *     - IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM - the union contains untyped data. 
+ * The BSP must know the data format.
  */
 
 typedef enum iotc_crypto_key_union_type_e {
@@ -179,14 +164,13 @@ typedef enum iotc_crypto_key_union_type_e {
 } iotc_crypto_key_union_type_t;
 
 /* @union iotc_crypto_key_union_t
- * @brief A union which describes the private key data which will be passed to
- * the crypto BSP to handle JWT signatures.  There are three options:
+ * @brief Describe the private key data.
+ * @detailed Describe the private key data for the crypto BSP. The crypto BSP
+ * signs JWTs.
  *
- * 1. key: pass a byte array to the PEM formatted private key.
- * 2. key_slot: used for multi-slotted secure elements which can store
- * private_keys in secure storage and use them to sign data.
- * 3. key_custom: a catch all for other options where the client application
- * may pass untyped data to the BSP crypto implementation.
+ *     - key: a PEM formatted private key.
+ *     - key_slot: multi-slotted secure elements.
+ *     - key_custom: untyped data.
  */
 typedef union iotc_crypto_key_union_u {
   struct {
@@ -205,19 +189,18 @@ typedef union iotc_crypto_key_union_u {
 
 /**
  * @enum iotc_crypto_key_signature_algorithm_e
- * @brief specifies a key signature algorithm. This may be used to
- * signify a key type, or to specify how a JWT might be signed.
- * This should match the algorithm type that was used to provision the device's
- * public key in Google IoT Core.
+ * @brief Define a key signature algorithm. 
+ * @detailed Specify a key type or the algorithm to sign JWTs. Cite the same
+ * algorithm in <a href="https://cloud.google.com/iot/docs/how-tos/devices#creating_device_key_pairs">Cloud IoT Core</a>.
  *
- * The value provided here will also determine the "alg" field of the JWT, which
- * is automatically assembled by the IoTC Client during the connection process.
+ * This value also determines the JWT "alg" field, which the client application
+ * automatically assembles when it connects to Cloud IoT Core.
  *
- * IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_INVALID - for internal use only.
- * IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256 - to denote ECDSA using P-256
- * and SHA-256
+ *   - IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_INVALID for development.
+ *   - IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256 ECDSA with P-256
+ * and SHA-256.
  *
- * NOTE: RSASSA-PKCS1-v1_5 using SHA-256 (aka RS256) is currently not supported.
+ * Note: RSASSA-PKCS1-v1_5 with SHA-256 (RS256) is not supported.
  */
 typedef enum iotc_crypto_key_signature_algorithm_e {
   IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_INVALID = 0,
@@ -225,12 +208,11 @@ typedef enum iotc_crypto_key_signature_algorithm_e {
 } iotc_crypto_key_signature_algorithm_t;
 
 /* @struct iotc_crypto_key_data_t
- * @brief A structure that contains a iotc_crypto_key_union, an
- * enumeration of which configuration of the union that's being used,
- * and an enumeration of the signature algorithm of the key.
+ * @brief Set iotc_crypto_key_union.
+ * @detailed iotc_crypto_key_union is an enumeration of the current union and
+ * and an enumeration of the key signature algorithm.
  *
- * For more information please see the fields and documentation of
- * iotc_crypto_key_params_u.
+ * Refer to <code>iotc_crypto_key_params_u()</code> for more information.
  *
  * @see iotc_crypto_key_params_u
  */

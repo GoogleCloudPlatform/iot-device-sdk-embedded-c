@@ -1,7 +1,7 @@
 /* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Device SDK for Embedded C,
- * it is licensed under the BSD 3-Clause license; you may not use this file
+ * This is part of the Google Cloud IoT Device SDK for Embedded C.
+ * It is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
  * You may obtain a copy of the License at:
@@ -40,47 +40,38 @@ extern "C" {
    1 + IOTC_JWT_MAX_SIGNATURE_SIZE_BASE64)
 
 /**
- * @function
- * @brief Creates a JWT which will be used to connect to the IoT Core service.
- * The JWT should be used in the MQTT Connect password field when connecting
- * to IoT Core.
+ * @brief    Create a JWT.
+ * @detailed Create a JWT to authenticate the client application with Cloud IoT
+ * Core. To connect to Cloud IoT Core, pass a JWT to the CONNECT message
+ * password field.
  *
- * The function currently supports ES256 key types only, as its intended
- * for small devices where ECC algorithims should be used to their smaller
- * key footprint requirements.
+ * The function only supports ES256 key types in order to operate with key
+ * footprint requirements.
  *
- * Note: This function invokes the Crypto BSP functions
- * iotc_bsp_sha256(), iotc_bsp_ecc(), and iotc_bsp_base64_encode_urlsafe()
- * to fullfill string encoding and signature functionality.
+ * Note: This function invokes <code>iotc_bsp_sha256()</code>, 
+ * <code>iotc_bsp_ecc()</code>, and <code>iotc_bsp_base64_encode_urlsafe()</code>
+ * to enable string encoding and signatures.
  *
- * @param [in] expiration_period_sec the length of time (in seconds) before
- * this JWT will expire.
- * @param [in] project_id the project id the device belongs to in the GCP
- * IoT organization.
- * @param [in] private_key_data data identifying a private key to be used
- * to sign the JWT. For more information on how to generate a
- * private-public key pair for your device, please see:
- * https://cloud.google.com/iot/docs/how-tos/credentials/keys.
- * @param [in/out] a pointer to a buffer to hold the formatted and signed
- * JWT.
- * @param [in] dst_jwt_buf_len the length of the dst_jwt_buf buffer, in
- * bytes.
- * @param [out] bytes_written will contain the number of bytes
- * that were written to the provided dst_jwt_buf.
+ * @param [in] expiration_period_sec the number of seconds before this JWT
+ * expires.
+ * @param [in] project_id the GCP project ID.
+ * @param [in] private_key_data ES256 <a href"https://cloud.google.com/iot/docs/how-tos/credentials/keys">private key data</a>.
+ * @param [in/out] a pointer to a buffer with a formatted and signed JWT.
+ * @param [in] dst_jwt_buf_len the length of the dst_jwt_buf buffer, in bytes.
+ * @param [out] bytes_written the number of bytes written to dst_jwt_buf.
  *
- * @returns IOTC_STATE_OK if jwt generation was successful.
- * @returns IOTC_INVALID_PARAMETER if the project_id, private_key_data or
- * dst_jwt_buf parameters are NULL, or if either of the crypto bsp
- * functions returns IOTC_BSP_CRYPTO_INVALID_INPUT_PARAMETER_ERROR.
- * @returns IOTC_ALG_NOT_SUPPORTED_ERROR if the
- * private_key_data->crypto_key_signature_algorithm is not of type
- * IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256.
- * @returns IOTC_NULL_KEY_DATA_ERROR if the private_key_data is of type
- * IOTC_CRYPTO_KEY_UNION_TYPE_PEM and the
- * private_key_data->crypto_key_union.key_pem.key pointer is NULL.
- * @returns IOTC_NOT_IMPLEMENTED if the private_key_data->crypto_key_union
- * is of an uknown type.
- * @returns IOTC_BUFFER_TOO_SMALL_ERROR if the crypto BSP returns
+ * @returns IOTC_STATE_OK a JWT is generated.
+ * @returns IOTC_INVALID_PARAMETER the project_id, private_key_data or
+ * dst_jwt_buf parameters are NULL, or either crypto BSP function returns
+ * IOTC_BSP_CRYPTO_INVALID_INPUT_PARAMETER_ERROR.
+ * @returns IOTC_ALG_NOT_SUPPORTED_ERROR the provided private key isn't
+ * an ES256 key.
+ * @returns IOTC_NULL_KEY_DATA_ERROR the provided private key is a PEM file
+ * but the crypto_key_union pointer is NULL.
+ * @returns IOTC_NOT_IMPLEMENTED the crypto_key_union pointer type is
+ * unknown.
+ * @returns IOTC_BUFFER_TOO_SMALL_ERROR the provided buffer is too small for
+ * JWTs.
  */
 
 iotc_state_t iotc_create_iotcore_jwt(
