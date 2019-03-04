@@ -35,18 +35,18 @@
 namespace iotctest {
 namespace {
 
-constexpr char kPublicKey[] = "\
------BEGIN PUBLIC KEY-----\n\
-MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE1Oi16oAc/+s5P5g2pzt3IDXfUBBU\n\
-KUBrB8vgfyKOFb7sQTx4topEE0KOix7rJyli6tiAJJDL4lbdf0YRo45THQ==\n\
------END PUBLIC KEY-----";
+constexpr char kPublicKey[] = R"(
+-----BEGIN PUBLIC KEY-----
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE1Oi16oAc/+s5P5g2pzt3IDXfUBBU
+KUBrB8vgfyKOFb7sQTx4topEE0KOix7rJyli6tiAJJDL4lbdf0YRo45THQ==
+-----END PUBLIC KEY-----)";
 
-constexpr char kPrivateKey[] = "\
------BEGIN EC PRIVATE KEY-----\n\
-MHcCAQEEINg6KhkJ2297KYO4eyLTPtVIhLloIfp3IsJo9n6KqelfoAoGCCqGSM49\n\
-AwEHoUQDQgAE1Oi16oAc/+s5P5g2pzt3IDXfUBBUKUBrB8vgfyKOFb7sQTx4topE\n\
-E0KOix7rJyli6tiAJJDL4lbdf0YRo45THQ==\n\
------END EC PRIVATE KEY-----";
+constexpr char kPrivateKey[] = R"(
+-----BEGIN EC PRIVATE KEY-----
+MHcCAQEEINg6KhkJ2297KYO4eyLTPtVIhLloIfp3IsJo9n6KqelfoAoGCCqGSM49
+AwEHoUQDQgAE1Oi16oAc/+s5P5g2pzt3IDXfUBBUKUBrB8vgfyKOFb7sQTx4topE
+E0KOix7rJyli6tiAJJDL4lbdf0YRo45THQ==
+-----END EC PRIVATE KEY-----)";
 
 class IotcBspCryptoEcc : public IotcHeapCheckTest {
   public:
@@ -162,7 +162,7 @@ TEST_F(IotcBspCryptoEcc, JwtSignatureValidation) {
   }
   EXPECT_TRUE(openssl::ecc_is_valid(hash_sha256, /*hash len=*/32, ecc_signature,
                                     bytes_written_ecc_signature, kPublicKey));
-  // Two 32-byte integers(r and s) build up a JWT ECC signature
+  // Two 32-byte integers(r and s) build up a JWT ECC signature.
   EXPECT_EQ(bytes_written_ecc_signature, 64u);
 }
 
@@ -177,7 +177,7 @@ TEST_F(IotcBspCryptoEcc, SimpleTextValidation) {
   iotc_bsp_ecc(&DefaultPrivateKey, ecc_signature, IOTC_JWT_MAX_SIGNATURE_SIZE,
                &bytes_written_ecc_signature, (uint8_t*)kSimpleText,
                strlen(kSimpleText));
-  // Assure no everwriting happens.
+  // Assure no overwriting happens.
   if (bytes_written_ecc_signature < sizeof(ecc_signature)) {
     ASSERT_EQ('x', ecc_signature[bytes_written_ecc_signature]);
   }

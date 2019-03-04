@@ -60,7 +60,7 @@ TEST(IotcBspCryptoBase64, CommonStringEncoding) {
 
 TEST(IotcBspCryptoBase64,
      NotBigEnoughOutputBufferProvidedAdvisedBufferSizeWorks) {
-  // Inputs for testing base64-encoded suffixes and circularity
+  // Inputs for testing base64-encoded suffixes and circularity.
   const char* kSrcStrings[] = {"12345", "123456", "1234567", "12345678"};
   const char* kBase64ExpectedStrings[] = {"MTIzNDU=", "MTIzNDU2",
                                           "MTIzNDU2Nw==", "MTIzNDU2Nzg="};

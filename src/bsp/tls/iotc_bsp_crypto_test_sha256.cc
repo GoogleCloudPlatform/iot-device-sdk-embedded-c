@@ -30,14 +30,14 @@ constexpr unsigned int kSHA256HashSize = 32;
 TEST(IotcBspCryptoSha256, OutputBufferIsNull) {
   EXPECT_EQ(iotc_bsp_sha256(nullptr,
                             reinterpret_cast<const unsigned char*>("abc"),
-                            /* src_buf_size = */ 3),
+                            /*src_buf_size=*/ 3),
             IOTC_BSP_CRYPTO_INVALID_INPUT_PARAMETER_ERROR);
 }
 
 TEST(IotcBspCryptoSha256, EmptyInputStrings) {
   uint8_t sha256_encoded[kSHA256HashSize] = {0};
 
-  EXPECT_EQ(iotc_bsp_sha256(sha256_encoded, nullptr, /* src_buf_size = */ 0),
+  EXPECT_EQ(iotc_bsp_sha256(sha256_encoded, nullptr, /*src_buf_size=*/ 0),
             IOTC_BSP_CRYPTO_STATE_OK);
   EXPECT_THAT(
       sha256_encoded,
@@ -52,7 +52,7 @@ TEST(IotcBspCryptoSha256, ExtremeInputString) {
 
   EXPECT_EQ(iotc_bsp_sha256(sha256_encoded,
                             reinterpret_cast<const unsigned char*>("a"),
-                            /* src_buf_size = */ 1),
+                            /*src_buf_size=*/ 1),
             IOTC_BSP_CRYPTO_STATE_OK);
   EXPECT_THAT(
       sha256_encoded,
@@ -61,12 +61,12 @@ TEST(IotcBspCryptoSha256, ExtremeInputString) {
                         0xA7, 0x86, 0xEF, 0xF8, 0x14, 0x7C, 0x4E, 0x72,
                         0xB9, 0x80, 0x77, 0x85, 0xAF, 0xEE, 0x48, 0xBB}));
 
-  EXPECT_EQ(iotc_bsp_sha256(nullptr, nullptr, /* src_buf_size = */ 0),
+  EXPECT_EQ(iotc_bsp_sha256(nullptr, nullptr, /*src_buf_size=*/ 0),
             IOTC_BSP_CRYPTO_INVALID_INPUT_PARAMETER_ERROR);
 
   EXPECT_EQ(iotc_bsp_sha256(sha256_encoded,
                             reinterpret_cast<const unsigned char*>(""),
-                            /* src_buf_size = */ 0),
+                            /*src_buf_size = */ 0),
             IOTC_BSP_CRYPTO_STATE_OK);
   EXPECT_THAT(
       sha256_encoded,
@@ -78,7 +78,7 @@ TEST(IotcBspCryptoSha256, ExtremeInputString) {
   EXPECT_EQ(
       iotc_bsp_sha256(sha256_encoded,
                       reinterpret_cast<const unsigned char*>("abcde\0fghi"),
-                      /* src_buf_size = */ sizeof("abcde\0fghi") - 1),
+                      /*src_buf_size=*/ sizeof("abcde\0fghi") - 1),
       IOTC_BSP_CRYPTO_STATE_OK);
   EXPECT_THAT(
       sha256_encoded,
@@ -94,7 +94,7 @@ TEST(IotcBspCryptoSha256, LongerInputString) {
       "Dear unit test please sha256 hash this string! Thank you!";
   EXPECT_EQ(iotc_bsp_sha256(sha256_encoded,
                             reinterpret_cast<const unsigned char*>(kSrcString),
-                            /* src_buf_size = */ strlen(kSrcString)),
+                            /*src_buf_size=*/ strlen(kSrcString)),
             IOTC_BSP_CRYPTO_STATE_OK);
   EXPECT_THAT(
       sha256_encoded,
