@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+#include "iotc_macros.h"
 #include <iotc_bsp_io_net.h>
 #include <stdio.h>
 #include <string.h>

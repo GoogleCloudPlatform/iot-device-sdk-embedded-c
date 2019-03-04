@@ -82,8 +82,8 @@ TEST_P(ServerTest, EndToEndCommunicationWorks) {
   listening_addr_ = test_case->listening_addr;
   protocol_type_ = test_case->protocol_type;
 
-  EchoTestServer* test_server =
-      new EchoTestServer(socket_type_, kTestPort, protocol_type_);
+  std::unique_ptr<EchoTestServer> test_server(
+      new EchoTestServer(socket_type_, kTestPort, protocol_type_));
 
   ASSERT_EQ(iotc_bsp_io_net_socket_connect(&test_socket_, listening_addr_,
                                            kTestPort, socket_type_),
@@ -97,9 +97,8 @@ TEST_P(ServerTest, EndToEndCommunicationWorks) {
   EXPECT_EQ(iotc_bsp_io_net_write(test_socket_, &out_written_count_,
                                   (uint8_t*)kTestMsg, strlen(kTestMsg)),
             IOTC_BSP_IO_NET_STATE_OK);
-  char recv_buf_[strlen(kTestMsg)];
+  char recv_buf_[strlen(kTestMsg)] = {0};
   int recv_len_ = 0;
-  memset(recv_buf_, 0, sizeof(recv_buf_));
   ASSERT_TRUE(WaitUntilSocketReadyForRead());
   EXPECT_EQ(iotc_bsp_io_net_read(test_socket_, &recv_len_,
                                  reinterpret_cast<uint8_t*>(recv_buf_),
@@ -107,9 +106,8 @@ TEST_P(ServerTest, EndToEndCommunicationWorks) {
             IOTC_BSP_IO_NET_STATE_OK);
   EXPECT_STREQ(recv_buf_, kTestMsg);
 
-  test_server->StopServer();
+  test_server->Stop();
   iotc_bsp_io_net_close_socket(&test_socket_);
-  test_server->~EchoTestServer();
 }
 
 INSTANTIATE_TEST_CASE_P(

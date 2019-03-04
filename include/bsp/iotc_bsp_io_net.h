@@ -275,7 +275,7 @@ iotc_bsp_io_net_select(iotc_bsp_socket_events_t* socket_events_array,
  *
  * This is called after the 'socket_connect' operation. If the socket is
  * connected, the IoTC will start to use read/write to handshake the TLS
- * connection.  If the return value is otherwise, then a failed connection will
+ * connection.  If the return value is error, then a failed connection will
  * be reported to the client Application via its IoTC Connection Callback.
  *
  * The two separate functions (connect and connection_check) may be confusing.

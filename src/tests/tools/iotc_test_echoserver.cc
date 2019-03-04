@@ -146,7 +146,7 @@ EchoTestServer::ServerError EchoTestServer::RunServer() {
   return ServerError::kSuccess;
 }
 
-void EchoTestServer::StopServer() {
+void EchoTestServer::Stop() {
   runnable_ = false;
   return;
 }

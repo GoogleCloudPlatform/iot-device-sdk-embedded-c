@@ -16,6 +16,7 @@
 
 #include <iotc_bsp_io_net.h>
 
+#include "iotc_macros.h"
 #include <arpa/inet.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -24,7 +25,6 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <sys/time.h>
-#include <sys/types.h>
 #include <unistd.h>
 
 #ifdef __cplusplus
@@ -63,6 +63,7 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
     // Set the socket to be non-blocking
     const int flags = fcntl(*iotc_socket, F_GETFL);
     if (-1 == fcntl(*iotc_socket, F_SETFL, flags | O_NONBLOCK)) {
+      freeaddrinfo(result);
       return IOTC_BSP_IO_NET_STATE_ERROR;
     }
 

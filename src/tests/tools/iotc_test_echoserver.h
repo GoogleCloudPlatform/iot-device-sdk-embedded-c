@@ -48,17 +48,7 @@ class EchoTestServer {
       kFailedListen = 7,
     };
     EchoTestServer(uint16_t socket_type, uint16_t port, uint16_t protocol_type);
-    ~EchoTestServer();
-
-    /**
-     * @function
-     * @brief runs proper echo server regarding the type of server
-     * socket(TCP/UDP).
-     *
-     * @return
-     * - kSuccess - if successfully run echo server.
-     */
-    ServerError RunServer();
+    virtual ~EchoTestServer();
 
     /**
      * @function
@@ -66,9 +56,11 @@ class EchoTestServer {
      */
     void Run();
 
-    void StopServer();
+    void Stop();
 
   private:
+    const uint16_t socket_type_, test_port_, protocol_type_;
+
     /**
      * @function
      * @brief Creates and binds server socket.
@@ -85,6 +77,16 @@ class EchoTestServer {
      * - kError - otherwise.
      */
     ServerError CreateServer();
+
+    /**
+     * @function
+     * @brief runs proper echo server regarding the type of server
+     * socket(TCP/UDP).
+     *
+     * @return
+     * - kSuccess - if successfully run echo server.
+     */
+    ServerError RunServer();
 
     /**
      * @function
@@ -115,7 +117,6 @@ class EchoTestServer {
 
     std::thread server_thread_;
     bool runnable_ = true;
-    uint16_t socket_type_, test_port_, protocol_type_;
     int server_socket_, client_socket_, recv_len_;
     char recv_buf_[kBufferSize];
 };
