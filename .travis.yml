@@ -27,22 +27,27 @@ env:
     - PRESET=FREERTOS_POSIX_REL
       BEFORE_SCRIPT_ACTION="make PRESET=FREERTOS_POSIX_REL prereqs"
 
-    # WOLFSSL Tests
+      # WOLFSSL Tests
     - PRESET=POSIX_DEV
       IOTC_BSP_TLS=wolfssl
+      IOTC_BSP_CRYPTO=wolfssl
 
     - PRESET=POSIX_REL
       IOTC_BSP_TLS=wolfssl
+      IOTC_BSP_CRYPTO=wolfssl
 
     - PRESET=POSIX_THREADING_REL
-      # - PRESET=POSIX_UNSECURE_REL
-      #   IOTC_BSP_TLS=""
+    # - PRESET=POSIX_UNSECURE_REL
+    #   IOTC_BSP_TLS=""
 
     - TESTS=fuzztests
       PRESET=FUZZ_TESTS
       IOTC_BSP_TLS=""
       IOTC_MAKETARGET="fuzz_tests"
       CXX=clang++
+
+      #  - PRESET=ZEPHYR
+      #  IOTC_MAKETARGET=""
 
 cache:
     apt
@@ -55,7 +60,15 @@ addons:
       - clang-3.8
       - qemu-system
       - libc6:i386
+      - libc6-dev-i386
+      - gcc-multilib
+      - linux-libc-dev:i386
       - expect
+      - device-tree-compiler
+      - gperf
+      - dfu-util
+      - xz-utils
+      - python3-pip
 matrix:
   exclude:
     - compiler: clang
@@ -76,12 +89,17 @@ before_script:
         echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope;
      fi"
   - "if [[ $IOTC_BSP_TLS == 'wolfssl' ]]; then
-      git clone -b v3.15.3-stable https://github.com/wolfSSL/wolfssl $HOME/build/GoogleCloudPlatform/iot-edge-sdk-embedded-c/third_party/tls/wolfssl;
+      git clone -b v3.15.3-stable https://github.com/wolfSSL/wolfssl $HOME/build/GoogleCloudPlatform/iot-device-sdk-embedded-c/third_party/tls/wolfssl;
     fi;"
   - "$BEFORE_SCRIPT_ACTION"
+  # Add an IPv6 config - see the corresponding Travis issue
+  # https://github.com/travis-ci/travis-ci/issues/8361
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
+      sudo sh -c 'echo 0 > /proc/sys/net/ipv6/conf/all/disable_ipv6';
+    fi
 script:
   - "set -e"
-  - "cd $HOME/build/GoogleCloudPlatform/iot-edge-sdk-embedded-c"
+  - "cd $HOME/build/GoogleCloudPlatform/iot-device-sdk-embedded-c"
   - "if [[ $IOTC_BSP_TLS == 'wolfssl' ]]; then
        expect res/travis/travis_build_wolfssl.expect make PRESET=$PRESET IOTC_DEBUG_OUTPUT=0 $IOTC_MAKETARGET;
      else
@@ -90,7 +108,9 @@ script:
   - "if [[ ! $CC == 'gcc' && ! $TESTS == 'fuzztests' ]]; then
         if [[ $PRESET == 'FREERTOS_POSIX_REL' || $PRESET == 'FREERTOS_POSIX_DEV' ]]; then
                 make -C examples/freertos_linux/Linux_gcc_gcp_iot IOTC_CLIENT_LIB_PATH=../../../bin/freertos-linux IOTC_BSP_TLS=$IOTC_BSP_TLS;
+        elif [[ $PRESET == 'ZEPHYR' ]]; then
+                make -C examples/zephyr_native_posix/build VERBOSE=1;
         else
-                make -C examples/mqtt_logic_producer IOTC_CLIENT_LIB_PATH=../../bin/linux IOTC_BSP_TLS=$IOTC_BSP_TLS;
+                make -C examples/iot_core_mqtt_client IOTC_CLIENT_LIB_PATH=../../bin/linux IOTC_BSP_TLS=$IOTC_BSP_TLS;
         fi;
     fi;"

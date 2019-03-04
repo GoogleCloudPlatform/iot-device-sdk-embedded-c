@@ -1,6 +1,6 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Edge Embedded C Client,
+ * This is part of the Google Cloud IoT Device SDK for Embedded C,
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -96,37 +96,14 @@ static inline iotc_state_t do_mqtt_connect(
 
   IOTC_CR_START(task->cs);
 
-  IOTC_CHECK_CND_DBGMESSAGE(
-      NULL == IOTC_CONTEXT_DATA(context)->connection_data->project_id,
-      IOTC_NULL_PROJECT_ID_ERROR, state,
-      "Encountered NULL project_id string when attempting to "
-      "create signed JWT.");
-
-  /* generate the client authentication JWT, which will serve as the MQTT
-   * password */
-  unsigned char jwt[IOTC_JWT_SIZE] = {0};
-  size_t bytes_written = 0;
-  if (IOTC_STATE_OK !=
-      (state = iotc_create_jwt_es256(
-           IOTC_CONTEXT_DATA(context)->connection_data->project_id,
-           IOTC_CONTEXT_DATA(context)
-               ->connection_data->jwt_expiration_period_sec,
-           IOTC_CONTEXT_DATA(context)->connection_data->private_key_data, jwt,
-           IOTC_JWT_SIZE, &bytes_written))) {
-    iotc_debug_format("iotc_create_jwt_es256 returned with error: %ul", state);
-    IOTC_PROCESS_CONNECT_ON_NEXT_LAYER(context, data, state);
-    IOTC_CR_EXIT(task->cs, iotc_mqtt_logic_layer_finalize_task(context, task));
-  }
-
   /* Fill in the fields which are required for serializing the MQTT connect
    * message. */
   IOTC_ALLOC_AT(iotc_mqtt_message_t, msg_memory, state);
   IOTC_CHECK_STATE(
       state = fill_with_connect_data(
-          msg_memory,
-          /* username= */
-          IOTC_CONTEXT_DATA(context)->connection_data->device_path,
-          /* password= */ (char*)&jwt,
+          msg_memory, IOTC_CONTEXT_DATA(context)->connection_data->username,
+          IOTC_CONTEXT_DATA(context)->connection_data->password,
+          IOTC_CONTEXT_DATA(context)->connection_data->client_id,
           IOTC_CONTEXT_DATA(context)->connection_data->keepalive_timeout,
           IOTC_CONTEXT_DATA(context)->connection_data->session_type,
           IOTC_CONTEXT_DATA(context)->connection_data->will_topic,

@@ -1,6 +1,6 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Edge Embedded C Client,
+ * This is part of the Google Cloud IoT Device SDK for Embedded C,
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+#include "iotc_macros.h"
 #include <iotc_bsp_io_net.h>
 #include <stdio.h>
 #include <string.h>
@@ -28,11 +28,11 @@ extern "C" {
 
 iotc_bsp_io_net_state_t
 iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
-                               uint16_t port, uint16_t sock_type) {
+                               uint16_t port, iotc_bsp_socket_type_t socket_type) {
   IOTC_UNUSED(iotc_socket);
   IOTC_UNUSED(host);
   IOTC_UNUSED(port);
-  IOTC_UNUSED(sock_type);
+  IOTC_UNUSED(socket_type);
   return IOTC_BSP_IO_NET_STATE_OK;
 }
 

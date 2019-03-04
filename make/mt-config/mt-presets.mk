@@ -1,6 +1,6 @@
-# Copyright 2018 Google LLC
+# Copyright 2019 Google LLC
 #
-# This is part of the Google Cloud IoT Edge Embedded C Client,
+# This is part of the Google Cloud IoT Device SDK for Embedded C,
 # it is licensed under the BSD 3-Clause license; you may not use this file
 # except in compliance with the License.
 #
@@ -20,6 +20,9 @@ CONFIG_POSIX_MAX           =posix_fs-posix_platform-tls_bsp-memory_limiter
 CONFIG_POSIX_MAX_THREADING =posix_fs-posix_platform-tls_bsp-threading-memory_limiter
 CONFIG_POSIX_MIN           =posix_fs-posix_platform-tls_bsp
 CONFIG_POSIX_MIN_UNSECURE  =posix_fs-posix_platform
+
+# CONFIG for ZEPHYR presets
+CONFIG_ZEPHYR_MAX          =memory_fs-posix_platform-tls_bsp-memory_limiter
 
 # CONFIG for ARM
 CONFIG_DUMMY_MAX           =memory_fs-memory_limiter
@@ -79,6 +82,14 @@ else ifeq ($(PRESET), FREERTOS_POSIX_DEV)
     TARGET = $(TARGET_STATIC_DEV)
     IOTC_BSP_PLATFORM = freertos-posix
     IOTC_TARGET_PLATFORM = freertos-linux
+
+# -------------------------------------------------------
+# ZEPHYR
+else ifeq ($(PRESET), ZEPHYR)
+    CONFIG = $(CONFIG_ZEPHYR_MAX)
+    TARGET = $(TARGET_STATIC_DEV)
+    IOTC_BSP_PLATFORM = zephyr
+    IOTC_TARGET_PLATFORM = zephyr
 
 # -------------------------------------------------------
 # ARM

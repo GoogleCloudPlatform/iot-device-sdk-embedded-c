@@ -1,6 +1,6 @@
-# Copyright 2018 Google LLC
+# Copyright 2018-2019 Google LLC
 #
-# This is part of the Google Cloud IoT Edge Embedded C Client,
+# This is part of the Google Cloud IoT Device SDK for Embedded C,
 # it is licensed under the BSD 3-Clause license; you may not use this file
 # except in compliance with the License.
 #
@@ -21,7 +21,9 @@ IOTC_LIB_FLAGS += -liotc
 
 ifneq (,$(findstring tls_bsp,$(CONFIG)))
 	include make/mt-config/mt-tls.mk
+	include make/mt-config/mt-crypto.mk
 endif
+
 
 IOTC_UNIT_TEST_TARGET ?= native
 
@@ -61,21 +63,22 @@ endif
 
 # Settings that will work only on linux and only against clang-4.0 and greater
 ifneq (,$(findstring fuzz_test,$(CONFIG)))
-    IOTC_CONFIG_FLAGS += -fsanitize=address -fomit-frame-pointer -fsanitize-coverage=trace-pc-guard -g
+    IOTC_CONFIG_FLAGS += -fsanitize=address -fomit-frame-pointer -fsanitize-coverage=inline-8bit-counters -g
 endif
 
-IOTC_COMPILER_FLAGS += -Wall -Werror
-IOTC_CXX_FLAGS += -Wall -Wextra -Werror -pthread -std=c++11
+IOTC_COMMON_COMPILER_FLAGS += -Wall -Werror
+IOTC_C_FLAGS +=
+IOTC_CXX_FLAGS += -Wextra -std=c++11
 
 # TEMPORARILY disable warnings until the code gets changed
 # For all compilers:
-IOTC_COMPILER_FLAGS += -Wno-pointer-arith
+IOTC_COMMON_COMPILER_FLAGS += -Wno-pointer-arith
 ifeq "$(CC)" "clang"
 	# For CLANG
-	IOTC_COMPILER_FLAGS += -Wno-gnu-zero-variadic-macro-arguments
+	IOTC_COMMON_COMPILER_FLAGS += -Wno-gnu-zero-variadic-macro-arguments
 else
 	# For no CLANG compilers
-	IOTC_COMPILER_FLAGS += -Wno-format
+	IOTC_COMMON_COMPILER_FLAGS += -Wno-format
 endif
 
 IOTC_CONFIG_FLAGS += -DIOTC_DEBUG_OUTPUT=$(IOTC_DEBUG_OUTPUT)
@@ -223,10 +226,10 @@ IOTC_SOURCES += $(foreach layerdir,$(IOTC_SRCDIRS),\
 	$(wildcard $(layerdir)/*.c))
 
 # C++ source files
-IOTC_SOURCES_CPP := $(wildcard ./src/*.cc)
-IOTC_SOURCES_CPP += $(foreach layerdir,$(IOTC_SRCDIRS),\
+IOTC_SOURCES_CXX := $(wildcard ./src/*.cc)
+IOTC_SOURCES_CXX += $(foreach layerdir,$(IOTC_SRCDIRS),\
 	$(wildcard $(layerdir)/*.cc))
-IOTC_SOURCES_CPP := $(filter-out %_test.cc, $(IOTC_SOURCES_CPP)) # Filter out tests
+IOTC_SOURCES_CXX := $(filter-out %_test.cc, $(IOTC_SOURCES_CXX)) # Filter out tests
 
 
 ifeq ($(IOTC_DEBUG_OUTPUT),0)

@@ -1,6 +1,6 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Edge Embedded C Client,
+ * This is part of the Google Cloud IoT Device SDK for Embedded C,
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -218,20 +218,9 @@ static void iotc_itest_tls_error__act(void** fixture_void, char do_publish_flag,
       (iotc_itest_tls_error__test_fixture_t*)*fixture_void;
 
   const uint16_t keepalive_timeout = fixture->max_loop_count;
-  const iotc_crypto_private_key_data_t private_key = {
-      .private_key_signature_algorithm =
-          IOTC_JWT_PRIVATE_KEY_SIGNATURE_ALGORITHM_ES256,
-      .private_key_union_type = IOTC_CRYPTO_KEY_UNION_TYPE_PEM,
-      .private_key_union.key_pem.key =
-          "-----BEGIN EC PRIVATE KEY-----\n"
-          "MHcCAQEEIG2oKC+2qRWysluHHVrJZCsDE8U8vkpdbeKVCi4a3crdoAoGCCqGSM49\n"
-          "AwEHoUQDQgAELHWyhm6oLLd2adMUUqqyQKHAW0ULiCWn1WUkeuDII2IO5R4js4XG\n"
-          "c6AhJcaNmI3lmSyu6iWDuduvA1+qzvb5PQ==\n"
-          "-----END EC PRIVATE KEY-----"};
 
-  iotc_connect(iotc_context_handle, "itest_projectid", "itest_device_path",
-               &private_key, /*jwt_expiration_period_sec=*/600,
-               /*connection_timeout=*/20, keepalive_timeout,
+  iotc_connect(iotc_context_handle, "itest_username", "itest_password",
+               "itest_client_id", /*connection_timeout=*/20, keepalive_timeout,
                &tls_error_on_connection_state_changed);
 
   uint8_t loop_counter = 0;

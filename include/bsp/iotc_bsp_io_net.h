@@ -1,6 +1,6 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Edge Embedded C Client,
+ * This is part of the Google Cloud IoT Device SDK for Embedded C,
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -23,7 +23,7 @@
  * # Welcome
  * This doxygen catalogs the Board Support Package (BSP), an abstracted
  * framework for hosting all of the platform-specific code used by the
- * Google Cloud IoT Edge Embedded C Client (IoTC).
+ * Google Cloud IoT Device SDK for Embedded C (IoTC).
  *
  * Porting engineers should focus most of their work to a custom
  * implementation of these collection of files. The rest of the
@@ -83,18 +83,18 @@
  *
  * # Further Reading
  * ### IoTC Client
- * Information on how to use the Google IoT Edge Embedded C Client from the
- * applications perspective can be found in:
+ * Information on how to use the Google Cloud IoT Device SDK for Embedded C
+ * from the applications perspective can be found in:
  * <ul><li>
  * <a href="../../api/html/index.html">The IoTC Client doxygen</a></li>
- * <li>The Google Cloud IoT Edge Embedded C User Guide in:
+ * <li>The Google Cloud IoT Device SDK for Embedded C User Guide in:
  *   <code>/doc/user_guide.md</code></li>
  * </ul>
  *
  * ### Porting Process
  * Documentation on the porting process and more information about
- * the IoTC Client BSP can be found in the Google Cloud IoT Edge Embedded C
- * Client Porting Guide located in: <code>/doc/porting_guide.md</code>.
+ * the BSP can be found in the Google Cloud IoT Device SDK Porting
+ * Guide located in: <code>/doc/porting_guide.md</code>.
  *
  */
 
@@ -111,12 +111,13 @@
  * environment of the IoTC client, which is designed not to block on any
  * one operation.
  *
- * A device connecting to the Could IoT Core service would have a standard
- * flow looks like the following:
- *   1. socket_connect
- *   2. connection_check
- *   3. Iterations of read-write operations
- *   4. close_socket when the application shuts down the connection.
+ * A device connecting to the Cloud IoT Core service would go through
+ * the following steps:
+ *   1. Call iotc_bsp_io_net_socket_connect() to create a socket and establish
+ * connection,
+ *   2. Call iotc_bsp_io_net_connection_check() to verify connection status,
+ *   3. Do read/write operations,
+ *   4. Call iotc_bsp_io_net_close_socket() to terminate connection.
  */
 
 #include <stddef.h>
@@ -125,7 +126,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#define IOTC_UNUSED(x) (void)(x)
+
 /**
  * @typedef iotc_bsp_io_net_state_e
  * @brief Return value of the BSP NET API functions.
@@ -146,6 +147,34 @@ typedef enum iotc_bsp_io_net_state_e {
   IOTC_BSP_IO_NET_STATE_TIMEOUT = 4,
 
 } iotc_bsp_io_net_state_t;
+
+/**
+ * @typedef iotc_bsp_socket_type_e
+ * @brief Return value of the socket type(TCP/ UDP).
+ *
+ * The implementation reports the type of socket used for networking.
+ */
+typedef enum iotc_bsp_socket_type_e {
+  /** using TCP socket. */
+  SOCKET_STREAM = 1,
+  /** using UDP socket. */
+  SOCKET_DGRAM = 2,
+
+} iotc_bsp_socket_type_t;
+
+/**
+ * @typedef iotc_bsp_protocol_type_e
+ * @brief Return value of the protocol type(IPv4/ IPv6).
+ *
+ * The implementation reports the type of protocol used for networking.
+ */
+typedef enum iotc_bsp_protocol_type_e {
+  /** using IPv4 protocol. */
+  PROTOCOL_IPV4 = 2,
+  /** using IPv6 protocol. */
+  PROTOCOL_IPV6 = 10,
+
+} iotc_bsp_protocol_type_t;
 
 /**
  * @typedef iotc_bsp_socket_t
@@ -193,20 +222,22 @@ typedef struct iotc_bsp_socket_events_s {
  * @brief Creates and Connects the socket to an endpoint defined by the host and
  * port parameters.
  *
- * @param [out] iotc_socket_nonblocking the platform specific socket
+ * @param [out] iotc_socket the platform specific socket
  * representation should be stored in this variable. This value will be passed
  * along to all further Networking BSP calls.
  *
  * @param [in] host Null terminated IP or Fully Qualified Domain Name (FQDN)
  * of the host to connect to.
  * @param [in] port the port of the endpoint.
+ * @param [in] socket_type the type of socket(TCP/ UDP).
  * @return
  * - IOTC_BSP_IO_NET_STATE_OK - if successfully created and connected.
  * - IOTC_BSP_IO_NET_STATE_ERROR - otherwise.
  */
 iotc_bsp_io_net_state_t
 iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
-                               uint16_t port, uint16_t sock_type);
+                               uint16_t port,
+                               iotc_bsp_socket_type_t socket_type);
 
 /**
  * @function
@@ -242,14 +273,14 @@ iotc_bsp_io_net_select(iotc_bsp_socket_events_t* socket_events_array,
  * @function
  * @brief Reports to the IoTC Client whether the provided socket is connected.
  *
- * This is called after the 'socket_connect' function. If the socket is
+ * This is called after the 'socket_connect' operation. If the socket is
  * connected, the IoTC will start to use read/write to handshake the TLS
- * connection.  If the return value is otherwise, then a failed connection will
+ * connection.  If the return value is error, then a failed connection will
  * be reported to the client Application via its IoTC Connection Callback.
  *
  * The two separate functions (connect and connection_check) may be confusing.
  * The asynchronous property of the IoTC Client requires the separation of
- * these functions. The actual TCP/IP socket connection is performed in the
+ * these functions. The actual socket connection is performed in the
  * time between these two function calls, when select will be called on POSIX
  * platforms, and networking tick operations invoked on No-OS devcies to
  * complete the connection process.

@@ -1,6 +1,6 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Edge Embedded C Client,
+ * This is part of the Google Cloud IoT Device SDK for Embedded C,
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -30,14 +30,14 @@ extern "C" {
  * LAYERS SETTINGS
  * ----------------------------------------------------------------------- */
 #ifndef IOTC_NO_TLS_LAYER
-#define IOTC_DEFAULT_LAYER_CHAIN                                               \
-  IOTC_LAYER_TYPE_IO                                                           \
-  , IOTC_LAYER_TYPE_TLS, IOTC_LAYER_TYPE_MQTT_CODEC,                           \
+#define IOTC_DEFAULT_LAYER_CHAIN                     \
+  IOTC_LAYER_TYPE_IO                                 \
+  , IOTC_LAYER_TYPE_TLS, IOTC_LAYER_TYPE_MQTT_CODEC, \
       IOTC_LAYER_TYPE_MQTT_LOGIC, IOTC_LAYER_TYPE_CONTROL_TOPIC
 #else
-#define IOTC_DEFAULT_LAYER_CHAIN                                               \
-  IOTC_LAYER_TYPE_IO                                                           \
-  , IOTC_LAYER_TYPE_MQTT_CODEC, IOTC_LAYER_TYPE_MQTT_LOGIC,                    \
+#define IOTC_DEFAULT_LAYER_CHAIN                            \
+  IOTC_LAYER_TYPE_IO                                        \
+  , IOTC_LAYER_TYPE_MQTT_CODEC, IOTC_LAYER_TYPE_MQTT_LOGIC, \
       IOTC_LAYER_TYPE_CONTROL_TOPIC
 #endif
 

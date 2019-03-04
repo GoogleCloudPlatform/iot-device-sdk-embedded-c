@@ -1,6 +1,6 @@
-/* Copyright 2018 Google LLC
+/* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Edge Embedded C Client,
+ * This is part of the Google Cloud IoT Device SDK for Embedded C,
  * it is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
@@ -86,8 +86,7 @@ iotc_state_t iotc_libiotc_driver_connect_with_callback(
   }
 
   driver->context->context_data.connection_data = iotc_alloc_connection_data(
-      host, port, DEFAULT_PROJECT_ID, DEFAULT_DEVICE_PATH, &DEFAULT_PRIVATE_KEY,
-      DEFAULT_JWT_EXPIRATION,
+      host, port, "username", "password", DEFAULT_CLIENT_ID,
       /*connection_timeout=*/10, /*keepalive_timeout=*/20, IOTC_SESSION_CLEAN);
 
   iotc_layer_t* input_layer = driver->context->layer_chain.top;

@@ -50,7 +50,7 @@ bool iotc_roughtime_create_socket(int *out_socket, const char *server_address) {
   if (IOTC_BSP_IO_NET_STATE_OK !=
       iotc_bsp_io_net_socket_connect(
           reinterpret_cast<iotc_bsp_socket_t *>(out_socket), host.c_str(), port,
-          SOCK_DGRAM)) {
+          SOCKET_DGRAM)) {
     perror("Connect to the socket");
   }
 
