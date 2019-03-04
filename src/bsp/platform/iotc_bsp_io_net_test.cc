@@ -97,7 +97,8 @@ TEST_P(ServerTest, EndToEndCommunicationWorks) {
   EXPECT_EQ(iotc_bsp_io_net_write(test_socket_, &out_written_count_,
                                   (uint8_t*)kTestMsg, strlen(kTestMsg)),
             IOTC_BSP_IO_NET_STATE_OK);
-  char recv_buf_[strlen(kTestMsg)] = {0};
+  char recv_buf_[strlen(kTestMsg)];
+  recv_buf_[strlen(kTestMsg)] = {0};
   int recv_len_ = 0;
   ASSERT_TRUE(WaitUntilSocketReadyForRead());
   EXPECT_EQ(iotc_bsp_io_net_read(test_socket_, &recv_len_,
