@@ -22,8 +22,10 @@
 
 namespace iotctest {
 
-EchoTestServer::EchoTestServer(uint16_t socket_type, uint16_t port)
-    : socket_type_(socket_type), test_port_(port) {
+EchoTestServer::EchoTestServer(uint16_t socket_type, uint16_t port,
+                               uint16_t protocol_type)
+    : socket_type_(socket_type), test_port_(port),
+      protocol_type_(protocol_type) {
   CreateServer();
 }
 
@@ -89,7 +91,7 @@ EchoTestServer::ServerError EchoTestServer::CreateServer() {
   sprintf(port_s, "%d", test_port_);
 
   memset(&hints, 0, sizeof(struct addrinfo));
-  hints.ai_family = AF_UNSPEC;
+  hints.ai_family = protocol_type_;
   hints.ai_socktype = socket_type_;
   hints.ai_flags = AI_PASSIVE;
   status = getaddrinfo(NULL, port_s, &hints, &result);

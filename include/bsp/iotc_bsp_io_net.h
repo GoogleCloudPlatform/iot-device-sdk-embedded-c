@@ -154,13 +154,27 @@ typedef enum iotc_bsp_io_net_state_e {
  *
  * The implementation reports the type of socket used for networking.
  */
-typedef enum iotc_bsp_socket_type_e{
+typedef enum iotc_bsp_socket_type_e {
   /** using TCP socket. */
   SOCKET_STREAM = 1,
   /** using UDP socket. */
   SOCKET_DGRAM = 2,
 
 } iotc_bsp_socket_type_t;
+
+/**
+ * @typedef iotc_bsp_protocol_type_e
+ * @brief Return value of the protocol type(IPv4/ IPv6).
+ *
+ * The implementation reports the type of protocol used for networking.
+ */
+typedef enum iotc_bsp_protocol_type_e {
+  /** using IPv4 protocol. */
+  PROTOCOL_IPV4 = 2,
+  /** using IPv6 protocol. */
+  PROTOCOL_IPV6 = 10,
+
+} iotc_bsp_protocol_type_t;
 
 /**
  * @typedef iotc_bsp_socket_t
@@ -222,7 +236,8 @@ typedef struct iotc_bsp_socket_events_s {
  */
 iotc_bsp_io_net_state_t
 iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
-                               uint16_t port, iotc_bsp_socket_type_t socket_type);
+                               uint16_t port,
+                               iotc_bsp_socket_type_t socket_type);
 
 /**
  * @function

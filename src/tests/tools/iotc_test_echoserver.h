@@ -47,7 +47,7 @@ class EchoTestServer {
       kFailedSetSockOpt = 6,
       kFailedListen = 7,
     };
-    EchoTestServer(uint16_t socket_type, uint16_t port);
+    EchoTestServer(uint16_t socket_type, uint16_t port, uint16_t protocol_type);
     ~EchoTestServer();
 
     /**
@@ -115,7 +115,7 @@ class EchoTestServer {
 
     std::thread server_thread_;
     bool runnable_ = true;
-    uint16_t socket_type_, test_port_;
+    uint16_t socket_type_, test_port_, protocol_type_;
     int server_socket_, client_socket_, recv_len_;
     char recv_buf_[kBufferSize];
 };

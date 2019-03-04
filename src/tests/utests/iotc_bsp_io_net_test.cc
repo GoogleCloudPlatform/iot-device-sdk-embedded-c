@@ -26,6 +26,7 @@ namespace {
 
 typedef struct NetworkTestCase {
   iotc_bsp_socket_type_t socket_type;
+  iotc_bsp_protocol_type_t protocol_type;
   char* listening_addr;
 } NetworkType;
 
@@ -38,6 +39,7 @@ class ServerTest : public ::testing::TestWithParam<NetworkType*> {
     int out_written_count_, state_;
     const char* listening_addr_;
     iotc_bsp_socket_type_t socket_type_;
+    iotc_bsp_protocol_type_t protocol_type_;
     iotc_bsp_socket_events_t socket_evts_[1];
     iotc_bsp_socket_t test_socket_;
 };
@@ -78,8 +80,10 @@ TEST_P(ServerTest, EndToEndCommunicationWorks) {
   const NetworkType* test_case = GetParam();
   socket_type_ = test_case->socket_type;
   listening_addr_ = test_case->listening_addr;
+  protocol_type_ = test_case->protocol_type;
 
-  EchoTestServer* test_server = new EchoTestServer(socket_type_, kTestPort);
+  EchoTestServer* test_server =
+      new EchoTestServer(socket_type_, kTestPort, protocol_type_);
 
   ASSERT_EQ(iotc_bsp_io_net_socket_connect(&test_socket_, listening_addr_,
                                            kTestPort, socket_type_),
@@ -110,11 +114,17 @@ TEST_P(ServerTest, EndToEndCommunicationWorks) {
 
 INSTANTIATE_TEST_CASE_P(
     NetTestSuite, ServerTest,
-    ::testing::Values(
-        new NetworkType{SOCKET_STREAM, const_cast<char*>("127.0.0.1")},
-        new NetworkType{SOCKET_STREAM, const_cast<char*>("::1")},
-        new NetworkType{SOCKET_DGRAM, const_cast<char*>("127.0.0.1")},
-        new NetworkType{SOCKET_DGRAM, const_cast<char*>("::1")}));
+    ::testing::Values(new NetworkType{SOCKET_STREAM, PROTOCOL_IPV4,
+                                      const_cast<char*>("127.0.0.1")},
+                      new NetworkType{SOCKET_STREAM, PROTOCOL_IPV6,
+                                      const_cast<char*>("::1")},
+                      new NetworkType{SOCKET_DGRAM, PROTOCOL_IPV4,
+                                      const_cast<char*>("127.0.0.1")},
+                      new NetworkType{
+                          SOCKET_DGRAM,
+                          PROTOCOL_IPV6,
+                          const_cast<char*>("::1"),
+                      }));
 
 } // namespace
 } // namespace iotctest
