@@ -50,7 +50,8 @@ EchoTestServer::ServerError EchoTestServer::RunTcpServer() {
     }
     recv_len_ = read(client_socket_, recv_buf_, kBufferSize);
     recv_buf_[recv_len_] = '\0';
-    write(client_socket_, recv_buf_, recv_len_);
+    if(write(client_socket_, recv_buf_, recv_len_) != recv_len_)
+      return ServerError::kError;
     close(client_socket_);
   }
 
