@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "../tools/iotc_test_echoserver.h"
+#include "../../tests/tools/iotc_test_echoserver.h"
 #include "gtest.h"
 #include "iotc_bsp_io_net.h"
 // TODO(sungju): get rid of relative path for inclusion
