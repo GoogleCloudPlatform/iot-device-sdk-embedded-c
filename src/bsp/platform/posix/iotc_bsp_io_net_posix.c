@@ -16,6 +16,7 @@
 
 #include <iotc_bsp_io_net.h>
 
+#include "iotc_macros.h"
 #include <arpa/inet.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -26,7 +27,6 @@
 #include <sys/time.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include "iotc_macros.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -38,12 +38,11 @@ extern "C" {
 
 iotc_bsp_io_net_state_t
 iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
-                               uint16_t port, iotc_bsp_socket_type_t socket_type) {
+                               uint16_t port,
+                               iotc_bsp_socket_type_t socket_type) {
   struct addrinfo hints;
   struct addrinfo *result, *rp = NULL;
   int status;
-  char port_s[10];
-  sprintf(port_s, "%d", port);
 
   memset(&hints, 0, sizeof(hints));
   hints.ai_family = AF_UNSPEC;
@@ -52,7 +51,7 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
   hints.ai_protocol = 0;
 
   // Address resolution
-  status = getaddrinfo(host, port_s, &hints, &result);
+  status = getaddrinfo(host, NULL, &hints, &result);
   if (0 != status) {
     return IOTC_BSP_IO_NET_STATE_ERROR;
   }
@@ -66,6 +65,15 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
     const int flags = fcntl(*iotc_socket, F_GETFL);
     if (-1 == fcntl(*iotc_socket, F_SETFL, flags | O_NONBLOCK)) {
       return IOTC_BSP_IO_NET_STATE_ERROR;
+    }
+
+    switch (rp->ai_family) {
+    case AF_INET6:
+      ((struct sockaddr_in6*)(rp->ai_addr))->sin6_port = htons(port);
+      break;
+    case AF_INET:
+      ((struct sockaddr_in*)(rp->ai_addr))->sin_port = htons(port);
+      break;
     }
 
     // Attempt to connect
