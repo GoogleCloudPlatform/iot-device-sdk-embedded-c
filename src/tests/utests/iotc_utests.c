@@ -74,14 +74,6 @@ IOTC_TT_TESTCASE_PREDECLARATION(utest_mqtt_serializer);
 IOTC_TT_TESTCASE_PREDECLARATION(utest_handle);
 IOTC_TT_TESTCASE_PREDECLARATION(utest_timed_task);
 
-#ifndef IOTC_NO_TLS_LAYER
-IOTC_TT_TESTCASE_PREDECLARATION(utest_bsp_crypto_base64);
-IOTC_TT_TESTCASE_PREDECLARATION(utest_bsp_crypto_sha256);
-IOTC_TT_TESTCASE_PREDECLARATION(utest_bsp_crypto_ecc);
-#ifdef IOTC_LIBCRYPTO_AVAILABLE
-IOTC_TT_TESTCASE_PREDECLARATION(utest_jwt_openssl_validation);
-#endif
-#endif
 
 #ifdef IOTC_MEMORY_LIMITER_ENABLED
 IOTC_TT_TESTCASE_PREDECLARATION(utest_memory_limiter);
@@ -229,12 +221,6 @@ struct testgroup_t groups[] = {
 #endif
 
     {"utest_rng - ", utest_rng},
-
-#ifndef IOTC_NO_TLS_LAYER
-    {"utest_bsp_crypto_base64 - ", utest_bsp_crypto_base64},
-    {"utest_bsp_crypto_sha256 - ", utest_bsp_crypto_sha256},
-    {"utest_bsp_crypto_ecc - ", utest_bsp_crypto_ecc},
-#endif
 
     END_OF_GROUPS};
 
