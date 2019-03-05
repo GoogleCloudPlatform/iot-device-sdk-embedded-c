@@ -22,8 +22,11 @@ int main() {
     return kExitNetworkError;
   }
 
-  iotc_roughtime_getcurrenttime(socket, name, public_key, &reply_time,
-                                &timestamp, &radius, &system_offset);
+  int state =
+      iotc_roughtime_getcurrenttime(socket, name, public_key, &reply_time,
+                                    &timestamp, &radius, &system_offset);
+  if (state != 0)
+    return state;
 
   printf("Received reply in %" PRIu64 "μs.\n", reply_time);
   printf("Current time is %" PRIu64 "μs from the epoch, ±%uμs \n", timestamp,
