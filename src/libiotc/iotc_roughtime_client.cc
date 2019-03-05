@@ -5,6 +5,7 @@
 
 #include <iotc_bsp_io_net.h>
 #include <iotc_roughtime_client.h>
+#include <iotc_debug.h>
 #include <wolfssl/options.h>
 #include <wolfssl/ssl.h>
 #include <wolfssl/wolfcrypt/settings.h>
@@ -51,12 +52,12 @@ bool iotc_roughtime_create_socket(int *out_socket, const char *server_address) {
       iotc_bsp_io_net_socket_connect(
           reinterpret_cast<iotc_bsp_socket_t *>(out_socket), host.c_str(), port,
           SOCKET_DGRAM)) {
-    perror("Connect to the socket");
+    iotc_debug_logger("Connect to the socket");
   }
 
   if (IOTC_BSP_IO_NET_STATE_OK !=
       iotc_bsp_io_net_connection_check(*out_socket, host.c_str(), port)) {
-    perror("Check the connection");
+    iotc_debug_logger("Check the connection");
   }
 
   return true;
@@ -104,7 +105,7 @@ int iotc_roughtime_getcurrenttime(int socket, const char *name,
       socket, &bytes_written,
       reinterpret_cast<const uint8_t *>(kRequest.data()), kRequest.size());
   if (IOTC_BSP_IO_NET_STATE_ERROR == state) {
-    perror("Write to the socket");
+    iotc_debug_logger("Write to the socket");
     iotc_bsp_io_net_close_socket(
         reinterpret_cast<iotc_bsp_socket_t *>(&socket));
     return kExitNetworkError;
@@ -113,7 +114,7 @@ int iotc_roughtime_getcurrenttime(int socket, const char *name,
 
   if (bytes_written < 0 ||
       static_cast<size_t>(bytes_written) != kRequest.size()) {
-    perror("Write to the socket");
+    iotc_debug_logger("Write to the socket");
     close(socket);
     return kExitNetworkError;
   }
@@ -146,7 +147,7 @@ int iotc_roughtime_getcurrenttime(int socket, const char *name,
   int buf_len;
   state = iotc_bsp_io_net_read(socket, &buf_len, recv_buf, sizeof(recv_buf));
   if (IOTC_BSP_IO_NET_STATE_ERROR == state) {
-    perror("Read from the socket");
+    iotc_debug_logger("Read from the socket");
     iotc_bsp_io_net_close_socket(
         reinterpret_cast<iotc_bsp_socket_t *>(&socket));
     return kExitNetworkError;
@@ -163,7 +164,7 @@ int iotc_roughtime_getcurrenttime(int socket, const char *name,
       return kExitTimeout;
     }
 
-    perror("Read from the socket");
+    iotc_debug_logger("Read from the socket");
     return kExitNetworkError;
   }
 
