@@ -16,8 +16,10 @@ enum ExitCode {
 
 bool iotc_roughtime_create_socket(int* out_socket, const char* address);
 
-int iotc_roughtime_getcurrenttime(int socket, const char* server_name,
-                                  const char* server_public_key);
+int iotc_roughtime_getcurrenttime(int socket, const char* name,
+                                  const char* public_key, uint64_t* reply_time,
+                                  uint64_t* timestamp, uint32_t* radius,
+                                  int64_t* system_offset);
 #ifdef __cplusplus
 }
 #endif

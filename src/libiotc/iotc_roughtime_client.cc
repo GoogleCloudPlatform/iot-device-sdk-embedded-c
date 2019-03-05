@@ -4,8 +4,8 @@
 // #endif
 
 #include <iotc_bsp_io_net.h>
-#include <iotc_roughtime_client.h>
 #include <iotc_debug.h>
+#include <iotc_roughtime_client.h>
 #include <wolfssl/options.h>
 #include <wolfssl/ssl.h>
 #include <wolfssl/wolfcrypt/settings.h>
@@ -36,7 +36,7 @@ extern "C" {
 
 namespace roughtime {
 
-bool iotc_roughtime_create_socket(int *out_socket, const char *server_address) {
+bool iotc_roughtime_create_socket(int* out_socket, const char* server_address) {
   std::string address(server_address);
 
   const size_t kColonOffset = address.rfind(':');
@@ -50,7 +50,7 @@ bool iotc_roughtime_create_socket(int *out_socket, const char *server_address) {
 
   if (IOTC_BSP_IO_NET_STATE_OK !=
       iotc_bsp_io_net_socket_connect(
-          reinterpret_cast<iotc_bsp_socket_t *>(out_socket), host.c_str(), port,
+          reinterpret_cast<iotc_bsp_socket_t*>(out_socket), host.c_str(), port,
           SOCKET_DGRAM)) {
     iotc_debug_logger("Connect to the socket");
   }
@@ -63,8 +63,10 @@ bool iotc_roughtime_create_socket(int *out_socket, const char *server_address) {
   return true;
 }
 
-int iotc_roughtime_getcurrenttime(int socket, const char *name,
-                                  const char *public_key) {
+int iotc_roughtime_getcurrenttime(int socket, const char* name,
+                                  const char* public_key, uint64_t* reply_time,
+                                  uint64_t* timestamp, uint32_t* radius,
+                                  int64_t* system_offset) {
 
   std::string server_name(name);
   std::string server_public_key(public_key);
@@ -102,15 +104,14 @@ int iotc_roughtime_getcurrenttime(int socket, const char *name,
 
   int bytes_written = 0;
   state = iotc_bsp_io_net_write(
-      socket, &bytes_written,
-      reinterpret_cast<const uint8_t *>(kRequest.data()), kRequest.size());
+      socket, &bytes_written, reinterpret_cast<const uint8_t*>(kRequest.data()),
+      kRequest.size());
   if (IOTC_BSP_IO_NET_STATE_ERROR == state) {
     iotc_debug_logger("Write to the socket");
-    iotc_bsp_io_net_close_socket(
-        reinterpret_cast<iotc_bsp_socket_t *>(&socket));
+    iotc_bsp_io_net_close_socket(reinterpret_cast<iotc_bsp_socket_t*>(&socket));
     return kExitNetworkError;
   }
-  const uint64_t start_us = roughtime::MonotonicUs();
+  const uint64_t kStartUs = roughtime::MonotonicUs();
 
   if (bytes_written < 0 ||
       static_cast<size_t>(bytes_written) != kRequest.size()) {
@@ -148,14 +149,13 @@ int iotc_roughtime_getcurrenttime(int socket, const char *name,
   state = iotc_bsp_io_net_read(socket, &buf_len, recv_buf, sizeof(recv_buf));
   if (IOTC_BSP_IO_NET_STATE_ERROR == state) {
     iotc_debug_logger("Read from the socket");
-    iotc_bsp_io_net_close_socket(
-        reinterpret_cast<iotc_bsp_socket_t *>(&socket));
+    iotc_bsp_io_net_close_socket(reinterpret_cast<iotc_bsp_socket_t*>(&socket));
     return kExitNetworkError;
   }
   const uint64_t kEndUs = roughtime::MonotonicUs();
   const uint64_t kEndRealtimeUs = roughtime::RealtimeUs();
 
-  iotc_bsp_io_net_close_socket(reinterpret_cast<iotc_bsp_socket_t *>(&socket));
+  iotc_bsp_io_net_close_socket(reinterpret_cast<iotc_bsp_socket_t*>(&socket));
 
   if (buf_len == -1) {
     if (errno == EINTR) {
@@ -168,12 +168,10 @@ int iotc_roughtime_getcurrenttime(int socket, const char *name,
     return kExitNetworkError;
   }
 
-  roughtime::rough_time_t timestamp;
-  uint32_t radius;
   std::string error;
   if (!roughtime::ParseResponse(
-          &timestamp, &radius, &error,
-          reinterpret_cast<const uint8_t *>(server_public_key.data()), recv_buf,
+          timestamp, radius, &error,
+          reinterpret_cast<const uint8_t*>(server_public_key.data()), recv_buf,
           buf_len, nonce)) {
     fprintf(stderr, "Response from %s failed verification: %s",
             server_name.c_str(), error.c_str());
@@ -183,18 +181,13 @@ int iotc_roughtime_getcurrenttime(int socket, const char *name,
   // We assume that the path to the Roughtime server is symmetric and thus
   // add half the round-trip time to the server's timestamp to produce our
   // estimate of the current time.
-  timestamp += (kEndUs - start_us) / 2;
-
-  printf("Received reply in %" PRIu64 "μs.\n", kEndUs - start_us);
-  printf("Current time is %" PRIu64 "μs from the epoch, ±%uμs \n", timestamp,
-         static_cast<unsigned>(radius));
-  int64_t system_offset =
-      static_cast<int64_t>(timestamp) - static_cast<int64_t>(kEndRealtimeUs);
-  printf("System clock differs from that estimate by %" PRId64 "μs.\n",
-         system_offset);
+  *reply_time = (kEndUs - kStartUs);
+  *timestamp += (*reply_time) / 2;
+  *system_offset =
+      static_cast<int64_t>(*timestamp) - static_cast<int64_t>(kEndRealtimeUs);
 
   static const int64_t kTenMinutes = 10 * 60 * 1000000;
-  if (imaxabs(system_offset) > kTenMinutes) {
+  if (imaxabs(*system_offset) > kTenMinutes) {
     return kExitBadSystemTime;
   }
 
