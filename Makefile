@@ -40,6 +40,12 @@ ifdef TRAVIS_OS_NAME
 IOTC_TRAVIS_BUILD=1
 endif
 
+# Roughtime
+IOTC_INCLUDE_FLAGS += -I$(LIBIOTC)/third_party/roughtime
+
+# Wolfssl
+IOTC_INCLUDE_FLAGS += -I$(LIBIOTC)/third_party/tls/wolfssl
+
 include make/mt-config/mt-presets.mk
 
 include make/mt-config/mt-config.mk
@@ -65,13 +71,6 @@ $(info ----- )
 $(info -EXAMPLES- $$IOTC_EXAMPLES is [${IOTC_EXAMPLES}])
 $(info ----- )
 endif
-
-
-# Roughtime
-IOTC_INCLUDE_FLAGS += -I$(LIBIOTC)/third_party/roughtime
-
-# Wolfssl
-IOTC_INCLUDE_FLAGS += -I$(LIBIOTC)/third_party/tls/wolfssl
 
 #gather all binary directories
 IOTC_BIN_DIRS := $(IOTC_EXAMPLE_BINDIR) $(IOTC_EXAMPLE_BINDIR)/internal $(IOTC_TEST_BINDIR) $(IOTC_TEST_TOOLS_BINDIR)
