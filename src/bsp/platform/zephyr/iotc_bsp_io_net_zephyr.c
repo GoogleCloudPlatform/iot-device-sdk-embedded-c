@@ -58,7 +58,7 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
       continue;
 
     // Set the socket to be non-blocking
-    const int flags = fcntl(*iotc_socket, F_GETFL);
+    const int flags = fcntl(*iotc_socket, F_GETFL, 0);
     if (-1 == fcntl(*iotc_socket, F_SETFL, flags | O_NONBLOCK)) {
       freeaddrinfo(result);
       return IOTC_BSP_IO_NET_STATE_ERROR;
