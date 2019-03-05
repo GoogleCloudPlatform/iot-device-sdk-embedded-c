@@ -92,11 +92,10 @@ int iotc_roughtime_getcurrenttime(int socket, const char* name,
         ready_to_write = true;
       }
       break;
-      // TODO(sungju): error handling
     case IOTC_BSP_IO_NET_STATE_TIMEOUT:
-      break;
+      return kExitTimeout;
     case IOTC_BSP_IO_NET_STATE_ERROR:
-      break;
+      return kExitNetworkError;
     default:
       break;
     }
@@ -134,11 +133,10 @@ int iotc_roughtime_getcurrenttime(int socket, const char* name,
         ready_to_read = true;
       }
       break;
-      // TODO(sungju): error handling
     case IOTC_BSP_IO_NET_STATE_TIMEOUT:
-      break;
+      return kExitTimeout;
     case IOTC_BSP_IO_NET_STATE_ERROR:
-      break;
+      return kExitNetworkError;
     default:
       break;
     }
