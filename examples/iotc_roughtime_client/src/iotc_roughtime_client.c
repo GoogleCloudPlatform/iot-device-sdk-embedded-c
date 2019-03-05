@@ -1,8 +1,12 @@
 #include <iotc_roughtime_client.h>
+#include "../../common/src/example_utils.h"
 
 #include "string.h"
 #include <stdint.h>
 #include <stdio.h>
+
+/* Application variables. */
+iotc_crypto_key_data_t iotc_connect_private_key_data;
 
 int main() {
   int socket = 0;
