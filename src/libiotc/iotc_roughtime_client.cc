@@ -4,6 +4,7 @@
 // #endif
 
 #include <iotc_bsp_io_net.h>
+#include <iotc_bsp_time.h>
 #include <iotc_debug.h>
 #include <iotc_roughtime_client.h>
 #include <wolfssl/options.h>
@@ -112,7 +113,7 @@ iotc_roughtime_receive_time(int socket, const char* name,
     iotc_bsp_io_net_close_socket(reinterpret_cast<iotc_bsp_socket_t*>(&socket));
     return IOTC_ROUGHTIME_NETWORK_ERROR;
   }
-  const uint64_t kStartUs = roughtime::MonotonicUs();
+  const uint64_t kStartUs = iotc_bsp_time_getmonotonictime_microseconds();
 
   if (bytes_written < 0 ||
       static_cast<size_t>(bytes_written) != kRequest.size()) {
@@ -152,7 +153,7 @@ iotc_roughtime_receive_time(int socket, const char* name,
     iotc_bsp_io_net_close_socket(reinterpret_cast<iotc_bsp_socket_t*>(&socket));
     return IOTC_ROUGHTIME_NETWORK_ERROR;
   }
-  const uint64_t kEndUs = roughtime::MonotonicUs();
+  const uint64_t kEndUs = iotc_bsp_time_getmonotonictime_microseconds();
 
   iotc_bsp_io_net_close_socket(reinterpret_cast<iotc_bsp_socket_t*>(&socket));
 
