@@ -4,18 +4,13 @@
 // #endif
 
 #include <iotc_bsp_io_net.h>
-#include <iotc_bsp_time.h>
-#include <iotc_debug.h>
-#include <iotc_roughtime_client.h>
-#include <wolfssl/options.h>
-#include <wolfssl/ssl.h>
-#include <wolfssl/wolfcrypt/settings.h>
 
 #include <arpa/inet.h>
 #include <assert.h>
 #include <errno.h>
 #include <inttypes.h>
 #include <netdb.h>
+#include <string.h>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -23,9 +18,13 @@
 #include "client.h"
 #include "clock.h"
 #include "protocol.h"
-#include <iostream>
-#include <stdio.h>
-#include <string.h>
+#include <iotc_bsp_rng.h>
+#include <iotc_bsp_time.h>
+#include <iotc_debug.h>
+#include <iotc_roughtime_client.h>
+#include <wolfssl/options.h>
+#include <wolfssl/ssl.h>
+#include <wolfssl/wolfcrypt/settings.h>
 
 // kTimeoutSeconds is the number of seconds that we will wait for a reply
 // from the server.
@@ -78,8 +77,15 @@ iotc_roughtime_receive_time(int socket, const char* name,
   iotc_bsp_io_net_state_t state;
   iotc_bsp_socket_events_t socket_evts[socket_evts_size];
 
-  wolfSSL_RAND_bytes(nonce, sizeof(nonce));
+  for (size_t i = 0; i < roughtime::kNonceLength; i++) {
+    nonce[i] = (uint8_t)iotc_bsp_rng_get() % 256;
+  }
   const std::string kRequest = roughtime::CreateRequest(nonce);
+  if (kRequest.empty()) {
+    iotc_debug_logger("Roughtime create reaquest "
+                      "failed");
+    return IOTC_ROUGHTIME_ERROR;
+  }
 
   /* Write to the socket */
   memset(socket_evts, 0, sizeof(iotc_bsp_socket_events_t) * socket_evts_size);
