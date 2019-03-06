@@ -36,13 +36,15 @@ extern "C" {
 
 namespace roughtime {
 
-bool iotc_roughtime_create_socket(int* out_socket, const char* server_address) {
+iotc_roughtime_state_t
+iotc_roughtime_create_socket(int* out_socket, const char* server_address) {
   std::string address(server_address);
 
   const size_t kColonOffset = address.rfind(':');
   if (kColonOffset == std::string ::npos) {
-    fprintf(stderr, "No port number in server address: %s\n", address.c_str());
-    return false;
+    iotc_debug_format(stderr, "No port number in server address: %s\n",
+                      address.c_str());
+    return IOTC_ROUGHTIME_ERROR;
   }
   std::string host(address.substr(0, kColonOffset));
   const std::string kPortStr(address.substr(kColonOffset + 1));
@@ -60,13 +62,13 @@ bool iotc_roughtime_create_socket(int* out_socket, const char* server_address) {
     iotc_debug_logger("Check the connection");
   }
 
-  return true;
+  return IOTC_ROUGHTIME_OK;
 }
 
-int iotc_roughtime_getcurrenttime(int socket, const char* name,
-                                  const char* public_key, uint64_t* reply_time,
-                                  uint64_t* timestamp, uint32_t* radius,
-                                  int64_t* system_offset) {
+iotc_roughtime_state_t
+iotc_roughtime_receive_time(int socket, const char* name,
+                            const char* public_key,
+                            iotc_roughtime_timedata_t* time_data) {
 
   std::string server_name(name);
   std::string server_public_key(public_key);
@@ -93,9 +95,9 @@ int iotc_roughtime_getcurrenttime(int socket, const char* name,
       }
       break;
     case IOTC_BSP_IO_NET_STATE_TIMEOUT:
-      return kExitTimeout;
+      return IOTC_ROUGHTIME_TIMEOUT_ERROR;
     case IOTC_BSP_IO_NET_STATE_ERROR:
-      return kExitNetworkError;
+      return IOTC_ROUGHTIME_NETWORK_ERROR;
     default:
       break;
     }
@@ -108,7 +110,7 @@ int iotc_roughtime_getcurrenttime(int socket, const char* name,
   if (IOTC_BSP_IO_NET_STATE_ERROR == state) {
     iotc_debug_logger("Write to the socket");
     iotc_bsp_io_net_close_socket(reinterpret_cast<iotc_bsp_socket_t*>(&socket));
-    return kExitNetworkError;
+    return IOTC_ROUGHTIME_NETWORK_ERROR;
   }
   const uint64_t kStartUs = roughtime::MonotonicUs();
 
@@ -116,7 +118,7 @@ int iotc_roughtime_getcurrenttime(int socket, const char* name,
       static_cast<size_t>(bytes_written) != kRequest.size()) {
     iotc_debug_logger("Write to the socket");
     close(socket);
-    return kExitNetworkError;
+    return IOTC_ROUGHTIME_NETWORK_ERROR;
   }
 
   /* Read from the socket */
@@ -134,9 +136,9 @@ int iotc_roughtime_getcurrenttime(int socket, const char* name,
       }
       break;
     case IOTC_BSP_IO_NET_STATE_TIMEOUT:
-      return kExitTimeout;
+      return IOTC_ROUGHTIME_TIMEOUT_ERROR;
     case IOTC_BSP_IO_NET_STATE_ERROR:
-      return kExitNetworkError;
+      return IOTC_ROUGHTIME_NETWORK_ERROR;
     default:
       break;
     }
@@ -148,49 +150,57 @@ int iotc_roughtime_getcurrenttime(int socket, const char* name,
   if (IOTC_BSP_IO_NET_STATE_ERROR == state) {
     iotc_debug_logger("Read from the socket");
     iotc_bsp_io_net_close_socket(reinterpret_cast<iotc_bsp_socket_t*>(&socket));
-    return kExitNetworkError;
+    return IOTC_ROUGHTIME_NETWORK_ERROR;
   }
   const uint64_t kEndUs = roughtime::MonotonicUs();
-  const uint64_t kEndRealtimeUs = roughtime::RealtimeUs();
 
   iotc_bsp_io_net_close_socket(reinterpret_cast<iotc_bsp_socket_t*>(&socket));
 
   if (buf_len == -1) {
     if (errno == EINTR) {
-      fprintf(stderr, "No response from %s with %d seconds.\n",
-              server_name.c_str(), kTimeoutSeconds);
-      return kExitTimeout;
+      iotc_debug_format(stderr, "No response from %s with %d seconds.\n",
+                        server_name.c_str(), kTimeoutSeconds);
+      return IOTC_ROUGHTIME_TIMEOUT_ERROR;
     }
 
     iotc_debug_logger("Read from the socket");
-    return kExitNetworkError;
+    return IOTC_ROUGHTIME_NETWORK_ERROR;
   }
 
   std::string error;
   if (!roughtime::ParseResponse(
-          timestamp, radius, &error,
+          &(time_data->timestamp), &(time_data->radius), &error,
           reinterpret_cast<const uint8_t*>(server_public_key.data()), recv_buf,
           buf_len, nonce)) {
-    fprintf(stderr, "Response from %s failed verification: %s",
-            server_name.c_str(), error.c_str());
-    return kExitBadReply;
+    iotc_debug_format(stderr, "Response from %s failed verification: %s",
+                      server_name.c_str(), error.c_str());
+    return IOTC_ROUGHTIME_RECEIVE_TIME_ERROR;
   }
 
   // We assume that the path to the Roughtime server is symmetric and thus
   // add half the round-trip time to the server's timestamp to produce our
   // estimate of the current time.
-  *reply_time = (kEndUs - kStartUs);
-  *timestamp += (*reply_time) / 2;
-  *system_offset =
-      static_cast<int64_t>(*timestamp) - static_cast<int64_t>(kEndRealtimeUs);
+  time_data->reply_time = (kEndUs - kStartUs);
+  time_data->timestamp += (time_data->reply_time) / 2;
 
-  static const int64_t kTenMinutes = 10 * 60 * 1000000;
-  if (imaxabs(*system_offset) > kTenMinutes) {
-    return kExitBadSystemTime;
-  }
-
-  return 0;
+  return IOTC_ROUGHTIME_OK;
 }
+
+iotc_roughtime_state_t
+iotc_roughtime_getcurrenttime(const char* name, const char* public_key,
+                              const char* server_address,
+                              iotc_roughtime_timedata_t* time_data) {
+  int socket;
+  iotc_roughtime_state_t state;
+  if ((state = iotc_roughtime_create_socket(&socket, server_address)) !=
+      IOTC_ROUGHTIME_OK)
+    return state;
+  if ((state = iotc_roughtime_receive_time(socket, name, public_key,
+                                           time_data)) != IOTC_ROUGHTIME_OK)
+    return state;
+  return IOTC_ROUGHTIME_OK;
+}
+
 } // namespace roughtime
 
 #ifdef __cplusplus
