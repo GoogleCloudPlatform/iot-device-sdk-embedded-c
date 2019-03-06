@@ -20,6 +20,11 @@
 #include "commandline.h"
 #include "example_utils.h"
 
+#ifdef ENABLE_CRYPTOAUTHLIB
+#include "cryptoauthlib.h"
+#endif
+
+
 #define IOTC_UNUSED(x) (void)(x)
 
 extern iotc_crypto_key_data_t iotc_connect_private_key_data;
@@ -28,7 +33,13 @@ static iotc_timed_task_handle_t delayed_publish_task =
     IOTC_INVALID_TIMED_TASK_HANDLE;
 
 int iotc_example_handle_command_line_args(int argc, char* argv[]) {
+
+#ifdef ENABLE_CRYPTOAUTHLIB
+  char options[] = "h:p:d:t:m:f:s:";
+#else
   char options[] = "h:p:d:t:m:f:";
+#endif
+
   int missingparameter = 0;
   int retval = 0;
 
@@ -61,6 +72,13 @@ int iotc_example_handle_command_line_args(int argc, char* argv[]) {
     missingparameter = 1;
     printf("-t --publish_topic is required\n");
   }
+
+#ifdef ENABLE_CRYPTOAUTHLIB
+  if (0xFF == iotc_private_key_slot) {
+    missingparameter = 1;
+    printf("-s --private_key_slot is required\n");
+  }
+#endif
 
   if (1 == missingparameter) {
     /* Error has already been logged, above.  Silently exit here */
@@ -110,6 +128,20 @@ int load_ec_private_key_pem_from_posix_fs(char* buf_ec_private_key_pem,
 
   return 0;
 }
+
+#ifdef ENABLE_CRYPTOAUTHLIB
+int init_cryptoauthlib() {
+  ATCA_STATUS atca_status;
+  if ((atca_status = atcab_init(&cfg_ateccx08a_kithid_default)) != ATCA_SUCCESS) {
+      printf("Unable to initialize interface, status: %x\n", atca_status);
+      return -1;
+  } else {
+    printf("Successfully initialized secure element.\n");
+  }
+
+  return 0;
+}
+#endif
 
 void on_connection_state_changed(iotc_context_handle_t in_context_handle,
                                  void* data, iotc_state_t state) {

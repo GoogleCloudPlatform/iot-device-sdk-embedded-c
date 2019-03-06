@@ -17,7 +17,7 @@
 /*
  * This module implements a command line argument parser.
  */
-
+#include <stdint.h>
 #include <iotc_mqtt.h>
 
 /* Flags set by commandline arguments. */
@@ -29,6 +29,10 @@ extern const char* iotc_device_path;
 extern const char* iotc_publish_topic;
 extern const char* iotc_publish_message;
 extern const char* iotc_private_key_filename;
+
+#ifdef ENABLE_CRYPTOAUTHLIB
+extern uint8_t iotc_private_key_slot;
+#endif
 
 int iotc_parse(int argc, char** argv, char* valid_options,
                const unsigned options_length);
