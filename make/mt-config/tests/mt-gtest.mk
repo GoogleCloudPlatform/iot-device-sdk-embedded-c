@@ -57,7 +57,9 @@ GTEST_OBJS := $(GTEST_OBJDIR)/gtest-all.o \
 # Set up iotc googletest tests.
 IOTC_GTEST_SUITE ?= iotc_gtests
 IOTC_GTEST_OBJDIR := $(IOTC_TEST_OBJDIR)/gtests
-IOTC_GTEST_SOURCES = $(shell find $(LIBIOTC)/src -name "*.cc")
+
+# Files ending in _test.cc or _test_something.cc
+IOTC_GTEST_SOURCES = $(shell find $(LIBIOTC)/src -regex ".+_test.cc" -o -regex ".+_test_\w+.cc")
 
 IOTC_GTEST_OBJS := $(filter-out $(IOTC_GTEST_SOURCES), $(IOTC_GTEST_SOURCES:.cc=.o))
 IOTC_GTEST_OBJS := $(subst $(LIBIOTC_SRC), $(IOTC_GTEST_OBJDIR)/, $(IOTC_GTEST_OBJS))
