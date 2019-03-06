@@ -24,6 +24,10 @@ ifneq (,$(findstring tls_bsp,$(CONFIG)))
 	include make/mt-config/mt-crypto.mk
 endif
 
+#TODO(frec): conditionaly include
+#TODO(frec): conditionaly compile the roughtime client sources
+include make/mt-config/mt-roughtime.mk
+
 
 IOTC_UNIT_TEST_TARGET ?= native
 

@@ -40,11 +40,6 @@ ifdef TRAVIS_OS_NAME
 IOTC_TRAVIS_BUILD=1
 endif
 
-# Roughtime
-IOTC_INCLUDE_FLAGS += -I$(LIBIOTC)/third_party/roughtime
-
-# Wolfssl
-IOTC_INCLUDE_FLAGS += -I$(LIBIOTC)/third_party/tls/wolfssl
 
 include make/mt-config/mt-presets.mk
 
@@ -142,7 +137,7 @@ clean_all: clean
 
 libiotc: $(XI)
 
-$(XI): $(IOTC_TLS_LIB_DEP) $(IOTC_CRYPTO_LIB_DEP) $(IOTC_PROTOFILES_C) $(IOTC_OBJS) $(IOTC_BUILD_PRECONDITIONS) | $(IOTC_BIN_DIRS)
+$(XI): $(IOTC_TLS_LIB_DEP) $(IOTC_CRYPTO_LIB_DEP) $(IOTC_ROUGHTIME_LIB_DEP) $(IOTC_PROTOFILES_C) $(IOTC_OBJS) $(IOTC_BUILD_PRECONDITIONS) | $(IOTC_BIN_DIRS)
 	$(info [$(AR)] $@ )
 	$(MD) $(AR) $(IOTC_ARFLAGS) $(IOTC_OBJS) $(IOTC_EXTRA_ARFLAGS)
 
