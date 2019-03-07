@@ -33,7 +33,7 @@ MD ?= @
 IOTC_BSP_TLS ?= mbedtls
 
 # Cryptographic BSP implementation
-IOTC_BSP_CRYPTO ?= mbedtls
+IOTC_BSP_CRYPTO ?= $(IOTC_BSP_TLS)
 
 #detect if the build happen on Travis
 ifdef TRAVIS_OS_NAME
