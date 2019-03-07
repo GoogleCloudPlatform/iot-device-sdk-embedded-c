@@ -1,7 +1,7 @@
 /* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Device SDK for Embedded C,
- * it is licensed under the BSD 3-Clause license; you may not use this file
+ * This is part of the Google Cloud IoT Device SDK for Embedded C.
+ * It is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
  * You may obtain a copy of the License at:
@@ -18,16 +18,11 @@
 #define __IOTC_BSP_MEM_H__
 
 /**
- * @file iotc_bsp_mem.h
- * @brief IoTC Client's Board Support Platform (BSP) for Memory Management
- *
- * This file defines the Memory Management API used by the IoTC Client.
- *
- * The IoTC Client manages memory through these functions. By implementing these
- * functions the application can customize memory management of the IoTC Client.
- * For instance a custom implementation can use static memory on devices where
- * heap isn't desired. Another use case might be memory tracking by injecting
- * metrics into the implementation.
+ * @file     iotc_bsp_mem.h
+ * @brief    Manage platform memory.
+ * @detailed Customize how the client application manages memory. For instance, 
+ * custom implementations can use static memory instead of heap memory or
+ * inject metrics to track memory.
  */
 
 #include <stddef.h>
@@ -38,37 +33,39 @@ extern "C" {
 
 /**
  * @function
- * @brief Allocates a block of byte_count bytes of memory, returns a pointer to
- *        the beginning of the block.
+ * @brief Allocate memory.
  *
- * There are no requirements against the content of the memory block returned.
+ * @param [in] byte_count the number of bytes to allocate.
  *
- * @param [in] byte_count the number of bytes to allocate
- * @return the beginning of the allocated block
+ * @return a pointer to the beginning of the allocated block.
  */
 void* iotc_bsp_mem_alloc(size_t byte_count);
 
 /**
  * @function
- * @brief Changes the size of the memory block pointed to by ptr.
+ * @brief Change the size of a memory block.
  *
- * The content of the memory block is preserved up to the lesser of the new and
- * old sizes, even if the block is moved to a new location. If the new size is
- * larger, the value of the newly allocated portion is indeterminate.
+ * If the new memory block size is smaller than the old memory block
+ * size, the maximum amount of memory is saved, even if the block moves to a new
+ * location. If the new size is larger, the leftover memory is empty.
  *
- * @param [in] ptr pointer to a memory block, this memory block will be
- * reallocated
- * @return a pointer to the reallocated memory block
+ * @param [in] ptr a pointer to a memory block to reallocate.
+ *
+ * @return a pointer to the reallocated memory block.
  */
 void* iotc_bsp_mem_realloc(void* ptr, size_t byte_count);
 
 /**
  * @function
- * @brief A block of memory previously allocated by a call to
- * iotc_bsp_mem_malloc, iotc_bsp_mem_realloc is deallocated, making it available
- * again for further allocations.
+ * @brief Free a block of memory.
+ 
+ * Free A block of memory that was previously allocated by a call to <code>iotc_bsp_mem_malloc()</code>
+ * or <code>iotc_bsp_mem_realloc()</code>.
  *
- * @param [in] ptr pointer to a memory block
+ * @see iotc_bsp_mem_malloc
+ * @see iotc_bsp_mem_realloc
+ *
+ * @param [in] ptr a pointer to a memory block to free.
  */
 void iotc_bsp_mem_free(void* ptr);
 

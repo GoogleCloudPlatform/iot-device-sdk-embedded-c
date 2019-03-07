@@ -51,13 +51,12 @@ extern "C" {
  * to build the Device SDK on a custom, non-POSIX platform.
  *
  * # Further reading
- * <ul><li><a href="../../bsp/html/index.html">
- * Device SDK BSP reference</a></li>
+ * <ul><li>Device SDK <a href="../../bsp/html/index.html">BSP reference</a></li>
  * <li>
  * <a href="http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html">
  * MQTT v3.1.1 Specification</a></li>
- * <li> Device SDK <a href="../../../user_guide.md">user guide</a></li>
- * <li> Device SDK <a href="../../../porting_guide.md">porting guide</a></li>
+ * <li>Device SDK <a href="../../../user_guide.md">user guide</a></li>
+ * <li>Device SDK <a href="../../../porting_guide.md">porting guide</a></li>
  * </ul>
  */
 
@@ -69,7 +68,7 @@ extern "C" {
  * @brief    Start a client application. Required operation.
  * @detailed Call first when starting a new runtime.
  *
- * @retval IOTC_STATE_OK if status OK.
+ * @retval IOTC_STATE_OK status OK.
  */
 extern iotc_state_t iotc_initialize();
 
@@ -85,8 +84,8 @@ extern iotc_state_t iotc_initialize();
  * @see iotc_delete_context
  * @see iotc_shutdown_connection
  *
- * @retval IOTC_STATE_OK if status OK.
- * @retval IOTC_FAILED_INITIALIZATION if an urecoverable error occurs.
+ * @retval IOTC_STATE_OK status OK.
+ * @retval IOTC_FAILED_INITIALIZATION an urecoverable error occurs.
  */
 extern iotc_state_t iotc_shutdown();
 
@@ -121,8 +120,8 @@ extern iotc_context_handle_t iotc_create_context();
  *
  * @see iotc_create_context
  *
- * @retval IOTC_STATE_OK if status OK.
- * @retval IOTC_INVALID_PARAMETER if the provided context handle is invalid.
+ * @retval IOTC_STATE_OK status OK.
+ * @retval IOTC_INVALID_PARAMETER the provided context handle is invalid.
  */
 extern iotc_state_t iotc_delete_context(iotc_context_handle_t context_handle);
 
@@ -184,7 +183,7 @@ extern void iotc_events_process_blocking();
  * @see iotc_events_process_blocking
  * @see iotc_events_stop
  *
- * @retval IOTC_STATE_OK if status OK.
+ * @retval IOTC_STATE_OK status OK.
  * @retval IOTC_EVENT_PROCESS_STOPPED  if the event processor stopped.
  */
 extern iotc_state_t iotc_events_process_tick();
@@ -294,8 +293,8 @@ extern iotc_state_t iotc_connect_to(iotc_context_handle_t iotc_h,
  * @see iotc_create_context
  * @see iotc_publish_data
  *
- * @retval IOTC_STATE_OK the publication request is formatted
- * correctly and queued for publication.
+ * @retval IOTC_STATE_OK the publication request is correctly formatted and
+ * queued for publication.
  * @retval IOTC_OUT_OF_MEMORY the platform doesn't have enough memory
  * to fulfull the request.
  * @retval IOTC_INTERNAL_ERROR an unrecoverable error occurred.

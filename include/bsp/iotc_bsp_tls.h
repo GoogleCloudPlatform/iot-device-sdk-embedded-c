@@ -1,7 +1,7 @@
 /* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Device SDK for Embedded C,
- * it is licensed under the BSD 3-Clause license; you may not use this file
+ * This is part of the Google Cloud IoT Device SDK for Embedded C.
+ * It is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
  * You may obtain a copy of the License at:
@@ -19,17 +19,10 @@
 
 /**
  * @file iotc_bsp_tls.h
- * @brief IoTC Client's Board Support Platform (BSP) for Transport Layer
- * Security (TLS)
+ * @brief Implement Transport Layer Security (TLS).
  *
- * This file defines the API of a TLS Board Support Package (BSP) that the
- * IoT Device SDK would use to secure its connection to the Google Cloud IoT
- * Core service. In order to build this secure connection you will need to
- * implement these functions to utilize a TLS implementation on your device.
- * Reference implementations of this TLS BSP have been provided in source form
- * for your reference in the src/bsp/tls directory.
- *
- * These functions should be implemented in a non-blocking fashion.
+ * Reference implementations are in the <a href="~src/bsp/tls"><code></code></a>
+ * directory. All TLS functions are non-blocking operations.
  */
 
 #include <stddef.h>
@@ -37,178 +30,156 @@
 
 /**
  * @typedef iotc_bsp_io_net_state_e
- * @brief Return value of the BSP NET API functions.
+ * @brief TLS function status.
  *
- * An implementation of the TLS BSP must return internal status
- * to IoT Device SDK through these state values.
+ * All TLS functions return a status message to the client application.
+ * IOTC_BSP_TLS_STATE_OK represents success and others represent errors.
  */
 typedef enum iotc_bsp_tls_state_e {
-  /** operation finished successfully */
+  /** Operation successful. */
   IOTC_BSP_TLS_STATE_OK = 0,
-  /** init operation failed */
+  /** Can't initialize TLS library. */
   IOTC_BSP_TLS_STATE_INIT_ERROR = 1,
-  /** ca certification validation failed */
+  /** Can't validate CA certificate. */
   IOTC_BSP_TLS_STATE_CERT_ERROR = 2,
-  /** error during connecting process */
+  /** Can't complete TLS handshake. */
   IOTC_BSP_TLS_STATE_CONNECT_ERROR = 3,
-  /** io is busy wait for data */
+  /** TLS handshake is partially complete. Run the function again to read the
+  remaining data. */
   IOTC_BSP_TLS_STATE_WANT_READ = 4,
-  /** io buffer is full wait for signal */
+  /** TLS handshake is partially complete. Run the function again to write the
+  remaining data. */
   IOTC_BSP_TLS_STATE_WANT_WRITE = 5,
-  /** error during reading operation */
+  /** Can't read data. */
   IOTC_BSP_TLS_STATE_READ_ERROR = 6,
-  /** error during writing operation */
+  /** Can't write data. */
   IOTC_BSP_TLS_STATE_WRITE_ERROR = 7,
 } iotc_bsp_tls_state_t;
 
 /**
  * @typedef iotc_bsp_tls_init_params_t
- * @brief IoT Device SDK  BSP TLS init function parameters.
+ * @brief Parameter for <code>iotc_bsp_tls_init()</code> to create a TLS
+ * context.
  *
- * Contains data provided by the IoT Device SDK when it invokes
- * iotc_bsp_tls_init().
+ * @see iotc_bsp_tls_init
+ * @see iotc_bsp_tls_send_callback
+ * @see iotc_bsp_tls_recv_callback
  */
 typedef struct iotc_bsp_tls_init_params_s {
-  /** context variable required by iotc_bsp_tls_send_callback and
-   * iotc_bsp_tls_recv_callback functions */
+  /** Callback context. Required by <code>iotc_bsp_tls_send_callback()</code>
+   * and <code>iotc_bsp_tls_recv_callback()</code>. */
   void* libiotc_io_callback_context;
 
-  /** Pointer to a buffer of Root CA certificate(s) in PEM format
-   * which shall be used to authenticate the IoT Core service
-   * certificate during TLS handshaking. */
+  /** Pointer to a buffer with root CA PEM certificates. */
   uint8_t* ca_cert_pem_buf;
-  /** length of the buffer containing the above certificate data */
+  /** The length, in bytes, of ca_cert_pem_buf. */
   size_t ca_cert_pem_buf_length;
 
-  /** A set of function pointers to the IoT Device SDK's memory management
-   * functions. As an option, you may provide these to your TLS implementation
-   * if you would like to track the TLS implementation's memory allocations
-   * with the optional IoTC Client's Memory Limiter functionality. */
+  /** Pointers to the client application's memory management functions. Provide
+   * these to track the TLS implementation's memory allocations with the BSP
+   * memory limiter. */
   void* (*fp_libiotc_alloc)(size_t);
   void* (*fp_libiotc_calloc)(size_t, size_t);
   void* (*fp_libiotc_realloc)(void*, size_t);
   void (*fp_libiotc_free)(void*);
 
-  /** A pointer to a NULL terminated string with the domain name that the IoT
-   * Device SDK is attempting to connect to.  Provided for use in the TLS
-   * implementation's certificate domain name check and for SNI. */
+  /** A pointer to the host's domain name. Format the domain name as a
+   * null-terminated string. */
   const char* domain_name;
 
 } iotc_bsp_tls_init_params_t;
 
 /**
  * @typedef iotc_bsp_tls_context_t
- * @brief IoT Device SDK BSP TLS's context representation type
+ * @brief TLS context representation.
  *
- * It is assumed that you may need to create a TLS library context
- * in the TLS BSP's initialization function.
+ * The Device SDK doesn't read or write to this context directly. Run
+ * <code>iotc_bsp_tls_init</code> to create a TLS context.
  *
- * This type can be used to return such a context to the IoT Device SDK,
- * which will then provide the value to your other TLS BSP functions
- * for use in their implementations.
- *
- * The IoT Device SDK is unaware of the actual content and structure
- * of this value, thus it does not read or write this context directly.
+ * @see iotc_bsp_tls_init
  */
 typedef void iotc_bsp_tls_context_t;
 
 /**
  * @function
- * @brief Provides a method for the IoT Device SDK to initialize a TLS library.
+ * @brief Initialize a TLS library and create a TLS context.
  *
- * Initializes the TLS library and returns its context through a tls_context
- * parameter.
+ * Run this function first. After this function runs, it deletes the
+ * init_params. Any persistant data in init_params must be stored outside the
+ * scope of this function.
  *
- * This function will be called before other BSP TLS functions. The
- * implementation should return IOTC_BSP_TLS_STATE_OK in case of a success or
- * IOTC_BSP_TLS_STATE_INIT_ERROR in case of a failure.
+ * @see iotc_bsp_tls_context_t
+ * @see iotc_bsp_tls_init_params_t
  *
- * Content of the init_params will be destroyed after the iotc_bsp_tls_init
- * returns. Any data required from init_params to live outside the scope of
- * this function must be copied and stored by your implementation.
+ * @param [out] tls_context a pointer to a TLS context.
+ * @param [in] init_params data required to create a TLS context. Refer to the
+ * iotc_bsp_tls_init_params_t definition for more information.
  *
- * The IoT Device SDK I/O implementation requires the regstration
- * custom send and recv functions in the TLS library. These functions,
- * iotc_bsp_tls_recv_callback and iotc_bsp_tls_send_callback, declared
- * below, are implemented by the IoT Device SDK internally to send and
- * received data through the IoT Device SDK's I/O system, respecitvely.
- *
- * For more details please refer to our reference implementations of the
- * TLS BSP in src/bsp/tls.
- *
- * @param [out] tls_context pointer to a pointer to a iotc_bsp_tls_context_t
- * @param [in] init_params data required for TLS library initialization
- * @return
- *  - IOTC_BSP_TLS_STATE_OK in case of success
- *  - IOTC_BSP_TLS_STATE_INIT_ERROR otherwise
+ * @retval IOTC_BSP_TLS_STATE_OK the TLS context is successfully created.
+ * @retval IOTC_BSP_TLS_STATE_INIT_ERROR can't initialize TLS library.
  */
 iotc_bsp_tls_state_t iotc_bsp_tls_init(iotc_bsp_tls_context_t** tls_context,
                                        iotc_bsp_tls_init_params_t* init_params);
 /**
  * @function
- * @brief Provides a method for the TLS BSP implementation to free its context.
+ * @brief Free a TLS context.
+ * 
+ * Invoke after closing a connection to free the corresponding memory resources
+ * and delete any associated data.
  *
- * Invoked when the IoT Device SDK is cleaning up a closed or closing
- * connection. The implementation of this function must deallocate the TLS
- * library's previously allocated resources. Your implementation should also
- * release any data associated with the tls_context as no further operations
- * will be requested of it.
+ * @see iotc_bsp_tls_context_t
  *
- * @param [in|out] tls_context
- * @return IOTC_BSP_TLS_STATE_OK
+ * @param [in|out] tls_context the iotc_bsp_tls_context_t TLS context
+ * representation.
+ *
+ * @retval IOTC_BSP_TLS_STATE_OK TLS context successfully freed.
  */
 iotc_bsp_tls_state_t iotc_bsp_tls_cleanup(iotc_bsp_tls_context_t** tls_context);
 
 /**
  * @function
- * @brief Implements the TLS connect functionality.
+ * @brief Start TLS connections.
  *
- * This function may be called several times by IoT Device SDK before the
- * handshake is completed. This function shouldn't block, and may return
- * IOTC_BSP_TLS_STATE_WANT_WRITE or IOTC_BSP_TLS_STATE_WANT_READ instead.
+ * This function starts a TLS handshake. If the function returns  
+ * IOTC_BSP_TLS_STATE_WANT_WRITE or IOTC_BSP_TLS_STATE_WANT_READ, run it again
+ * to complete the handshake.
  *
- * This function will send or receive data internally during it's execution so
- * it is expected that there will be subsequent calls to the TLS library's
- * send and recv functions.
- *
- * In case of any error this function must return
- * IOTC_BSP_TLS_STATE_CONNECT_ERROR.
- *
- * @param [in] tls_context
- * @return
- *  - IOTC_BSP_TLS_STATE_OK in case of a successfully finished handshake
- *  - IOTC_BSP_TLS_STATE_WANT_READ | IOTC_BSP_TLS_STATE_WANT_WRITE in case
- * handshake requires to receive or send more data in order to continue
- *  - IOTC_BSP_TLS_STATE_CERT_ERROR
- *  - IOTC_BSP_TLS_STATE_CONNECT_ERROR in case of failure
+ * @see iotc_bsp_tls_context_t
+ * 
+ * @param [in] tls_context the iotc_bsp_tls_context_t TLS context
+ * representation.
+
+ * @retval IOTC_BSP_TLS_STATE_OK the TLS handshake successfully completed.
+ * @retval IOTC_BSP_TLS_STATE_WANT_READ the TLS handshake is partially complete.
+ * Run the function again to read the remaining data from the socket specified
+ * in the tls_context parameter.
+ * @retval IOTC_BSP_TLS_STATE_WANT_WRITE the TLS handshake is partially
+ * complete. Run the function again to write the remaining data to the socket
+ * specified in the tls_context parameter.
+ * @retval IOTC_BSP_TLS_STATE_CERT_ERROR can't validate CA certificate.
+ * @retval IOTC_BSP_TLS_STATE_CONNECT_ERROR can't complete TLS handshake.
  */
 iotc_bsp_tls_state_t iotc_bsp_tls_connect(iotc_bsp_tls_context_t* tls_context);
 
 /**
  * @function
- * @brief Implements the a function to read data from the TLS implementation.
+ * @brief Read data on a socket.
  *
- * Implementation of this function should call the TLS library's read function.
- * It should also translate the result returned by the TLS read function to one
- * of the following IoT Device SDK BSP state values:
- * - IOTC_BSP_TLS_STATE_OK - whenever the read operation finished successfully.
- * - IOTC_BSP_TLS_STATE_WANT_READ - whenever the read operation requires more
- * data.
- * - IOTC_BSP_TLS_STATE_READ_ERROR - whenever any other error occurred during
- * the read operation.
+ * @see iotc_bsp_tls_context_t
  *
- * The argument bytes_read should be set to the number of bytes read and
- * processed by the TLS implementation.
+ * @param [in] tls_context the iotc_bsp_tls_context_t TLS context
+ * representation.
+ * @param [in] data_ptr a pointer to a buffer to store data that is read.
+ * @param [in] data_size the size, in bytes, of the buffer to which data_ptr
+ * points.
+ * @param [out] bytes_read the number of bytes read.
  *
- * @param [in] tls_context - context of the TLS library.
- * @param [in] data_ptr - ptr to a buffer to store any read data.
- * @param [in] data_size - size of the buffer.
- * @param [out] bytes_read - number of bytes read via the TLS library read
- * function.
- * @return
- * - IOTC_BSP_TLS_STATE_OK
- * - IOTC_BSP_TLS_STATE_WANT_READ
- * - IOTC_BSP_TLS_STATE_READ_ERROR
+ * @retval IOTC_BSP_TLS_STATE_OK all data is successfully read and stored in
+ * the buffer to which data_ptr points.
+ * @retval IOTC_BSP_TLS_STATE_WANT_READ the TLS handshake is partially complete.
+ * Run the function again to read the remaining data from the socket specified
+ * in the tls_context parameter.
+ * @retval IOTC_BSP_TLS_STATE_READ_ERROR can't read data.
  */
 iotc_bsp_tls_state_t iotc_bsp_tls_read(iotc_bsp_tls_context_t* tls_context,
                                        uint8_t* data_ptr, size_t data_size,
@@ -216,51 +187,51 @@ iotc_bsp_tls_state_t iotc_bsp_tls_read(iotc_bsp_tls_context_t* tls_context,
 
 /**
  * @function
- * @brief Implements a function to determine number of pending readable bytes.
+ * @brief Count the pending readable bytes.
  *
  * Implementation of this function should call the TLS library's pending
  * function. It should return the the number of bytes that are available to be
  * read by the TLS library's read function.
  *
- * @param [in] tls_context - context of the TLS library.
+ * @see iotc_bsp_tls_context_t
+ *
+ * @param [in] tls_context the iotc_bsp_tls_context_t TLS context
+ * representation.
+ *
  * @return number of bytes available to read.
  */
 int iotc_bsp_tls_pending(iotc_bsp_tls_context_t* tls_context);
 
 /**
  * @function
- * @brief Implements the TLS write to encrypt and send data.
+ * @brief Write data to a socket.
  *
- * The implementation of this function should call TLSs library write function.
- * It should also translate the result returned by the TLS library to one of:
- * - IOTC_BSP_TLS_STATE_OK - whenever the operation finished successfully.
- * - IOTC_BSP_TLS_STATE_WANT_WRITE - whenever the write operation wants to send
- * more data.
- * - IOTC_BSP_TLS_STATE_WRITE_ERROR - whenever any other error occured during
- * the write operation
+ * @see iotc_bsp_tls_context_t
  *
- * Argument bytes_written should be set to a number of bytes actually written.
+ * @param [in] tls_context the iotc_bsp_tls_context_t TLS context
+ * representation.
+ * @param [in] data_ptr a pointer to a buffer with the data to be sent.
+ * @param [in] data_size the size, in bytes, of the buffer to which data_ptr
+ * points.
+ * @param [out] bytes_written number of bytes written.
  *
- * @param [in] tls_context - context of the TLS library
- * @param [in] data_ptr - ptr to a buffer with data to be sent
- * @param [in] data_size - size of the buffer
- * @param [out] bytes_written - number of bytes written via the TLS library
- * write function
- * @return
- * - IOTC_BSP_TLS_STATE_OK
- * - IOTC_BSP_TLS_STATE_WANT_WRITE
- * - IOTC_BSP_TLS_STATE_WRITE_ERROR
+ * @retval IOTC_BSP_TLS_STATE_OK all data is successfully written.
+ * @retval IOTC_BSP_TLS_STATE_WANT_WRITE the TLS handshake is partially
+ * complete. Run the function again to write the remaining data to the socket
+ * specified in the tls_context parameter.
+ * @retval IOTC_BSP_TLS_STATE_WRITE_ERROR can't write data.
  */
 iotc_bsp_tls_state_t iotc_bsp_tls_write(iotc_bsp_tls_context_t* tls_context,
                                         uint8_t* data_ptr, size_t data_size,
                                         int* bytes_written);
 
-/** These are implemented by IoT Device SDK and should not be defined by
- * any BSP TLS solutions.  However, pointers to these functions must be
- * provided to the TLS implementation to allow the IoTC client to read and
- * write data to it. */
+/** Notify the client application to read data on a socket. Don't modify this
+ * function. */
 iotc_bsp_tls_state_t iotc_bsp_tls_recv_callback(char* buf, int sz,
                                                 void* context, int* bytes_sent);
+
+/** Notify the client application to write data to a socket. Don't modify this
+ * function. */
 iotc_bsp_tls_state_t iotc_bsp_tls_send_callback(char* buf, int sz,
                                                 void* context, int* bytes_sent);
 

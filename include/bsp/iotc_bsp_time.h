@@ -1,7 +1,7 @@
 /* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Device SDK for Embedded C,
- * it is licensed under the BSD 3-Clause license; you may not use this file
+ * This is part of the Google Cloud IoT Device SDK for Embedded C.
+ * It is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
  * You may obtain a copy of the License at:
@@ -19,15 +19,13 @@
 
 /**
  * @file iotc_bsp_time.h
- * @brief IoTC Client's Board Support Platform (BSP) for Time Functions
+ * @brief Implement time functions.
  *
- * This file defines the Time Functions API used by the IoTC Client.
+ * The client application uses these function to keep track of time. These time
+ * functions determine the exact execution time of scheduled tasks and the
+ * delayed reconnection logic.
  *
- * The IoTC Client determines time using these functions. These time functions
- * drive the exact execution time of scheduled tasks and the delayed
- * reconnection logic (aka Backoff) which prevents clients from overloading
- * the Google Cloud IoT Core Server. The implementation should use hardware
- * or NTP servers in order to maintain an accurate clock.
+ * Use hardware or NTP servers to maintain an accurate clock.
  */
 
 #include <iotc_time.h>
@@ -38,26 +36,23 @@ extern "C" {
 
 /**
  * @function
- * @brief Initialization of BSP TIME module.
+ * @brief Initialize the timekeeping system.
  *
- * This function should contain initialization code to fire up time
- * functionality on the target platform. For POSIX systems this usually
- * remains an empty function as a time system is already running, and has
- * accurate time. For microcontrollers, connecting to an NTP service or
- * initializing time-step functionality are examples of the code that
- * could reside here.
+ * On POSIX systems, this function is empty because POSIX systems already
+ * include timekeeping systems. On non-POSIX systems, this function may connect
+ * to an NTP service or initialize time-step functionality.
  */
 void iotc_bsp_time_init();
 
 /**
  * @function
- * @brief Returns elapsed seconds since Epoch.
+ * @brief Return the seconds since Epoch.
  */
 iotc_time_t iotc_bsp_time_getcurrenttime_seconds();
 
 /**
  * @function
- * @brief Returns elapsed milliseconds since Epoch.
+ * @brief Return the milliseconds since Epoch.
  */
 iotc_time_t iotc_bsp_time_getcurrenttime_milliseconds();
 
