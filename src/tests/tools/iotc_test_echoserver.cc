@@ -23,15 +23,19 @@
 namespace iotctest {
 
 EchoTestServer::EchoTestServer(uint16_t socket_type, uint16_t port,
-                               uint16_t protocol_type)
+                               uint16_t protocol_type, const char* host)
     : socket_type_(socket_type), test_port_(port),
-      protocol_type_(protocol_type) {
+      protocol_type_(protocol_type), host_(host) {
   CreateServer();
 }
 
 EchoTestServer::~EchoTestServer() {}
 
 void EchoTestServer::Run() {
+  if (server_thread_) {
+    EchoTestServer::Stop();
+  }
+  runnable_ = true;
   if (socket_type_ == SOCK_STREAM) {
     // TODO(b/127770330)
     // server_thread_ =
@@ -108,7 +112,7 @@ EchoTestServer::ServerError EchoTestServer::CreateServer() {
   hints.ai_family = protocol_type_;
   hints.ai_socktype = socket_type_;
   hints.ai_flags = AI_PASSIVE;
-  status = getaddrinfo(NULL, port_s, &hints, &result);
+  status = getaddrinfo(host_, port_s, &hints, &result);
   if (0 != status) {
     return ServerError::kFailedGetAddrInfo;
   }
@@ -153,7 +157,7 @@ EchoTestServer::ServerError EchoTestServer::CreateServer() {
 
 void EchoTestServer::Stop() {
   runnable_ = false;
-  (*server_thread_).join();
+  server_thread_->join();
   delete server_thread_.release();
   return;
 }

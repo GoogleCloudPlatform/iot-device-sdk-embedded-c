@@ -46,13 +46,13 @@ class ServerTest : public ::testing::TestWithParam<NetworkType> {
 
 bool ServerTest::WaitUntilSocketReadyForWrite() {
   bool ready_to_write = false;
-  iotc_bsp_socket_events_t socket_evts_[1] = {};
-  socket_evts_[0].iotc_socket = test_socket_;
-  socket_evts_[0].in_socket_want_write = 1;
+  iotc_bsp_socket_events_t socket_evts[1] = {};
+  socket_evts[0].iotc_socket = test_socket_;
+  socket_evts[0].in_socket_want_write = 1;
   while (true) {
-    if (iotc_bsp_io_net_select(socket_evts_, 1, kTimeoutSeconds) ==
+    if (iotc_bsp_io_net_select(socket_evts, 1, kTimeoutSeconds) ==
             IOTC_BSP_IO_NET_STATE_OK &&
-        socket_evts_[0].out_socket_can_write == 1) {
+        socket_evts[0].out_socket_can_write == 1) {
       ready_to_write = true;
       break;
     }
@@ -62,13 +62,13 @@ bool ServerTest::WaitUntilSocketReadyForWrite() {
 
 bool ServerTest::WaitUntilSocketReadyForRead() {
   bool ready_to_read = false;
-  iotc_bsp_socket_events_t socket_evts_[1] = {};
-  socket_evts_[0].iotc_socket = test_socket_;
-  socket_evts_[0].in_socket_want_read = 1;
+  iotc_bsp_socket_events_t socket_evts[1] = {};
+  socket_evts[0].iotc_socket = test_socket_;
+  socket_evts[0].in_socket_want_read = 1;
   while (true) {
-    if (iotc_bsp_io_net_select(socket_evts_, 1, kTimeoutSeconds) ==
+    if (iotc_bsp_io_net_select(socket_evts, 1, kTimeoutSeconds) ==
             IOTC_BSP_IO_NET_STATE_OK &&
-        socket_evts_[0].out_socket_can_read == 1) {
+        socket_evts[0].out_socket_can_read == 1) {
       ready_to_read = true;
       break;
     }
@@ -80,40 +80,40 @@ TEST_P(ServerTest, EndToEndCommunicationWorks) {
   const NetworkType test_case = GetParam();
   const char* kTestMsg = "hello\n";
   const uint16_t kTestPort = 2000;
-  std::string listening_addr_ = test_case.listening_addr;
-  iotc_bsp_socket_type_t socket_type_ = test_case.socket_type;
-  iotc_bsp_protocol_type_t protocol_type_ = test_case.protocol_type;
-  int out_written_count_;
+  std::string listening_addr = test_case.listening_addr;
+  iotc_bsp_socket_type_t socket_type = test_case.socket_type;
+  iotc_bsp_protocol_type_t protocol_type = test_case.protocol_type;
+  int out_written_count;
 
   // TODO(b/127770330)
-  // std::unique_ptr<EchoTestServer> test_server =
-  //     std::make_unique<EchoTestServer>(socket_type_, kTestPort, protocol_type_);
+  // auto test_server =
+  //     std::make_unique<EchoTestServer>(socket_type, kTestPort,
+  //     protocol_type);
 
   std::unique_ptr<EchoTestServer> test_server(
-      new EchoTestServer(socket_type_, kTestPort, protocol_type_));
+      new EchoTestServer(socket_type, kTestPort, protocol_type, listening_addr.c_str()));
 
-  ASSERT_EQ(iotc_bsp_io_net_socket_connect(&test_socket_,
-                                           listening_addr_.c_str(), kTestPort,
-                                           socket_type_),
+  ASSERT_EQ(iotc_bsp_io_net_socket_connect(
+                &test_socket_, listening_addr.c_str(), kTestPort, socket_type),
             IOTC_BSP_IO_NET_STATE_OK);
-  ASSERT_EQ(iotc_bsp_io_net_connection_check(
-                test_socket_, listening_addr_.c_str(), kTestPort),
+  ASSERT_EQ(iotc_bsp_io_net_connection_check(test_socket_,
+                                             listening_addr.c_str(), kTestPort),
             IOTC_BSP_IO_NET_STATE_OK);
 
   test_server->Run();
   ASSERT_TRUE(WaitUntilSocketReadyForWrite());
-  EXPECT_EQ(iotc_bsp_io_net_write(test_socket_, &out_written_count_,
+  EXPECT_EQ(iotc_bsp_io_net_write(test_socket_, &out_written_count,
                                   (uint8_t*)kTestMsg, strlen(kTestMsg)),
             IOTC_BSP_IO_NET_STATE_OK);
-  size_t test_msg_len_ = strlen(kTestMsg) + 1;
-  char recv_buf_[test_msg_len_] = {0};
-  int recv_len_ = 0;
+  size_t test_msg_len = strlen(kTestMsg) + 1;
+  char recv_buf[test_msg_len] = {0};
+  int recv_len = 0;
   ASSERT_TRUE(WaitUntilSocketReadyForRead());
-  EXPECT_EQ(iotc_bsp_io_net_read(test_socket_, &recv_len_,
-                                 reinterpret_cast<uint8_t*>(recv_buf_),
-                                 sizeof(recv_buf_)),
+  EXPECT_EQ(iotc_bsp_io_net_read(test_socket_, &recv_len,
+                                 reinterpret_cast<uint8_t*>(recv_buf),
+                                 sizeof(recv_buf)),
             IOTC_BSP_IO_NET_STATE_OK);
-  EXPECT_STREQ(recv_buf_, kTestMsg);
+  EXPECT_STREQ(recv_buf, kTestMsg);
 
   iotc_bsp_io_net_close_socket(&test_socket_);
   test_server->Stop();

@@ -47,7 +47,7 @@ class EchoTestServer {
       kFailedSetSockOpt = 6,
       kFailedListen = 7,
     };
-    EchoTestServer(uint16_t socket_type, uint16_t port, uint16_t protocol_type);
+    EchoTestServer(uint16_t socket_type, uint16_t port, uint16_t protocol_type, const char* host);
     virtual ~EchoTestServer();
 
     /**
@@ -61,6 +61,7 @@ class EchoTestServer {
 
   private:
     const uint16_t socket_type_, test_port_, protocol_type_;
+    const char* host_;
 
     /**
      * @function
