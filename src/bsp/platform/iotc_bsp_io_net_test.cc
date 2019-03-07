@@ -105,8 +105,13 @@ TEST_P(ServerTest, EndToEndCommunicationWorks) {
   EXPECT_EQ(iotc_bsp_io_net_write(test_socket_, &out_written_count,
                                   (uint8_t*)kTestMsg, strlen(kTestMsg)),
             IOTC_BSP_IO_NET_STATE_OK);
+
   size_t test_msg_len = strlen(kTestMsg) + 1;
-  char recv_buf[test_msg_len] = {0};
+
+  // TODO(b/127770330)
+  // char recv_buf[test_msg_len] = {0};
+  char recv_buf[test_msg_len];
+  bzero(recv_buf, test_msg_len);
   int recv_len = 0;
   ASSERT_TRUE(WaitUntilSocketReadyForRead());
   EXPECT_EQ(iotc_bsp_io_net_read(test_socket_, &recv_len,
