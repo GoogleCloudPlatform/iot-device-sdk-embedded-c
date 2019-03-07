@@ -40,38 +40,39 @@ extern "C" {
    1 + IOTC_JWT_MAX_SIGNATURE_SIZE_BASE64)
 
 /**
- * @brief    Create a JWT.
- * @detailed Create a JWT to authenticate the client application with Cloud IoT
+ * @brief Create a JWT.
+ * 
+ * This function authenticates the client application with Cloud IoT
  * Core. To connect to Cloud IoT Core, pass a JWT to the CONNECT message
  * password field.
  *
- * The function only supports ES256 key types in order to operate with key
- * footprint requirements.
+ * This function only supports ES256 key types in order to operate with key
+ * footprint restrictions.
  *
- * Note: This function invokes <code>iotc_bsp_sha256()</code>, 
+ * <b>Note</b>: This function invokes <code>iotc_bsp_sha256()</code>, 
  * <code>iotc_bsp_ecc()</code>, and <code>iotc_bsp_base64_encode_urlsafe()</code>
  * to enable string encoding and signatures.
  *
- * @param [in] expiration_period_sec the number of seconds before this JWT
+ * @param [in] expiration_period_sec The number of seconds before this JWT
  * expires.
- * @param [in] project_id the GCP project ID.
+ * @param [in] project_id The GCP project ID.
  * @param [in] private_key_data ES256 <a href"https://cloud.google.com/iot/docs/how-tos/credentials/keys">private key data</a>.
- * @param [in/out] a pointer to a buffer with a formatted and signed JWT.
- * @param [in] dst_jwt_buf_len the length of the dst_jwt_buf buffer, in bytes.
- * @param [out] bytes_written the number of bytes written to dst_jwt_buf.
+ * @param [in,out] dst_jwt_buf A pointer to a buffer with a formatted and signed JWT.
+ * @param [in] dst_jwt_buf_len The length of the dst_jwt_buf buffer, in bytes.
+ * @param [out] bytes_written The number of bytes written to dst_jwt_buf.
  *
- * @returns IOTC_STATE_OK a JWT is generated.
- * @returns IOTC_INVALID_PARAMETER the project_id, private_key_data or
+ * @retval IOTC_STATE_OK A JWT is successfully generated.
+ * @retval IOTC_INVALID_PARAMETER The project_id, private_key_data or
  * dst_jwt_buf parameters are NULL, or either crypto BSP function returns
- * IOTC_BSP_CRYPTO_INVALID_INPUT_PARAMETER_ERROR.
- * @returns IOTC_ALG_NOT_SUPPORTED_ERROR the provided private key isn't
- * an ES256 key.
- * @returns IOTC_NULL_KEY_DATA_ERROR the provided private key is a PEM file
- * but the crypto_key_union pointer is NULL.
- * @returns IOTC_NOT_IMPLEMENTED the crypto_key_union pointer type is
- * unknown.
- * @returns IOTC_BUFFER_TOO_SMALL_ERROR the provided buffer is too small for
- * JWTs.
+ *     IOTC_BSP_CRYPTO_INVALID_INPUT_PARAMETER_ERROR.
+ * @retval IOTC_ALG_NOT_SUPPORTED_ERROR The provided private key isn't
+ *     an ES256 key.
+ * @retval IOTC_NULL_KEY_DATA_ERROR The provided private key is a PEM file
+ *     but the crypto_key_union pointer is NULL.
+ * @retval IOTC_NOT_IMPLEMENTED The crypto_key_union pointer type is
+ *     unknown.
+ * @retval IOTC_BUFFER_TOO_SMALL_ERROR The provided buffer is too small for
+ *     JWTs.
  */
 
 iotc_state_t iotc_create_iotcore_jwt(

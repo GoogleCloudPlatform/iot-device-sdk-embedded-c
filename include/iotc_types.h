@@ -188,29 +188,29 @@ typedef union iotc_crypto_key_union_u {
 } iotc_crypto_key_union_t;
 
 /**
- * @enum     iotc_crypto_key_signature_algorithm_e
- * @brief    Define a key signature algorithm. 
- * @detailed Specify a key type or the algorithm to sign JWTs. Cite the same
- * algorithm in <a href="https://cloud.google.com/iot/docs/how-tos/devices#creating_device_key_pairs">Cloud IoT Core</a>.
+ * @enum  iotc_crypto_key_signature_algorithm_e
+ * @brief Define a key signature algorithm to sign JWTs.
  *
  * This value also determines the JWT "alg" field, which the client application
- * automatically assembles when it connects to Cloud IoT Core.
+ * automatically assembles when it connects to Cloud IoT Core. Cite the same
+ * algorithm in <a href="https://cloud.google.com/iot/docs/how-tos/devices#creating_device_key_pairs">Cloud IoT Core</a>.
  *
- *   - IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_INVALID for development.
- *   - IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256 ECDSA with P-256
- * and SHA-256.
+ * <b>Note</b>: RSASSA-PKCS1-v1_5 with SHA-256 (RS256) is not supported.
  *
- * Note: RSASSA-PKCS1-v1_5 with SHA-256 (RS256) is not supported.
+ * @retval IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_INVALID for development.
+ * @retval IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256 ECDSA with P-256 and
+ *     SHA-256.
  */
 typedef enum iotc_crypto_key_signature_algorithm_e {
   IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_INVALID = 0,
   IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256
 } iotc_crypto_key_signature_algorithm_t;
 
-/* @struct   iotc_crypto_key_data_t
- * @brief    Set iotc_crypto_key_union.
- * @detailed iotc_crypto_key_union is an enumeration of the current union and
- * and an enumeration of the key signature algorithm.
+/* @struct iotc_crypto_key_data_t
+ * @brief Set iotc_crypto_key_union.
+ * 
+ * iotc_crypto_key_union is an enumeration of the current union and an
+ * enumeration of the key signature algorithm.
  *
  * Refer to <code>iotc_crypto_key_params_u()</code> for more information.
  *
