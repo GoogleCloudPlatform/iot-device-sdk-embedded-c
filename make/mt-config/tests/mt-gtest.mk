@@ -21,7 +21,7 @@ GMOCK_DIR = $(LIBIOTC)/third_party/googletest/googlemock
 GTEST_OBJDIR := $(IOTC_OBJDIR)/third_party/googletest
 
 GTEST_INCLUDE_FLAGS += -isystem $(GTEST_DIR)/include -isystem $(GMOCK_DIR)/include
-GTEST_CXXFLAGS += -g -Wall -Wextra -pthread -std=c++14
+GTEST_CXXFLAGS += -g -Wall -Wextra -pthread -std=c++11
 
 GTEST_HEADERS = $(GTEST_DIR)/include/gtest/*.h \
                 $(GTEST_DIR)/include/gtest/internal/*.h

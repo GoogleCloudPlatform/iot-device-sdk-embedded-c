@@ -33,11 +33,17 @@ EchoTestServer::~EchoTestServer() {}
 
 void EchoTestServer::Run() {
   if (socket_type_ == SOCK_STREAM) {
-    server_thread_ =
-        std::make_unique<std::thread>(&EchoTestServer::RunTcpServer, this);
+    // TODO(b/127770330)
+    // server_thread_ =
+    //     std::make_unique<std::thread>(&EchoTestServer::RunTcpServer, this);
+    server_thread_ = std::unique_ptr<std::thread>(
+        new std::thread(&EchoTestServer::RunTcpServer, this));
   } else if (socket_type_ == SOCK_DGRAM) {
-    server_thread_ =
-        std::make_unique<std::thread>(&EchoTestServer::RunUdpServer, this);
+    // TODO(b/127770330)
+    // server_thread_ =
+    //     std::make_unique<std::thread>(&EchoTestServer::RunUdpServer, this);
+    server_thread_ = std::unique_ptr<std::thread>(
+        new std::thread(&EchoTestServer::RunUdpServer, this));
   }
   return;
 }

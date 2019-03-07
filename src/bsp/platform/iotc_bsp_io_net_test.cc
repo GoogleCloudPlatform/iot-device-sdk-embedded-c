@@ -85,8 +85,12 @@ TEST_P(ServerTest, EndToEndCommunicationWorks) {
   iotc_bsp_protocol_type_t protocol_type_ = test_case.protocol_type;
   int out_written_count_;
 
-  std::unique_ptr<EchoTestServer> test_server =
-      std::make_unique<EchoTestServer>(socket_type_, kTestPort, protocol_type_);
+  // TODO(b/127770330)
+  // std::unique_ptr<EchoTestServer> test_server =
+  //     std::make_unique<EchoTestServer>(socket_type_, kTestPort, protocol_type_);
+
+  std::unique_ptr<EchoTestServer> test_server(
+      new EchoTestServer(socket_type_, kTestPort, protocol_type_));
 
   ASSERT_EQ(iotc_bsp_io_net_socket_connect(&test_socket_,
                                            listening_addr_.c_str(), kTestPort,
