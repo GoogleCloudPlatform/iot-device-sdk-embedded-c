@@ -157,14 +157,14 @@ typedef struct iotc_bsp_socket_events_s {
  * Each element in the socket_events_array parameter corresponds to a socket and
  * contains an initialized iotc_bsp_socket_state_t structure. 
  *
- * @param [in] socket_events_array an array of socket events.
- * @param [in] socket_events_array_size the size, in bytes of
+ * @param [in] socket_events_array An array of socket events.
+ * @param [in] socket_events_array_size The size, in bytes of
  * socket_events_array.
- * @param [in] timeout number of seconds before timing out.
+ * @param [in] timeout The number of seconds before timing out.
  *
- * @retval IOTC_BSP_IO_NET_STATE_OK socket event successfully updated.
- * @retval IOTC_BSP_IO_NET_STATE_TIMEOUT query timed out.
- * @retval IOTC_BSP_IO_NET_STATE_ERROR can't query socket status.
+ * @retval IOTC_BSP_IO_NET_STATE_OK Socket event successfully updated.
+ * @retval IOTC_BSP_IO_NET_STATE_TIMEOUT Query timed out.
+ * @retval IOTC_BSP_IO_NET_STATE_ERROR Can't query socket status.
  */
 iotc_bsp_io_net_state_t iotc_bsp_io_net_select(
     iotc_bsp_socket_events_t* socket_events_array,
@@ -177,8 +177,8 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_select(
  * @param [out] iotc_socket_nonblocking the platform-specific socket
  * representation.
  *
- * @retval IOTC_BSP_IO_NET_STATE_OK socket successfully created.
- * @retval IOTC_BSP_IO_NET_STATE_ERROR can't create socket.
+ * @retval IOTC_BSP_IO_NET_STATE_OK Socket successfully created.
+ * @retval IOTC_BSP_IO_NET_STATE_ERROR Can't create socket.
  */
 iotc_bsp_io_net_state_t iotc_bsp_io_net_create_socket(
     iotc_bsp_socket_t* iotc_socket_nonblocking);
@@ -190,15 +190,15 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_create_socket(
  * To connect a socket to an endpoint, first run <code>iotc_bsp_io_net_create_socket()</code>
  * to create a socket.
  *
- * @param [in] iotc_socket_nonblocking the socket to connect to the host.
- * @param [in] host the null-terminated IP or fully-qualified domain name of the
- * host to connect to.
- * @param [in] port the port number of the endpoint.
+ * @param [in] iotc_socket_nonblocking The socket to connect to the host.
+ * @param [in] host The null-terminated IP or fully-qualified domain name of the
+ *     host to connect to.
+ * @param [in] port The port number of the endpoint.
  *
  * @see iotc_bsp_io_net_create_socket
  *
- * @retval IOTC_BSP_IO_NET_STATE_OK socket successfully connected to host.
- * @retval IOTC_BSP_IO_NET_STATE_ERROR socket didn't connect.
+ * @retval IOTC_BSP_IO_NET_STATE_OK Socket successfully connected to host.
+ * @retval IOTC_BSP_IO_NET_STATE_ERROR Socket didn't connect.
  */
 iotc_bsp_io_net_state_t iotc_bsp_io_net_connect(
     iotc_bsp_socket_t* iotc_socket_nonblocking, const char* host,
@@ -216,15 +216,15 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_connect(
  * determines that the socket is connected, the Device SDK initiates a TLS
  * handshake.
  *
- * @param [in] iotc_socket_nonblocking the socket on which check the connection.
- * @param [in] host the null-terminated IP or fully-qualified domain name of the
- * host to connect to.
- * @param [in] port the port number of the endpoint.
+ * @param [in] iotc_socket_nonblocking The socket on which check the connection.
+ * @param [in] host The null-terminated IP or fully-qualified domain name of the
+ *     host to connect to.
+ * @param [in] port The port number of the endpoint.
  *
  * @see iotc_bsp_io_net_connect
  *
- * @retval IOTC_BSP_IO_NET_STATE_OK socket successfully connected.
- * @retval IOTC_BSP_IO_NET_STATE_ERROR socket didn't connected.
+ * @retval IOTC_BSP_IO_NET_STATE_OK Socket successfully connected.
+ * @retval IOTC_BSP_IO_NET_STATE_ERROR Socket didn't connected.
  */
 iotc_bsp_io_net_state_t iotc_bsp_io_net_connection_check(
     iotc_bsp_socket_t iotc_socket_nonblocking, const char* host, uint16_t port);
@@ -240,19 +240,19 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_connection_check(
  *
  * This is a non-blocking operation. 
  *
- * @param [in] iotc_socket_nonblocking the socket on which to send data.
- * @param [out] out_written_count the number of bytes written to the socket.
- * Negative values indicate a closed connection.
- * @param [in] buf a pointer to a buffer with the data.
- * @param [in] count the size, in bytes, of the buffer to which the buf 
+ * @param [in] iotc_socket_nonblocking The socket on which to send data.
+ * @param [out] out_written_count The number of bytes written to the socket.
+ *     Negative values indicate a closed connection.
+ * @param [in] buf A pointer to a buffer with the data.
+ * @param [in] count The size, in bytes, of the buffer to which the buf 
  * parameter points.
  *
  * @see iotc_bsp_io_net_create_socket
  *
- * @retval IOTC_BSP_IO_NET_STATE_OK all data is written to the socket.
- * @retval IOTC_BSP_IO_NET_STATE_BUSY some of the data is written to the socket.
- * Call the function again to send the remaining data.
- * @retval IOTC_BSP_IO_NET_STATE_ERROR data isn't sent to the host.
+ * @retval IOTC_BSP_IO_NET_STATE_OK All data is written to the socket.
+ * @retval IOTC_BSP_IO_NET_STATE_BUSY Some of the data is written to the socket.
+ *     Call the function again to send the remaining data.
+ * @retval IOTC_BSP_IO_NET_STATE_ERROR No data is sent to the host.
  */
 iotc_bsp_io_net_state_t iotc_bsp_io_net_write(
     iotc_bsp_socket_t iotc_socket_nonblocking, int* out_written_count,
@@ -260,20 +260,18 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_write(
 
 /**
  * @function
- * @brief Read data from a socket.
- * 
- * This is a non-blocking operation.
+ * @brief Read data from a socket. This is a non-blocking operation.
  *
- * @param [in] iotc_socket_nonblocking the socket from which to read data.
- * @param [out] out_read_count the number of bytes read from the socket.
- * @param [out] buf a pointer to a buffer with the data read from the socket.
- * @param [in] count the maximum size, in bytes, of the buf parameter.
+ * @param [in] iotc_socket_nonblocking The socket from which to read data.
+ * @param [out] out_read_count The number of bytes read from the socket.
+ * @param [out] buf A pointer to a buffer with the data read from the socket.
+ * @param [in] count The maximum size, in bytes, of the buf parameter.
  *
  * @see iotc_bsp_io_net_create_socket
  *
- * @retval IOTC_BSP_IO_NET_STATE_OK data is successfully read from the socket.
- * @retval IOTC_BSP_IO_NET_STATE_BUSY no data is available on the socket.
- * @retval IOTC_BSP_IO_NET_STATE_ERROR data isn't read from the socket.
+ * @retval IOTC_BSP_IO_NET_STATE_OK Data is successfully read from the socket.
+ * @retval IOTC_BSP_IO_NET_STATE_BUSY No data is available on the socket.
+ * @retval IOTC_BSP_IO_NET_STATE_ERROR No data is read from the socket.
  */
 iotc_bsp_io_net_state_t iotc_bsp_io_net_read(
     iotc_bsp_socket_t iotc_socket_nonblocking, int* out_read_count,
@@ -283,12 +281,12 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_read(
  * @function
  * @brief Close a socket.
  *
- * @param [in] iotc_socket_nonblocking the socket to close.
+ * @param [in] iotc_socket_nonblocking The socket to close.
  *
  * @see iotc_bsp_io_net_create_socket
  *
- * @retval IOTC_BSP_IO_NET_STATE_OK socket successfully closed.
- * @retval IOTC_BSP_IO_NET_STATE_ERROR socket remains open.
+ * @retval IOTC_BSP_IO_NET_STATE_OK Socket successfully closed.
+ * @retval IOTC_BSP_IO_NET_STATE_ERROR Socket remains open.
  */
 iotc_bsp_io_net_state_t iotc_bsp_io_net_close_socket(
     iotc_bsp_socket_t* iotc_socket_nonblocking);

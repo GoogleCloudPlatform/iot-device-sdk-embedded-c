@@ -47,7 +47,7 @@ void iotc_bsp_rng_init();
  * @function
  * @brief Generate a 32-bit random number.
  *
- * @return a random, 32-bit integer.
+ * @return A random, 32-bit integer.
  */
 uint32_t iotc_bsp_rng_get();
 

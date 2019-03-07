@@ -114,12 +114,12 @@ typedef enum iotc_bsp_io_fs_open_flags {
  * @function
  * @brief Determine file size.
  *
- * @param [in] resource_name file name.
- * @param [out] resource_stat a structure for the file size information.
+ * @param [in] resource_name File name.
+ * @param [out] resource_stat A structure for the file size information.
  *
  * @see iotc_bsp_io_fs_state_e 
  *
- * @return iotc_bsp_io_fs_state_t file management function status.
+ * @return iotc_bsp_io_fs_state_t File management function status.
  */
 iotc_bsp_io_fs_state_t iotc_bsp_io_fs_stat(
     const char* const resource_name, iotc_bsp_io_fs_stat_t* resource_stat);
@@ -134,12 +134,12 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_stat(
  * or <code>iotc_bsp_io_fs_write()</code> to perform the corresponding
  * operation.
  *
- * @param [in] resource_name file name.
- * @param [in] size (Optional) the size, in bytes, of the file. Required on
- * non-POSIX implementations.
- * @param [in] open_flags an iotc_bsp_io_fs_open_flags_t bitmask.
- * @param [out] resource_handle_out a pointer to an
- * iotc_bsp_io_fs_resource_handle_thandle.
+ * @param [in] resource_name File name.
+ * @param [in] size (Optional) The size, in bytes, of the file. Required on
+ *     non-POSIX implementations.
+ * @param [in] open_flags An iotc_bsp_io_fs_open_flags_t bitmask.
+ * @param [out] resource_handle_out A pointer to an
+ *     iotc_bsp_io_fs_resource_handle_thandle.
  *
  * @see iotc_bsp_io_fs_read
  * @see iotc_bsp_io_fs_write
@@ -147,7 +147,7 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_stat(
  * @see iotc_bsp_io_fs_open_flags_t
  * @see iotc_bsp_io_fs_resource_handle_t
  *
- * @return iotc_bsp_io_fs_state_t file management function status.
+ * @return iotc_bsp_io_fs_state_t File management function status.
  */
 iotc_bsp_io_fs_state_t iotc_bsp_io_fs_open(
     const char* const resource_name, const size_t size,
@@ -164,20 +164,20 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_open(
  * Free buffers only on subsequent <code>iotc_bsp_io_fs_read()</code> or 
  * <code>iotc_bsp_io_fs_close()</code> calls.
  *
- * @param [in] resource_handle the iotc_bsp_io_fs_resource_handle_t handle from 
- * <code>iotc_bsp_io_fs_open()</code>.
- * @param [in] offset the position of the resource, in bytes, from which
- * to start read operations. Set to <code>0</code>.
- * @param [out] buffer a pointer to a buffer with the bytes read from the file.
- * The buffer is automatically allocated.
- * @param [out] buffer_size the number of bytes read from the file and stored
- * in the buffer.
+ * @param [in] resource_handle The iotc_bsp_io_fs_resource_handle_t handle from 
+ *     <code>iotc_bsp_io_fs_open()</code>.
+ * @param [in] offset The position of the resource, in bytes, from which
+ *     to start read operations. Set to <code>0</code>.
+ * @param [out] buffer A pointer to a buffer with the bytes read from the file.
+ *     The buffer is automatically allocated.
+ * @param [out] buffer_size The number of bytes read from the file and stored
+ *     in the buffer.
  *
  * @see iotc_bsp_io_fs_open
  * @see iotc_bsp_io_fs_close
  * @see iotc_bsp_io_fs_state_e 
  *
- * @return iotc_bsp_io_fs_state_t file management function status.
+ * @return iotc_bsp_io_fs_state_t File management function status.
  */
 iotc_bsp_io_fs_state_t iotc_bsp_io_fs_read(
     const iotc_bsp_io_fs_resource_handle_t resource_handle, const size_t offset,
@@ -190,19 +190,19 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_read(
  * To write to a file, first run <code>iotc_bsp_io_fs_open()</code> and then
  * pass the corresponding iotc_bsp_io_fs_resource_handle_t handle to <code>iotc_bsp_io_fs_read()</code>.
  *
- * @param [in] resource_handle the iotc_bsp_io_fs_resource_handle_t handle from 
- * <code>iotc_bsp_io_fs_open()</code>.
- * @param [in] buffer a pointer to a byte array with the data to write to the
- * file.
- * @param [in] buffer_size the size, in bytes of the buffer.
- * @param [in] offset the position of the resource, in bytes, from which to
- * start to the write operation.
- * @param [out] bytes_written the number of bytes written to the file.
+ * @param [in] resource_handle The iotc_bsp_io_fs_resource_handle_t handle from 
+ *     <code>iotc_bsp_io_fs_open()</code>.
+ * @param [in] buffer A pointer to a byte array with the data to write to the
+ *     file.
+ * @param [in] buffer_size The size, in bytes of the buffer.
+ * @param [in] offset The position of the resource, in bytes, from which to
+ *     start to the write operation.
+ * @param [out] bytes_written The number of bytes written to the file.
  *
  * @see iotc_bsp_io_fs_open
  * @see iotc_bsp_io_fs_state_e 
  *
- * @return iotc_bsp_io_fs_state_t file management function status.
+ * @return iotc_bsp_io_fs_state_t File management function status.
  */
 iotc_bsp_io_fs_state_t iotc_bsp_io_fs_write(
     const iotc_bsp_io_fs_resource_handle_t resource_handle,
@@ -211,17 +211,17 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_write(
 
 /**
  * @function
- * @brief    Close a file.
+ * @brief Close a file.
  * 
  * To close a file, first run <code>iotc_bsp_io_fs_open()</code> and then pass
  * the corresponding iotc_bsp_io_fs_resource_handle_t handle to <code>iotc_bsp_io_fs_read()</code>.
  *
- * @param [in] resource_handle the iotc_bsp_io_fs_resource_handle_t handle from 
- * <code>iotc_bsp_io_fs_open()</code>.
+ * @param [in] resource_handle the Totc_bsp_io_fs_resource_handle_t handle from 
+ *     <code>iotc_bsp_io_fs_open()</code>.
  *
  * @see iotc_bsp_io_fs_state_e 
  *
- * @return iotc_bsp_io_fs_state_t file management function status.
+ * @return iotc_bsp_io_fs_state_t File management function status.
  */
 iotc_bsp_io_fs_state_t iotc_bsp_io_fs_close(
     const iotc_bsp_io_fs_resource_handle_t resource_handle);
@@ -230,11 +230,11 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_close(
  * @function
  * @brief Delete a file.
  *
- * @param [in] resource_name the name of the file.
+ * @param [in] resource_name The name of the file.
  *
  * @see iotc_bsp_io_fs_state_e 
  *
- * @return iotc_bsp_io_fs_state_t file management function status.
+ * @return iotc_bsp_io_fs_state_t File management function status.
  */
 iotc_bsp_io_fs_state_t iotc_bsp_io_fs_remove(const char* const resource_name);
 

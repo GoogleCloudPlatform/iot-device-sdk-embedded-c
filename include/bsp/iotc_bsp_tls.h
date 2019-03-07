@@ -111,12 +111,12 @@ typedef void iotc_bsp_tls_context_t;
  * @see iotc_bsp_tls_context_t
  * @see iotc_bsp_tls_init_params_t
  *
- * @param [out] tls_context a pointer to a TLS context.
- * @param [in] init_params data required to create a TLS context. Refer to the
- * iotc_bsp_tls_init_params_t definition for more information.
+ * @param [out] tls_context A pointer to a TLS context.
+ * @param [in] init_params Data required to create a TLS context. Refer to the
+ *     iotc_bsp_tls_init_params_t Definition for more information.
  *
- * @retval IOTC_BSP_TLS_STATE_OK the TLS context is successfully created.
- * @retval IOTC_BSP_TLS_STATE_INIT_ERROR can't initialize TLS library.
+ * @retval IOTC_BSP_TLS_STATE_OK The TLS context is successfully created.
+ * @retval IOTC_BSP_TLS_STATE_INIT_ERROR Can't initialize TLS library.
  */
 iotc_bsp_tls_state_t iotc_bsp_tls_init(iotc_bsp_tls_context_t** tls_context,
                                        iotc_bsp_tls_init_params_t* init_params);
@@ -129,8 +129,8 @@ iotc_bsp_tls_state_t iotc_bsp_tls_init(iotc_bsp_tls_context_t** tls_context,
  *
  * @see iotc_bsp_tls_context_t
  *
- * @param [in|out] tls_context the iotc_bsp_tls_context_t TLS context
- * representation.
+ * @param [in|out] tls_context The iotc_bsp_tls_context_t TLS context
+ *     representation.
  *
  * @retval IOTC_BSP_TLS_STATE_OK TLS context successfully freed.
  */
@@ -146,18 +146,18 @@ iotc_bsp_tls_state_t iotc_bsp_tls_cleanup(iotc_bsp_tls_context_t** tls_context);
  *
  * @see iotc_bsp_tls_context_t
  * 
- * @param [in] tls_context the iotc_bsp_tls_context_t TLS context
- * representation.
+ * @param [in] tls_context The iotc_bsp_tls_context_t TLS context
+ *     representation.
 
- * @retval IOTC_BSP_TLS_STATE_OK the TLS handshake successfully completed.
- * @retval IOTC_BSP_TLS_STATE_WANT_READ the TLS handshake is partially complete.
- * Run the function again to read the remaining data from the socket specified
- * in the tls_context parameter.
- * @retval IOTC_BSP_TLS_STATE_WANT_WRITE the TLS handshake is partially
- * complete. Run the function again to write the remaining data to the socket
- * specified in the tls_context parameter.
- * @retval IOTC_BSP_TLS_STATE_CERT_ERROR can't validate CA certificate.
- * @retval IOTC_BSP_TLS_STATE_CONNECT_ERROR can't complete TLS handshake.
+ * @retval IOTC_BSP_TLS_STATE_OK The TLS handshake successfully completed.
+ * @retval IOTC_BSP_TLS_STATE_WANT_READ The TLS handshake is partially complete.
+ *     Run the function again to read the remaining data from the socket
+ *     specified in the tls_context parameter.
+ * @retval IOTC_BSP_TLS_STATE_WANT_WRITE The TLS handshake is partially
+ *     complete. Run the function again to write the remaining data to the
+ *     socket specified in the tls_context parameter.
+ * @retval IOTC_BSP_TLS_STATE_CERT_ERROR Can't validate CA certificate.
+ * @retval IOTC_BSP_TLS_STATE_CONNECT_ERROR Can't complete TLS handshake.
  */
 iotc_bsp_tls_state_t iotc_bsp_tls_connect(iotc_bsp_tls_context_t* tls_context);
 
@@ -167,19 +167,19 @@ iotc_bsp_tls_state_t iotc_bsp_tls_connect(iotc_bsp_tls_context_t* tls_context);
  *
  * @see iotc_bsp_tls_context_t
  *
- * @param [in] tls_context the iotc_bsp_tls_context_t TLS context
- * representation.
- * @param [in] data_ptr a pointer to a buffer to store data that is read.
- * @param [in] data_size the size, in bytes, of the buffer to which data_ptr
- * points.
- * @param [out] bytes_read the number of bytes read.
+ * @param [in] tls_context The iotc_bsp_tls_context_t TLS context
+ *     representation.
+ * @param [in] data_ptr A pointer to a buffer to store data that is read.
+ * @param [in] data_size The size, in bytes, of the buffer to which data_ptr
+ *     points.
+ * @param [out] bytes_read The number of bytes read.
  *
- * @retval IOTC_BSP_TLS_STATE_OK all data is successfully read and stored in
- * the buffer to which data_ptr points.
- * @retval IOTC_BSP_TLS_STATE_WANT_READ the TLS handshake is partially complete.
- * Run the function again to read the remaining data from the socket specified
- * in the tls_context parameter.
- * @retval IOTC_BSP_TLS_STATE_READ_ERROR can't read data.
+ * @retval IOTC_BSP_TLS_STATE_OK All data is successfully read and stored in
+ *     the buffer to which data_ptr points.
+ * @retval IOTC_BSP_TLS_STATE_WANT_READ The TLS handshake is partially complete.
+ *     Run the function again to read the remaining data from the socket
+ *     specified in the tls_context parameter.
+ * @retval IOTC_BSP_TLS_STATE_READ_ERROR Can't read data.
  */
 iotc_bsp_tls_state_t iotc_bsp_tls_read(iotc_bsp_tls_context_t* tls_context,
                                        uint8_t* data_ptr, size_t data_size,
@@ -195,10 +195,10 @@ iotc_bsp_tls_state_t iotc_bsp_tls_read(iotc_bsp_tls_context_t* tls_context,
  *
  * @see iotc_bsp_tls_context_t
  *
- * @param [in] tls_context the iotc_bsp_tls_context_t TLS context
- * representation.
+ * @param [in] tls_context The iotc_bsp_tls_context_t TLS context
+ *     representation.
  *
- * @return number of bytes available to read.
+ * @return The number of bytes available to read.
  */
 int iotc_bsp_tls_pending(iotc_bsp_tls_context_t* tls_context);
 
@@ -208,18 +208,18 @@ int iotc_bsp_tls_pending(iotc_bsp_tls_context_t* tls_context);
  *
  * @see iotc_bsp_tls_context_t
  *
- * @param [in] tls_context the iotc_bsp_tls_context_t TLS context
- * representation.
- * @param [in] data_ptr a pointer to a buffer with the data to be sent.
+ * @param [in] tls_context The iotc_bsp_tls_context_t TLS context
+ *     representation.
+ * @param [in] data_ptr A pointer to a buffer with the data to be sent.
  * @param [in] data_size the size, in bytes, of the buffer to which data_ptr
- * points.
- * @param [out] bytes_written number of bytes written.
+ *     points.
+ * @param [out] bytes_written The number of bytes written.
  *
- * @retval IOTC_BSP_TLS_STATE_OK all data is successfully written.
- * @retval IOTC_BSP_TLS_STATE_WANT_WRITE the TLS handshake is partially
- * complete. Run the function again to write the remaining data to the socket
- * specified in the tls_context parameter.
- * @retval IOTC_BSP_TLS_STATE_WRITE_ERROR can't write data.
+ * @retval IOTC_BSP_TLS_STATE_OK All data is successfully written.
+ * @retval IOTC_BSP_TLS_STATE_WANT_WRITE The TLS handshake is partially
+ *     complete. Run the function again to write the remaining data to the
+ *     socket specified in the tls_context parameter.
+ * @retval IOTC_BSP_TLS_STATE_WRITE_ERROR Can't write data.
  */
 iotc_bsp_tls_state_t iotc_bsp_tls_write(iotc_bsp_tls_context_t* tls_context,
                                         uint8_t* data_ptr, size_t data_size,

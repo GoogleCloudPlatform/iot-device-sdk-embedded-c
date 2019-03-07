@@ -80,18 +80,18 @@ typedef enum iotc_bsp_crypto_state_e {
  * All characters that aren't URL safe are replaced with a - (dash) or _
  * (underscore). 
  *
- * @param [in,out] dst_string a pointer to a buffer that stores the URL-safe,
- * base64 string. The buffer is automatically allocated.
- * @param [in] dst_string_size the length, in bytes, of the dst_string buffer.
- * @param [out] bytes_written the bytes written to dst_string. If the buffer is
- * too small, bytes_written is the required buffer size.
- * @param [in] src_buf a pointer to a buffer with the string to encode.
- * @param [in] src_buf_size the size, in bytes, of buffer to which src_buf
- * points.
-
- * @retval IOTC_BSP_TLS_STATE_OK the string is successfully encoded.
- * @retval IOTC_BSP_CRYPTO_BUFFER_TOO_SMALL_ERROR the dst_string buffer is too
- * small for the encoded string.
+ * @param [in,out] dst_string A pointer to a buffer that stores the URL-safe,
+ *     base64 string. The buffer is automatically allocated.
+ * @param [in] dst_string_size The length, in bytes, of the dst_string buffer.
+ * @param [out] bytes_written The bytes written to dst_string. If the buffer is
+ *     too small, bytes_written is the required buffer size.
+ * @param [in] src_buf A pointer to a buffer with the string to encode.
+ * @param [in] src_buf_size The size, in bytes, of buffer to which src_buf
+ *     points.
+ *
+ * @retval IOTC_BSP_TLS_STATE_OK The string is successfully encoded.
+ * @retval IOTC_BSP_CRYPTO_BUFFER_TOO_SMALL_ERROR The dst_string buffer is too
+ *     small for the encoded string.
  */
 iotc_bsp_crypto_state_t iotc_bsp_base64_encode_urlsafe(
     unsigned char* dst_string, size_t dst_string_size, size_t* bytes_written,
@@ -101,16 +101,16 @@ iotc_bsp_crypto_state_t iotc_bsp_base64_encode_urlsafe(
  * @function
  * @brief Generate a SHA256 cryptographic hash.
  *
- * @param [in,out] dst_buf_32_bytes a pointer to 32-byte buffer that stores the
- * SHA256 digest. The buffer is automatically allocated.
- * @param [in] src_buf a pointer to buffer with the string to encode.
+ * @param [in,out] dst_buf_32_bytes A pointer to 32-byte buffer that stores the
+ *     SHA256 digest. The buffer is automatically allocated.
+ * @param [in] src_buf A pointer to buffer with the string to encode.
  * @param [in] src_buf_size the size, in bytes, of the buffer to which src_buf
  * points.
  *
  * @see iotc_bsp_crypto_state_t
  *
- * @retval IOTC_BSP_TLS_STATE_OK the digest is successfully created.
- * @retval IOTC_BSP_CRYPTO_ERROR can't create digest.
+ * @retval IOTC_BSP_TLS_STATE_OK The digest is successfully created.
+ * @retval IOTC_BSP_CRYPTO_ERROR Can't create digest.
  */
 iotc_bsp_crypto_state_t iotc_bsp_sha256(uint8_t* dst_buf_32_bytes,
                                         const uint8_t* src_buf,
@@ -123,20 +123,19 @@ iotc_bsp_crypto_state_t iotc_bsp_sha256(uint8_t* dst_buf_32_bytes,
  * The BSP uses the private key data or slot number provided to the <code>iotc_connect()</code>
  * function.
  *
+ * @param [in] private_key_pem The private key data or slot number provided to
+ *     the <code>iotc_connect()</code> function.
+ * @param [in,out] dst_buf A pointer to a buffer that stores the ECC signature.
+ *     The buffer is automatically allocated.
+ * @param [in] dst_buf_size The size, in bytes, of the buffer to which dst_buf
+ *     points.
+ * @param [out] bytes_written The number of bytes written to dst_buf.
+ * @param [in] src_buf A buffer with the private key data or slot number.
+ * @param [in] src_buf_size The size, in bytes, of the buffer to which src_buf
+ *     points.
  *
- * @param [in] private_key_pem the private key data or slot number provided to
- * the <code>iotc_connect()</code> function.
- * @param [in,out] dst_buf a pointer to a buffer that stores the ECC signature.
- * The buffer is automatically allocated.
- * @param [in] dst_buf_size the size, in bytes, of the buffer to which dst_buf
- * points.
- * @param [out] bytes_written the number of bytes written to dst_buf.
- * @param [in] src_buf a buffer with the private key data or slot number.
- * @param [in] src_buf_size the size, in bytes, of the buffer to which src_buf
- * points.
- *
- * @retval IOTC_BSP_TLS_STATE_OK the ECC signature is successfully created.
- * @retval IOTC_BSP_CRYPTO_ERROR can't create ECC signature.
+ * @retval IOTC_BSP_TLS_STATE_OK The ECC signature is successfully created.
+ * @retval IOTC_BSP_CRYPTO_ERROR Can't create ECC signature.
  */
 iotc_bsp_crypto_state_t iotc_bsp_ecc(
     const iotc_crypto_key_data_t* private_key_pem, uint8_t* dst_buf,

@@ -19,10 +19,11 @@
 
 /**
  * @file     iotc_bsp_mem.h
- * @brief    Manage platform memory.
- * @detailed Customize how the client application manages memory. For instance, 
- * custom implementations can use static memory instead of heap memory or
- * inject metrics to track memory.
+ * @brief Manage platform memory.
+ *
+ * These functions customize how the client application manages memory. For 
+ * instance, custom implementations can use static memory instead of heap memory
+ * or inject metrics to track memory.
  */
 
 #include <stddef.h>
@@ -35,9 +36,9 @@ extern "C" {
  * @function
  * @brief Allocate memory.
  *
- * @param [in] byte_count the number of bytes to allocate.
+ * @param [in] byte_count The number of bytes to allocate.
  *
- * @return a pointer to the beginning of the allocated block.
+ * @return A pointer to the beginning of the allocated block.
  */
 void* iotc_bsp_mem_alloc(size_t byte_count);
 
@@ -49,9 +50,9 @@ void* iotc_bsp_mem_alloc(size_t byte_count);
  * size, the maximum amount of memory is saved, even if the block moves to a new
  * location. If the new size is larger, the leftover memory is empty.
  *
- * @param [in] ptr a pointer to a memory block to reallocate.
+ * @param [in] ptr A pointer to a memory block to reallocate.
  *
- * @return a pointer to the reallocated memory block.
+ * @return A pointer to the reallocated memory block.
  */
 void* iotc_bsp_mem_realloc(void* ptr, size_t byte_count);
 
@@ -65,7 +66,7 @@ void* iotc_bsp_mem_realloc(void* ptr, size_t byte_count);
  * @see iotc_bsp_mem_malloc
  * @see iotc_bsp_mem_realloc
  *
- * @param [in] ptr a pointer to a memory block to free.
+ * @param [in] ptr A pointer to a memory block to free.
  */
 void iotc_bsp_mem_free(void* ptr);
 
