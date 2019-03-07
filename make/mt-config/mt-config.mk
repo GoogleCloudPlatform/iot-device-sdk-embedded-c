@@ -68,7 +68,7 @@ endif
 
 IOTC_COMMON_COMPILER_FLAGS += -Wall -Werror
 IOTC_C_FLAGS +=
-IOTC_CXX_FLAGS += -Wextra -std=c++11
+IOTC_CXX_FLAGS += -Wextra -std=c++14
 
 # TEMPORARILY disable warnings until the code gets changed
 # For all compilers:

@@ -39,7 +39,7 @@ class EchoTestServer {
   public:
     enum class ServerError {
       kSuccess = 0,
-      kError = 1,
+      kInternalError = 1,
       kFailedAccept = 2,
       kFailedRecvFrom = 3,
       kFailedSendTo = 4,
@@ -52,7 +52,8 @@ class EchoTestServer {
 
     /**
      * @function
-     * @brief starts running server thread
+     * @brief runs proper echo server regarding the type of server
+     * socket(TCP/UDP).
      */
     void Run();
 
@@ -74,19 +75,9 @@ class EchoTestServer {
      * - kFailedGetAddrInfo - if getaddrinfo call finsished wiht error.
      * - kFailedSetSockOpt - if setsockopt call finished with error.
      * - kFailedListen - if listen call finished with error.
-     * - kError - otherwise.
+     * - kInternalError - otherwise.
      */
     ServerError CreateServer();
-
-    /**
-     * @function
-     * @brief runs proper echo server regarding the type of server
-     * socket(TCP/UDP).
-     *
-     * @return
-     * - kSuccess - if successfully run echo server.
-     */
-    ServerError RunServer();
 
     /**
      * @function
@@ -115,7 +106,7 @@ class EchoTestServer {
      */
     ServerError RunUdpServer();
 
-    std::thread server_thread_;
+    std::unique_ptr<std::thread> server_thread_;
     bool runnable_ = true;
     int server_socket_, client_socket_, recv_len_;
     char recv_buf_[kBufferSize];

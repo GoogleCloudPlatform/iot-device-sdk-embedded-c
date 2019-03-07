@@ -46,7 +46,7 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
   hints.ai_flags = 0;
   hints.ai_protocol = 0;
 
-  // Address resolution
+  // Address resolution.
   status = getaddrinfo(host, NULL, &hints, &result);
   if (0 != status) {
     return IOTC_BSP_IO_NET_STATE_ERROR;
@@ -57,7 +57,7 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
     if (-1 == *iotc_socket)
       continue;
 
-    // Set the socket to be non-blocking
+    // Set the socket to be non-blocking.
     const int flags = fcntl(*iotc_socket, F_GETFL);
     if (-1 == fcntl(*iotc_socket, F_SETFL, flags | O_NONBLOCK)) {
       freeaddrinfo(result);
@@ -71,9 +71,12 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
     case AF_INET:
       ((struct sockaddr_in*)(rp->ai_addr))->sin_port = htons(port);
       break;
+    default:
+      return IOTC_BSP_IO_NET_STATE_ERROR;
+      break;
     }
 
-    // Attempt to connect
+    // Attempt to connect.
     status = connect(*iotc_socket, rp->ai_addr, rp->ai_addrlen);
 
     if (-1 != status) {
@@ -92,8 +95,9 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
   return IOTC_BSP_IO_NET_STATE_ERROR;
 }
 
-iotc_bsp_io_net_state_t iotc_bsp_io_net_connection_check(
-    iotc_bsp_socket_t iotc_socket, const char* host, uint16_t port) {
+iotc_bsp_io_net_state_t
+iotc_bsp_io_net_connection_check(iotc_bsp_socket_t iotc_socket,
+                                 const char* host, uint16_t port) {
   IOTC_UNUSED(host);
   IOTC_UNUSED(port);
 
@@ -165,8 +169,8 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_read(iotc_bsp_socket_t iotc_socket,
   return IOTC_BSP_IO_NET_STATE_OK;
 }
 
-iotc_bsp_io_net_state_t iotc_bsp_io_net_close_socket(
-    iotc_bsp_socket_t* iotc_socket) {
+iotc_bsp_io_net_state_t
+iotc_bsp_io_net_close_socket(iotc_bsp_socket_t* iotc_socket) {
   if (NULL == iotc_socket) {
     return IOTC_BSP_IO_NET_STATE_ERROR;
   }
@@ -178,15 +182,15 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_close_socket(
   return IOTC_BSP_IO_NET_STATE_OK;
 }
 
-#define FD_SET(socket, event, pollfd) \
-  pollfd.fd = socket;                 \
+#define FD_SET(socket, event, pollfd)                                          \
+  pollfd.fd = socket;                                                          \
   pollfd.events |= event;
 #define FD_ISSET(event, pollfd) (pollfd.revents | event)
 
-iotc_bsp_io_net_state_t iotc_bsp_io_net_select(
-    iotc_bsp_socket_events_t* socket_events_array,
-    size_t socket_events_array_size, long timeout_sec) {
-  struct pollfd fds[1];  // note: single socket support
+iotc_bsp_io_net_state_t
+iotc_bsp_io_net_select(iotc_bsp_socket_events_t* socket_events_array,
+                       size_t socket_events_array_size, long timeout_sec) {
+  struct pollfd fds[1]; // note: single socket support
 
   /* translate the library socket events settings to the event sets used by
    * Zephyr poll mechanism

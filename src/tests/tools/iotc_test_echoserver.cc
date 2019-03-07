@@ -29,10 +29,17 @@ EchoTestServer::EchoTestServer(uint16_t socket_type, uint16_t port,
   CreateServer();
 }
 
-EchoTestServer::~EchoTestServer() { server_thread_.join(); }
+EchoTestServer::~EchoTestServer() {}
 
 void EchoTestServer::Run() {
-  server_thread_ = std::thread(&EchoTestServer::RunServer, this);
+  if (socket_type_ == SOCK_STREAM) {
+    server_thread_ =
+        std::make_unique<std::thread>(&EchoTestServer::RunTcpServer, this);
+  } else if (socket_type_ == SOCK_DGRAM) {
+    server_thread_ =
+        std::make_unique<std::thread>(&EchoTestServer::RunUdpServer, this);
+  }
+  return;
 }
 
 EchoTestServer::ServerError EchoTestServer::RunTcpServer() {
@@ -50,8 +57,8 @@ EchoTestServer::ServerError EchoTestServer::RunTcpServer() {
     }
     recv_len_ = read(client_socket_, recv_buf_, kBufferSize);
     recv_buf_[recv_len_] = '\0';
-    if(write(client_socket_, recv_buf_, recv_len_) != recv_len_)
-      return ServerError::kError;
+    if (write(client_socket_, recv_buf_, recv_len_) != recv_len_)
+      return ServerError::kInternalError;
     close(client_socket_);
   }
 
@@ -118,7 +125,7 @@ EchoTestServer::ServerError EchoTestServer::CreateServer() {
   }
 
   if (rp == NULL) {
-    return ServerError::kError;
+    return ServerError::kInternalError;
   }
   freeaddrinfo(result);
 
@@ -138,17 +145,10 @@ EchoTestServer::ServerError EchoTestServer::CreateServer() {
   return ServerError::kSuccess;
 }
 
-EchoTestServer::ServerError EchoTestServer::RunServer() {
-  if (socket_type_ == SOCK_STREAM) {
-    return RunTcpServer();
-  } else if (socket_type_ == SOCK_DGRAM) {
-    return RunUdpServer();
-  }
-  return ServerError::kSuccess;
-}
-
 void EchoTestServer::Stop() {
   runnable_ = false;
+  (*server_thread_).join();
+  delete server_thread_.release();
   return;
 }
 } // namespace iotctest
