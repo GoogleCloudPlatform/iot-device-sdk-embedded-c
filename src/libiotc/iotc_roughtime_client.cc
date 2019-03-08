@@ -119,7 +119,7 @@ iotc_roughtime_receive_time(int socket, const char* name,
     iotc_bsp_io_net_close_socket(reinterpret_cast<iotc_bsp_socket_t*>(&socket));
     return IOTC_ROUGHTIME_NETWORK_ERROR;
   }
-  const uint64_t kStartUs = iotc_bsp_time_getmonotonictime_microseconds();
+  const uint64_t kStartUs = iotc_bsp_time_getmonotonictime_milliseconds();
 
   if (bytes_written < 0 ||
       static_cast<size_t>(bytes_written) != kRequest.size()) {
