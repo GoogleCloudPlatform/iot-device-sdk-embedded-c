@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "gmock.h"
-#include "gtest.h"
 #include <cstdlib>
 #include <iostream>
+#include "gmock.h"
+#include "gtest.h"
 
 #include "iotc.h"
 #include "iotc_bsp_crypto.h"
@@ -27,21 +27,23 @@
 namespace iotctest {
 namespace {
 
-constexpr char kPrivateKey[] = "\
+constexpr char kPrivateKey[] =
+    "\
 -----BEGIN EC PRIVATE KEY-----\n\
 MHcCAQEEINg6KhkJ2297KYO4eyLTPtVIhLloIfp3IsJo9n6KqelfoAoGCCqGSM49\n\
 AwEHoUQDQgAE1Oi16oAc/+s5P5g2pzt3IDXfUBBUKUBrB8vgfyKOFb7sQTx4topE\n\
 E0KOix7rJyli6tiAJJDL4lbdf0YRo45THQ==\n\
 -----END EC PRIVATE KEY-----";
 
-constexpr char kPublicKey[] = "\
+constexpr char kPublicKey[] =
+    "\
 -----BEGIN PUBLIC KEY-----\n\
 MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE1Oi16oAc/+s5P5g2pzt3IDXfUBBU\n\
 KUBrB8vgfyKOFb7sQTx4topEE0KOix7rJyli6tiAJJDL4lbdf0YRo45THQ==\n\
 -----END PUBLIC KEY-----";
 
 class IotcJwt : public IotcHeapCheckTest {
-public:
+ public:
   IotcJwt() {
     iotc_initialize();
     private_key_.crypto_key_signature_algorithm =
@@ -214,5 +216,5 @@ TEST_F(IotcJwt, IoTCoreJwtCreateReturnsCorrectES256) {
                                     ecc_signature_length, kPublicKey));
 }
 
-} // namespace
-} // namespace iotctest
+}  // namespace
+}  // namespace iotctest
