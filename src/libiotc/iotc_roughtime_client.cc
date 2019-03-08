@@ -29,6 +29,9 @@
 // kTimeoutSeconds is the number of seconds that we will wait for a reply
 // from the server.
 static const int kTimeoutSeconds = 3;
+// kRetrialTimes is the number of time retrying to connect with server when if
+// it got failed
+static const int kRetrialTimes = 3;
 
 #ifdef __cplusplus
 extern "C" {
@@ -200,15 +203,21 @@ iotc_roughtime_getcurrenttime(const char* name, const char* public_key,
                               iotc_roughtime_timedata_t* time_data) {
   int socket;
   iotc_roughtime_state_t state;
-  if ((state = iotc_roughtime_create_socket(&socket, server_address)) !=
-      IOTC_ROUGHTIME_OK)
-    return state;
-  if ((state = iotc_roughtime_receive_time(socket, name, public_key,
-                                           time_data)) != IOTC_ROUGHTIME_OK)
-    return state;
-  return IOTC_ROUGHTIME_OK;
+  for (int i = 0; i < kRetrialTimes; i++) {
+    if ((state = iotc_roughtime_create_socket(&socket, server_address)) !=
+        IOTC_ROUGHTIME_OK) {
+      iotc_debug_logger("Failed on connecting socket.");
+      continue;
+    }
+    if ((state = iotc_roughtime_receive_time(socket, name, public_key,
+                                             time_data)) != IOTC_ROUGHTIME_OK) {
+      iotc_debug_logger("Failed on receving time is failed.");
+      continue;
+    }
+    return IOTC_ROUGHTIME_OK;
+  }
+  return state;
 }
-
 } // namespace roughtime
 
 #ifdef __cplusplus
