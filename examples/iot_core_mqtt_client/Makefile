@@ -15,5 +15,8 @@
 
 IOTC_EXAMPLE_NAME := iot_core_mqtt_client
 
+IOTC_EXAMPLES_COMMON_DIR := ../../common
+IOTC_EXAMPLES_COMMON_SRC_DIR := $(IOTC_EXAMPLES_COMMON_DIR)/src
+
 include ../common/rules.mk
 include ../common/targets.mk

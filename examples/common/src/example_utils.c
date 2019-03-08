@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
+#include <iotc.h>
 #include <iotc_jwt.h>
+#include <iotc_mqtt.h>
 #include <stdio.h>
 
 #include "commandline.h"
@@ -27,63 +29,13 @@ extern iotc_crypto_key_data_t iotc_connect_private_key_data;
 static iotc_timed_task_handle_t delayed_publish_task =
     IOTC_INVALID_TIMED_TASK_HANDLE;
 
-int iotc_example_handle_command_line_args(int argc, char* argv[]) {
-  char options[] = "h:p:d:t:m:f:";
-  int missingparameter = 0;
-  int retval = 0;
-
-  /* log the executable name and library version */
-  printf("\n%s\n%s\n", argv[0], iotc_cilent_version_str);
-
-  /* Parse the argv array for ONLY the options specified in the options string
-   */
-  retval = iotc_parse(argc, argv, options, sizeof(options));
-
-  if (-1 == retval) {
-    /* iotc_parse has returned an error, and has already logged the error
-       to the console. Therefore just silently exit here. */
-    return -1;
-  }
-
-  /* Check to see that the required parameters were all present on the command
-   * line */
-  if (NULL == iotc_project_id) {
-    missingparameter = 1;
-    printf("-p --project_id is required\n");
-  }
-
-  if (NULL == iotc_device_path) {
-    missingparameter = 1;
-    printf("-d --device_path is required\n");
-  }
-
-  if (NULL == iotc_publish_topic) {
-    missingparameter = 1;
-    printf("-t --publish_topic is required\n");
-  }
-
-  if (1 == missingparameter) {
-    /* Error has already been logged, above.  Silently exit here */
-    printf("\n");
-    return -1;
-  }
-
-  return 0;
-}
-
 int load_ec_private_key_pem_from_posix_fs(char* buf_ec_private_key_pem,
                                           size_t buf_len) {
-  FILE* fp = fopen(iotc_private_key_filename, "rb");
+  FILE* fp = fopen(iotc_core_parameters.private_key_filename, "rb");
   if (fp == NULL) {
-    printf("ERROR!\n");
-    printf(
-        "\tMissing Private Key required for JWT signing.\n"
-        "\tPlease copy and paste your device's EC private key into\n"
-        "\ta file with the following path based on this executable's\n"
-        "\tcurrent working dir:\n\t\t\'%s\'\n\n"
-        "\tAlternatively use the --help command line parameter to learn\n"
-        "\thow to set a path to your file using command line arguments\n",
-        iotc_private_key_filename);
+    printf("[ FAIL ] Private key not found: %s\n",
+           iotc_core_parameters.private_key_filename);
+    printf("\tThe path must be a relative path to the binary.\n");
     return -1;
   }
 
@@ -93,9 +45,12 @@ int load_ec_private_key_pem_from_posix_fs(char* buf_ec_private_key_pem,
 
   if ((size_t)file_size > buf_len) {
     printf(
-        "private key file size of %lu bytes is larger that certificate buffer "
-        "size of %lu bytes\n",
+        "[ FAIL ] Private key file size of %lu bytes is larger than the "
+        "expected certificate size of %lu bytes\n",
         file_size, (long)buf_len);
+    printf(
+        "\tPlease generate a correct private,public key pair according to\n"
+        "\thttps://cloud.google.com/iot/docs/how-tos/credentials/keys\n");
     fclose(fp);
     return -1;
   }
@@ -104,7 +59,8 @@ int load_ec_private_key_pem_from_posix_fs(char* buf_ec_private_key_pem,
   fclose(fp);
 
   if (bytes_read != file_size) {
-    printf("could not fully read private key file\n");
+    printf("[ FAIL ] Could not read private key file %s.\n",
+           iotc_core_parameters.private_key_filename);
     return -1;
   }
 
@@ -123,7 +79,7 @@ void on_connection_state_changed(iotc_context_handle_t in_context_handle,
     /* IOTC_CONNECTION_STATE_OPENED means that the connection has been
        established and the IoTC Client is ready to send/recv messages */
     case IOTC_CONNECTION_STATE_OPENED:
-      printf("connected to %s:%d\n", conn_data->host, conn_data->port);
+      printf("[ INFO ] Connected to %s:%d\n", conn_data->host, conn_data->port);
 
       /* Publish immediately upon connect. 'publish_function' is defined
          in this example file and invokes the IoTC API to publish a
@@ -142,7 +98,7 @@ void on_connection_state_changed(iotc_context_handle_t in_context_handle,
        is contained in the 'state' variable. Here we log the error state and
        exit out of the application. */
     case IOTC_CONNECTION_STATE_OPEN_FAILED:
-      printf("ERROR!\tConnection has failed reason %d\n\n", state);
+      printf("[ FAIL ] Connection failed. Reason: %d\n\n", state);
 
       /* exit it out of the application by stopping the event loop. */
       iotc_events_stop();
@@ -172,22 +128,20 @@ void on_connection_state_changed(iotc_context_handle_t in_context_handle,
          * in this example. */
         iotc_events_stop();
       } else {
-        printf("connection closed - reason %d!\n", state);
+        printf("[ INFO ] Connection closed. Reason: %d\n", state);
         /* The disconnection was unforeseen.  Try to reconnect to the server
            with the previously set username and client_id, but regenerate
            the client authentication JWT password in case the disconnection
            was due to an expired JWT. */
         char jwt[IOTC_JWT_SIZE] = {0};
         size_t bytes_written = 0;
-        state = iotc_create_iotcore_jwt(iotc_project_id,
+        state = iotc_create_iotcore_jwt(iotc_core_parameters.project_id,
                                         /*jwt_expiration_period_sec=*/3600,
                                         &iotc_connect_private_key_data, jwt,
                                         IOTC_JWT_SIZE, &bytes_written);
         if (IOTC_STATE_OK != state) {
-          printf(
-              "iotc_create_iotcore_jwt returned with error"
-              " when attempting to reconnect: %ul\n",
-              state);
+          printf("[ FAIL ] Failed to recreate JWT for reconnection: %d\n",
+                 state);
         } else {
           iotc_connect(in_context_handle, conn_data->username, jwt,
                        conn_data->client_id, conn_data->connection_timeout,
@@ -197,7 +151,8 @@ void on_connection_state_changed(iotc_context_handle_t in_context_handle,
       }
     } break;
     default:
-      printf("wrong value\n");
+      printf("[ FAIL ] Internal error, invalid conection state: %ul\n",
+             conn_data->connection_state);
       break;
   }
 }
@@ -215,10 +170,12 @@ void publish_function(iotc_context_handle_t context_handle,
      function 'on_connection_state_changed' above, so we can ignore it.) */
   IOTC_UNUSED(user_data);
 
-  printf("publishing msg \"%s\" to topic: \"%s\"\n", iotc_publish_message,
-         iotc_publish_topic);
+  printf("[INOF] Publishing message \"%s\" to topic: \"%s\"\n",
+         iotc_core_parameters.publish_message,
+         iotc_core_parameters.publish_topic);
 
-  iotc_publish(context_handle, iotc_publish_topic, iotc_publish_message,
-               iotc_example_qos,
+  iotc_publish(context_handle, iotc_core_parameters.publish_topic,
+               iotc_core_parameters.publish_message,
+               iotc_core_parameters.example_qos,
                /*callback=*/NULL, /*user_data=*/NULL);
 }

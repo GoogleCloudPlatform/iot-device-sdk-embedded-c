@@ -14,21 +14,27 @@
  * limitations under the License.
  */
 
-/*
- * This module implements a command line argument parser.
- */
+#ifndef __IOTC_EXAMPLES_COMMON_COMMANDLINE_H__
+#define __IOTC_EXAMPLES_COMMON_COMMANDLINE_H__
 
 #include <iotc_mqtt.h>
 
-/* Flags set by commandline arguments. */
-extern iotc_mqtt_qos_t iotc_example_qos;
+/* Parameters to GCP IoT Core. */
+typedef struct iotc_core_parameters_s {
+  const char* project_id;
+  const char* device_path;
+  const char* publish_topic;
+  const char* publish_message;
+  const char* private_key_filename;
+  iotc_mqtt_qos_t example_qos;
+} iotc_core_parameters_t;
 
-/* Parameters returned by the parser. These will be in a structure someday. */
-extern const char* iotc_project_id;
-extern const char* iotc_device_path;
-extern const char* iotc_publish_topic;
-extern const char* iotc_publish_message;
-extern const char* iotc_private_key_filename;
+extern iotc_core_parameters_t iotc_core_parameters;
 
-int iotc_parse(int argc, char** argv, char* valid_options,
-               const unsigned options_length);
+/* Parses the commandline flags to |iotc_core_parameters| global variable.
+ * Returns  0 on success,
+ *         -1 on error, or when help (-h, --help) was requested.
+ */
+int iotc_parse_commandline_flags(int argc, char** argv);
+
+#endif /* __IOTC_EXAMPLES_COMMON_COMMANDLINE_H__ */
