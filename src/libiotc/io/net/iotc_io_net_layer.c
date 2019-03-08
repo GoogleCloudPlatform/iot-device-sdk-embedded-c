@@ -80,7 +80,7 @@ iotc_state_t iotc_io_net_layer_connect(void* context, void* data,
         layer_data->socket);
   }
 
-  // return here whenever we can write
+  // Return here whenever we can write.
   IOTC_CR_YIELD(layer_data->layer_connect_cs, IOTC_STATE_OK);
 
   state = iotc_bsp_io_net_connection_check(

@@ -22,17 +22,41 @@
 
 namespace iotctest {
 
-EchoTestServer::EchoTestServer(uint16_t socket_type, uint16_t port,
-                               uint16_t protocol_type)
-    : socket_type_(socket_type), test_port_(port),
-      protocol_type_(protocol_type) {
-  CreateServer();
+EchoTestServer::EchoTestServer(std::string host, uint16_t port,
+                               uint16_t socket_type, uint16_t protocol_type)
+    : host_(host), test_port_(port), socket_type_(socket_type),
+      protocol_type_(protocol_type) {}
+EchoTestServer::~EchoTestServer() {}
+
+std::unique_ptr<EchoTestServer> EchoTestServer::Create(std::string host,
+                                                       uint16_t port,
+                                                       uint16_t socket_type,
+                                                       uint16_t protocol_type) {
+  std::unique_ptr<EchoTestServer> echo_test_server(
+      new EchoTestServer(host, port, socket_type, protocol_type));
+  echo_test_server->CreateServer();
+  return echo_test_server;
 }
 
-EchoTestServer::~EchoTestServer() { server_thread_.join(); }
-
 void EchoTestServer::Run() {
-  server_thread_ = std::thread(&EchoTestServer::RunServer, this);
+  if (server_thread_) {
+    Stop();
+  }
+  runnable_ = true;
+  if (socket_type_ == SOCK_STREAM) {
+    // TODO(b/127770330)
+    // server_thread_ =
+    //     std::make_unique<std::thread>(&EchoTestServer::RunTcpServer, this);
+    server_thread_ = std::unique_ptr<std::thread>(
+        new std::thread(&EchoTestServer::RunTcpServer, this));
+  } else if (socket_type_ == SOCK_DGRAM) {
+    // TODO(b/127770330)
+    // server_thread_ =
+    //     std::make_unique<std::thread>(&EchoTestServer::RunUdpServer, this);
+    server_thread_ = std::unique_ptr<std::thread>(
+        new std::thread(&EchoTestServer::RunUdpServer, this));
+  }
+  return;
 }
 
 EchoTestServer::ServerError EchoTestServer::RunTcpServer() {
@@ -50,8 +74,8 @@ EchoTestServer::ServerError EchoTestServer::RunTcpServer() {
     }
     recv_len_ = read(client_socket_, recv_buf_, kBufferSize);
     recv_buf_[recv_len_] = '\0';
-    if(write(client_socket_, recv_buf_, recv_len_) != recv_len_)
-      return ServerError::kError;
+    if (write(client_socket_, recv_buf_, recv_len_) != recv_len_)
+      return ServerError::kInternalError;
     close(client_socket_);
   }
 
@@ -95,7 +119,7 @@ EchoTestServer::ServerError EchoTestServer::CreateServer() {
   hints.ai_family = protocol_type_;
   hints.ai_socktype = socket_type_;
   hints.ai_flags = AI_PASSIVE;
-  status = getaddrinfo(NULL, port_s, &hints, &result);
+  status = getaddrinfo(host_.c_str(), port_s, &hints, &result);
   if (0 != status) {
     return ServerError::kFailedGetAddrInfo;
   }
@@ -118,7 +142,7 @@ EchoTestServer::ServerError EchoTestServer::CreateServer() {
   }
 
   if (rp == NULL) {
-    return ServerError::kError;
+    return ServerError::kInternalError;
   }
   freeaddrinfo(result);
 
@@ -138,17 +162,10 @@ EchoTestServer::ServerError EchoTestServer::CreateServer() {
   return ServerError::kSuccess;
 }
 
-EchoTestServer::ServerError EchoTestServer::RunServer() {
-  if (socket_type_ == SOCK_STREAM) {
-    return RunTcpServer();
-  } else if (socket_type_ == SOCK_DGRAM) {
-    return RunUdpServer();
-  }
-  return ServerError::kSuccess;
-}
-
 void EchoTestServer::Stop() {
   runnable_ = false;
+  server_thread_->join();
+  delete server_thread_.release();
   return;
 }
 } // namespace iotctest

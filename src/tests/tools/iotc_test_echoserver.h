@@ -39,7 +39,7 @@ class EchoTestServer {
   public:
     enum class ServerError {
       kSuccess = 0,
-      kError = 1,
+      kInternalError = 1,
       kFailedAccept = 2,
       kFailedRecvFrom = 3,
       kFailedSendTo = 4,
@@ -47,19 +47,26 @@ class EchoTestServer {
       kFailedSetSockOpt = 6,
       kFailedListen = 7,
     };
-    EchoTestServer(uint16_t socket_type, uint16_t port, uint16_t protocol_type);
+    static std::unique_ptr<EchoTestServer> Create(std::string host, uint16_t port,
+                                                  uint16_t socket_type,
+                                                  uint16_t protocol_type);
     virtual ~EchoTestServer();
 
     /**
      * @function
-     * @brief starts running server thread
+     * @brief runs proper echo server regarding the type of server
+     * socket(TCP/UDP).
      */
     void Run();
 
     void Stop();
 
   private:
-    const uint16_t socket_type_, test_port_, protocol_type_;
+    const std::string host_;
+    const uint16_t test_port_, socket_type_, protocol_type_;
+
+    EchoTestServer(std::string host, uint16_t port, uint16_t socket_type,
+                  uint16_t protocol_type);
 
     /**
      * @function
@@ -74,19 +81,9 @@ class EchoTestServer {
      * - kFailedGetAddrInfo - if getaddrinfo call finsished wiht error.
      * - kFailedSetSockOpt - if setsockopt call finished with error.
      * - kFailedListen - if listen call finished with error.
-     * - kError - otherwise.
+     * - kInternalError - otherwise.
      */
     ServerError CreateServer();
-
-    /**
-     * @function
-     * @brief runs proper echo server regarding the type of server
-     * socket(TCP/UDP).
-     *
-     * @return
-     * - kSuccess - if successfully run echo server.
-     */
-    ServerError RunServer();
 
     /**
      * @function
@@ -115,7 +112,7 @@ class EchoTestServer {
      */
     ServerError RunUdpServer();
 
-    std::thread server_thread_;
+    std::unique_ptr<std::thread> server_thread_;
     bool runnable_ = true;
     int server_socket_, client_socket_, recv_len_;
     char recv_buf_[kBufferSize];

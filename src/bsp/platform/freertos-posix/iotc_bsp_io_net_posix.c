@@ -52,7 +52,7 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
   hints.ai_flags = 0;
   hints.ai_protocol = 0;
 
-  // Address resolution
+  // Address resolution.
   status = getaddrinfo(host, NULL, &hints, &result);
   if (0 != status) {
     return IOTC_BSP_IO_NET_STATE_ERROR;
@@ -62,7 +62,7 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
     if (-1 == *iotc_socket)
       continue;
 
-    // Set the socket to be non-blocking
+    // Set the socket to be non-blocking.
     const int flags = fcntl(*iotc_socket, F_GETFL);
     if (-1 == fcntl(*iotc_socket, F_SETFL, flags | O_NONBLOCK)) {
       freeaddrinfo(result);
@@ -76,9 +76,12 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
     case AF_INET:
       ((struct sockaddr_in*)(rp->ai_addr))->sin_port = htons(port);
       break;
+    default:
+      return IOTC_BSP_IO_NET_STATE_ERROR;
+      break;
     }
 
-    // Attempt to connect
+    // Attempt to connect.
     status = connect(*iotc_socket, rp->ai_addr, rp->ai_addrlen);
 
     if (-1 != status) {
@@ -267,9 +270,9 @@ iotc_bsp_io_net_select(iotc_bsp_socket_events_t* socket_events_array,
   tv.tv_sec = timeout_sec;
 
   /* call the actual posix select */
-  const int kResult = select(max_fd + 1, &rfds, &wfds, &efds, &tv);
+  const int result = select(max_fd + 1, &rfds, &wfds, &efds, &tv);
 
-  if (0 < kResult) {
+  if (0 < result) {
     /* translate the result back to the socket events structure */
     for (socket_id = 0; socket_id < socket_events_array_size; ++socket_id) {
       iotc_bsp_socket_events_t* socket_events = &socket_events_array[socket_id];
@@ -294,7 +297,7 @@ iotc_bsp_io_net_select(iotc_bsp_socket_events_t* socket_events_array,
     }
 
     return IOTC_BSP_IO_NET_STATE_OK;
-  } else if (0 == kResult) {
+  } else if (0 == result) {
     return IOTC_BSP_IO_NET_STATE_TIMEOUT;
   }
 
