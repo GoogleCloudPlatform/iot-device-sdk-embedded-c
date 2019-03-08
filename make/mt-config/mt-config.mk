@@ -24,10 +24,7 @@ ifneq (,$(findstring tls_bsp,$(CONFIG)))
 	include make/mt-config/mt-crypto.mk
 endif
 
-#TODO(frec): conditionaly include
-#TODO(frec): conditionaly compile the roughtime client sources
-include make/mt-config/mt-roughtime.mk
-
+include make/mt-config/tests/mt-gtest.mk # For IOTC_GTEST_SOURCES
 
 IOTC_UNIT_TEST_TARGET ?= native
 
@@ -233,8 +230,7 @@ IOTC_SOURCES += $(foreach layerdir,$(IOTC_SRCDIRS),\
 IOTC_SOURCES_CXX := $(wildcard ./src/*.cc)
 IOTC_SOURCES_CXX += $(foreach layerdir,$(IOTC_SRCDIRS),\
 	$(wildcard $(layerdir)/*.cc))
-IOTC_SOURCES_CXX := $(filter-out %_test.cc, $(IOTC_SOURCES_CXX)) # Filter out tests
-
+IOTC_SOURCES_CXX := $(filter-out $(IOTC_GTEST_SOURCES), $(IOTC_SOURCES_CXX)) # Filter out tests
 
 ifeq ($(IOTC_DEBUG_OUTPUT),0)
 IOTC_SOURCES := $(filter-out $(LIBIOTC_SOURCE_DIR)/iotc_debug.c, $(IOTC_SOURCES) )
