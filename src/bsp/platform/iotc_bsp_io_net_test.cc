@@ -30,15 +30,15 @@ typedef struct NetworkType_s {
   iotc_bsp_protocol_type_t protocol_type;
   std::string listening_addr;
 
-  NetworkType_s(iotc_bsp_socket_type_t socket_type_,
-                iotc_bsp_protocol_type_t protocol_type_,
-                std::string listening_addr_)
-      : socket_type(socket_type_), protocol_type(protocol_type_),
-        listening_addr(listening_addr_){};
+  NetworkType_s(iotc_bsp_socket_type_t socket_type,
+                iotc_bsp_protocol_type_t protocol_type,
+                std::string listening_addr)
+      : socket_type(socket_type), protocol_type(protocol_type),
+        listening_addr(listening_addr){};
 } NetworkType;
 
 class ServerTest : public ::testing::TestWithParam<NetworkType> {
-  public:
+  protected:
     bool WaitUntilSocketReadyForWrite();
     bool WaitUntilSocketReadyForRead();
     iotc_bsp_socket_t test_socket_;
@@ -90,8 +90,8 @@ TEST_P(ServerTest, EndToEndCommunicationWorks) {
   //     std::make_unique<EchoTestServer>(socket_type, kTestPort,
   //     protocol_type);
 
-  std::unique_ptr<EchoTestServer> test_server(
-      new EchoTestServer(socket_type, kTestPort, protocol_type, listening_addr.c_str()));
+  std::unique_ptr<EchoTestServer> test_server = test_server->Create(
+      listening_addr, kTestPort, socket_type, protocol_type);
 
   ASSERT_EQ(iotc_bsp_io_net_socket_connect(
                 &test_socket_, listening_addr.c_str(), kTestPort, socket_type),

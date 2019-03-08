@@ -47,7 +47,9 @@ class EchoTestServer {
       kFailedSetSockOpt = 6,
       kFailedListen = 7,
     };
-    EchoTestServer(uint16_t socket_type, uint16_t port, uint16_t protocol_type, const char* host);
+    static std::unique_ptr<EchoTestServer> Create(std::string host, uint16_t port,
+                                                  uint16_t socket_type,
+                                                  uint16_t protocol_type);
     virtual ~EchoTestServer();
 
     /**
@@ -60,8 +62,11 @@ class EchoTestServer {
     void Stop();
 
   private:
-    const uint16_t socket_type_, test_port_, protocol_type_;
-    const char* host_;
+    const std::string host_;
+    const uint16_t test_port_, socket_type_, protocol_type_;
+
+    EchoTestServer(std::string host, uint16_t port, uint16_t socket_type,
+                  uint16_t protocol_type);
 
     /**
      * @function

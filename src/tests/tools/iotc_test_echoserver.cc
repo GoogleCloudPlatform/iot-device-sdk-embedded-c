@@ -22,18 +22,25 @@
 
 namespace iotctest {
 
-EchoTestServer::EchoTestServer(uint16_t socket_type, uint16_t port,
-                               uint16_t protocol_type, const char* host)
-    : socket_type_(socket_type), test_port_(port),
-      protocol_type_(protocol_type), host_(host) {
-  CreateServer();
-}
-
+EchoTestServer::EchoTestServer(std::string host, uint16_t port,
+                               uint16_t socket_type, uint16_t protocol_type)
+    : host_(host), test_port_(port), socket_type_(socket_type),
+      protocol_type_(protocol_type) {}
 EchoTestServer::~EchoTestServer() {}
+
+std::unique_ptr<EchoTestServer> EchoTestServer::Create(std::string host,
+                                                       uint16_t port,
+                                                       uint16_t socket_type,
+                                                       uint16_t protocol_type) {
+  std::unique_ptr<EchoTestServer> echo_test_server(
+      new EchoTestServer(host, port, socket_type, protocol_type));
+  echo_test_server->CreateServer();
+  return echo_test_server;
+}
 
 void EchoTestServer::Run() {
   if (server_thread_) {
-    EchoTestServer::Stop();
+    Stop();
   }
   runnable_ = true;
   if (socket_type_ == SOCK_STREAM) {
@@ -112,7 +119,7 @@ EchoTestServer::ServerError EchoTestServer::CreateServer() {
   hints.ai_family = protocol_type_;
   hints.ai_socktype = socket_type_;
   hints.ai_flags = AI_PASSIVE;
-  status = getaddrinfo(host_, port_s, &hints, &result);
+  status = getaddrinfo(host_.c_str(), port_s, &hints, &result);
   if (0 != status) {
     return ServerError::kFailedGetAddrInfo;
   }
