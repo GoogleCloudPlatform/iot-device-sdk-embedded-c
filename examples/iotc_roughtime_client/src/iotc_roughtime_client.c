@@ -22,8 +22,8 @@ int main() {
     return state;
   }
 
-  printf("Received reply in %" PRIu64 "μs.\n", time_data->reply_time);
-  printf("Current time is %" PRIu64 "μs from the epoch, ±%uμs \n",
+  printf("Received reply in %" PRIu64 "ms.\n", time_data->reply_time);
+  printf("Current time is %" PRIu64 "ms from the epoch, ±%uμs \n",
          time_data->timestamp, time_data->radius);
 
   return state;

@@ -159,7 +159,7 @@ iotc_roughtime_receive_time(int socket, const char* name,
     iotc_bsp_io_net_close_socket(reinterpret_cast<iotc_bsp_socket_t*>(&socket));
     return IOTC_ROUGHTIME_NETWORK_ERROR;
   }
-  const uint64_t kEndUs = iotc_bsp_time_getmonotonictime_microseconds();
+  const uint64_t kEndUs = iotc_bsp_time_getmonotonictime_milliseconds();
 
   iotc_bsp_io_net_close_socket(reinterpret_cast<iotc_bsp_socket_t*>(&socket));
 
@@ -188,6 +188,7 @@ iotc_roughtime_receive_time(int socket, const char* name,
   // add half the round-trip time to the server's timestamp to produce our
   // estimate of the current time.
   time_data->reply_time = (kEndUs - kStartUs);
+  time_data->timestamp /= 1000;
   time_data->timestamp += (time_data->reply_time) / 2;
 
   return IOTC_ROUGHTIME_OK;
