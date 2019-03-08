@@ -241,6 +241,12 @@ IOTC_SOURCES := $(filter-out $(LIBIOTC_SOURCE_DIR)/iotc_debug.c, $(IOTC_SOURCES)
 IOTC_SOURCES := $(filter-out $(LIBIOTC)/third_party/mqtt-protocol-c/iotc_debug_data_desc_dump.c, $(IOTC_SOURCES) )
 endif
 
+# conditionaly include Roughtime client sources
+ifndef IOTC_ENABLE_ROUGHTIME
+IOTC_SOURCES_CXX := $(filter-out $(LIBIOTC_SOURCE_DIR)/iotc_roughtime_client.cc, $(IOTC_SOURCES_CXX) )
+endif
+
+
 ifdef MAKEFILE_DEBUG
 $(info --mt-config-- Using [$(IOTC_BSP_PLATFORM)] BSP configuration)
 $(info --mt-config-- event_loop=$(IOTC_EVENT_LOOP))

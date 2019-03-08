@@ -15,6 +15,8 @@
 
 # Build configuration for Roughtime client support
 
+ifdef IOTC_ENABLE_ROUGHTIME
+
 ifneq ($(IOTC_BSP_TLS), wolfssl)
 $(error Roughtime feature needs wolfssl as crypto BSP; was IOTC_BSP_TLS="$(IOTC_BSP_TLS)")
 endif
@@ -41,3 +43,5 @@ $(ROUGHTIME_LIBRARY): $(ROUGHTIME_OBJS)
 	$(MD) $(AR) -rs -c $@ $^
 
 IOTC_ROUGHTIME_LIB_DEP ?= $(ROUGHTIME_LIBRARY)
+
+endif # IOTC_ENABLE_ROUGHTIME
