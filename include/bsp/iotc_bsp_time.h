@@ -63,9 +63,9 @@ iotc_time_t iotc_bsp_time_getcurrenttime_milliseconds();
 
 /**
  * @function
- * @brief Returns current monotonic time in microseconds.
+ * @brief Returns monotonically increasing time in millisecond precision.
  */
-iotc_time_t iotc_bsp_time_getmonotonictime_microseconds();
+iotc_time_t iotc_bsp_time_getmonotonictime_milliseconds();
 
 #ifdef __cplusplus
 }
