@@ -43,8 +43,6 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
   struct addrinfo hints;
   struct addrinfo *result, *rp = NULL;
   int status;
-  char port_s[10];
-  sprintf(port_s, "%d", port);
 
   memset(&hints, 0, sizeof(hints));
   hints.ai_family = AF_UNSPEC;
@@ -57,6 +55,7 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
   if (0 != status) {
     return IOTC_BSP_IO_NET_STATE_ERROR;
   }
+
   for (rp = result; rp != NULL; rp = rp->ai_next) {
     *iotc_socket = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
     if (-1 == *iotc_socket)
