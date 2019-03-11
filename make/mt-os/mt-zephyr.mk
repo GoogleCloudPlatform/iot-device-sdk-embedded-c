@@ -26,6 +26,7 @@ include make/mt-os/mt-os-common.mk
 IOTC_INCLUDE_FLAGS += -I$(ZEPHYR_BASE)/include
 
 IOTC_BSP_TLS_BUILD_ARGS = -m32
+IOTC_ZEPHYR_EXAMPLE_PATH = $(LIBIOTC)/third_party/zephyr_integration/zephyr_native_posix
 
 #  sys/types.h
 IOTC_INCLUDE_FLAGS += -I$(ZEPHYR_BASE)/include/posix
@@ -35,7 +36,7 @@ IOTC_INCLUDE_FLAGS += -I$(ZEPHYR_BASE)/arch/posix/include
 IOTC_INCLUDE_FLAGS += -I$(ZEPHYR_BASE)/soc/posix/inf_clock
 IOTC_INCLUDE_FLAGS += -I$(ZEPHYR_BASE)/boards/posix/native_posix
 
-IOTC_INCLUDE_FLAGS += -I$(LIBIOTC)/examples/zephyr_native_posix/build/zephyr/include/generated
+IOTC_INCLUDE_FLAGS += -I$(IOTC_ZEPHYR_EXAMPLE_PATH)/build/zephyr/include/generated
 
 IOTC_ARFLAGS += -rs -c $(XI)
 
@@ -56,7 +57,7 @@ IOTC_LIBCRYPTO_AVAILABLE := 1
 
 IOTC_THIRD_PARTY_DIR = $(LIBIOTC)/third_party
 IOTC_ZEPHYR_README_PATH = $(IOTC_THIRD_PARTY_DIR)/zephyr/README.rst
-IOTC_ZEPHYR_PREREQUISITE_AUTOCONF = $(LIBIOTC)/examples/zephyr_native_posix/build/zephyr/include/generated/autoconf.h
+IOTC_ZEPHYR_PREREQUISITE_AUTOCONF = $(IOTC_ZEPHYR_EXAMPLE_PATH)/build/zephyr/include/generated/autoconf.h
 
 #################################################################
 # git clone Zephyr repository ###################################
@@ -71,8 +72,7 @@ export ZEPHYR_TOOLCHAIN_VARIANT = zephyr
 export ZEPHYR_BASE = $(IOTC_THIRD_PARTY_DIR)/zephyr
 
 IOTC_ZEPHYR_PREREQUISITE_AUTOCONF: $(IOTC_ZEPHYR_README_PATH)
-	#  source $(dir $<)/zephyr-env.sh; cd $(LIBIOTC)/examples/zephyr_native_posix; ./prebuild.sh
-	cd $(LIBIOTC)/examples/zephyr_native_posix; ./prebuild.sh
+	cd $(IOTC_ZEPHYR_EXAMPLE_PATH); ./prebuild.sh
 
 IOTC_BUILD_PRECONDITIONS := IOTC_ZEPHYR_PREREQUISITE_AUTOCONF
 
