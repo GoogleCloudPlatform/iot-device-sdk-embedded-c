@@ -22,3 +22,26 @@ make \
 cd bin \
 ./iot_core_mqtt_client -p <i><b>PROJECT_ID</b></i> -d projects/<i><b>PROJECT_ID</b></i>/locations/<i><b>REGION</b></i>/registries/<i><b>REGISTRY_ID</b></i>/devices/<i><b>DEVICE_ID</b></i> -t /devices/<i><b>DEVICE_ID</b></i>/state
 </pre>
+
+## Troubleshooting
+
+### Resolving platform-incompatible build errors
+
+When building the example, if you encounter similar errors like:
+
+```
+/usr/bin/ld: skipping incompatible .../third_party/tls/mbedtls/library//libmbedcrypto.a when searching for -lmbedcrypto
+```
+
+do the following, from the repository's root directory:
+
+```
+rm -rf third_party/tls/mbedtls
+make clean
+make
+cd examples/iot_core_mqtt_client
+make clean
+make
+```
+
+This should download the compatible port of mbedTLS, build the IoTC library and the example.

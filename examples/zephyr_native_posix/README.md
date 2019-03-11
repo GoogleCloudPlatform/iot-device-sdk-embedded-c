@@ -25,13 +25,13 @@ zephyr/zephyr.exe -testargs -p <i><b>PROJECT_ID</b></i> -d projects/<i><b>PROJEC
 ## Troubleshooting
 
 ### Setting up internet access on the native_posix board
-By default, the Zephyr application claims IP 192.0.2.1 and is in the same subnet with the `zeth` virtual network adapter at IP 192.0.2.2. This subnet must be connected to the internet. 
+By default, the Zephyr application claims IP 192.0.2.1 and is in the same subnet with the `zeth` virtual network adapter at IP 192.0.2.2. This subnet must be connected to the internet.
 
 To ensure internet connectivity, run the [socket HTTP GET example](https://docs.zephyrproject.org/latest/samples/net/sockets/http_get/README.html).
 
 Read the following references to start the `zeth` virtual network adapter and connect the subnet to internet see the Zephyr instructions.
 - [Networking with native_posix board](https://docs.zephyrproject.org/latest/guides/networking/native_posix_setup.html)
-- [Setting up Zephyr and NAT and masquerading on host to access internet](https://docs.zephyrproject.org/latest/guides/networking/qemu_setup.html#setting-up-zephyr-and-nat-masquerading-on-host-to-access-internet) 
+- [Setting up Zephyr and NAT and masquerading on host to access internet](https://docs.zephyrproject.org/latest/guides/networking/qemu_setup.html#setting-up-zephyr-and-nat-masquerading-on-host-to-access-internet)
 
 ### Setting up the Zephyr development system
 
@@ -40,3 +40,24 @@ Another way to set environment variables is by permanently set up the Zephyr env
 ### Validating Cloud IoT Core credentials
 
 Build the [MQTT client example](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/tree/docs_updates/examples/iot_core_mqtt_client) to validate your Cloud IoT Core credentials.
+
+### Resolving platform-incompatible build errors
+
+When building the example, if you encounter similar errors like:
+
+```
+examples/zephyr_native_posix/../../third_party/tls/mbedtls/library/libmbedcrypto.a(timing.o)' is incompatible with i386 output
+```
+
+do the following, from the repository's root directory:
+
+```
+rm -rf third_party/tls/mbedtls
+make clean
+make make PRESET=ZEPHYR
+cd examples/zephyr_native_posix/build
+make clean
+make
+```
+
+This should download the compatible port of mbedTLS, build the IoTC library and the example.

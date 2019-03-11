@@ -53,7 +53,6 @@
  */
 
 #include <stdio.h>
-#include "/usr/local/google/home/verkri/iot/examples/common/src/commandline.h"
 #include "FreeRTOS.h"
 #include "task.h"
 

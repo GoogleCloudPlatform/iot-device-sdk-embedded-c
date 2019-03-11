@@ -28,3 +28,24 @@ make
 ### Validating Cloud IoT Core credentials
 
 Build the MQTT client example to validate your Cloud IoT Core credentials.
+
+### Resolving platform-incompatible build errors
+
+When building the example, if you encounter similar errors like:
+
+```
+
+```
+
+do the following, from the repository's root directory:
+
+```
+rm -rf third_party/tls/mbedtls
+make clean
+make make PRESET=ZEPHYR
+cd examples/zephyr_native_posix/build
+make clean
+make
+```
+
+This should download the compatible port of mbedTLS, build the IoTC library and the example.

@@ -17,8 +17,8 @@ IOTC_EXAMPLE_NAME := iot_core_mqtt_client
 IOTC_EXAMPLE_TARGET_PLATFORM := linux
 IOTC_EXAMPLE_SRCS = src/iot_core_mqtt_client.c
 
-include ../newrules.mk
-include ../newtargets.mk
+include ../rules.mk
+include ../targets.mk
 
 default: $(IOTC_EXAMPLE_BINARY)
 
