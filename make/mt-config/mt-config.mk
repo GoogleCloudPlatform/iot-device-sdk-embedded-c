@@ -151,7 +151,7 @@ endif
 BSP_PLATFORM_DIR_EXIST := $(shell if [ ! -d $(IOTC_BSP_DIR)/platform/$(IOTC_BSP_PLATFORM) ]; then echo 0; else echo 1; fi; )
 
 ifeq ($(BSP_PLATFORM_DIR_EXIST),0)
-	$(error The platform with BSP implementation - [$(IOTC_BSP_PLATFORM)] couldn't be found. Please check your $(IOTC_BSP_DIR)/platform/ directory.)
+	#$(error The platform with BSP implementation - [$(IOTC_BSP_PLATFORM)] couldn't be found. Please check your $(IOTC_BSP_DIR)/platform/ directory.)
 endif
 
 IOTC_SRCDIRS += $(IOTC_BSP_DIR)
