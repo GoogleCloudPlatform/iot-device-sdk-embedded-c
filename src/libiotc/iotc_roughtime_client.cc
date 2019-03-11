@@ -173,17 +173,6 @@ iotc_roughtime_receive_time(int socket, const char* public_key,
 
   iotc_bsp_io_net_close_socket(reinterpret_cast<iotc_bsp_socket_t*>(&socket));
 
-  if (buf_len == -1) {
-    if (errno == EINTR) {
-      iotc_debug_format(stderr, "No response whithin %d seconds.\n",
-                        kTimeoutSeconds);
-      return IOTC_ROUGHTIME_TIMEOUT_ERROR;
-    }
-
-    iotc_debug_logger("ERROR: Read from the socket");
-    return IOTC_ROUGHTIME_NETWORK_ERROR;
-  }
-
   std::string error;
   if (!roughtime::ParseResponse(
           &(time_data->timestamp), &(time_data->radius), &error,
