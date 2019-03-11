@@ -28,8 +28,6 @@
 #include "iotc_globals.h"
 #include "iotc_io_timeouts.h"
 
-#include <sys/socket.h>
-
 iotc_state_t iotc_io_net_layer_connect(void* context, void* data,
                                        iotc_state_t in_out_state) {
   IOTC_LAYER_FUNCTION_PRINT_FUNCTION_DIGEST();

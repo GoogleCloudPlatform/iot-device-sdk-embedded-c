@@ -25,9 +25,8 @@
  * @param num_evtds
  * @return number of sockets that require update
  */
-static size_t
-iotc_bsp_event_loop_count_all_sockets(iotc_evtd_instance_t **event_dispatchers,
-                                      uint8_t num_evtds) {
+static size_t iotc_bsp_event_loop_count_all_sockets(
+    iotc_evtd_instance_t** event_dispatchers, uint8_t num_evtds) {
   if (NULL == event_dispatchers || 0 == num_evtds) {
     return IOTC_INVALID_PARAMETER;
   }
@@ -36,7 +35,7 @@ iotc_bsp_event_loop_count_all_sockets(iotc_evtd_instance_t **event_dispatchers,
 
   uint8_t evtd_id = 0;
   for (; evtd_id < num_evtds; ++evtd_id) {
-    const iotc_evtd_instance_t *event_dispatcher = event_dispatchers[evtd_id];
+    const iotc_evtd_instance_t* event_dispatcher = event_dispatchers[evtd_id];
     assert(NULL != event_dispatcher);
 
     ret_num_of_sockets +=
@@ -47,9 +46,9 @@ iotc_bsp_event_loop_count_all_sockets(iotc_evtd_instance_t **event_dispatchers,
 }
 
 iotc_state_t iotc_bsp_event_loop_transform_to_bsp_select(
-    iotc_evtd_instance_t **in_event_dispatchers, uint8_t in_num_evtds,
-    iotc_bsp_socket_events_t *in_socket_events_array,
-    size_t in_socket_events_array_length, iotc_time_t *out_timeout) {
+    iotc_evtd_instance_t** in_event_dispatchers, uint8_t in_num_evtds,
+    iotc_bsp_socket_events_t* in_socket_events_array,
+    size_t in_socket_events_array_length, iotc_time_t* out_timeout) {
   if (NULL == out_timeout || NULL == in_event_dispatchers ||
       NULL == in_socket_events_array || 0 == in_num_evtds) {
     return IOTC_INVALID_PARAMETER;
@@ -62,7 +61,7 @@ iotc_state_t iotc_bsp_event_loop_transform_to_bsp_select(
 
   uint8_t evtd_id = 0;
   for (evtd_id = 0; evtd_id < in_num_evtds; ++evtd_id) {
-    iotc_evtd_instance_t *event_dispatcher = in_event_dispatchers[evtd_id];
+    iotc_evtd_instance_t* event_dispatcher = in_event_dispatchers[evtd_id];
     assert(NULL != event_dispatcher);
 
     iotc_vector_index_type_t i = 0;
@@ -88,8 +87,8 @@ iotc_state_t iotc_bsp_event_loop_transform_to_bsp_select(
     }
 
     for (i = 0; i < event_dispatcher->handles_and_socket_fd->elem_no; ++i) {
-      iotc_evtd_fd_tuple_t *tuple =
-          (iotc_evtd_fd_tuple_t *)event_dispatcher->handles_and_socket_fd
+      iotc_evtd_fd_tuple_t* tuple =
+          (iotc_evtd_fd_tuple_t*)event_dispatcher->handles_and_socket_fd
               ->array[i]
               .selector_t.ptr_value;
 
@@ -98,7 +97,7 @@ iotc_state_t iotc_bsp_event_loop_transform_to_bsp_select(
 
       IOTC_UNUSED(in_socket_events_array_length);
 
-      iotc_bsp_socket_events_t *socket_to_update =
+      iotc_bsp_socket_events_t* socket_to_update =
           &in_socket_events_array[socket_id];
       assert(NULL != socket_to_update);
 
@@ -143,8 +142,8 @@ iotc_state_t iotc_bsp_event_loop_transform_to_bsp_select(
 }
 
 iotc_state_t iotc_bsp_event_loop_update_event_dispatcher(
-    iotc_evtd_instance_t **in_event_dispatchers, uint8_t in_num_evtds,
-    iotc_bsp_socket_events_t *in_socket_events_array,
+    iotc_evtd_instance_t** in_event_dispatchers, uint8_t in_num_evtds,
+    iotc_bsp_socket_events_t* in_socket_events_array,
     size_t in_socket_events_array_length)
 
 {
@@ -158,13 +157,13 @@ iotc_state_t iotc_bsp_event_loop_update_event_dispatcher(
 
   uint8_t evtd_id = 0;
   for (evtd_id = 0; evtd_id < in_num_evtds; ++evtd_id) {
-    iotc_evtd_instance_t *event_dispatcher = in_event_dispatchers[evtd_id];
+    iotc_evtd_instance_t* event_dispatcher = in_event_dispatchers[evtd_id];
 
     iotc_vector_index_type_t i = 0;
 
     for (i = 0; i < event_dispatcher->handles_and_socket_fd->elem_no; ++i) {
-      iotc_evtd_fd_tuple_t *tuple =
-          (iotc_evtd_fd_tuple_t *)event_dispatcher->handles_and_socket_fd
+      iotc_evtd_fd_tuple_t* tuple =
+          (iotc_evtd_fd_tuple_t*)event_dispatcher->handles_and_socket_fd
               ->array[i]
               .selector_t.ptr_value;
 
@@ -177,7 +176,7 @@ iotc_state_t iotc_bsp_event_loop_update_event_dispatcher(
 
       /* make sure that the socket_id is valid */
       assert(socket_id < in_socket_events_array_length);
-      iotc_bsp_socket_events_t *socket_to_update =
+      iotc_bsp_socket_events_t* socket_to_update =
           &in_socket_events_array[socket_id];
 
       /* sanity check on retrieved value */
@@ -203,10 +202,9 @@ err_handling:
   return state;
 }
 
-iotc_state_t
-iotc_event_loop_with_evtds(uint32_t num_iterations,
-                           iotc_evtd_instance_t **event_dispatchers,
-                           uint8_t num_evtds) {
+iotc_state_t iotc_event_loop_with_evtds(
+    uint32_t num_iterations, iotc_evtd_instance_t** event_dispatchers,
+    uint8_t num_evtds) {
   if (NULL == event_dispatchers || 0 == num_evtds) {
     return IOTC_INVALID_PARAMETER;
   }
@@ -239,7 +237,7 @@ iotc_event_loop_with_evtds(uint32_t num_iterations,
 
     /* call the bsp select function */
     const iotc_bsp_io_net_state_t select_state = iotc_bsp_io_net_select(
-        (iotc_bsp_socket_events_t *)&array_of_sockets_to_update,
+        (iotc_bsp_socket_events_t*)&array_of_sockets_to_update,
         no_of_sockets_to_update, timeout);
 
     if (IOTC_BSP_IO_NET_STATE_OK == select_state) {

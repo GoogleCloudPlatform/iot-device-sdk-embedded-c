@@ -26,9 +26,10 @@ typedef struct iotc_roughtime_timedata_s {
   /**
    * reply_time - time spent on receiving current time from the server
    * timestamp - current time received from the server
+   * radius - certainty of timestamp
    */
-  uint64_t reply_time, timestamp;
-  /** radius - certainty of timestamp */
+  uint64_t reply_time;
+  uint64_t timestamp;
   uint32_t radius;
 } iotc_roughtime_timedata_t;
 
@@ -46,7 +47,7 @@ typedef struct iotc_roughtime_timedata_s {
  * and receiving time from roughtime server.
  */
 iotc_roughtime_state_t
-iotc_roughtime_getcurrenttime(const char* name, const char* public_key,
+iotc_roughtime_getcurrenttime(const char* public_key,
                               const char* server_address,
                               iotc_roughtime_timedata_t* time_data);
 
