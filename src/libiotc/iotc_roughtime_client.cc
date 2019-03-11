@@ -189,7 +189,7 @@ iotc_roughtime_receive_time(int socket, const char* public_key,
           &(time_data->timestamp), &(time_data->radius), &error,
           reinterpret_cast<const uint8_t*>(server_public_key.data()), recv_buf,
           buf_len, nonce)) {
-    iotc_debug_format(stderr, "ERROR: Response failed verification: %s",
+    iotc_debug_format("ERROR: Response failed verification: %s",
                       error.c_str());
     return IOTC_ROUGHTIME_RECEIVE_TIME_ERROR;
   }

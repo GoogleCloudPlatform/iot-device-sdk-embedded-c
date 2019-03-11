@@ -14,15 +14,15 @@ int main() {
   const char* public_key = "gD63hSj3ScS+wuOeGrubXlq35N1c5Lby/S+T7MNTjxo=";
   const char* server_address = "roughtime.cloudflare.com:2002";
   iotc_roughtime_state_t state;
-  iotc_roughtime_timedata_t* time_data = NULL;
+  iotc_roughtime_timedata_t time_data;
   if ((state = iotc_roughtime_getcurrenttime(public_key, server_address,
-                                             time_data)) != IOTC_ROUGHTIME_OK) {
+                                             &time_data)) != IOTC_ROUGHTIME_OK) {
     return state;
   }
 
-  printf("Received reply in %" PRIu64 "ms.\n", time_data->reply_time);
+  printf("Received reply in %" PRIu64 "ms.\n", time_data.reply_time);
   printf("Current time is %" PRIu64 "ms from the epoch, ±%uμs \n",
-         time_data->timestamp, time_data->radius);
+         time_data.timestamp, time_data.radius);
 
   return state;
 }
