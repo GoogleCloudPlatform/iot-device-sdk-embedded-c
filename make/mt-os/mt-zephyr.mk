@@ -22,7 +22,7 @@ IOTC_C_FLAGS += -imacros autoconf.h
 IOTC_LIB_FLAGS += $(IOTC_TLS_LIBFLAGS) -lpthread -lm -lcrypto
 
 IOTC_ZEPHYR_INTEGRATION_PATH = $(LIBIOTC)/third_party/zephyr_integration
-IOTC_ZEPHYR_BSP_PATH = $(IOTC_ZEPHYR_INTEGRATION_PATH)/zephyr
+IOTC_ZEPHYR_BSP_PATH = $(IOTC_ZEPHYR_INTEGRATION_PATH)/zephyr_bsp
 IOTC_ZEPHYR_EXAMPLE_PATH = $(IOTC_ZEPHYR_INTEGRATION_PATH)/zephyr_native_posix
 
 # add Zephyr BSP files manually
