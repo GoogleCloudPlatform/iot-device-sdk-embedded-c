@@ -58,7 +58,7 @@ GTEST_OBJS := $(GTEST_OBJDIR)/gtest-all.o \
 IOTC_GTEST_SUITE ?= iotc_gtests
 IOTC_GTEST_OBJDIR := $(IOTC_TEST_OBJDIR)/gtests
 
-# Test cases: files ending in _test.cc or _test_something.cc
+# Test cases: files ending in _test.cc
 IOTC_GTEST_SOURCES := $(shell find $(LIBIOTC)/src -name "*_test.cc")
 # Test utils: .cc files in src/tests/
 IOTC_GTEST_SOURCES += $(shell find $(LIBIOTC)/src/tests -name "*.cc")
