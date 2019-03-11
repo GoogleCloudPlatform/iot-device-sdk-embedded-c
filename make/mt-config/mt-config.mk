@@ -24,6 +24,7 @@ ifneq (,$(findstring tls_bsp,$(CONFIG)))
 	include make/mt-config/mt-crypto.mk
 endif
 
+include make/mt-config/mt-roughtime.mk
 include make/mt-config/tests/mt-gtest.mk # For IOTC_GTEST_SOURCES
 
 IOTC_UNIT_TEST_TARGET ?= native
