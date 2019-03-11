@@ -34,8 +34,8 @@ make -C examples/iot_core_mqtt_client
 
 ```
 examples/iot_core_mqtt_client/bin/iot_core_mqtt_client \
--p <i><b>PROJECT_ID</b></i> \
--f examples/iot_core_mqtt_client/ec_private.pem
--d projects/<i><b>PROJECT_ID</b></i>/locations/<i><b>REGION</b></i>/registries/<i><b>REGISTRY_ID</b></i>/devices/<i><b>DEVICE_ID</b></i> \
--t /devices/<i><b>DEVICE_ID</b></i>/state \
+    -p <i><b>PROJECT_ID</b></i> \
+    -f examples/iot_core_mqtt_client/ec_private.pem
+    -d projects/<i><b>PROJECT_ID</b></i>/locations/<i><b>REGION</b></i>/registries/<i><b>REGISTRY_ID</b></i>/devices/<i><b>DEVICE_ID</b></i> \
+    -t /devices/<i><b>DEVICE_ID</b></i>/state \
 ```

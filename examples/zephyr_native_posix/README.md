@@ -34,12 +34,11 @@ make -C examples/zephyr_native_posix/build
 1. Run the following command to connect to Cloud IoT Core and issue a `PUBLISH` message every five seconds.
 
 ```
-examples/zephyr_native_posix/zephyr/zephyr.exe \
--testargs \
--p <i><b>PROJECT_ID</b></i> \
--f examples/zephyr_native_posix/zephyr/ec_private.pem
--d projects/<i><b>PROJECT_ID</b></i>/locations/<i><b>REGION</b></i>/registries/<i><b>REGISTRY_ID</b></i>/devices/<i><b>DEVICE_ID</b></i> \
--t /devices/<i><b>DEVICE_ID</b></i>/state \
+examples/zephyr_native_posix/zephyr/zephyr.exe -testargs \
+    -p <i><b>PROJECT_ID</b></i> \
+    -f examples/zephyr_native_posix/zephyr/ec_private.pem
+    -d projects/<i><b>PROJECT_ID</b></i>/locations/<i><b>REGION</b></i>/registries/<i><b>REGISTRY_ID</b></i>/devices/<i><b>DEVICE_ID</b></i> \
+    -t /devices/<i><b>DEVICE_ID</b></i>/state \
 ```
 
 ## Troubleshooting
