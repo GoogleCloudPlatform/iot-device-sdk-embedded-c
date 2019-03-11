@@ -18,12 +18,13 @@ IOTC_EXAMPLE_TARGET_PLATFORM := linux
 IOTC_EXAMPLE_SRCS = src/iot_core_mqtt_client.c
 
 include ../rules.mk
+
+all: $(IOTC_EXAMPLE_BINARY)
+
 include ../targets.mk
 
-default: $(IOTC_EXAMPLE_BINARY)
-
+.PHONY: clean
 clean:
 	$(info [clean] $(IOTC_EXAMPLE_NAME) )
 	@rm -rf $(IOTC_EXAMPLE_OBJDIR)
 	@rm -rf $(IOTC_EXAMPLE_BINDIR)
-	@rm -rf $(IOTC_EXAMPLE_PEMDIR)

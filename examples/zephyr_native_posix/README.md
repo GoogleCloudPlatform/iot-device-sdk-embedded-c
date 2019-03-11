@@ -54,7 +54,7 @@ do the following, from the repository's root directory:
 ```
 rm -rf third_party/tls/mbedtls
 make clean
-make make PRESET=ZEPHYR
+make PRESET=ZEPHYR
 cd examples/zephyr_native_posix/build
 make clean
 make

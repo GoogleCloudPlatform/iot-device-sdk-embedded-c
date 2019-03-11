@@ -36,14 +36,16 @@ void main(void) {
   native_get_cmd_line_args(&argc, &argv);
 
   /* Zephyr passes the "-testargs" internal command line argument too. This code
-   * skips it to be compatible to the native command line argument handling. */
+   * skips it to be compatible to the native command line argument handling.
+   */
   if (1 < argc && 0 == strcmp(argv[1], "-testargs")) {
     --argc;
     ++argv;
   }
 
   /* Parse the GCP IoT Core parameters (project_id, registry_id, device_id,
-   * private_key, publish topic, publish message) */
+   * private_key, publish topic, publish message).
+   */
   if (0 != iotc_parse_commandline_flags(argc, argv)) {
     return;
   }
@@ -56,8 +58,9 @@ void main(void) {
   }
 
   /* Format the key type descriptors so the client understands
-     what type of key is being represented. In this case, a PEM encoded
-     byte array of a ES256 key. */
+   * what type of key is being represented. In this case, a PEM encoded
+   * byte array of a ES256 key.
+   */
   iotc_connect_private_key_data.crypto_key_signature_algorithm =
       IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256;
   iotc_connect_private_key_data.crypto_key_union_type =
@@ -75,9 +78,10 @@ void main(void) {
     return;
   }
 
-  /*  Create a connection context. A context represents a Connection
-        on a single socket, and can be used to publish and subscribe
-        to numerous topics. */
+  /* Create a connection context. A context represents a Connection
+   * on a single socket, and can be used to publish and subscribe
+   * to numerous topics.
+   */
   iotc_context = iotc_create_context();
   if (IOTC_INVALID_CONTEXT_HANDLE >= iotc_context) {
     printk("[ FAIL ] Failed to create IoTC context. Reason: %d\n",
@@ -89,7 +93,8 @@ void main(void) {
   const uint16_t keepalive_timeout = 10;
 
   /* Generate the client authentication JWT, which will serve as the MQTT
-   * password. */
+   * password.
+   */
   char jwt[IOTC_JWT_SIZE] = {0};
   size_t bytes_written = 0;
   iotc_state_t state = iotc_create_iotcore_jwt(
@@ -109,7 +114,7 @@ void main(void) {
 
   iotc_events_process_blocking();
 
-  /*  Cleanup the default context, releasing its memory */
+  /*  Cleanup the default context, releasing its memory. */
   iotc_delete_context(iotc_context);
 
   /* Cleanup internal allocations that were created by iotc_initialize. */

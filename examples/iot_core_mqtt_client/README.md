@@ -11,16 +11,15 @@ Before you begin, generate a [public/private key pair](https://cloud.google.com/
 2. From the root directory, generate the native example application.
 
 ```
-cd examples/iot_core_mqtt_client \
+cd examples/iot_core_mqtt_client
 make
 ```
 
 3. Run the following commands, substituting in your device and project information.
 
 <pre>
-make \
-cd bin \
-./iot_core_mqtt_client -p <i><b>PROJECT_ID</b></i> -d projects/<i><b>PROJECT_ID</b></i>/locations/<i><b>REGION</b></i>/registries/<i><b>REGISTRY_ID</b></i>/devices/<i><b>DEVICE_ID</b></i> -t /devices/<i><b>DEVICE_ID</b></i>/state
+make
+./bin/iot_core_mqtt_client -p <i><b>PROJECT_ID</b></i> -d projects/<i><b>PROJECT_ID</b></i>/locations/<i><b>REGION</b></i>/registries/<i><b>REGISTRY_ID</b></i>/devices/<i><b>DEVICE_ID</b></i> -t /devices/<i><b>DEVICE_ID</b></i>/state
 </pre>
 
 ## Troubleshooting

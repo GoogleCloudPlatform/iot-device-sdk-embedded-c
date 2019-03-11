@@ -25,8 +25,9 @@
 #include <iotc.h>
 #include <iotc_jwt.h>
 #include <stdio.h>
-#include "../../common/src/commandline.h"
-#include "../../common/src/example_utils.h"
+
+#include "commandline.h"
+#include "example_utils.h"
 
 /* Application variables. */
 iotc_crypto_key_data_t iotc_connect_private_key_data;
