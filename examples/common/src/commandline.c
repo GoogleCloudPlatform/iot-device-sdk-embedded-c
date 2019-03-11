@@ -137,7 +137,7 @@ void iotc_print_usage(const char* binary_name) {
   printf("Usage: %s <options> \n\n", binary_name);
   printf("Supported options are:\n");
   printf(
-      "\t-p --project_id (required)\n"
+      "\t -p --project_id (required)\n"
       "\t\tThe project_id of your device, registered in Google Cloud IoT "
       "Core.\n");
   printf(

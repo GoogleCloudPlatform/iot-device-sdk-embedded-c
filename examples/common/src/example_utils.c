@@ -35,7 +35,9 @@ int load_ec_private_key_pem_from_posix_fs(char* buf_ec_private_key_pem,
   if (fp == NULL) {
     printf("[ FAIL ] Private key not found: %s\n",
            iotc_core_parameters.private_key_filename);
-    printf("\tThe path must be a relative path to the binary.\n");
+    printf(
+        "\t Set the relative path to the private key with -f or "
+        "--private_key_filename.\n");
     return -1;
   }
 
@@ -49,8 +51,8 @@ int load_ec_private_key_pem_from_posix_fs(char* buf_ec_private_key_pem,
         "expected certificate size of %lu bytes\n",
         file_size, (long)buf_len);
     printf(
-        "\tPlease generate a correct private,public key pair according to\n"
-        "\thttps://cloud.google.com/iot/docs/how-tos/credentials/keys\n");
+        "\t Please generate a correct private,public key pair according to\n"
+        "\t https://cloud.google.com/iot/docs/how-tos/credentials/keys\n");
     fclose(fp);
     return -1;
   }
@@ -170,7 +172,7 @@ void publish_function(iotc_context_handle_t context_handle,
      function 'on_connection_state_changed' above, so we can ignore it.) */
   IOTC_UNUSED(user_data);
 
-  printf("[INOF] Publishing message \"%s\" to topic: \"%s\"\n",
+  printf("[ INFO ] Publishing message \"%s\" to topic: \"%s\"\n",
          iotc_core_parameters.publish_message,
          iotc_core_parameters.publish_topic);
 

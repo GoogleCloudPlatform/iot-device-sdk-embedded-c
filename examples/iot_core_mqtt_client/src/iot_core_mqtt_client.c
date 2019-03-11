@@ -69,7 +69,6 @@ int main(int argc, char* argv[]) {
 
   /* Initialize the IoTC library. */
   const iotc_state_t init_state = iotc_initialize();
-
   if (IOTC_STATE_OK != init_state) {
     printf("[ FAIL ] Failed to initialize IoTC library. Reason: %d\n",
            init_state);

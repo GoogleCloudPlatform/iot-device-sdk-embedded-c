@@ -25,16 +25,10 @@
 
 iotc_crypto_key_data_t iotc_connect_private_key_data;
 char ec_private_key_pem[PRIVATE_KEY_BUFFER_SIZE] = {0};
+iotc_context_handle_t iotc_context = IOTC_INVALID_CONTEXT_HANDLE;
 
 void main(void) {
-  printk("Example for Zephyr port.\n");
-
-  /* commandline sample:
-    zephyr.exe -testargs -p <GCP IoT Core Project ID> -d projects/<GCP IoT Core
-    Project ID>/locations/<Region>/registries/<GCP IoT Core Registry
-    ID>/devices/<GCP IoT Core Device ID> -t /devices/<GCP IoT Core
-    DeviceID>/state
-    */
+  printk("[ INFO ] GCP IoT client example for Zephyr.\n");
 
   int argc = 0;
   char** argv = NULL;
@@ -42,20 +36,22 @@ void main(void) {
   native_get_cmd_line_args(&argc, &argv);
 
   /* Zephyr passes the "-testargs" internal command line argument too. This code
-   * skips it to be compatible to the native command line argument handlin. */
+   * skips it to be compatible to the native command line argument handling. */
   if (1 < argc && 0 == strcmp(argv[1], "-testargs")) {
     --argc;
     ++argv;
   }
 
-  /* parsing GCP IoT related command line arguments */
-  if (0 != iotc_example_handle_command_line_args(argc, argv)) {
+  /* Parse the GCP IoT Core parameters (project_id, registry_id, device_id,
+   * private_key, publish topic, publish message) */
+  if (0 != iotc_parse_commandline_flags(argc, argv)) {
     return;
   }
 
+  /* Read the private key that will be used for authentication. */
   if (0 != load_ec_private_key_pem_from_posix_fs(ec_private_key_pem,
                                                  PRIVATE_KEY_BUFFER_SIZE)) {
-    printk("\nApplication exiting due to private key load error.\n\n");
+    printk("[ FAIL ] Application exiting due to private key load error.\n\n");
     return;
   }
 
@@ -69,11 +65,25 @@ void main(void) {
   iotc_connect_private_key_data.crypto_key_union.key_pem.key =
       ec_private_key_pem;
 
-  printk("Starting GCP IoT Embedded C Client...\n");
+  printk("[ INFO ] Starting GCP IoT Embedded C Client...\n");
 
-  iotc_initialize();
+  /* Initialize the IoTC library. */
+  const iotc_state_t init_state = iotc_initialize();
+  if (IOTC_STATE_OK != init_state) {
+    printk("[ FAIL ] Failed to initialize IoTC library. Reason: %d\n",
+           init_state);
+    return;
+  }
 
-  iotc_context_handle_t iotc_context = iotc_create_context();
+  /*  Create a connection context. A context represents a Connection
+        on a single socket, and can be used to publish and subscribe
+        to numerous topics. */
+  iotc_context = iotc_create_context();
+  if (IOTC_INVALID_CONTEXT_HANDLE >= iotc_context) {
+    printk("[ FAIL ] Failed to create IoTC context. Reason: %d\n",
+           -iotc_context);
+    return;
+  }
 
   const uint16_t connection_timeout = 10;
   const uint16_t keepalive_timeout = 10;
@@ -83,18 +93,19 @@ void main(void) {
   char jwt[IOTC_JWT_SIZE] = {0};
   size_t bytes_written = 0;
   iotc_state_t state = iotc_create_iotcore_jwt(
-      iotc_project_id,
+      iotc_core_parameters.project_id,
       /*jwt_expiration_period_sec=*/3600, &iotc_connect_private_key_data, jwt,
       IOTC_JWT_SIZE, &bytes_written);
 
   if (IOTC_STATE_OK != state) {
-    printk("iotc_create_iotcore_jwt returned with error: %ul", state);
+    printk("[ FAIL ] Failed to create JWT. Reason: %d", state);
     return;
   }
 
   iotc_connect(iotc_context, /*username=*/NULL, /*password=*/jwt,
-               /*client_id=*/iotc_device_path, connection_timeout,
-               keepalive_timeout, &on_connection_state_changed);
+               /*client_id=*/iotc_core_parameters.device_path,
+               connection_timeout, keepalive_timeout,
+               &on_connection_state_changed);
 
   iotc_events_process_blocking();
 

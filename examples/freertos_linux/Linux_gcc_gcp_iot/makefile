@@ -50,52 +50,42 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-IOTC_TARGET_PLATFORM := freertos-linux
-
-IOTC_EXAMPLES_COMMON_DIR := ../../common
-IOTC_EXAMPLES_COMMON_SRC_DIR := $(IOTC_EXAMPLES_COMMON_DIR)/src
-IOTC_CLIENT_PATH := ../../../
-
-include $(IOTC_EXAMPLES_COMMON_DIR)/rules.mk
-
-FREERTOS_DIR=$(IOTC_CLIENT_PATH)/third_party/FreeRTOSv10.1.1/FreeRTOS
-
-FREERTOS_SRC_DIR=${FREERTOS_DIR}/Source
-FREERTOS_INC_DIR=${FREERTOS_DIR}/Source/include
-
-PORTABLE_SRC_DIR=$(IOTC_CLIENT_PATH)/third_party/freertos-addons/Linux/portable/GCC/Linux
-PORTABLE_SRC_MEM_MANG_DIR=${FREERTOS_DIR}/Source/portable/MemMang
-
-IOTC_INC_DIR=$(IOTC_CLIENT_PATH)/include
-
 CC = gcc
+
+# GCP IoT specific variables.
+IOTC_EXAMPLE_NAME := Linux_gcc_gcp_iot
+IOTC_EXAMPLE_TARGET_PLATFORM := freertos-linux
+IOTC_EXAMPLE_SRCDIR := $(CURDIR)
+IOTC_ROOT_DIR := $(CURDIR)/../../../
+
+include ../../newrules.mk
+#include ../../newtargets.mk
+
+# FreeRTOS specific settings.
+FREERTOS_DIR=$(IOTC_ROOT_DIR)/third_party/FreeRTOSv10.1.1/FreeRTOS
+FREERTOS_SRC_DIR=$(FREERTOS_DIR)/Source
+FREERTOS_INC_DIR=$(FREERTOS_DIR)/Source/include
+PORTABLE_SRC_DIR=${FREERTOS_DIR}/Linux/portable/GCC/Linux
+PORTABLE_SRC_MEM_MANG_DIR=${FREERTOS_DIR}/Source/portable/MemMang
 
 CFLAGS += -Wall -Werror -Wextra -pthread -O0 -g
 LDFLAGS += -Wall -Werror -Wextra -pthread -O0 -g
 
-
-
 INCLUDE_DIRS +=	-I. \
 				-I${FREERTOS_INC_DIR} \
+				-I${FREERTOS_CPP_INC_DIR} \
 				-I${PORTABLE_SRC_DIR} \
-				-I${IOTC_INC_DIR} \
-				-I$(IOTC_EXAMPLES_COMMON_SRC_DIR)
-
 
 VPATH += ${FREERTOS_SRC_DIR} \
+		 ${FREERTOS_CPP_SRC_DIR} \
 		 ${PORTABLE_SRC_DIR} \
 		 ${PORTABLE_SRC_MEM_MANG_DIR} \
-
 
 TARGET = Linux_gcc_gcp_iot
 
 default: all
 
 all: ${TARGET}
-
-SRC_COMMON = \
-	$(IOTC_EXAMPLES_COMMON_SRC_DIR)/commandline.c \
-	$(IOTC_EXAMPLES_COMMON_SRC_DIR)/example_utils.c
 
 SRC = \
 	  main.c
@@ -107,13 +97,8 @@ FREERTOS_SRC= \
 			  tasks.c \
 			  timers.c \
 			  port.c \
-			  heap_4.c \
+			  heap_3.c \
 			  croutine.c \
-
-OBJ_COMMON = ${SRC_COMMON:.c=.o}
-OBJ_COMMON := $(subst $(IOTC_EXAMPLES_COMMON_SRC_DIR)/,,$(OBJ_COMMON))
-${OBJ_COMMON}: %.o: $(IOTC_EXAMPLES_COMMON_SRC_DIR)/%.c
-	${CC} ${INCLUDE_DIRS} ${CFLAGS} -c $< -o $@
 
 OBJ = ${SRC:.c=.o}
 ${OBJ}: %.o: %.c
@@ -123,17 +108,84 @@ FREERTOS_OJB = ${FREERTOS_SRC:.c=.o}
 ${FREERTOS_OJB}: %.o: %.c
 	${CC} -I. -I${FREERTOS_INC_DIR} -I${PORTABLE_SRC_DIR} ${CFLAGS} -c $< -o $@
 
-
-$(TARGET):	${FREERTOS_OJB} ${OBJ} ${OBJ_COMMON}
-	${CC} ${LDFLAGS} ${LD_EXE_FLAGS} -o $@ ${FREERTOS_OJB} ${OBJ} ${OBJ_COMMON} $(IOTC_FLAGS_LINKER)
-	@cp $(IOTC_CLIENT_ROOTCA_LIST) $(dir $@)
-
+$(TARGET):	${FREERTOS_OJB} ${OBJ}
+	${CC} ${LDFLAGS} ${LD_EXE_FLAGS} -o $@ ${FREERTOS_CPP_OJB} ${FREERTOS_OJB} ${OBJ} ${LIBS}
 
 .PHONY : clean
 clean:
 	@-rm -f ${OBJ}
+	@-rm -f *~
 	@-rm -f ${TARGET}
 	@-rm -f *.o
-	@-rm -f $(notdir ${IOTC_CLIENT_ROOTCA_LIST})
+	@-rm -rf $(IOTC_EXAMPLE_OBJDIR)
+	@-rm -rf $(IOTC_EXAMPLE_BINDIR)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# INCLUDE_DIRS +=	-I. \
+# 				-I${FREERTOS_INC_DIR} \
+# 				-I${PORTABLE_SRC_DIR} \
+# 				-${IOTC_EXAMPLE_INCLUDE_FLAGS}
+
+# $(info $$INCLUDE_DIRS is [${INCLUDE_DIRS}])
+
+# VPATH += ${FREERTOS_SRC_DIR} \
+# 		 ${PORTABLE_SRC_DIR} \
+# 		 ${PORTABLE_SRC_MEM_MANG_DIR} \
+
+# FREERTOS_SRC= \
+# 			  event_groups.c \
+# 			  list.c \
+# 			  queue.c \
+# 			  tasks.c \
+# 			  timers.c \
+# 			  port.c \
+# 			  heap_4.c \
+# 			  croutine.c \
+
+# FREERTOS_OBJ = ${FREERTOS_SRC:.c=.o}
+# ${FREERTOS_OBJ}: %.o: %.c
+# 	${CC} -I. -I${FREERTOS_INC_DIR} -I${PORTABLE_SRC_DIR} ${CFLAGS} -c $< -o $@
+
+# SRC = main.c
+# OBJ = ${SRC:.c=.o}
+# ${OBJ}: %.o: %.c
+# 	${CC} ${INCLUDE_DIRS} ${CFLAGS} -c $< -o $@
+
+# $(TARGET): ${FREERTOS_OBJ} #${OBJ} #${IOTC_EXAMPLE_COMMON_OBJS}
+# 	@echo "done"
+# 	#${CC} ${LDFLAGS} ${LD_EXE_FLAGS} ${FREERTOS_OBJ} ${IOTC_EXAMPLE_COMMON_OBJS} ${OBJ} $(IOTC_EXAMPLE_LINKER_FLAGS) -o $@
+# 	#@cp $(IOTC_CLIENT_ROOTCA_LIST) $(dir $@)
+
+# default: all
+
+# all: ${TARGET}
+
+# .PHONY : clean
+# clean:
+# 	@-rm -rf $(IOTC_EXAMPLE_OBJDIR)
+# 	@-rm -rf $(IOTC_EXAMPLE_BINDIR)
+# 	@-rm -f ${OBJ}
+# 	@-rm -f ${TARGET}
+# 	@-rm -f *.o
+# #	@-rm -f $(notdir ${IOTC_CLIENT_ROOTCA_LIST})
 

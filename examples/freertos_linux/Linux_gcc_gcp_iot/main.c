@@ -89,7 +89,7 @@ void task_function_gcpiot_embedded_c(void *parameters) {
       IOTC_JWT_SIZE, &bytes_written);
 
   if (IOTC_STATE_OK != state) {
-    printf("[ERROR] iotc_create_iotcore_jwt returned with error: %ul", state);
+    printf("[ FAIL ] iotc_create_iotcore_jwt returned with error: %ul", state);
     iotc_shutdown();
     return;
   }
@@ -210,7 +210,7 @@ int main(int argc, char *argv[]) {
    *  bug in the Linux FreeRTOS simulator that crashes when
    *  this is called.
    */
-  printf("[INFO} Scheduler ended.\n");
+  printf("[ INFO ] Scheduler ended.\n");
 
   return 0;
 }

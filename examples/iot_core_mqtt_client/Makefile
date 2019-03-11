@@ -14,9 +14,16 @@
 # limitations under the License.
 
 IOTC_EXAMPLE_NAME := iot_core_mqtt_client
+IOTC_EXAMPLE_TARGET_PLATFORM := linux
+IOTC_EXAMPLE_SRCS = src/iot_core_mqtt_client.c
 
-IOTC_EXAMPLES_COMMON_DIR := ../../common
-IOTC_EXAMPLES_COMMON_SRC_DIR := $(IOTC_EXAMPLES_COMMON_DIR)/src
+include ../newrules.mk
+include ../newtargets.mk
 
-include ../common/rules.mk
-include ../common/targets.mk
+default: $(IOTC_EXAMPLE_BINARY)
+
+clean:
+	$(info [clean] $(IOTC_EXAMPLE_NAME) )
+	@rm -rf $(IOTC_EXAMPLE_OBJDIR)
+	@rm -rf $(IOTC_EXAMPLE_BINDIR)
+	@rm -rf $(IOTC_EXAMPLE_PEMDIR)
