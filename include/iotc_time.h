@@ -28,7 +28,7 @@ extern "C" {
  * Provides for a consistent time type across the IoTC implementation.
  * This should be 64-bit whenever possible to prevent timer rollovers.
  */
-typedef long iotc_time_t;
+typedef int64_t iotc_time_t;
 
 #ifdef __cplusplus
 }
