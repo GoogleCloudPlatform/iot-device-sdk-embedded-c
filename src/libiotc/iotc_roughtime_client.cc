@@ -1,30 +1,11 @@
-#define WOLFSSL_LEANPSK // 20190124
-// #ifndef __linux
-// #define __linux // 20190124
-// #endif
-
 #include <iotc_bsp_io_net.h>
-
-#include <arpa/inet.h>
-#include <assert.h>
-#include <errno.h>
-#include <inttypes.h>
-#include <netdb.h>
-#include <string.h>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <unistd.h>
-
-#include "client.h"
-#include "clock.h"
-#include "protocol.h"
 #include <iotc_bsp_rng.h>
 #include <iotc_bsp_time.h>
 #include <iotc_debug.h>
 #include <iotc_roughtime_client.h>
-#include <wolfssl/options.h>
-#include <wolfssl/ssl.h>
-#include <wolfssl/wolfcrypt/settings.h>
+
+#include "client.h"
+#include "protocol.h"
 
 // kTimeoutSeconds is the number of seconds that we will wait for a reply
 // from the server.
