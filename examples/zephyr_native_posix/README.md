@@ -5,22 +5,42 @@ This example uses the Google Cloud IoT Device SDK for Embedded C to connect a Ze
 ## Getting started
 Follow the steps below to connect the Zephyr application to the MQTT bridge.
 
-Before you begin, generate a [public/private key pair](https://cloud.google.com/iot/docs/how-tos/credentials/keys), store the private key in the `examples/zephyr_native_posix/zephyr` directory, and name the key `ec_private.pem`.
-
-1. Run `make PRESET=ZEPHYR` in the root directory of the repository. This command includes `git clone` of the Zephyr repository, sets Zephyr required environment variables, and auto-generates `.h` files that the Zephyr BSP requries.
-
-2. From the root directory, generate the Zephyr native_posix board application.
+1. Go to the repository's root directory.
 
 ```
-cd examples/zephyr_native_posix/build \
-make
+cd iot-device-sdk-embedded-c
 ```
 
-3. Run the following command to connect to Cloud IoT Core and issue a `PUBLISH` message every five seconds.
+1. Generate a [public/private key pair](https://cloud.google.com/iot/docs/how-tos/credentials/keys), and store it in the example's directory.
 
-<pre>
-zephyr/zephyr.exe -testargs -p <i><b>PROJECT_ID</b></i> -d projects/<i><b>PROJECT_ID</b></i>/locations/<i><b>REGION</b></i>/registries/<i><b>REGISTRY_ID</b></i>/devices/<i><b>DEVICE_ID</b></i> -t /devices/<i><b>DEVICE_ID</b></i>/state
-</pre>
+```
+openssl ecparam -genkey -name prime256v1 -noout -out examples/zephyr_native_posix/zephyr/ec_private.pem
+openssl ec -in examples/zephyr_native_posix/zephyr/ec_private.pem -pubout -out examples/zephyr_native_posix/zephyr/ec_public.pem
+```
+
+1. Clone the Zephyr repository, and set it up for Zephyr BSP, then build the IoT Device SDK.
+
+```
+make clean_all
+make PRESET=ZEPHYR
+```
+
+1. Build the example application.
+
+```
+make -C examples/zephyr_native_posix/build
+```
+
+1. Run the following command to connect to Cloud IoT Core and issue a `PUBLISH` message every five seconds.
+
+```
+examples/zephyr_native_posix/zephyr/zephyr.exe \
+-testargs \
+-p <i><b>PROJECT_ID</b></i> \
+-f examples/zephyr_native_posix/zephyr/ec_private.pem
+-d projects/<i><b>PROJECT_ID</b></i>/locations/<i><b>REGION</b></i>/registries/<i><b>REGISTRY_ID</b></i>/devices/<i><b>DEVICE_ID</b></i> \
+-t /devices/<i><b>DEVICE_ID</b></i>/state \
+```
 
 ## Troubleshooting
 
@@ -40,24 +60,3 @@ Another way to set environment variables is by permanently set up the Zephyr env
 ### Validating Cloud IoT Core credentials
 
 Build the [MQTT client example](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/tree/docs_updates/examples/iot_core_mqtt_client) to validate your Cloud IoT Core credentials.
-
-### Resolving platform-incompatible build errors
-
-When building the example, if you encounter similar errors like:
-
-```
-examples/zephyr_native_posix/../../third_party/tls/mbedtls/library/libmbedcrypto.a(timing.o)' is incompatible with i386 output
-```
-
-do the following, from the repository's root directory:
-
-```
-rm -rf third_party/tls/mbedtls
-make clean
-make PRESET=ZEPHYR
-cd examples/zephyr_native_posix/build
-make clean
-make
-```
-
-This should download the compatible port of mbedTLS, build the IoTC library and the example.
