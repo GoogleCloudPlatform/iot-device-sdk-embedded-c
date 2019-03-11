@@ -12,7 +12,7 @@ Before you begin, generate a [public/private key pair](https://cloud.google.com/
 2. From the root directory, generate the Zephyr native_posix board application.
 
 ```
-cd third_party/zephyr_integration/zephyr_native_posix/build \
+cd third_party/zephyr_integration/zephyr_native_posix/build
 make
 ```
 
