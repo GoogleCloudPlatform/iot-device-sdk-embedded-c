@@ -92,6 +92,11 @@ before_script:
       git clone -b v3.15.3-stable https://github.com/wolfSSL/wolfssl $HOME/build/GoogleCloudPlatform/iot-device-sdk-embedded-c/third_party/tls/wolfssl;
     fi;"
   - "$BEFORE_SCRIPT_ACTION"
+  # Add an IPv6 config - see the corresponding Travis issue
+  # https://github.com/travis-ci/travis-ci/issues/8361
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
+      sudo sh -c 'echo 0 > /proc/sys/net/ipv6/conf/all/disable_ipv6';
+    fi
 script:
   - "set -e"
   - "cd $HOME/build/GoogleCloudPlatform/iot-device-sdk-embedded-c"
