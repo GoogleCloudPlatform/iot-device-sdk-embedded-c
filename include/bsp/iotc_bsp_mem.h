@@ -18,10 +18,10 @@
 #define __IOTC_BSP_MEM_H__
 
 /**
- * @file     iotc_bsp_mem.h
+ * @file iotc_bsp_mem.h
  * @brief Manage platform memory.
  *
- * These functions customize how the client application manages memory. For 
+ * These functions customize how the Device SDK manages memory. For 
  * instance, custom implementations can use static memory instead of heap memory
  * or inject metrics to track memory.
  */

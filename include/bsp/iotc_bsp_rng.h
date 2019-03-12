@@ -21,8 +21,8 @@
  * @file iotc_bsp_rng.h
  * @brief Implement a random number generator (RNG).
  *
- * Don't hardcode the same seed value for all devices and don't use an 
- * entropy-based handware random number generator. The client application 
+ * Don't hardcode the same seed value for all devices; use an 
+ * entropy-based handware random number generator. The Device SDK 
  * prevents DDoS attacks by randomly distributing fleet-wide reconnection
  * attempts, so predictable numbers may corrupt the BackOff system.
  */
@@ -37,9 +37,10 @@ extern "C" {
  * @function
  * @brief Initialize the platform-specific RNG prerequisites.
  *
- * Call before requesting the first random number. Implementations of this
- * function must meet all of the platform-specific RNG prerequisites, such as
- * generating a random number seed.
+ * The Device SDK calls before requesting the first random number. 
+ * Implementations of this function must meet all of the 
+ * platform-specific RNG prerequisites, such as generating a random
+ * number seed.
  */
 void iotc_bsp_rng_init();
 

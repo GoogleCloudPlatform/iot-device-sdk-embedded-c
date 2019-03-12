@@ -42,12 +42,10 @@ extern "C" {
 /**
  * @brief Create a JWT.
  * 
- * This function authenticates the client application with Cloud IoT
- * Core. To connect to Cloud IoT Core, pass a JWT to the CONNECT message
+ * This function creates a JWT string. To connect to Cloud IoT Core, pass the JWT to the CONNECT message
  * password field.
  *
- * This function only supports ES256 key types in order to operate with key
- * footprint restrictions.
+ * This function only supports ES256 key types.
  *
  * <b>Note</b>: This function invokes <code>iotc_bsp_sha256()</code>, 
  * <code>iotc_bsp_ecc()</code>, and <code>iotc_bsp_base64_encode_urlsafe()</code>
@@ -57,13 +55,13 @@ extern "C" {
  * expires.
  * @param [in] project_id The GCP project ID.
  * @param [in] private_key_data ES256 <a href"https://cloud.google.com/iot/docs/how-tos/credentials/keys">private key data</a>.
- * @param [in,out] dst_jwt_buf A pointer to a buffer with a formatted and signed JWT.
+ * @param [in,out] dst_jwt_buf A pointer to a buffer that stores a formatted and signed JWT.
  * @param [in] dst_jwt_buf_len The length of the dst_jwt_buf buffer, in bytes.
  * @param [out] bytes_written The number of bytes written to dst_jwt_buf.
  *
  * @retval IOTC_STATE_OK A JWT is successfully generated.
  * @retval IOTC_INVALID_PARAMETER The project_id, private_key_data or
- * dst_jwt_buf parameters are NULL, or either crypto BSP function returns
+ * dst_jwt_buf parameters are NULL, or a crypto BSP function returns
  *     IOTC_BSP_CRYPTO_INVALID_INPUT_PARAMETER_ERROR.
  * @retval IOTC_ALG_NOT_SUPPORTED_ERROR The provided private key isn't
  *     an ES256 key.
@@ -72,7 +70,7 @@ extern "C" {
  * @retval IOTC_NOT_IMPLEMENTED The crypto_key_union pointer type is
  *     unknown.
  * @retval IOTC_BUFFER_TOO_SMALL_ERROR The provided buffer is too small for
- *     JWTs.
+ *     the JWT.
  */
 
 iotc_state_t iotc_create_iotcore_jwt(

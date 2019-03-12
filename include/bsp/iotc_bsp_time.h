@@ -39,8 +39,8 @@ extern "C" {
  * @brief Initialize the timekeeping system.
  *
  * On POSIX systems, this function is empty because POSIX systems already
- * include timekeeping systems. On non-POSIX systems, this function may connect
- * to an NTP service or initialize time-step functionality.
+ * include initialized timekeeping systems. On non-POSIX systems, this function
+ * may connect to an NTP service or initialize time-step functionality.
  */
 void iotc_bsp_time_init();
 

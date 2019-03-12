@@ -73,7 +73,7 @@ typedef enum iotc_bsp_io_fs_state_e {
 
 /**
  * @enum iotc_bsp_io_fs_resource_type_t
- * @brief Resources by security class.
+ * @brief Resource types.
  */
 typedef enum iotc_bsp_io_fs_resource_type_e {
   IOTC_BSP_IO_FS_CERTIFICATE = 0, /**< 0 **/
@@ -85,7 +85,7 @@ typedef enum iotc_bsp_io_fs_resource_type_e {
  * @name iotc_bsp_io_fs_stat_s
  * @brief Resource size.
  * 
- * When the <code>iotc_bsp_io_fs_stat()</code> function requests this
+ * The <code>iotc_bsp_io_fs_stat()</code> function requests this
  * information.
  *
  * @see iotc_bsp_io_fs_stat
@@ -128,9 +128,9 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_stat(
  * @function
  * @brief Open a file.
  *
- * This function returns a resource_handle_out handle that specifies the
- * the subsequent operation (read, write, or close). After executing this
- * function, pass resource_handle_out to <code>iotc_bsp_io_fs_read()</code>
+ * This function returns a iotc_bsp_io_fs_resource_handle_t handle that's
+ * passed to subsequent operations (read, write, or close). After executing
+ * this function, the Device SDK passes resource_handle_out to <code>iotc_bsp_io_fs_read()</code>
  * or <code>iotc_bsp_io_fs_write()</code> to perform the corresponding
  * operation.
  *
@@ -139,7 +139,7 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_stat(
  *     non-POSIX implementations.
  * @param [in] open_flags An iotc_bsp_io_fs_open_flags_t bitmask.
  * @param [out] resource_handle_out A pointer to an
- *     iotc_bsp_io_fs_resource_handle_thandle.
+ *     iotc_bsp_io_fs_resource_handle handle.
  *
  * @see iotc_bsp_io_fs_read
  * @see iotc_bsp_io_fs_write
@@ -158,18 +158,18 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_open(
  * @function
  * @brief Read a file. 
  *
- * To read a file, first run <code>iotc_bsp_io_fs_open()</code> and then pass
- * the corresponding iotc_bsp_io_fs_resource_handle_t handle to <code>iotc_bsp_io_fs_read()</code>.
+ * Implementations can allocate a buffer once, resuse the buffer, and close the
+ * file to free the buffer. Or, implementations can create a new buffer and
+ * free the previous one before running this function.
  *
- * Free buffers only on subsequent <code>iotc_bsp_io_fs_read()</code> or 
- * <code>iotc_bsp_io_fs_close()</code> calls.
+ * Each time the function is called, fill the buffer parameter at offset 0.
  *
  * @param [in] resource_handle The iotc_bsp_io_fs_resource_handle_t handle from 
  *     <code>iotc_bsp_io_fs_open()</code>.
- * @param [in] offset The position of the resource, in bytes, from which
- *     to start read operations. Set to <code>0</code>.
+ * @param [in] offset The position within the resource, in bytes, from which
+ *     to start read operations.
  * @param [out] buffer A pointer to a buffer with the bytes read from the file.
- *     The buffer is automatically allocated.
+ *     The buffer is already allocated by the Device SDK.
  * @param [out] buffer_size The number of bytes read from the file and stored
  *     in the buffer.
  *
@@ -186,17 +186,18 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_read(
 /**
  * @function
  * @brief Write to a file.
- * 
- * To write to a file, first run <code>iotc_bsp_io_fs_open()</code> and then
- * pass the corresponding iotc_bsp_io_fs_resource_handle_t handle to <code>iotc_bsp_io_fs_read()</code>.
+ *
+ * Implementations can allocate a buffer once, resuse the buffer, and close the
+ * file to free the buffer. Or, implementations can create a new buffer and
+ * free the previous one before running this function.
  *
  * @param [in] resource_handle The iotc_bsp_io_fs_resource_handle_t handle from 
  *     <code>iotc_bsp_io_fs_open()</code>.
  * @param [in] buffer A pointer to a byte array with the data to write to the
  *     file.
  * @param [in] buffer_size The size, in bytes of the buffer.
- * @param [in] offset The position of the resource, in bytes, from which to
- *     start to the write operation.
+ * @param [in] offset The position within the resource, in bytes, from which
+ *     to start to the write operation.
  * @param [out] bytes_written The number of bytes written to the file.
  *
  * @see iotc_bsp_io_fs_open
@@ -212,11 +213,11 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_write(
 /**
  * @function
  * @brief Close a file.
- * 
- * To close a file, first run <code>iotc_bsp_io_fs_open()</code> and then pass
- * the corresponding iotc_bsp_io_fs_resource_handle_t handle to <code>iotc_bsp_io_fs_read()</code>.
  *
- * @param [in] resource_handle the Totc_bsp_io_fs_resource_handle_t handle from 
+ * Before running this function, the Device SDK frees any buffers  allocated 
+ * for file operations.
+ *
+ * @param [in] resource_handle The iotc_bsp_io_fs_resource_handle_t handle from 
  *     <code>iotc_bsp_io_fs_open()</code>.
  *
  * @see iotc_bsp_io_fs_state_e 

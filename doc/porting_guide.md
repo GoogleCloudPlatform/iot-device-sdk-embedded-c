@@ -358,6 +358,6 @@ For more information about the Device SDK, see these other documents in the [Git
 
 - [`doc/user_guide.md`](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/blob/development/doc/user_guide.md) provides an in-depth description of the Device SDK design and features, including MQTT logic, the event system, backoff logic, and platform security requirements.
 
-- [`doc/doxygen/api`](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/api/html/index.html) contains the function specifications for the Device SDK application-level API. This references outlines the behavior of the Connect, Subscribe, and Publish functions.
+- [`doc/doxygen/api`](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/api/html/index.html) contains the function specifications for the Device SDK application-level API.
 
 - [`doc/doxygen/bsp`](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/bsp/html/index.html) contains the declarations and documentation for the abstracted Board Support Package (BSP) functions to port the Device SDK to new platforms.

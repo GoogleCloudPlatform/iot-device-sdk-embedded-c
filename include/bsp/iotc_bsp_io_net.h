@@ -33,12 +33,11 @@
  * implementation for for Linux desktops and devices. 
  *
  * To customize the BSP for non-POSIX platforms, see the <a href="../../../porting_guide.md">porting guide</a>.
- * <code>iotc_bsp_rng.h</code>, <code>iotc_bsp_time.h</code>, and <code>iotc_bsp_io_fs.h</code>
- * are the most portable and may not need any customization.
+ * <code>iotc_bsp_rng.h</code>, <code>iotc_bsp_time.h</code>, and <code>iotc_bsp_io_fs.h</code>.
  *
  * # BSP source files
- * The BSP consists of the following files. Each file meets each meet a platform
- * library requirement.
+ * The BSP consists of the following files. Each file meets a platform library
+ * requirement.
  *  - <code>iotc_bsp_crypto.h</code> implements a cryptography library to sign
  * JWTs.
  *  - <code>iotc_bsp_io_net.h</code> implements asychronous networking.
@@ -46,7 +45,7 @@
  *  - <code>iotc_bsp_rng.h</code> implements random number generation.
  *  - <code>iotc_bsp_time.h</code> implements time functions.
  *  - <code>iotc_bsp_tls.h</code> implements Transport Layer Security (TLS).
- *  - (Optional) <code>iotc_bsp_io_fs.h</code> manages the file system to store
+ *  - (Optional) <code>iotc_bsp_io_fs.h</code> manages the file system to load
  * certificates.
  *
  * # TLS BSPs
@@ -71,11 +70,8 @@
  * @file  iotc_bsp_io_net.h
  * @brief Perform asynchronous networking.
  *
- * Connect a platform's networking SDK to the Device SDK in order to
- * perform asynchronous, platform-specific networking.
- *
- * To port the Device SDK to a new platform, integrate the platform's networking
- * SDK with the Device SDK's non-blocking, cooprative multitasking environment.
+ * Connect a platform's networking SDK to the Google Cloud IoT Device SDK in
+ * order to perform asynchronous, platform-specific networking.
  *
  * A typical networking workflow consists of the following steps.
  *    1. Create a socket.
@@ -132,21 +128,21 @@ typedef intptr_t iotc_bsp_socket_t;
 typedef struct iotc_bsp_socket_events_s {
   /** Platform-specific socket value. */
   iotc_bsp_socket_t iotc_socket;
-  /** <code>1</code> to attempt a read operation, <code>0</code> otherwise. */
+  /** <code>1</code> if socket wants to read, <code>0</code> otherwise. */
   uint8_t in_socket_want_read : 1;
-  /** <code>1</code> to attempt a write operation, <code>0</code> otherwise. */
+  /** <code>1</code> if socket wants to write, <code>0</code> otherwise. */
   uint8_t in_socket_want_write : 1;
-  /** <code>1</code> to read error messages, <code>0</code> otherwise. */
+  /** <code>1</code> if socket wants to know about an error, <code>0</code> otherwise. */
   uint8_t in_socket_want_error : 1;
-  /** <code>1</code> to connect to a host, <code>0</code> othwerwise. */
+  /** <code>1</code> if socket waits for a connected, <code>0</code> otherwise. */
   uint8_t in_socket_want_connect : 1;
-  /** <code>1</code> if socket is read-enabled, <code>0</code> otherwise. */
+  /** <code>1</code> if socket can read, <code>0</code> otherwise. */
   uint8_t out_socket_can_read : 1;
-  /** <code>1</code> if socket is write-enabled, <code>0</code> otherwise. */
+  /** <code>1</code> if socket can write, <code>0</code> otherwise. */
   uint8_t out_socket_can_write : 1;
-  /** <code>1</code> if an error occurs, <code>0</code> otherwise */
+  /** <code>1</code> if an error occurs on the socket, <code>0</code> otherwise */
   uint8_t out_socket_error : 1;
-  /** <code>1</code> if the connected, <code>0</code> otherwise */
+  /** <code>1</code> if the connection process is finished, <code>0</code> otherwise */
   uint8_t out_socket_connect_finished : 1;
 } iotc_bsp_socket_events_t;
 
@@ -234,9 +230,10 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_connection_check(
  * @brief Write data to a socket.
  *
  * This function writes data in chunks, so if it returns
- * IOTC_BSP_IO_NET_STATE_BUSY then call it again to send the remaining data.
- * If the subsequent call also returns IOTC_BSP_IO_NET_STATE_BUSY, wait more
- * time for the first chunk to transmit and then try again.
+ * IOTC_BSP_IO_NET_STATE_BUSY then the Device SDK calls the function again
+ * to send the remaining data. If the subsequent call also returns
+ * IOTC_BSP_IO_NET_STATE_BUSY, the Device SDK waits more time for the 
+ * first chunk to transmit and then tries again.
  *
  * This is a non-blocking operation. 
  *
@@ -250,9 +247,10 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_connection_check(
  * @see iotc_bsp_io_net_create_socket
  *
  * @retval IOTC_BSP_IO_NET_STATE_OK All data is written to the socket.
- * @retval IOTC_BSP_IO_NET_STATE_BUSY Some of the data is written to the socket.
- *     Call the function again to send the remaining data.
- * @retval IOTC_BSP_IO_NET_STATE_ERROR No data is sent to the host.
+ * @retval IOTC_BSP_IO_NET_STATE_BUSY None or some of the data is
+ *     written to the socket but no error occurred.
+ * @retval IOTC_BSP_IO_NET_STATE_ERROR No data is sent to the host and an
+ *     unrecoverable error occurred.
  */
 iotc_bsp_io_net_state_t iotc_bsp_io_net_write(
     iotc_bsp_socket_t iotc_socket_nonblocking, int* out_written_count,
@@ -265,7 +263,7 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_write(
  * @param [in] iotc_socket_nonblocking The socket from which to read data.
  * @param [out] out_read_count The number of bytes read from the socket.
  * @param [out] buf A pointer to a buffer with the data read from the socket.
- * @param [in] count The maximum size, in bytes, of the buf parameter.
+ * @param [in] count The size, in bytes, of the buf parameter.
  *
  * @see iotc_bsp_io_net_create_socket
  *

@@ -36,8 +36,8 @@ extern "C" {
  * directory.
  *
  * The BSP uses the private key data or slot number provided to the <code>iotc_connect()</code>
- * function. The BSP doesn't format original JWT itself; the BSP only formats
- * signed JWT. The <a href="../../api/html/index.html">Device SDK API</a>
+ * function. The BSP doesn't format the JWT itself; the BSP only signs
+ * JWTs. The <a href="../../api/html/index.html">Device SDK API</a>
  * formats the original JWT.
  *
  * All cryptography functions issue an <code>iotc_bsp_crypto_state_e</code> 
@@ -65,7 +65,7 @@ typedef enum iotc_bsp_crypto_state_e {
   IOTC_BSP_CRYPTO_ECC_ERROR,
   /** Cannot write data to buffer because the data is larger than the buffer. */
   IOTC_BSP_CRYPTO_BUFFER_TOO_SMALL_ERROR,
-  /** Cannot parse private key file. */
+  /** Cannot parse private key data. */
   IOTC_BSP_CRYPTO_KEY_PARSE_ERROR,
   /** Cannot serialize data. */
   IOTC_BSP_CRYPTO_SERIALIZE_ERROR,
@@ -81,7 +81,7 @@ typedef enum iotc_bsp_crypto_state_e {
  * (underscore). 
  *
  * @param [in,out] dst_string A pointer to a buffer that stores the URL-safe,
- *     base64 string. The buffer is automatically allocated.
+ *     base64 string. The buffer is already allocated by the Device SDK.
  * @param [in] dst_string_size The length, in bytes, of the dst_string buffer.
  * @param [out] bytes_written The bytes written to dst_string. If the buffer is
  *     too small, bytes_written is the required buffer size.
@@ -102,7 +102,7 @@ iotc_bsp_crypto_state_t iotc_bsp_base64_encode_urlsafe(
  * @brief Generate a SHA256 cryptographic hash.
  *
  * @param [in,out] dst_buf_32_bytes A pointer to 32-byte buffer that stores the
- *     SHA256 digest. The buffer is automatically allocated.
+ *     SHA256 digest. The buffer is already allocated by the Device SDK.
  * @param [in] src_buf A pointer to buffer with the string to encode.
  * @param [in] src_buf_size the size, in bytes, of the buffer to which src_buf
  * points.
@@ -126,11 +126,12 @@ iotc_bsp_crypto_state_t iotc_bsp_sha256(uint8_t* dst_buf_32_bytes,
  * @param [in] private_key_pem The private key data or slot number provided to
  *     the <code>iotc_connect()</code> function.
  * @param [in,out] dst_buf A pointer to a buffer that stores the ECC signature.
- *     The buffer is automatically allocated.
+ *     The buffer is already allocated by the Device SDK.
  * @param [in] dst_buf_size The size, in bytes, of the buffer to which dst_buf
  *     points.
  * @param [out] bytes_written The number of bytes written to dst_buf.
- * @param [in] src_buf A buffer with the private key data or slot number.
+ * @param [in] src_buf A pointer to a buffer with the private key data to 
+ *     sign.
  * @param [in] src_buf_size The size, in bytes, of the buffer to which src_buf
  *     points.
  *

@@ -44,13 +44,14 @@ typedef int32_t iotc_timed_task_handle_t;
 /**
  * @name iotc_user_task_callback_t
  * @brief Custom callback for timed tasks.
- * @detailed This is a user-defined custom callback. Pass the callback to
- * <code>iotc_schedule_timed_task()</code> repeatedly execute the callback at
- * the given interval.
+ * 
+ * This is a user-defined custom callback. Pass a pointer to a
+ * <code>iotc_schedule_timed_task()</code> callback function to schedule
+ * the timed task.
  *
- * @param [in] in_context_handle the context handle provided to
- * <code>iotc_schedule_timed_task()</code>.
- * @param [in] timed_task_handle the handle that identifies the timed task.
+ * @param [in] in_context_handle The context handle provided to
+ *     <code>iotc_schedule_timed_task()</code>.
+ * @param [in] timed_task_handle The handle that identifies the timed task.
  * @param [in] user_data the data provided to <code>iotc_schedule_timed_task()</code>.
  */
 typedef void(iotc_user_task_callback_t)(
@@ -60,29 +61,32 @@ typedef void(iotc_user_task_callback_t)(
 /**
  * @name     iotc_user_callback_t
  * @brief    Custom callback.
- * @detailed Callbacks are passed to <code>iotc_user_callback_t</code> Callbacks
- *           notify the client application after a function executes.
  *
- * @param [in] in_context_handle the context handle provided to the original
+ * Callbacks are passed to <code>iotc_user_callback_t</code> Callbacks
+ * notify the client application after an operation completes.
+ *
+ * @param [in] in_context_handle The context handle provided to the original
  * API call.
  * @param [in] data API-specific information. Cast to a specific type depending
- * on the original API call. For example, the <code>iotc_connect()</code>
- * callback returns the iotc_connection_data_t* type so <code>iotc_connection_data_t* conn_data = (iotc_connection_data_t*)data;</code>.
- * @param [in] state IOTC_STATE_OK if the connection succeeds. See <code><a href="~/include/iotc_error.h">iotc_error.h</a></code>
- * for more error codes.
+ *     on the original API call. For example, the <code>iotc_connect()</code>
+ *     callback returns the iotc_connection_data_t* type so
+ *     <code>iotc_connection_data_t* conn_data = (iotc_connection_data_t*)data;</code>.
+ * @param [in] state IOTC_STATE_OK If a connection callback succeeds. See
+ *     <code><a href="~/include/iotc_error.h">iotc_error.h</a></code>
+ *     for more error codes.
  */
 typedef void(iotc_user_callback_t)(iotc_context_handle_t in_context_handle,
                                    void* data, iotc_state_t state);
 
 /**
  * @enum iotc_sub_call_type_t
- * @brief Determine the subscription callback type.
+ * @brief Define the subscription callback type.
  * @detailed Establish the data type that <code>iotc_subscription_data_t()</code> 
  * passes to the custom callback.
  *
- *    - IOTC_SUB_UNKNOWN: unknown callback type. Check the state value.
- *    - IOTC_SUBSCRIPTION_DATA_SUBACK: callback is a SUBACK notification.
- *    - IOTC_SUBSCRIPTION_DATA_MESSAGE: callback is a MESSAGE notification.
+ * @retval IOTC_SUB_UNKNOWN Unknown callback type. Check the state value.
+ * @retval IOTC_SUBSCRIPTION_DATA_SUBACK Callback is a SUBACK notification.
+ * @retval IOTC_SUBSCRIPTION_DATA_MESSAGE Callback is a MESSAGE notification.
  */
 typedef enum iotc_subscription_data_type_e {
   IOTC_SUB_CALL_UNKNOWN = 0,
@@ -92,10 +96,10 @@ typedef enum iotc_subscription_data_type_e {
 
 /**
  * @union iotc_sub_call_params_u
- * @brief A union that describes data type passed to the subscription callback.
+ * @brief A union that defines the data type passed to the subscription callback.
  *
- *    - suback: callback is a SUBACK notification.
- *    - message: callback is a MESSAGE notification.
+ * @retval IOTC_SUBSCRIPTION_DATA_SUBACK Callback is a SUBACK notification.
+ * @retval IOTC_SUBSCRIPTION_DATA_MESSAGE Callback is a MESSAGE notification.
  */
 typedef union iotc_sub_call_params_u {
   struct {
@@ -132,12 +136,12 @@ typedef union iotc_sub_call_params_u {
  * @detailed The subscription callback notifies the user that the subscribed
  * topic recieved messages.
  *
- * @param [in] in_context_handle context on which the callback is invoked.
- * @param [in] call_type data type of the data parameter.
- * @param [in] params pointer to a structure that holds parameter details
- * @param [in] topic name of the topic
- * @param [in] user_data pointer specified when registering the subscription
- * callback.
+ * @param [in] in_context_handle The context on which the callback is invoked.
+ * @param [in] call_type The data type of the data parameter.
+ * @param [in] params A pointer to a structure that holds parameter details
+ * @param [in] topic The name of the topic
+ * @param [in] user_data A pointer specified when registering the subscription
+ *     callback.
  */
 typedef void(iotc_user_subscription_callback_t)(
     iotc_context_handle_t in_context_handle, iotc_sub_call_type_t call_type,
@@ -148,12 +152,12 @@ typedef void(iotc_user_subscription_callback_t)(
  * @enum iotc_crypto_key_union_type_t
  * @brief Describe the iotc_crypto_key_union_t union structure.
  *
- *     - IOTC_CRYPTO_KEY_UNION_TYPE_PEM: the key_pem.key pointer contains
+ * @retval IOTC_CRYPTO_KEY_UNION_TYPE_PEM The key_pem.key pointer contains
  * a null-terminated PEM key string.
- *     - IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID: a secure element for private_key
- * storage indexes keys by slots. Signal to the BSP the slot for cryptographic
- * operations.
- *     - IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM - the union contains untyped data. 
+ * @retval IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID A secure element for storage
+ *     indexes keys by slots. Signal to the BSP the slot for cryptographic
+ *     operations.
+ * @retval IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM The union contains untyped data. 
  * The BSP must know the data format.
  */
 
@@ -164,13 +168,13 @@ typedef enum iotc_crypto_key_union_type_e {
 } iotc_crypto_key_union_type_t;
 
 /* @union iotc_crypto_key_union_t
- * @brief Describe the private key data.
- * @detailed Describe the private key data for the crypto BSP. The crypto BSP
- * signs JWTs.
+ * @brief Describe the public or private key data.
  *
- *     - key: a PEM formatted private key.
- *     - key_slot: multi-slotted secure elements.
- *     - key_custom: untyped data.
+ * The crypto BSP signs JWTs.
+ *
+ * @param key A PEM-formatted public or private key.
+ * @param key_slot Multi-slotted secure elements.
+ * @param key_custo Untyped data.
  */
 typedef union iotc_crypto_key_union_u {
   struct {
@@ -191,11 +195,13 @@ typedef union iotc_crypto_key_union_u {
  * @enum  iotc_crypto_key_signature_algorithm_e
  * @brief Define a key signature algorithm to sign JWTs.
  *
- * This value also determines the JWT "alg" field, which the client application
- * automatically assembles when it connects to Cloud IoT Core. Cite the same
- * algorithm in <a href="https://cloud.google.com/iot/docs/how-tos/devices#creating_device_key_pairs">Cloud IoT Core</a>.
+ * Call the <code>create_iot_core_jwt</code> function in <code>iotc_jwt.h</code>
+ * before calling <code>iotc_connect()</code> Cite the same algorithm in
+ * <a href="https://cloud.google.com/iot/docs/how-tos/devices#creating_device_key_pairs">Cloud IoT Core</a>.
  *
  * <b>Note</b>: RSASSA-PKCS1-v1_5 with SHA-256 (RS256) is not supported.
+ *
+ * @see create_iot_core_jwt
  *
  * @retval IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_INVALID for development.
  * @retval IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256 ECDSA with P-256 and
@@ -207,10 +213,12 @@ typedef enum iotc_crypto_key_signature_algorithm_e {
 } iotc_crypto_key_signature_algorithm_t;
 
 /* @struct iotc_crypto_key_data_t
- * @brief Set iotc_crypto_key_union.
+ * @brief iotc_crypto_key_union structure.
  * 
- * iotc_crypto_key_union is an enumeration of the current union and an
- * enumeration of the key signature algorithm.
+ *
+ * iotc_crypto_key_union includes an enumerated type that defines
+ * whether to observe the union as a PEM key, slot ID, or undefined
+ * data type. 
  *
  * Refer to <code>iotc_crypto_key_params_u()</code> for more information.
  *
