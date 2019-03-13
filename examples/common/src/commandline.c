@@ -53,7 +53,7 @@ int iotc_parse_commandline_flags(int argc, char** argv) {
   iotc_core_parameters.publish_topic = NULL;
   iotc_core_parameters.private_key_filename = kDefaultPrivateKeyFilename;
   iotc_core_parameters.publish_message = "Hello From Your GCP IoT client!";
-  iotc_core_parameters.example_qos = IOTC_EXAMPLE_DEFAULT_QOS;
+  iotc_core_parameters.example_qos = kDefaultMqttQos;
 
   while (1) {
     static struct option long_options[] = {
