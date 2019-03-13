@@ -65,7 +65,6 @@ iotc_roughtime_receive_time(int socket, const char* public_key,
   const std::string kRequest = roughtime::CreateRequest(nonce);
   if (kRequest.empty()) {
     iotc_debug_logger("ERROR: Roughtime create reaquest");
-    iotc_bsp_io_net_close_socket(reinterpret_cast<iotc_bsp_socket_t*>(&socket));
     return IOTC_ROUGHTIME_ERROR;
   }
 
@@ -83,12 +82,8 @@ iotc_roughtime_receive_time(int socket, const char* public_key,
       }
       break;
     case IOTC_BSP_IO_NET_STATE_TIMEOUT:
-      iotc_bsp_io_net_close_socket(
-          reinterpret_cast<iotc_bsp_socket_t*>(&socket));
       return IOTC_ROUGHTIME_TIMEOUT_ERROR;
     case IOTC_BSP_IO_NET_STATE_ERROR:
-      iotc_bsp_io_net_close_socket(
-          reinterpret_cast<iotc_bsp_socket_t*>(&socket));
       return IOTC_ROUGHTIME_NETWORK_ERROR;
     default:
       break;
@@ -101,7 +96,6 @@ iotc_roughtime_receive_time(int socket, const char* public_key,
       kRequest.size());
   if (IOTC_BSP_IO_NET_STATE_ERROR == state) {
     iotc_debug_logger("ERROR: Write to the socket");
-    iotc_bsp_io_net_close_socket(reinterpret_cast<iotc_bsp_socket_t*>(&socket));
     return IOTC_ROUGHTIME_NETWORK_ERROR;
   }
   const uint64_t kStartUs = iotc_bsp_time_getmonotonictime_milliseconds();
@@ -109,7 +103,6 @@ iotc_roughtime_receive_time(int socket, const char* public_key,
   if (bytes_written < 0 ||
       static_cast<size_t>(bytes_written) != kRequest.size()) {
     iotc_debug_logger("ERROR: Write to the socket");
-    iotc_bsp_io_net_close_socket(reinterpret_cast<iotc_bsp_socket_t*>(&socket));
     return IOTC_ROUGHTIME_NETWORK_ERROR;
   }
 
@@ -127,12 +120,8 @@ iotc_roughtime_receive_time(int socket, const char* public_key,
       }
       break;
     case IOTC_BSP_IO_NET_STATE_TIMEOUT:
-      iotc_bsp_io_net_close_socket(
-          reinterpret_cast<iotc_bsp_socket_t*>(&socket));
       return IOTC_ROUGHTIME_TIMEOUT_ERROR;
     case IOTC_BSP_IO_NET_STATE_ERROR:
-      iotc_bsp_io_net_close_socket(
-          reinterpret_cast<iotc_bsp_socket_t*>(&socket));
       return IOTC_ROUGHTIME_NETWORK_ERROR;
     default:
       break;
@@ -144,20 +133,16 @@ iotc_roughtime_receive_time(int socket, const char* public_key,
   state = iotc_bsp_io_net_read(socket, &buf_len, recv_buf, sizeof(recv_buf));
   if (IOTC_BSP_IO_NET_STATE_ERROR == state) {
     iotc_debug_logger("ERROR: Read from the socket");
-    iotc_bsp_io_net_close_socket(reinterpret_cast<iotc_bsp_socket_t*>(&socket));
     return IOTC_ROUGHTIME_NETWORK_ERROR;
   }
   const uint64_t kEndUs = iotc_bsp_time_getmonotonictime_milliseconds();
-
-  iotc_bsp_io_net_close_socket(reinterpret_cast<iotc_bsp_socket_t*>(&socket));
 
   std::string error;
   if (!roughtime::ParseResponse(
           &(time_data->timestamp), &(time_data->radius), &error,
           reinterpret_cast<const uint8_t*>(server_public_key.data()), recv_buf,
           buf_len, nonce)) {
-    iotc_debug_format("ERROR: Response failed verification: %s",
-                      error.c_str());
+    iotc_debug_format("ERROR: Response failed verification: %s", error.c_str());
     return IOTC_ROUGHTIME_RECEIVE_TIME_ERROR;
   }
 
@@ -169,6 +154,13 @@ iotc_roughtime_receive_time(int socket, const char* public_key,
   time_data->timestamp /= 1000;
   time_data->timestamp += (time_data->reply_time) / 2;
 
+  return IOTC_ROUGHTIME_OK;
+}
+
+iotc_roughtime_state_t iotc_roughtime_close_socket(int* socket) {
+  if (iotc_bsp_io_net_close_socket(reinterpret_cast<iotc_bsp_socket_t*>(
+          &socket)) != IOTC_BSP_IO_NET_STATE_OK)
+    return IOTC_ROUGHTIME_ERROR;
   return IOTC_ROUGHTIME_OK;
 }
 
@@ -187,6 +179,13 @@ iotc_roughtime_getcurrenttime(const char* public_key,
     if ((state = iotc_roughtime_receive_time(socket, public_key, time_data)) !=
         IOTC_ROUGHTIME_OK) {
       iotc_debug_logger("ERROR: Receive time");
+      if ((state = iotc_roughtime_close_socket(&socket)) != IOTC_ROUGHTIME_OK) {
+        iotc_debug_logger("ERROR: Close socket");
+      }
+      continue;
+    }
+    if ((state = iotc_roughtime_close_socket(&socket)) != IOTC_ROUGHTIME_OK) {
+      iotc_debug_logger("ERROR: Close socket");
       continue;
     }
     return IOTC_ROUGHTIME_OK;
