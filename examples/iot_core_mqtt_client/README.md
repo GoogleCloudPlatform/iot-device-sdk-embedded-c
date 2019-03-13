@@ -22,7 +22,7 @@ make
 1. Build the example application.
 
 ```
-make -C examples/iot_core_mqtt_client
+make -C examples iot_core_mqtt_client
 ```
 
 1. Run the following command to connect to Cloud IoT Core and issue a `PUBLISH` message every five seconds.

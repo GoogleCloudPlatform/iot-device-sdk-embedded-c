@@ -23,7 +23,7 @@ make PRESET=ZEPHYR
 1. Build the example application.
 
 ```
-make -C examples/zephyr_native_posix/build
+make -C examples zephyr_native_posix
 ```
 
 1. Run the following command to connect to Cloud IoT Core and issue a `PUBLISH` message every five seconds.

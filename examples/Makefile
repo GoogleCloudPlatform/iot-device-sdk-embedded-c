@@ -16,7 +16,7 @@
 all:
 
 iot_core_mqtt_client: iot_core_mqtt_client/iot_core_mqtt_client
-freertos_linux: freertos_linux/Linux_gcc_gcp_iot/Linux_gcc_gcp_iot
+freertos_linux_gcp_iot: freertos_linux/Linux_gcc_gcp_iot/Linux_gcc_gcp_iot
 zephyr_native_posix: zephyr_native_posix/build/zephyr/zephyr.exe
 .PHONY: iot_core_mqtt_client freertos_linux zephyr_native_posix
 
@@ -44,3 +44,5 @@ clean:
 	$(MAKE) -C ./iot_core_mqtt_client clean
 	$(MAKE) -C ./freertos_linux/Linux_gcc_gcp_iot clean
 	$(MAKE) -C ./zephyr_native_posix/build clean
+	# The above clean command doesn't remove the zephyr.exe binary.
+	rm -rf ./zephyr_native_posix/build/zephyr/zephyr.exe

@@ -24,7 +24,7 @@ make PRESET=FREERTOS_POSIX_REL
 1. Build the example application.
 
 ```
-make -C examples/freertos_linux/Linux_gcc_gcp_iot
+make -C examples freertos_linux_gcp_iot
 ```
 
 1. Run the following command to connect to Cloud IoT Core and issue a `PUBLISH` message every five seconds.
