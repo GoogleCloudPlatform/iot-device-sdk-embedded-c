@@ -55,10 +55,7 @@ iotc_roughtime_state_t
 iotc_roughtime_receive_time(int socket, const char* public_key,
                             iotc_roughtime_timedata_t* time_data) {
   std::string server_public_key(public_key);
-  // TODO(b/127770330)
-  // uint8_t nonce[roughtime::kNonceLength] = {0};
-  uint8_t nonce[roughtime::kNonceLength];
-  bzero(nonce, roughtime::kNonceLength);
+  uint8_t nonce[roughtime::kNonceLength] = {0};
   iotc_bsp_io_net_state_t state = IOTC_BSP_IO_NET_STATE_OK;
   iotc_bsp_socket_events_t socket_event;
 
