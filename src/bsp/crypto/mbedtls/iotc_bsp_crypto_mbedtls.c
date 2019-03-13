@@ -128,8 +128,6 @@ iotc_bsp_crypto_state_t iotc_bsp_ecc(
     const iotc_crypto_key_data_t* private_key_data, uint8_t* dst_buf,
     size_t dst_buf_size, size_t* bytes_written, const uint8_t* src_buf,
     size_t src_buf_len) {
-  // reusing ctr_drbg from BSP_RNG module
-  extern mbedtls_ctr_drbg_context ctr_drbg;
 
   if (NULL == private_key_data || NULL == dst_buf || NULL == bytes_written ||
       NULL == src_buf) {
@@ -168,19 +166,12 @@ iotc_bsp_crypto_state_t iotc_bsp_ecc(
       (mbedtls_ret = mbedtls_ecdsa_from_keypair(&ecdsa_sign, pk.pk_ctx)) != 0,
       IOTC_BSP_CRYPTO_ECC_ERROR, return_code, "mbedtls_ecdsa_from_keypair");
 
-#if 1  // non-deterministic ecc signature
-  IOTC_CHECK_CND_DBGMESSAGE(
-      (mbedtls_ret = mbedtls_ecdsa_sign(
-           &ecdsa_sign.grp, &r, &s, &ecdsa_sign.d, src_buf, src_buf_len,
-           mbedtls_ctr_drbg_random, &ctr_drbg)) != 0,
-      IOTC_BSP_CRYPTO_ECC_ERROR, return_code, "mbedtls_ecdsa_sign");
-#else  // deterministic ecc signature
+  // deterministic ecc signature
   IOTC_CHECK_CND_DBGMESSAGE((mbedtls_ret = mbedtls_ecdsa_sign_det(
                                  &ecdsa_sign.grp, &r, &s, &ecdsa_sign.d,
                                  src_buf, src_buf_len, MBEDTLS_MD_SHA256)) != 0,
                             IOTC_BSP_CRYPTO_ECC_ERROR, return_code,
                             "mbedtls_ecdsa_sign_det");
-#endif
 
   // two 32 byte integers build up a JWT ECC signature: r and s
   // see https://tools.ietf.org/html/rfc7518#section-3.4
