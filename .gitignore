@@ -2,3 +2,6 @@ bin/
 obj/
 test_coverage/
 .vscode/
+
+# OS-generated files
+.DS_Store
