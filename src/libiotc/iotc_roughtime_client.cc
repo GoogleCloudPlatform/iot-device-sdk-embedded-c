@@ -168,6 +168,18 @@ iotc_roughtime_state_t
 iotc_roughtime_getcurrenttime(const char* public_key,
                               const char* server_address,
                               iotc_roughtime_timedata_t* time_data) {
+  if (public_key == nullptr) {
+    iotc_debug_logger("ERROR: Wrong public key");
+    return IOTC_ROUGHTIME_ERROR;
+  }
+  if (server_address == nullptr) {
+    iotc_debug_logger("ERROR: Wrong server address");
+    return IOTC_ROUGHTIME_ERROR;
+  }
+  if (time_data == nullptr) {
+    iotc_debug_logger("ERROR: Wrong time data");
+    return IOTC_ROUGHTIME_ERROR;
+  }
   int socket;
   iotc_roughtime_state_t state;
   for (int i = 0; i < kRetrialTimes; i++) {
