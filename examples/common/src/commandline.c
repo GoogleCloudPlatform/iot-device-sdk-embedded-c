@@ -28,10 +28,12 @@
 #include <getopt.h>
 #endif
 
+#include "iotc_mqtt.h"
+
 #ifndef IOTC_CROSS_TARGET
-#define IOTC_EXAMPLE_DEFAULT_QOS IOTC_MQTT_QOS_AT_LEAST_ONCE
+const iotc_mqtt_qos_t kDefaultMqttQos = IOTC_MQTT_QOS_AT_LEAST_ONCE;
 #else
-#define IOTC_EXAMPLE_DEFAULT_QOS IOTC_MQTT_QOS_AT_MOST_ONCE
+const iotc_mqtt_qos_t kDefaultMqttQos = IOTC_MQTT_QOS_AT_MOST_ONCE;
 #endif /* IOTC_CROSS_TARGET */
 
 void iotc_print_usage(const char* binary_name);
@@ -41,7 +43,8 @@ const char kDefaultPrivateKeyFilename[] = "ec_private.pem";
 iotc_core_parameters_t iotc_core_parameters;
 
 int iotc_parse_commandline_flags(int argc, char** argv) {
-  int c, has_error = 0;
+  int c;
+  int has_error = 0;
   int help_flag_present = 0;
   static char valid_options[] = "hp:d:t:m:f:";
 

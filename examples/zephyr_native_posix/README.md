@@ -5,18 +5,13 @@ This example uses the Google Cloud IoT Device SDK for Embedded C to connect a Ze
 ## Getting started
 Follow the steps below to connect the Zephyr application to the MQTT bridge.
 
-1. Go to the repository's root directory.
+1. Go to the repository's root directory:
 
 ```
 cd iot-device-sdk-embedded-c
 ```
 
 1. Generate a [public/private key pair](https://cloud.google.com/iot/docs/how-tos/credentials/keys), and store it in the example's directory.
-
-```
-openssl ecparam -genkey -name prime256v1 -noout -out examples/zephyr_native_posix/zephyr/ec_private.pem
-openssl ec -in examples/zephyr_native_posix/zephyr/ec_private.pem -pubout -out examples/zephyr_native_posix/zephyr/ec_public.pem
-```
 
 1. Clone the Zephyr repository, and set it up for Zephyr BSP, then build the IoT Device SDK.
 

@@ -21,18 +21,15 @@ zephyr_native_posix: zephyr_native_posix/build/zephyr/zephyr.exe
 .PHONY: iot_core_mqtt_client freertos_linux zephyr_native_posix
 
 iot_core_mqtt_client/iot_core_mqtt_client:
-	$(MAKE) -C ../ clean_all
-	$(MAKE) -C ../
+	$(MAKE) -C ..
 	$(MAKE) -C ./iot_core_mqtt_client
 
 freertos_linux/Linux_gcc_gcp_iot/Linux_gcc_gcp_iot:
-	$(MAKE) -C ../ clean_all
-	$(MAKE) -C ../ PRESET=FREERTOS_POSIX_REL
+	$(MAKE) -C .. PRESET=FREERTOS_POSIX_REL
 	$(MAKE) -C ./freertos_linux/Linux_gcc_gcp_iot
 
 zephyr_native_posix/build/zephyr/zephyr.exe:
-	$(MAKE) -C ../ clean_all
-	$(MAKE) -C ../ PRESET=ZEPHYR
+	$(MAKE) -C .. PRESET=ZEPHYR
 	$(MAKE) -C ./zephyr_native_posix/build
 
 all: iot_core_mqtt_client/iot_core_mqtt_client \
@@ -43,5 +40,4 @@ all: iot_core_mqtt_client/iot_core_mqtt_client \
 clean:
 	$(MAKE) -C ./iot_core_mqtt_client clean
 	$(MAKE) -C ./freertos_linux/Linux_gcc_gcp_iot clean
-	@rm -f ./zephyr_native_posix/build/zephyr/zephyr.exe
-
+	$(MAKE) -C ./zephyr_native_posix/build clean
