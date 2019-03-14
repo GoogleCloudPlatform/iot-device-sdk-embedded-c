@@ -17,8 +17,9 @@
 #ifndef __IOTC_FS_HEADER_H__
 #define __IOTC_FS_HEADER_H__
 
-#include "iotc_err.h"
 #include "iotc_fs_api.h"
+
+#include <iotc_error.h>
 
 iotc_state_t iotc_fs_stat(const void* context,
                           const iotc_fs_resource_type_t resource_type,
