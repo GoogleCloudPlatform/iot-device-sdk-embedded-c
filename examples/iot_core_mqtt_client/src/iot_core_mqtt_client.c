@@ -16,33 +16,30 @@
 
 /*
  * This example application connects to the GCP IoT Core Service with
- * a credentials you mus specify on the command line.   It then publishes
+ * a credentials you mus specify on the command line. It then publishes
  * test messages to a topic that you also must specify.
  *
  * Run the example with the flag --help for more information.
  */
 
 #include <iotc.h>
-#include "../../common/src/commandline.h"
-#include "../../common/src/example_utils.h"
-
 #include <iotc_jwt.h>
 #include <stdio.h>
+
+#include "commandline.h"
+#include "example_utils.h"
 
 /* Application variables. */
 iotc_crypto_key_data_t iotc_connect_private_key_data;
 char ec_private_key_pem[PRIVATE_KEY_BUFFER_SIZE] = {0};
 iotc_context_handle_t iotc_context = IOTC_INVALID_CONTEXT_HANDLE;
 
-/*  -main-
-    The main entry point for this example binary.
-
-    For information on creating the credentials required for your device to the
-    GCP IoT Core Service during development then please see the service's
-    quick start guide. */
-
 int main(int argc, char* argv[]) {
-  if (0 != iotc_example_handle_command_line_args(argc, argv)) {
+  printf("[ INFO ] Starting GCP IoT Embedded C Client...\n");
+
+  /* Parse the GCP IoT Core parameters (project_id, registry_id, device_id,
+   * private_key, publish topic, publish message) */
+  if (0 != iotc_parse_commandline_flags(argc, argv)) {
     return -1;
   }
 
@@ -54,10 +51,10 @@ int main(int argc, char* argv[]) {
      For more information, please see the iotc_crypto_key_data_t
      documentation in include/iotc_types.h. */
 
-  /* Use the example utils function to load the key from disk into memory. */
+  /* Read the private key that will be used for authentication. */
   if (0 != load_ec_private_key_pem_from_posix_fs(ec_private_key_pem,
                                                  PRIVATE_KEY_BUFFER_SIZE)) {
-    printf("\nError loading IoT Core private key from disk.\n\n");
+    printf("[ FAIL ] Application exiting due to private key load error.\n\n");
     return -1;
   }
 
@@ -71,12 +68,11 @@ int main(int argc, char* argv[]) {
   iotc_connect_private_key_data.crypto_key_union.key_pem.key =
       ec_private_key_pem;
 
-  /* Initialize iotc library and create a context to use to connect to the
-   * GCP IoT Core Service. */
-  const iotc_state_t error_init = iotc_initialize();
-
-  if (IOTC_STATE_OK != error_init) {
-    printf(" iotc failed to initialize, error: %d\n", error_init);
+  /* Initialize the IoTC library. */
+  const iotc_state_t init_state = iotc_initialize();
+  if (IOTC_STATE_OK != init_state) {
+    printf("[ FAIL ] Failed to initialize IoTC library. Reason: %d\n",
+           init_state);
     return -1;
   }
 
@@ -85,7 +81,8 @@ int main(int argc, char* argv[]) {
       to numerous topics. */
   iotc_context = iotc_create_context();
   if (IOTC_INVALID_CONTEXT_HANDLE >= iotc_context) {
-    printf(" iotc failed to create context, error: %d\n", -iotc_context);
+    printf("[ FAIL ] Failed to create IoTC context. Reason: %d\n",
+           -iotc_context);
     return -1;
   }
 
@@ -102,7 +99,7 @@ int main(int argc, char* argv[]) {
   char jwt[IOTC_JWT_SIZE] = {0};
   size_t bytes_written = 0;
   iotc_state_t state = iotc_create_iotcore_jwt(
-      iotc_project_id,
+      iotc_core_parameters.project_id,
       /*jwt_expiration_period_sec=*/3600, &iotc_connect_private_key_data, jwt,
       IOTC_JWT_SIZE, &bytes_written);
 
@@ -112,8 +109,9 @@ int main(int argc, char* argv[]) {
   }
 
   iotc_connect(iotc_context, /*username=*/NULL, /*password=*/jwt,
-               /*client_id=*/iotc_device_path, connection_timeout,
-               keepalive_timeout, &on_connection_state_changed);
+               /*client_id=*/iotc_core_parameters.device_path,
+               connection_timeout, keepalive_timeout,
+               &on_connection_state_changed);
 
   /* The IoTC Client was designed to be able to run on single threaded devices.
      As such it does not have its own event loop thread. Instead you must

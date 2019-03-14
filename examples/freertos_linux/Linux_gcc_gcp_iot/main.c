@@ -71,23 +71,24 @@ char ec_private_key_pem[PRIVATE_KEY_BUFFER_SIZE] = {0};
 void task_function_gcpiot_embedded_c(void *parameters) {
   const size_t task_delay = (size_t)parameters;
 
-  printf("Starting GCP IoT Embedded C Client...\n");
+  printf("[ INFO ] Starting GCP IoT Embedded C Client...\n");
 
+  /* 1. Initialize the IoTC library. */
   iotc_initialize();
 
+  /* 2. Create a context handle. */
   iotc_context_handle_t context_handle = iotc_create_context();
 
-  /* generate the client authentication JWT, which will serve as the MQTT
-   * password */
+  /* 3. Create a JWT to connect to GCP IoT Core MQTT Bridge. */
   char jwt[IOTC_JWT_SIZE] = {0};
   size_t bytes_written = 0;
   iotc_state_t state = iotc_create_iotcore_jwt(
-      iotc_project_id,
+      iotc_core_parameters.project_id,
       /*jwt_expiration_period_sec=*/3600, &iotc_connect_private_key_data, jwt,
       IOTC_JWT_SIZE, &bytes_written);
 
   if (IOTC_STATE_OK != state) {
-    printf("iotc_create_iotcore_jwt returned with error: %ul", state);
+    printf("[ FAIL ] iotc_create_iotcore_jwt returned with error: %ul", state);
     iotc_shutdown();
     return;
   }
@@ -95,10 +96,13 @@ void task_function_gcpiot_embedded_c(void *parameters) {
   const uint16_t connection_timeout = 10;
   const uint16_t keepalive_timeout = 3;
 
-  iotc_connect(context_handle, /*username=*/NULL, /*password=*/jwt,
-               /*client_id=*/iotc_device_path, connection_timeout,
+  /* 4. Connect to GCP IoT Core MQTT Bridge. */
+  iotc_connect(context_handle, /*username=*/"unused", /*password=*/jwt,
+               /*client_id=*/
+               iotc_core_parameters.device_path, connection_timeout,
                keepalive_timeout, &on_connection_state_changed);
 
+  /* 5. Run task loop. */
   while (1) {
     printf(".");
     fflush(stdout);
@@ -119,7 +123,6 @@ void task_function_gcpiot_embedded_c(void *parameters) {
 #endif
 
     vTaskDelay(task_delay);
-    (void)task_delay;
   }
 
   configASSERT(!"CANNOT EXIT FROM A TASK");
@@ -131,7 +134,7 @@ void task_function_gcpiot_embedded_c(void *parameters) {
 void task_function_custom_application_logic(void *parameters) {
   const size_t task_delay = (size_t)parameters;
 
-  printf("Starting Custom Application Logic Task...\n");
+  printf("[ INFO ] Starting Custom Application Logic Task...\n");
 
   while (1) {
     printf("[ custom application logic ] ");
@@ -147,16 +150,18 @@ int main(int argc, char *argv[]) {
   BaseType_t rc;
   const uint16_t stack_depth = 1000;
 
-  printf("Example for FreeRTOS Linux port.\n");
+  printf("[ INFO ] GCP IoT client example for FreeRTOS Linux.\n");
 
-  /* parsing GCP IoT related command line arguments */
-  if (0 != iotc_example_handle_command_line_args(argc, argv)) {
+  /* Parse the GCP IoT Core parameters (project_id, registry_id, device_id,
+   * private_key, publish topic, publish message) */
+  if (0 != iotc_parse_commandline_flags(argc, argv)) {
     return -1;
   }
 
+  /* Read the private key that will be used for authentication. */
   if (0 != load_ec_private_key_pem_from_posix_fs(ec_private_key_pem,
                                                  PRIVATE_KEY_BUFFER_SIZE)) {
-    printf("\nApplication exiting due to private key load error.\n\n");
+    printf("[ FAIL ] Application exiting due to private key load error.\n\n");
     return -1;
   }
 
@@ -174,8 +179,8 @@ int main(int argc, char *argv[]) {
    * Create the Embedded C Client task.
    */
   rc = xTaskCreate(task_function_gcpiot_embedded_c, "gcpiot embedded c client",
-                   stack_depth, /* task delay */ (void *)100,
-                   /* task priority */ 1, /* task handle */ NULL);
+                   stack_depth, /*pvParameters=*/(void *)(500),
+                   /*uxPriority=*/1, /*pxCreatedTask=*/NULL);
   /**
    *  Make sure our task was created.
    */
@@ -186,8 +191,8 @@ int main(int argc, char *argv[]) {
    */
   rc = xTaskCreate(task_function_custom_application_logic,
                    "custom application logic", stack_depth,
-                   /* task delay */ (void *)500, /* task priority */ 1,
-                   /* task handle */ NULL);
+                   /*pvParameters=*/(void *)500, /*uxPriority=*/1,
+                   /*pxCreatedTask=*/NULL);
   /**
    *  Make sure our task was created.
    */
@@ -204,13 +209,13 @@ int main(int argc, char *argv[]) {
    *  bug in the Linux FreeRTOS simulator that crashes when
    *  this is called.
    */
-  printf("Scheduler ended!\n");
+  printf("[ INFO ] Scheduler ended.\n");
 
   return 0;
 }
 
 void vAssertCalled(unsigned long ulLine, const char *const pcFileName) {
-  printf("ASSERT: %s : %d\n", pcFileName, (int)ulLine);
+  printf("[ FAIL ] Assertion: %s : %d\n", pcFileName, (int)ulLine);
   while (1)
     ;
 }

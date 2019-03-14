@@ -19,39 +19,41 @@
  */
 
 #include "commandline.h"
+
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "iotc.h"
 
 #ifndef IOTC_CROSS_TARGET
 #include <getopt.h>
-#define IOTC_EXAMPLE_DEFAULT_QOS IOTC_MQTT_QOS_AT_LEAST_ONCE
+#endif
+
+#include "iotc_mqtt.h"
+
+#ifndef IOTC_CROSS_TARGET
+const iotc_mqtt_qos_t kDefaultMqttQos = IOTC_MQTT_QOS_AT_LEAST_ONCE;
 #else
-#define IOTC_EXAMPLE_DEFAULT_QOS IOTC_MQTT_QOS_AT_MOST_ONCE
+const iotc_mqtt_qos_t kDefaultMqttQos = IOTC_MQTT_QOS_AT_MOST_ONCE;
 #endif /* IOTC_CROSS_TARGET */
 
-void iotc_usage(const char* options, unsigned options_length);
+void iotc_print_usage(const char* binary_name);
 
-iotc_mqtt_qos_t iotc_example_qos = IOTC_EXAMPLE_DEFAULT_QOS;
+const char kDefaultPrivateKeyFilename[] = "ec_private.pem";
 
-#define DEFAULT_PRIVATE_KEY_FIILENAME "ec_private.pem"
+iotc_core_parameters_t iotc_core_parameters;
 
-const char* iotc_project_id;
-const char* iotc_device_path;
-const char* iotc_publish_topic;
-const char* iotc_publish_message;
-const char* iotc_private_key_filename;
-
-int iotc_parse(int argc, char** argv, char* valid_options,
-               unsigned options_length) {
+int iotc_parse_commandline_flags(int argc, char** argv) {
   int c;
-  int iotc_help_flag = 0;
-  iotc_project_id = NULL;
-  iotc_device_path = NULL;
-  iotc_publish_topic = NULL;
-  iotc_private_key_filename = DEFAULT_PRIVATE_KEY_FIILENAME;
-  iotc_publish_message = "Hello From Your IoTC client!";
+  int has_error = 0;
+  int help_flag_present = 0;
+  static char valid_options[] = "hp:d:t:m:f:";
+
+  iotc_core_parameters.project_id = NULL;
+  iotc_core_parameters.device_path = NULL;
+  iotc_core_parameters.publish_topic = NULL;
+  iotc_core_parameters.private_key_filename = kDefaultPrivateKeyFilename;
+  iotc_core_parameters.publish_message = "Hello From Your GCP IoT client!";
+  iotc_core_parameters.example_qos = kDefaultMqttQos;
 
   while (1) {
     static struct option long_options[] = {
@@ -75,32 +77,30 @@ int iotc_parse(int argc, char** argv, char* valid_options,
 
     switch (c) {
       case 'p':
-        iotc_project_id = optarg;
+        iotc_core_parameters.project_id = optarg;
         break;
       case 'd':
-        iotc_device_path = optarg;
+        iotc_core_parameters.device_path = optarg;
         break;
       case 't':
-        iotc_publish_topic = optarg;
+        iotc_core_parameters.publish_topic = optarg;
         break;
       case 'm':
-        iotc_publish_message = optarg;
+        iotc_core_parameters.publish_message = optarg;
         break;
       case 'f':
-        iotc_private_key_filename = optarg;
+        iotc_core_parameters.private_key_filename = optarg;
         break;
       case 'h':
       default:
-        iotc_help_flag = 1;
+        help_flag_present = 1;
         break;
     }
   }
 
   /* Print any unrecognized command line arguments. */
   if (optind < argc) {
-    printf(
-        "The application could not recognize the following non-option "
-        "arguments: ");
+    printf("[ FAIL ] Invalid commandline flags: ");
     while (optind < argc) {
       printf("%s ", argv[optind++]);
     }
@@ -108,65 +108,55 @@ int iotc_parse(int argc, char** argv, char* valid_options,
   }
   putchar('\n');
 
-  if (1 == iotc_help_flag) /* Print the usage statement */
-  {
-    iotc_usage(valid_options, options_length);
-    return (
-        -1); /* Don't run the application if -h --help was on the commandline */
+  /* Print the usage statement */
+  if (1 == help_flag_present) {
+    iotc_print_usage(argv[0]);
+    return -1;
   }
 
-  return (0);
+  /* Check that all required parameters were present. */
+  if (NULL == iotc_core_parameters.project_id) {
+    has_error = 1;
+    printf("[ FAIL ] -p --project_id is required\n");
+  }
+
+  if (NULL == iotc_core_parameters.device_path) {
+    printf("[ FAIL ] -d --device_path is required\n");
+  }
+
+  if (NULL == iotc_core_parameters.publish_topic) {
+    has_error = 1;
+    printf("[ FAIL ] -t --publish_topic is required\n");
+  }
+
+  if (1 == has_error) {
+    return -1;
+  }
+
+  return 0;
 }
 
-void iotc_usage(const char* options, unsigned options_length) {
-  assert(NULL != options);
-
-  /* For debugging printf( "options = %s %d\n", options, options_length ); */
-
-  printf("Usage:\n");
-  while (0 < options_length) {
-    /* printf( "parsing option %c\n", *options ); */
-    switch (*options) {
-      case 'p':
-        printf(
-            "-p --project_id\n\tProvide the project_id your device is "
-            "registered in "
-            "Cloud IoT Core.\n");
-        break;
-      case 'd':
-        printf(
-            "-d --device_path\n\tProvide the full path of your device. For "
-            "example:\n"
-            "\t\tprojects/<project_id>/locations/<cloud_region>/registries/"
-            "<registry_id>/devices/<device_id>\n");
-        break;
-      case 't':
-        printf("-t --publish_topic\n\tThe topic on which to subscribe.\n");
-        break;
-      case 'm':
-        printf(
-            "-m --publish_message\n\tThe message to publish. A shell quoted "
-            "string of characters.\n");
-        break;
-      case 'f':
-        printf(
-            "-f --private_key_filename\n\tThe filename, including path from "
-            "cwd,\n");
-        printf(" \t of the device identifying private_key. Defaults to: %s\n",
-               DEFAULT_PRIVATE_KEY_FIILENAME);
-        break;
-      case 'h': /* Don't print anything for the help option since we're printing
-                   usage */
-        break;
-      case ':': /* We'll skip the ':' character since it's not an option. */
-        break;
-      case '\0':
-        break;
-      default:
-        printf("WARNING: Option %c not recognized by usage()\n", *options);
-    }
-    ++options;
-    --options_length;
-  }
+void iotc_print_usage(const char* binary_name) {
+  printf("Usage: %s <options> \n\n", binary_name);
+  printf("Supported options are:\n");
+  printf(
+      "\t -p --project_id (required)\n"
+      "\t\tThe project_id of your device, registered in Google Cloud IoT "
+      "Core.\n");
+  printf(
+      "\t-d --device_path (required)\n"
+      "\t\tThe path to your device. Example:\n"
+      "\t\tprojects/<project_id>/locations/<cloud_region>/registries/"
+      "<registry_id>/devices/<device_id>\n");
+  printf(
+      "\t-t --publish_topic (required)\n"
+      "\t\tThe topic to subscribe to.\n");
+  printf(
+      "\t-m --publish_message (required)\n"
+      "\t\tThe message to publish. A shell quoted list of characters.\n");
+  printf(
+      "\t-f --private_key_filename (optional) default: %s\n"
+      "\t\tRelative path to the private key file.\n",
+      kDefaultPrivateKeyFilename);
   printf("\n");
 }

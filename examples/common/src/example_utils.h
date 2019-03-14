@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 
+#ifndef __IOTC_EXAMPLES_COMMON_EXAMPLE_UTILS_H__
+#define __IOTC_EXAMPLES_COMMON_EXAMPLE_UTILS_H__
+
 #define PRIVATE_KEY_BUFFER_SIZE 256
 
 #include <iotc.h>
 
-/* Parses and manages commandline arguments. Project id, device path and publish
- * topic are require to be passed as command line arguments. Prints
- * notification if either of these is not found.
- */
-int iotc_example_handle_command_line_args(int argc, char* argv[]);
-
 /* Attempts to load the client's identifying private key from disk so that the
-   byte data may be passed to the 'iotc_connect function'.  Please note that the
+   byte data may be passed to the 'iotc_connect function'. Please note that the
    IoTC API and Board Support Package have various means to use private keys.
    This example assumes the use of one that must be provided to a TLS
    implementation in a buffer, but secure chips with slot-based key stores can
@@ -78,3 +75,5 @@ void on_connection_state_changed(iotc_context_handle_t in_context_handle,
    event system on a 5 second interval. */
 void publish_function(iotc_context_handle_t context_handle,
                       iotc_timed_task_handle_t timed_task, void* user_data);
+
+#endif /* __IOTC_EXAMPLES_COMMON_EXAMPLE_UTILS_H__ */

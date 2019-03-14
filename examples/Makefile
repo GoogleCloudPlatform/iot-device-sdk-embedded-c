@@ -13,58 +13,36 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+all:
 
-# Batch Build Tool for IoTC Client Examples
-#
-# These Examples are built against a pre-built IoTC Client library.
-#
-# The pre-built IoTC Client library paths are in IOTC_CLIENT_INC_PATH
-# and IOTC_CLIENT_LIB_PATH in rules.mk. Their default values reflect the
-# original relative location of examples to IoTC Client. If this
-# relative location is altered the varables shall be adjusted either
-# directly in rules.mk or in commandline like
-# 'make IOTC_CLIENT_INC_PATH=new/path/include IOTC_CLIENT_LIB_PATH=new/path/obj/osx'.
-#
-# Examples can be batch-built with 'make' in this directory or one-by-one
-# 'make' in each example directory.
-#
-# 	Targets:
-#
-# 		all: 	builds all examples
-#		clean: 	cleans all examples
-#
-#		[EXAMPLE_NAME]: builds only the specified example
-#						'make mqtt_logic_example'
-#
-# Result binaries are under [EXAMPLE_NAME]/bin
-#
-# If you wish to create your own application based on a IoTC example source and
-# makefile structure, then the following steps are suggested:
-#		- create a new subdirectory under examples: my_new_example
-#		- copy mqtt_logic_example/Makefile to my_new_example/Makefile and initialize
-#		  variable IOTC_EXAMPLE_NAME with 'my_new_example'
-#		- put your code into my_new_exapmle/src/my_new_example.c
-#		- add the new example to the examples list: IOTC_EXAMPLES_ALL += my_new_example
-#		- execute 'make my_new_example'
-#
-# It should be 'easy' to alter these makefiles to cross-compile. This requires the
-# following modification in rules.mk:
-# 		- available cross-compiled IoTC Client library
-#		- changing the compiler and linker variables: CC and AR
-# 		- adjusting linked libraries
+iot_core_mqtt_client: iot_core_mqtt_client/iot_core_mqtt_client
+freertos_linux_gcp_iot: freertos_linux/Linux_gcc_gcp_iot/Linux_gcc_gcp_iot
+zephyr_native_posix: zephyr_native_posix/build/zephyr/zephyr.exe
+.PHONY: iot_core_mqtt_client freertos_linux zephyr_native_posix
 
-MD=@
+iot_core_mqtt_client/iot_core_mqtt_client:
+	$(MAKE) -C .. clean_all
+	$(MAKE) -C ..
+	$(MAKE) -C ./iot_core_mqtt_client
 
-IOTC_EXAMPLES_ALL := iot_core_mqtt_client
+freertos_linux/Linux_gcc_gcp_iot/Linux_gcc_gcp_iot:
+	$(MAKE) -C .. clean_all
+	$(MAKE) -C .. PRESET=FREERTOS_POSIX_REL
+	$(MAKE) -C ./freertos_linux/Linux_gcc_gcp_iot
 
-all: $(IOTC_EXAMPLES_ALL)
+zephyr_native_posix/build/zephyr/zephyr.exe:
+	$(MAKE) -C .. clean_all
+	$(MAKE) -C .. PRESET=ZEPHYR
+	$(MAKE) -C ./zephyr_native_posix/build
 
-.PHONY : $(IOTC_EXAMPLES_ALL)
+all: iot_core_mqtt_client/iot_core_mqtt_client \
+	freertos_linux/Linux_gcc_gcp_iot/Linux_gcc_gcp_iot \
+	zephyr_native_posix/build/zephyr/zephyr.exe
 
-$(IOTC_EXAMPLES_ALL) :
-	$(MD) $(MAKE) -C $(CURDIR)/$@ all
-
+.PHONY : clean
 clean:
-	@for M in $(IOTC_EXAMPLES_ALL); do \
-		$(MAKE) -C $(CURDIR)/$$M clean; \
-	done;
+	$(MAKE) -C ./iot_core_mqtt_client clean
+	$(MAKE) -C ./freertos_linux/Linux_gcc_gcp_iot clean
+	$(MAKE) -C ./zephyr_native_posix/build clean
+	# The above clean command doesn't remove the zephyr.exe binary.
+	rm -rf ./zephyr_native_posix/build/zephyr/zephyr.exe
