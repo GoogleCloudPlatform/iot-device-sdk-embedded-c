@@ -183,8 +183,8 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_create_socket(
  * @function
  * @brief Connect a socket to an endpoint. 
  *
- * To connect a socket to an endpoint, first run <code>iotc_bsp_io_net_create_socket()</code>
- * to create a socket.
+ * The Device SDK calls this function after <code>iotc_bsp_io_net_create_socket()</code>
+ * to connect a socket to an endpoint.
  *
  * @param [in] iotc_socket_nonblocking The socket to connect to the host.
  * @param [in] host The null-terminated IP or fully-qualified domain name of the
@@ -229,7 +229,8 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_connection_check(
  * @function
  * @brief Write data to a socket.
  *
- * This function writes data in chunks, so if it returns
+ * The Device SDK calls this function to write data to a socket. This 
+ * function writes data in chunks, so if it returns
  * IOTC_BSP_IO_NET_STATE_BUSY then the Device SDK calls the function again
  * to send the remaining data. If the subsequent call also returns
  * IOTC_BSP_IO_NET_STATE_BUSY, the Device SDK waits more time for the 

@@ -113,10 +113,11 @@ extern iotc_context_handle_t iotc_create_context();
  * You may reuse disconnected contexts to reconnect to Cloud IoT Core; 
  * you don't need to destroy and recreate contexts.
  *
- * <b>Note</b>: This function deletes contexts only after the client application is
- * disconnected. On POSIX systems, this function deletes the context after <code>iotc_events_stop()</code>
- * returns <code>iotc_process_blocking()</code>. On non-POSIX systems, this function deletes
- * the context on the event loop tick Device SDK disconnect callback is invoked.
+ * On POSIX systems, the client application must delete the context after
+ * <code>iotc_events_stop()</code> returns <code>iotc_process_blocking()</code>.
+ * On non-POSIX systems, the application must delete the context on the
+ * event loop tick after the disconnection event (not in the disconnection
+ * callback itself).
  *
  * @param [in] context Context handle to free.
  *
@@ -238,7 +239,7 @@ extern iotc_state_t iotc_connect(iotc_context_handle_t iotc_h,
  * @brief Connect to a custom service endpoint via MQTT.
  *
  * @param [in] host Address at which the client connects.
- * @param [in] port Port on which the client connects to host.
+ * @param [in] port Port of the host on which to connect.
  *
  * This function's behavior and other parameters are identical to
  * the <code>iotc_connect()</code> function.

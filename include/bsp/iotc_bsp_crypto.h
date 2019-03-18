@@ -32,12 +32,12 @@ extern "C" {
  * 
  * These functions implement a cryptography library to: generate and sign JWTs 
  * via ECC keys and SHA256; or format signed JWTs as URL-safe base64 strings.
- * Reference implementations are in the <a href="~/src/bsp/crypto"><code>src/bsp/crypto</code></a>
- * directory.
+ * Reference implementations are in the
+ * <a href="~/src/bsp/crypto"><code>src/bsp/crypto</code></a> directory.
  *
- * The BSP uses the private key data or slot number provided to the <code>iotc_connect()</code>
- * function. The BSP doesn't format the JWT itself; the BSP only signs
- * JWTs. The <a href="../../api/html/index.html">Device SDK API</a>
+ * The BSP uses the private key data or slot number provided to the
+ * <code>iotc_connect()</code> function. The BSP doesn't format the JWT itself;
+ * the BSP only signs JWTs. The <a href="../../api/html/index.html">Device SDK API</a>
  * formats the original JWT.
  *
  * All cryptography functions issue an <code>iotc_bsp_crypto_state_e</code> 
@@ -101,11 +101,12 @@ iotc_bsp_crypto_state_t iotc_bsp_base64_encode_urlsafe(
  * @function
  * @brief Generate a SHA256 cryptographic hash.
  *
- * @param [in,out] dst_buf_32_bytes A pointer to 32-byte buffer that stores the
- *     SHA256 digest. The buffer is already allocated by the Device SDK.
+ * @param [in,out] dst_buf_32_bytes A pointer to 32-byte buffer into which
+ *      this function stores the digest. The buffer is already
+ *      allocated by the Device SDK.
  * @param [in] src_buf A pointer to buffer with the string to encode.
  * @param [in] src_buf_size the size, in bytes, of the buffer to which src_buf
- * points.
+ *     points.
  *
  * @see iotc_bsp_crypto_state_t
  *
@@ -120,18 +121,17 @@ iotc_bsp_crypto_state_t iotc_bsp_sha256(uint8_t* dst_buf_32_bytes,
  * @function
  * @brief Generate an ECC signature for a private key.
  *
- * The BSP uses the private key data or slot number provided to the <code>iotc_connect()</code>
- * function.
+ * The BSP uses the private key data or slot number provided to the
+ * <code>iotc_connect()</code> function.
  *
- * @param [in] private_key_pem The private key data or slot number provided to
- *     the <code>iotc_connect()</code> function.
+ * @param [in] private_key_pem A pointer to a buffer into which the function
+ *     stores the ECC signature.
  * @param [in,out] dst_buf A pointer to a buffer that stores the ECC signature.
  *     The buffer is already allocated by the Device SDK.
  * @param [in] dst_buf_size The size, in bytes, of the buffer to which dst_buf
  *     points.
  * @param [out] bytes_written The number of bytes written to dst_buf.
- * @param [in] src_buf A pointer to a buffer with the private key data to 
- *     sign.
+ * @param [in] src_buf A pointer to a buffer of data to sign.
  * @param [in] src_buf_size The size, in bytes, of the buffer to which src_buf
  *     points.
  *
@@ -139,7 +139,7 @@ iotc_bsp_crypto_state_t iotc_bsp_sha256(uint8_t* dst_buf_32_bytes,
  * @retval IOTC_BSP_CRYPTO_ERROR Can't create ECC signature.
  */
 iotc_bsp_crypto_state_t iotc_bsp_ecc(
-    const iotc_crypto_key_data_t* private_key_pem, uint8_t* dst_buf,
+    const iotc_crypto_key_data_t* private_key, uint8_t* dst_buf,
     size_t dst_buf_size, size_t* bytes_written, const uint8_t* src_buf,
     size_t src_buf_size);
 

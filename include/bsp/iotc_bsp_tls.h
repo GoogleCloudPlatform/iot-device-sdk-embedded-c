@@ -104,9 +104,9 @@ typedef void iotc_bsp_tls_context_t;
  * @function
  * @brief Initialize a TLS library and create a TLS context.
  *
- * Run this function first. After this function runs, it deletes the
- * init_params. Any persistant data in init_params must be stored outside the
- * scope of this function.
+ * The Device SDK calls this function and then deletes the init_params.
+ * Any persistant data in init_params must be stored outside the scope of
+ * this function.
  *
  * @see iotc_bsp_tls_context_t
  * @see iotc_bsp_tls_init_params_t

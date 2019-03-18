@@ -98,8 +98,8 @@ typedef struct iotc_bsp_io_fs_stat_s {
  * @enum iotc_bsp_io_fs_open_flags_t
  * @brief File operations.
  * 
- * Each value represents a file operation. To open a file, pass the
- * corresponding value to <code>iotc_bsp_io_fs_open()</code>.
+ * Each value represents a file operation. To open files, the Device SDK
+ * passes the corresponding value to <code>iotc_bsp_io_fs_open()</code>.
  *
  * @see iotc_bsp_io_fs_open
  * @see iotc_bsp_io_fs_state_e
@@ -129,10 +129,10 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_stat(
  * @brief Open a file.
  *
  * This function returns a iotc_bsp_io_fs_resource_handle_t handle that's
- * passed to subsequent operations (read, write, or close). After executing
- * this function, the Device SDK passes resource_handle_out to <code>iotc_bsp_io_fs_read()</code>
- * or <code>iotc_bsp_io_fs_write()</code> to perform the corresponding
- * operation.
+ * passed to subsequent operations (read, write, or close). The Device SDK
+ * calls this function and then passes passes resource_handle_out to
+ * <code>iotc_bsp_io_fs_read()</code> or <code>iotc_bsp_io_fs_write()</code>
+ * to perform the corresponding operation.
  *
  * @param [in] resource_name File name.
  * @param [in] size (Optional) The size, in bytes, of the file. Required on
@@ -158,11 +158,18 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_open(
  * @function
  * @brief Read a file. 
  *
- * Implementations can allocate a buffer once, resuse the buffer, and close the
- * file to free the buffer. Or, implementations can create a new buffer and
- * free the previous one before running this function.
+ * The Device SDK passes an iotc_bsp_io_fs_resource_handle_t handle to
+ * this function in order to read a file. Before calling this function,
+ * the Device SDK calls the <code>iotc_bsp_io_fs_open()</code> function 
+ * to create an iotc_bsp_io_fs_resource_handle_t handle.
  *
- * Each time the function is called, fill the buffer parameter at offset 0.
+ * Implementations of this function must fill the buffer parameter at
+ * offset 0.
+ *
+ * Implementations of this function can allocate a buffer once, reuse the
+ * buffer, and close the file to free the buffer. Or, implementations can
+ * create a new buffer and free the previous one before running this 
+ * function.
  *
  * @param [in] resource_handle The iotc_bsp_io_fs_resource_handle_t handle from 
  *     <code>iotc_bsp_io_fs_open()</code>.
@@ -214,8 +221,8 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_write(
  * @function
  * @brief Close a file.
  *
- * Before running this function, the Device SDK frees any buffers  allocated 
- * for file operations.
+ * The implementation of this function must free any resources that were 
+ * used to read or write to the file.
  *
  * @param [in] resource_handle The iotc_bsp_io_fs_resource_handle_t handle from 
  *     <code>iotc_bsp_io_fs_open()</code>.

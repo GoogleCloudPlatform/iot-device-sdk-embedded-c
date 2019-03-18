@@ -155,7 +155,7 @@ Application binaries and sources are in the `examples/` directory.
 
 These examples use the Device SDK to connect to Cloud IoT Core, subscribe to Cloud Pub/Sub topics, publish information to Cloud IoT Core, and receive data from Cloud IoT Core.
 
-The examples' source code show you how to initialize and use the Device SDK's C API.  For more information about the C API, consult the comments in the [example code](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/examples), `README.md`, `doc/user_guide.md`, and the [API reference](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/api/html/index.html).
+The examples' source code shows you how to initialize and use the Device SDK's C API.  For more information about the C API, consult the comments in the [example code](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/examples), [`README.md`](~/), [`doc/user_guide.md`](user_guide.md), and the [API reference](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/api/html/index.html).
 
 To build the examples follow the [instructions in the main `README.md`](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/#building-the-examples).
 
