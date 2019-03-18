@@ -42,14 +42,14 @@ extern "C" {
 /**
  * @brief Create a JWT.
  * 
- * This function creates a JWT string. To connect to Cloud IoT Core, pass the JWT to the CONNECT message
- * password field.
+ * Implementations of this function must create a JWT string. To connect to
+ * Cloud IoT Core, pass the JWT to the CONNECT message password field.
+ *
+ * BSP implementations must also invoke <code>iotc_bsp_sha256()</code>, 
+ * <code>iotc_bsp_ecc()</code> and <code>iotc_bsp_base64_encode_urlsafe()</code>
+ * to enable string encoding and signatures.
  *
  * This function only supports ES256 key types.
- *
- * <b>Note</b>: This function invokes <code>iotc_bsp_sha256()</code>, 
- * <code>iotc_bsp_ecc()</code>, and <code>iotc_bsp_base64_encode_urlsafe()</code>
- * to enable string encoding and signatures.
  *
  * @param [in] expiration_period_sec The number of seconds before this JWT
  * expires.

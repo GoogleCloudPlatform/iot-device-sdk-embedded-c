@@ -21,9 +21,8 @@
  * @file iotc_bsp_mem.h
  * @brief Manage platform memory.
  *
- * These functions customize how the Device SDK manages memory. For 
- * instance, custom implementations can use static memory instead of heap memory
- * or inject metrics to track memory.
+ * Implement these functions to customize how the Device SDK manages memory. For 
+ * instance, custom implementations can use static instead of heap memory.
  */
 
 #include <stddef.h>
@@ -47,8 +46,9 @@ void* iotc_bsp_mem_alloc(size_t byte_count);
  * @brief Change the size of a memory block.
  *
  * If the new memory block size is smaller than the old memory block
- * size, the maximum amount of memory is saved, even if the block moves to a new
- * location. If the new size is larger, the leftover memory is empty.
+ * size, the Device SDK saves the maximum amount of memory, even if
+ * the block moves to a new location. If the new size is larger, the
+ * leftover memory is empty.
  *
  * @param [in] ptr A pointer to a memory block to reallocate.
  *
@@ -60,8 +60,9 @@ void* iotc_bsp_mem_realloc(void* ptr, size_t byte_count);
  * @function
  * @brief Free a block of memory.
  
- * Free A block of memory that was previously allocated by a call to <code>iotc_bsp_mem_malloc()</code>
- * or <code>iotc_bsp_mem_realloc()</code>.
+ * Implementations of this function free a block of memory that
+ * the <code>iotc_bsp_mem_malloc()</code> or <code>iotc_bsp_mem_realloc()</code>
+ * implementations allocated.
  *
  * @see iotc_bsp_mem_malloc
  * @see iotc_bsp_mem_realloc

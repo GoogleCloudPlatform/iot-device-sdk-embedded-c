@@ -45,9 +45,9 @@ typedef int32_t iotc_timed_task_handle_t;
  * @name iotc_user_task_callback_t
  * @brief Custom callback for timed tasks.
  * 
- * This is a user-defined custom callback. Pass a pointer to a
- * <code>iotc_schedule_timed_task()</code> callback function to schedule
- * the timed task.
+ * This is a user-defined custom callback. The Device SDK passes a pointer
+ * to a <code>iotc_schedule_timed_task()</code> callback function in order
+ * to schedule the timed task.
  *
  * @param [in] in_context_handle The context handle provided to
  *     <code>iotc_schedule_timed_task()</code>.
@@ -59,10 +59,10 @@ typedef void(iotc_user_task_callback_t)(
     const iotc_timed_task_handle_t timed_task_handle, void* user_data);
 
 /**
- * @name     iotc_user_callback_t
- * @brief    Custom callback.
+ * @name iotc_user_callback_t
+ * @brief Custom callback.
  *
- * Callbacks are passed to <code>iotc_user_callback_t</code> Callbacks
+ * The Device SDK passes callbacks to <code>iotc_user_callback_t</code>. Callbacks
  * notify the client application after an operation completes.
  *
  * @param [in] in_context_handle The context handle provided to the original
@@ -81,8 +81,9 @@ typedef void(iotc_user_callback_t)(iotc_context_handle_t in_context_handle,
 /**
  * @enum iotc_sub_call_type_t
  * @brief Define the subscription callback type.
- * @detailed Establish the data type that <code>iotc_subscription_data_t()</code> 
- * passes to the custom callback.
+ *
+ * The <code>iotc_subscription_data_t()</code> implementation passes this value
+ * to the custom callback.
  *
  * @retval IOTC_SUB_UNKNOWN Unknown callback type. Check the state value.
  * @retval IOTC_SUBSCRIPTION_DATA_SUBACK Callback is a SUBACK notification.
@@ -131,9 +132,10 @@ typedef union iotc_sub_call_params_u {
   }
 
 /**
- * @name     iotc_user_subscription_callback_t
- * @brief    Subscription callback.
- * @detailed The subscription callback notifies the user that the subscribed
+ * @name iotc_user_subscription_callback_t
+ * @brief Subscription callback.
+ * 
+ * The subscription callback notifies the user that the subscribed
  * topic recieved messages.
  *
  * @param [in] in_context_handle The context on which the callback is invoked.
@@ -160,7 +162,6 @@ typedef void(iotc_user_subscription_callback_t)(
  * @retval IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM The union contains untyped data. 
  * The BSP must know the data format.
  */
-
 typedef enum iotc_crypto_key_union_type_e {
   IOTC_CRYPTO_KEY_UNION_TYPE_PEM = 0,
   IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID,
@@ -169,8 +170,6 @@ typedef enum iotc_crypto_key_union_type_e {
 
 /* @union iotc_crypto_key_union_t
  * @brief Describe the public or private key data.
- *
- * The crypto BSP signs JWTs.
  *
  * @param key A PEM-formatted public or private key.
  * @param key_slot Multi-slotted secure elements.
@@ -195,8 +194,8 @@ typedef union iotc_crypto_key_union_u {
  * @enum  iotc_crypto_key_signature_algorithm_e
  * @brief Define a key signature algorithm to sign JWTs.
  *
- * Call the <code>create_iot_core_jwt</code> function in <code>iotc_jwt.h</code>
- * before calling <code>iotc_connect()</code> Cite the same algorithm in
+ * The Device SDK calls <code>create_iot_core_jwt()</code> before
+ * <code>iotc_connect()</code>. Cite the same algorithm in
  * <a href="https://cloud.google.com/iot/docs/how-tos/devices#creating_device_key_pairs">Cloud IoT Core</a>.
  *
  * <b>Note</b>: RSASSA-PKCS1-v1_5 with SHA-256 (RS256) is not supported.

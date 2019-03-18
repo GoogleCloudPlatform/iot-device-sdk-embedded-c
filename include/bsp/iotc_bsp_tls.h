@@ -32,8 +32,9 @@
  * @typedef iotc_bsp_io_net_state_e
  * @brief TLS function status.
  *
- * All TLS functions return a status message to the client application.
- * IOTC_BSP_TLS_STATE_OK represents success and others represent errors.
+ * TLS function implementations must return a status message to the
+ * client application. IOTC_BSP_TLS_STATE_OK represents success and
+ * others represent errors.
  */
 typedef enum iotc_bsp_tls_state_e {
   /** Operation successful. */
@@ -75,16 +76,17 @@ typedef struct iotc_bsp_tls_init_params_s {
   /** The length, in bytes, of ca_cert_pem_buf. */
   size_t ca_cert_pem_buf_length;
 
-  /** Pointers to the client application's memory management functions. Provide
-   * these to track the TLS implementation's memory allocations with the BSP
-   * memory limiter. */
+  /** Pointers to the client application's memory management functions.
+   * The BSP memory limiter calls these funtions to track the TLS
+   * implementation's memory allocations.
+   */
   void* (*fp_libiotc_alloc)(size_t);
   void* (*fp_libiotc_calloc)(size_t, size_t);
   void* (*fp_libiotc_realloc)(void*, size_t);
   void (*fp_libiotc_free)(void*);
 
-  /** A pointer to the host's domain name. Format the domain name as a
-   * null-terminated string. */
+  /** A pointer to the host's domain name. Must be a null-terminated
+   * string. */
   const char* domain_name;
 
 } iotc_bsp_tls_init_params_t;
@@ -93,8 +95,8 @@ typedef struct iotc_bsp_tls_init_params_s {
  * @typedef iotc_bsp_tls_context_t
  * @brief TLS context representation.
  *
- * The Device SDK doesn't read or write to this context directly. Run
- * <code>iotc_bsp_tls_init</code> to create a TLS context.
+ * The Device SDK doesn't read or write to this context directly. The Device
+ * SDK calls <code>iotc_bsp_tls_init()</code> to create a TLS context.
  *
  * @see iotc_bsp_tls_init
  */
@@ -124,8 +126,8 @@ iotc_bsp_tls_state_t iotc_bsp_tls_init(iotc_bsp_tls_context_t** tls_context,
  * @function
  * @brief Free a TLS context.
  * 
- * Invoke after closing a connection to free the corresponding memory resources
- * and delete any associated data.
+ * After closing a connection, the client application can invoke this function 
+ * to free the corresponding memory resources and delete any associated data.
  *
  * @see iotc_bsp_tls_context_t
  *
@@ -140,9 +142,9 @@ iotc_bsp_tls_state_t iotc_bsp_tls_cleanup(iotc_bsp_tls_context_t** tls_context);
  * @function
  * @brief Start TLS connections.
  *
- * This function starts a TLS handshake. If the function returns  
- * IOTC_BSP_TLS_STATE_WANT_WRITE or IOTC_BSP_TLS_STATE_WANT_READ, run it again
- * to complete the handshake.
+ * The Device SDK calls this function to start a TLS handshake. If the function  
+ * returns IOTC_BSP_TLS_STATE_WANT_WRITE or IOTC_BSP_TLS_STATE_WANT_READ, run it
+ * again to complete the handshake.
  *
  * @see iotc_bsp_tls_context_t
  * 
@@ -189,9 +191,9 @@ iotc_bsp_tls_state_t iotc_bsp_tls_read(iotc_bsp_tls_context_t* tls_context,
  * @function
  * @brief Count the pending readable bytes.
  *
- * Implementation of this function should call the TLS library's pending
- * function. It should return the the number of bytes that are available to be
- * read by the TLS library's read function.
+ * Implementations of this function must call the <code>iotc_bsp_tls_pending()</code>
+ * implementation and return the the number of bytes that are available to be
+ * read by the <code>iotc_bsp_tls_read</code> implementation.
  *
  * @see iotc_bsp_tls_context_t
  *

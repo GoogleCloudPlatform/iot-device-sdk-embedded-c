@@ -26,21 +26,20 @@ extern "C" {
 
 /**
  * @enum iotc_connection_state_e
- * @brief Defines all possible states of the connection process and lifecycle.
+ * @brief All possible states of the connection process and lifecycle.
  */
 typedef enum iotc_connection_state_e {
   IOTC_CONNECTION_STATE_UNINITIALIZED =
-      0,                            /** the connection is not
+      0,                            /** The connection is not
                                        established and there is no pending
                                        connect operation in libiotc. */
-  IOTC_CONNECTION_STATE_OPENING,    /** the connect operation has been started.
+  IOTC_CONNECTION_STATE_OPENING,    /** The connect operation started.
                                      */
-  IOTC_CONNECTION_STATE_OPENED,     /** connect operation has been finished
-                                     successfully. */
-  IOTC_CONNECTION_STATE_CLOSING,    /** disconnect operation has been started */
-  IOTC_CONNECTION_STATE_CLOSED,     /** connection is closed */
-  IOTC_CONNECTION_STATE_OPEN_FAILED /**< there was an error during connect
-                                     operation */
+  IOTC_CONNECTION_STATE_OPENED,     /** The connect operation is successfully
+                                     finished. */
+  IOTC_CONNECTION_STATE_CLOSING,    /** The disconnect operation started. */
+  IOTC_CONNECTION_STATE_CLOSED,     /** The connection is closed. */
+  IOTC_CONNECTION_STATE_OPEN_FAILED /** Can't open connection. */
 } iotc_connection_state_t;
 
 /**
@@ -48,15 +47,19 @@ typedef enum iotc_connection_state_e {
  * @brief MQTT session types. Note that CONTINUE isn't currently supported.
  */
 typedef enum iotc_session_type_e {
-  IOTC_SESSION_CLEAN,   /**< MQTT clean session */
-  IOTC_SESSION_CONTINUE /**< MQTT unclean session */
+  IOTC_SESSION_CLEAN,   /** MQTT clean session. */
+  IOTC_SESSION_CONTINUE /** MQTT unclean session. */
 } iotc_session_type_t;
 
 /**
  * @struct  iotc_connection_data_t
- * @brief   Connection parameters received by iotc_connect's callback function.
- * These values may be reused to request another connection from within the
+ * @brief The connection parameters received by the <code>iotc_connect()</code>
  * callback.
+ *
+ * The Device SDK can resuse these parameters to request another connection
+ * from within the callback.
+ *
+ * @see iotc_connect
  */
 typedef struct {
   char* host;

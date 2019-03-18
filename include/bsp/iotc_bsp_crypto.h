@@ -48,8 +48,8 @@ extern "C" {
  * @typedef iotc_bsp_crypto_state_t
  * @brief Cryptographic function status.
  * 
- * All cryptographic functions return a status message to the client
- * application. IOTC_BSP_CRYPTO_STATE_OK represents success and others
+ * Cryptographic function implementations must return a status message to the
+ * client application. IOTC_BSP_CRYPTO_STATE_OK represents success and others
  * represent errors.
  */
 typedef enum iotc_bsp_crypto_state_e {
@@ -77,7 +77,7 @@ typedef enum iotc_bsp_crypto_state_e {
  * @function
  * @brief Encode a string as a URL-safe, base64 string.
  *
- * All characters that aren't URL safe are replaced with a - (dash) or _
+ * The Device SDK replaces all URL-unsafe characters with a - (dash) or _
  * (underscore). 
  *
  * @param [in,out] dst_string A pointer to a buffer that stores the URL-safe,
@@ -121,8 +121,8 @@ iotc_bsp_crypto_state_t iotc_bsp_sha256(uint8_t* dst_buf_32_bytes,
  * @function
  * @brief Generate an ECC signature for a private key.
  *
- * The BSP uses the private key data or slot number provided to the
- * <code>iotc_connect()</code> function.
+ * Implementations of this functions must use the same private key data or slot
+ * number provided to the <code>iotc_connect()</code> function.
  *
  * @param [in] private_key_pem A pointer to a buffer into which the function
  *     stores the ECC signature.

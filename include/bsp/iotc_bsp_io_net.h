@@ -70,8 +70,9 @@
  * @file  iotc_bsp_io_net.h
  * @brief Perform asynchronous networking.
  *
- * Connect a platform's networking SDK to the Google Cloud IoT Device SDK in
- * order to perform asynchronous, platform-specific networking.
+ * Implementat these functions to connect a platform's networking SDK
+ * to the Google Cloud IoT Device SDK in order to perform asynchronous,
+ * platform-specific networking.
  *
  * A typical networking workflow consists of the following steps.
  *    1. Create a socket.
@@ -94,9 +95,9 @@ extern "C" {
  * @typedef iotc_bsp_io_net_state_e
  * @brief Networking status codes.
  *
- * All networking functions report a status message to the client
- * application. IOTC_BSP_IO_NET_STATE_OK represents success and others
- * represent errors.
+ * Networking function implementations must report a status message to
+ * the client application. IOTC_BSP_IO_NET_STATE_OK represents success
+ * and others represent errors.
  */
 typedef enum iotc_bsp_io_net_state_e {
   /** Operation successful. */
@@ -114,28 +115,25 @@ typedef enum iotc_bsp_io_net_state_e {
 
 /**
  * @typedef iotc_bsp_socket_type_e
- * @brief Return value of the socket type(TCP/ UDP).
- *
- * The implementation reports the type of socket used for networking.
+ * @brief The socket protocol.
  */
 typedef enum iotc_bsp_socket_type_e {
-  /** using TCP socket. */
+  /** TCP socket. */
   SOCKET_STREAM = 1,
-  /** using UDP socket. */
+  /** UDP socket. */
   SOCKET_DGRAM = 2,
 
 } iotc_bsp_socket_type_t;
 
 /**
  * @typedef iotc_bsp_protocol_type_e
- * @brief Return value of the protocol type(IPv4/ IPv6).
+ * @brief The version of the socket protocol.
  *
- * The implementation reports the type of protocol used for networking.
  */
 typedef enum iotc_bsp_protocol_type_e {
-  /** using IPv4 protocol. */
+  /** IPv4. */
   PROTOCOL_IPV4 = 2,
-  /** using IPv6 protocol. */
+  /** IPv6. */
   PROTOCOL_IPV6 = 10,
 
 } iotc_bsp_protocol_type_t;
@@ -198,8 +196,9 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
  * @function
  * @brief Query socket states to schedule read and write operations.
  *
- * Each element in the socket_events_array parameter corresponds to a socket and
- * contains an initialized iotc_bsp_socket_state_t structure. 
+ * In the implementation of this function, each element in the
+ * socket_events_array parameter must correspond to a socket and contain an
+ * initialized iotc_bsp_socket_state_t structure. 
  *
  * @param [in] socket_events_array An array of socket events.
  * @param [in] socket_events_array_size The size, in bytes of
@@ -219,12 +218,12 @@ iotc_bsp_io_net_select(iotc_bsp_socket_events_t* socket_events_array,
  * @brief Check the socket connection status and report whether the socket is
  * connected to a host. 
  *
- * Call this function after <code>iotc_bsp_io_net_connect()</code> to complete
- * the socket the connection.
+ * The Device SDK calls this function implementation after
+ * <code>iotc_bsp_io_net_connect()</code> to complete the socket the connection.
  *
- * This function is required for asychronous connections. If this function
- * determines that the socket is connected, the Device SDK initiates a TLS
- * handshake.
+ * This function implemetation is required for asychronous connections. If this
+ * function impelementation determines that the socket is connected, the Device
+ * SDK initiates a TLS handshake.
  *
  * @param [in] iotc_socket_nonblocking The socket on which check the connection.
  * @param [in] host The null-terminated IP or fully-qualified domain name of the
@@ -265,8 +264,7 @@ iotc_bsp_io_net_connection_check(iotc_bsp_socket_t iotc_socket,
  * @retval IOTC_BSP_IO_NET_STATE_OK All data is written to the socket.
  * @retval IOTC_BSP_IO_NET_STATE_BUSY None or some of the data is
  *     written to the socket but no error occurred.
- * @retval IOTC_BSP_IO_NET_STATE_ERROR No data is sent to the host and an
- *     unrecoverable error occurred.
+ * @retval IOTC_BSP_IO_NET_STATE_ERROR No data is sent to the host.
  */
 iotc_bsp_io_net_state_t
 iotc_bsp_io_net_write(iotc_bsp_socket_t iotc_socket_nonblocking,

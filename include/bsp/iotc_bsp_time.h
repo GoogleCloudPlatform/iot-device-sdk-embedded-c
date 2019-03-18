@@ -21,9 +21,9 @@
  * @file iotc_bsp_time.h
  * @brief Implement time functions.
  *
- * The client application uses these function to keep track of time. These time
- * functions determine the exact execution time of scheduled tasks and the
- * delayed reconnection logic.
+ * The client application uses these functions to keep track of time. Time
+ * functions implementations muyst determine the exact execution time of
+ * scheduled tasks and the delayed reconnection logic.
  *
  * Use hardware or NTP servers to maintain an accurate clock.
  */

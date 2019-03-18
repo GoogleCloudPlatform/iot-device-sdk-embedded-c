@@ -37,8 +37,8 @@ extern "C" {
  * @function
  * @brief Initialize the platform-specific RNG prerequisites.
  *
- * The Device SDK calls before requesting the first random number. 
- * Implementations of this function must meet all of the 
+ * The Device SDK calls this function before requesting the first random
+ * number. Implementations of this function must meet all of the 
  * platform-specific RNG prerequisites, such as generating a random
  * number seed.
  */

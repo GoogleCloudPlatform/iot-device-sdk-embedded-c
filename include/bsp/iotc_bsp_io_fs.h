@@ -42,7 +42,9 @@ typedef intptr_t iotc_bsp_io_fs_resource_handle_t;
  * @typedef iotc_bsp_io_fs_state_e
  * @brief File management function status.
  *
- * IOTC_BSP_IO_FS_STATE_O represents success. Others represent errors. 
+ * File management function implementations must return a status message to
+ * the client application. IOTC_BSP_IO_FS_STATE_O represents success and
+ * others represent errors. 
  */
 typedef enum iotc_bsp_io_fs_state_e {
   /** Operation successful. */
@@ -128,9 +130,9 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_stat(
  * @function
  * @brief Open a file.
  *
- * This function returns a iotc_bsp_io_fs_resource_handle_t handle that's
- * passed to subsequent operations (read, write, or close). The Device SDK
- * calls this function and then passes passes resource_handle_out to
+ * Implementations of this function must return a iotc_bsp_io_fs_resource_handle_t
+ * handle that's passed to subsequent operations (read, write, or close). The
+ * Device SDK calls this function and then passes passes resource_handle_out to
  * <code>iotc_bsp_io_fs_read()</code> or <code>iotc_bsp_io_fs_write()</code>
  * to perform the corresponding operation.
  *
@@ -194,9 +196,9 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_read(
  * @function
  * @brief Write to a file.
  *
- * Implementations can allocate a buffer once, resuse the buffer, and close the
- * file to free the buffer. Or, implementations can create a new buffer and
- * free the previous one before running this function.
+ * Implementations of this function can allocate a buffer once, resuse the
+ * buffer, and close the file to free the buffer. Or, implementations can
+ * create a new buffer and free the previous one before running this function.
  *
  * @param [in] resource_handle The iotc_bsp_io_fs_resource_handle_t handle from 
  *     <code>iotc_bsp_io_fs_open()</code>.
@@ -221,7 +223,7 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_write(
  * @function
  * @brief Close a file.
  *
- * The implementation of this function must free any resources that were 
+ * Implementation of this function must free any resources that were 
  * used to read or write to the file.
  *
  * @param [in] resource_handle The iotc_bsp_io_fs_resource_handle_t handle from 
