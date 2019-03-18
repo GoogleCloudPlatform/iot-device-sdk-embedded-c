@@ -76,7 +76,7 @@
  * A typical networking workflow consists of the following steps.
  *    1. Create a socket.
  *    2. Connect the socket to a host.
- *    3. Check the connection status. Required for asychronous connections.
+ *    3. Check the connection status.
  *    4. Send data to the host or read data from the socket.
  *    5. Close the socket. 
  *
@@ -111,6 +111,34 @@ typedef enum iotc_bsp_io_net_state_e {
   IOTC_BSP_IO_NET_STATE_TIMEOUT = 4,
 
 } iotc_bsp_io_net_state_t;
+
+/**
+ * @typedef iotc_bsp_socket_type_e
+ * @brief Return value of the socket type(TCP/ UDP).
+ *
+ * The implementation reports the type of socket used for networking.
+ */
+typedef enum iotc_bsp_socket_type_e {
+  /** using TCP socket. */
+  SOCKET_STREAM = 1,
+  /** using UDP socket. */
+  SOCKET_DGRAM = 2,
+
+} iotc_bsp_socket_type_t;
+
+/**
+ * @typedef iotc_bsp_protocol_type_e
+ * @brief Return value of the protocol type(IPv4/ IPv6).
+ *
+ * The implementation reports the type of protocol used for networking.
+ */
+typedef enum iotc_bsp_protocol_type_e {
+  /** using IPv4 protocol. */
+  PROTOCOL_IPV4 = 2,
+  /** using IPv6 protocol. */
+  PROTOCOL_IPV6 = 10,
+
+} iotc_bsp_protocol_type_t;
 
 /**
  * @typedef iotc_bsp_socket_t
@@ -148,6 +176,26 @@ typedef struct iotc_bsp_socket_events_s {
 
 /**
  * @function
+ * @brief Create a socket and connect it to an endpoint. 
+ *
+ * @param [in] host The null-terminated IP or fully-qualified domain name of the
+ *     host to connect to.
+ * @param [in] port The port number of the endpoint.
+ * @param [in] socket_type The socket protocol. Can be <code>TCP</code>
+ *     or <code>UDP</code>.
+ * @param [out] iotc_socket_nonblocking The platform-specific socket
+ *     representation.
+ *
+ * @retval IOTC_BSP_IO_NET_STATE_OK Socket successfully connected to host.
+ * @retval IOTC_BSP_IO_NET_STATE_ERROR Socket didn't connect.
+ */
+iotc_bsp_io_net_state_t
+iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
+                               uint16_t port,
+                               iotc_bsp_socket_type_t socket_type);
+
+/**
+ * @function
  * @brief Query socket states to schedule read and write operations.
  *
  * Each element in the socket_events_array parameter corresponds to a socket and
@@ -162,43 +210,9 @@ typedef struct iotc_bsp_socket_events_s {
  * @retval IOTC_BSP_IO_NET_STATE_TIMEOUT Query timed out.
  * @retval IOTC_BSP_IO_NET_STATE_ERROR Can't query socket status.
  */
-iotc_bsp_io_net_state_t iotc_bsp_io_net_select(
-    iotc_bsp_socket_events_t* socket_events_array,
-    size_t socket_events_array_size, long timeout_sec);
-
-/**
- * @function
- * @brief Create a non-blocking socket.
- *
- * @param [out] iotc_socket_nonblocking the platform-specific socket
- * representation.
- *
- * @retval IOTC_BSP_IO_NET_STATE_OK Socket successfully created.
- * @retval IOTC_BSP_IO_NET_STATE_ERROR Can't create socket.
- */
-iotc_bsp_io_net_state_t iotc_bsp_io_net_create_socket(
-    iotc_bsp_socket_t* iotc_socket_nonblocking);
-
-/**
- * @function
- * @brief Connect a socket to an endpoint. 
- *
- * The Device SDK calls this function after <code>iotc_bsp_io_net_create_socket()</code>
- * to connect a socket to an endpoint.
- *
- * @param [in] iotc_socket_nonblocking The socket to connect to the host.
- * @param [in] host The null-terminated IP or fully-qualified domain name of the
- *     host to connect to.
- * @param [in] port The port number of the endpoint.
- *
- * @see iotc_bsp_io_net_create_socket
- *
- * @retval IOTC_BSP_IO_NET_STATE_OK Socket successfully connected to host.
- * @retval IOTC_BSP_IO_NET_STATE_ERROR Socket didn't connect.
- */
-iotc_bsp_io_net_state_t iotc_bsp_io_net_connect(
-    iotc_bsp_socket_t* iotc_socket_nonblocking, const char* host,
-    uint16_t port);
+iotc_bsp_io_net_state_t
+iotc_bsp_io_net_select(iotc_bsp_socket_events_t* socket_events_array,
+                       size_t socket_events_array_size, long timeout_sec);
 
 /**
  * @function
@@ -222,8 +236,9 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_connect(
  * @retval IOTC_BSP_IO_NET_STATE_OK Socket successfully connected.
  * @retval IOTC_BSP_IO_NET_STATE_ERROR Socket didn't connected.
  */
-iotc_bsp_io_net_state_t iotc_bsp_io_net_connection_check(
-    iotc_bsp_socket_t iotc_socket_nonblocking, const char* host, uint16_t port);
+iotc_bsp_io_net_state_t
+iotc_bsp_io_net_connection_check(iotc_bsp_socket_t iotc_socket,
+                                 const char* host, uint16_t port);
 
 /**
  * @function
@@ -253,9 +268,9 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_connection_check(
  * @retval IOTC_BSP_IO_NET_STATE_ERROR No data is sent to the host and an
  *     unrecoverable error occurred.
  */
-iotc_bsp_io_net_state_t iotc_bsp_io_net_write(
-    iotc_bsp_socket_t iotc_socket_nonblocking, int* out_written_count,
-    const uint8_t* buf, size_t count);
+iotc_bsp_io_net_state_t
+iotc_bsp_io_net_write(iotc_bsp_socket_t iotc_socket_nonblocking,
+                      int* out_written_count, const uint8_t* buf, size_t count);
 
 /**
  * @function
@@ -272,9 +287,9 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_write(
  * @retval IOTC_BSP_IO_NET_STATE_BUSY No data is available on the socket.
  * @retval IOTC_BSP_IO_NET_STATE_ERROR No data is read from the socket.
  */
-iotc_bsp_io_net_state_t iotc_bsp_io_net_read(
-    iotc_bsp_socket_t iotc_socket_nonblocking, int* out_read_count,
-    uint8_t* buf, size_t count);
+iotc_bsp_io_net_state_t
+iotc_bsp_io_net_read(iotc_bsp_socket_t iotc_socket_nonblocking,
+                     int* out_read_count, uint8_t* buf, size_t count);
 
 /**
  * @function
@@ -287,8 +302,8 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_read(
  * @retval IOTC_BSP_IO_NET_STATE_OK Socket successfully closed.
  * @retval IOTC_BSP_IO_NET_STATE_ERROR Socket remains open.
  */
-iotc_bsp_io_net_state_t iotc_bsp_io_net_close_socket(
-    iotc_bsp_socket_t* iotc_socket_nonblocking);
+iotc_bsp_io_net_state_t
+iotc_bsp_io_net_close_socket(iotc_bsp_socket_t* iotc_socket_nonblocking);
 
 #ifdef __cplusplus
 }

@@ -39,8 +39,9 @@ extern "C" {
  * @brief Initialize the timekeeping system.
  *
  * On POSIX systems, this function is empty because POSIX systems already
- * include initialized timekeeping systems. On non-POSIX systems, this function
- * may connect to an NTP service or initialize time-step functionality.
+ * include initialized timekeeping systems. On non-POSIX systems,
+ * implementations of this function can connect to an NTP service or
+ * initialize time-step functionality.
  */
 void iotc_bsp_time_init();
 
@@ -55,6 +56,12 @@ iotc_time_t iotc_bsp_time_getcurrenttime_seconds();
  * @brief Return the milliseconds since Epoch.
  */
 iotc_time_t iotc_bsp_time_getcurrenttime_milliseconds();
+
+/**
+ * @function
+ * @brief Return monotonically increasing time in milliseconds.
+ */
+iotc_time_t iotc_bsp_time_getmonotonictime_milliseconds();
 
 #ifdef __cplusplus
 }
