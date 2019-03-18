@@ -25,7 +25,6 @@
 #include "iotc_common.h"
 #include "iotc_connection_data_internal.h"
 #include "iotc_debug.h"
-#include "iotc_err.h"
 #include "iotc_event_loop.h"
 #include "iotc_globals.h"
 #include "iotc_handle.h"
@@ -51,6 +50,8 @@
 
 #include <iotc_bsp_rng.h>
 #include <iotc_bsp_time.h>
+
+#include <iotc_error.h>
 
 #ifdef __cplusplus
 extern "C" {

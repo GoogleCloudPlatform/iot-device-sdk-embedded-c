@@ -22,9 +22,10 @@
 #include "iotc.h"
 #include "iotc_backoff_lut_config.h"
 #include "iotc_backoff_status_api.h"
-#include "iotc_err.h"
 #include "iotc_globals.h"
 #include "iotc_helpers.h"
+
+#include <iotc_error.h>
 
 #include <errno.h>
 #include <stdio.h>

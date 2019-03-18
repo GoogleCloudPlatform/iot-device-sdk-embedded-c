@@ -58,6 +58,7 @@
 
 #include <iotc.h>
 #include <iotc_jwt.h>
+#include <iotc_error.h>
 #include "commandline.h"
 #include "example_utils.h"
 
@@ -87,7 +88,7 @@ void task_function_gcpiot_embedded_c(void *parameters) {
       IOTC_JWT_SIZE, &bytes_written);
 
   if (IOTC_STATE_OK != state) {
-    printf("iotc_create_iotcore_jwt returned with error: %ul", state);
+    printf("iotc_create_iotcore_jwt returned with error: %ul : %s\n", state, iotc_get_state_string(state));
     iotc_shutdown();
     return;
   }

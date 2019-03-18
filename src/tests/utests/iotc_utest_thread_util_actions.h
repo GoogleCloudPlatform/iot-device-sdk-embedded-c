@@ -17,7 +17,7 @@
 #ifndef __IOTC_UTEST_THREAD_UTIL_ACTIONS_H__
 #define __IOTC_UTEST_THREAD_UTIL_ACTIONS_H__
 
-#include <iotc_err.h>
+#include <iotc_error.h>
 #include <iotc_event_dispatcher_api.h>
 #include <pthread.h>
 #include "iotc_critical_section_def.h"

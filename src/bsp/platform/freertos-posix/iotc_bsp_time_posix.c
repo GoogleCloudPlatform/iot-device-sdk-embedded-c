@@ -18,6 +18,7 @@
 
 #include <stddef.h>
 #include <sys/time.h>
+#include <time.h>
 
 void iotc_bsp_time_init() { /* empty */
 }
@@ -36,4 +37,11 @@ iotc_time_t iotc_bsp_time_getcurrenttime_milliseconds() {
   return (iotc_time_t)((current_time.tv_sec * 1000) +
                        (current_time.tv_usec + 500) /
                            1000); /* round the microseconds to milliseconds */
+}
+
+iotc_time_t iotc_bsp_time_getmonotonictime_milliseconds() {
+  struct timespec current_time;
+  clock_gettime(CLOCK_MONOTONIC, &current_time);
+  return (iotc_time_t)((current_time.tv_sec * 1000) +
+                       (current_time.tv_nsec / 1000000));
 }

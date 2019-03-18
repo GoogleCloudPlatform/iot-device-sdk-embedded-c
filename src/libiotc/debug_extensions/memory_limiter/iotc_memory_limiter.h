@@ -19,7 +19,7 @@
 
 #include <stddef.h>
 
-#include "iotc_err.h"
+#include <iotc_error.h>
 
 #ifdef __cplusplus
 extern "C" {

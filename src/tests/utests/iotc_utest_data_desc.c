@@ -21,7 +21,6 @@
 
 #include "iotc.h"
 #include "iotc_data_desc.h"
-#include "iotc_err.h"
 #include "iotc_macros.h"
 
 #include "iotc_bsp_rng.h"
@@ -32,6 +31,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+
+#include <iotc_error.h>
 
 #ifndef IOTC_TT_TESTCASE_ENUMERATION__SECONDPREPROCESSORRUN
 
