@@ -166,7 +166,8 @@ iotc_bsp_crypto_state_t iotc_bsp_ecc(
       (mbedtls_ret = mbedtls_ecdsa_from_keypair(&ecdsa_sign, pk.pk_ctx)) != 0,
       IOTC_BSP_CRYPTO_ECC_ERROR, return_code, "mbedtls_ecdsa_from_keypair");
 
-  // deterministic ecc signature
+  // Deterministic signatures are generally preferable on devices with poor
+  // entropy sources as is so often the case with IoT.
   IOTC_CHECK_CND_DBGMESSAGE((mbedtls_ret = mbedtls_ecdsa_sign_det(
                                  &ecdsa_sign.grp, &r, &s, &ecdsa_sign.d,
                                  src_buf, src_buf_len, MBEDTLS_MD_SHA256)) != 0,
