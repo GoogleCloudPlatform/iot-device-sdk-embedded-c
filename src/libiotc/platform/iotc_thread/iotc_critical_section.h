@@ -17,7 +17,7 @@
 #ifndef __IOTC_CRITICAL_SECTION_H__
 #define __IOTC_CRITICAL_SECTION_H__
 
-#include "iotc_err.h"
+#include <iotc_error.h>
 
 #ifdef __cplusplus
 extern "C" {

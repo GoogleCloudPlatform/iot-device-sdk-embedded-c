@@ -21,11 +21,12 @@
 #include "iotc_allocator.h"
 #include "iotc_common.h"
 #include "iotc_debug.h"
-#include "iotc_err.h"
 #include "iotc_io_dummy_layer.h"
 #include "iotc_io_dummy_layer_state.h"
 #include "iotc_layer_api.h"
 #include "iotc_macros.h"
+
+#include <iotc_error.h>
 
 iotc_state_t iotc_io_dummy_layer_push(void* context, void* data,
                                       iotc_state_t in_out_state) {
