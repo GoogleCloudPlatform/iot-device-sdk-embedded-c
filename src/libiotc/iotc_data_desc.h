@@ -21,8 +21,9 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#include "iotc_err.h"
 #include "iotc_memory_type.h"
+
+#include <iotc_error.h>
 
 #ifdef __cplusplus
 extern "C" {
