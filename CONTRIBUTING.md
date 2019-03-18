@@ -29,7 +29,6 @@ accept your pull requests.
 1. Ensure that your code adheres to the existing style in the sample to which
    you are contributing.
 1. If your code requires a tutorial, readme, or other documentation, please refer to the
-   [Google Cloud Platform Community Tutorial Style Guide](https://cloud.google.com/community/tutorials/styleguide)
-   for the recommended coding standards for this organization.
+   [Google Cloud Platform Community Tutorial Style Guide](https://cloud.google.com/community/tutorials/styleguide) for the recommended coding standards for this organization.
 1. Ensure that your code has an appropriate set of unit tests which all pass.
-1. Submit a pull request PRs against the `development` branch. The master branch is for official releases only.
+1. Submit a pull request against the `development` branch. The master branch is for official releases only.
