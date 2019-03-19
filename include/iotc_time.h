@@ -17,6 +17,8 @@
 #ifndef __IOTC_TIME_H__
 #define __IOTC_TIME_H__
 
+#include <stdint.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
