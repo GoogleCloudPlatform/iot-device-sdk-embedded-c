@@ -24,6 +24,8 @@ ifneq (,$(findstring tls_bsp,$(CONFIG)))
 	include make/mt-config/mt-crypto.mk
 endif
 
+include make/mt-config/mt-roughtime.mk
+include make/mt-config/tests/mt-gtest.mk # For IOTC_GTEST_SOURCES
 
 IOTC_UNIT_TEST_TARGET ?= native
 
@@ -229,13 +231,18 @@ IOTC_SOURCES += $(foreach layerdir,$(IOTC_SRCDIRS),\
 IOTC_SOURCES_CXX := $(wildcard ./src/*.cc)
 IOTC_SOURCES_CXX += $(foreach layerdir,$(IOTC_SRCDIRS),\
 	$(wildcard $(layerdir)/*.cc))
-IOTC_SOURCES_CXX := $(filter-out %_test.cc, $(IOTC_SOURCES_CXX)) # Filter out tests
-
+IOTC_SOURCES_CXX := $(filter-out $(IOTC_GTEST_SOURCES), $(IOTC_SOURCES_CXX)) # Filter out tests
 
 ifeq ($(IOTC_DEBUG_OUTPUT),0)
 IOTC_SOURCES := $(filter-out $(LIBIOTC_SOURCE_DIR)/iotc_debug.c, $(IOTC_SOURCES) )
 IOTC_SOURCES := $(filter-out $(LIBIOTC)/third_party/mqtt-protocol-c/iotc_debug_data_desc_dump.c, $(IOTC_SOURCES) )
 endif
+
+# conditionaly include Roughtime client sources
+ifndef IOTC_ENABLE_ROUGHTIME
+IOTC_SOURCES_CXX := $(filter-out $(LIBIOTC_SOURCE_DIR)/iotc_roughtime_client.cc, $(IOTC_SOURCES_CXX) )
+endif
+
 
 ifdef MAKEFILE_DEBUG
 $(info --mt-config-- Using [$(IOTC_BSP_PLATFORM)] BSP configuration)
