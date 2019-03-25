@@ -42,10 +42,10 @@ extern "C" {
 /**
  * @brief Create a JWT.
  * 
- * Implementations of this function must create a JWT string. To connect to
- * Cloud IoT Core, pass the JWT to the CONNECT message password field.
+ * Creates a JWT string. To connect to Cloud IoT Core. Pass the JWT to iotc_connect 
+ * as the password parameter.
  *
- * BSP implementations must also invoke <code>iotc_bsp_sha256()</code>, 
+ * This function invokes the BSP implementations of <code>iotc_bsp_sha256()</code>, 
  * <code>iotc_bsp_ecc()</code> and <code>iotc_bsp_base64_encode_urlsafe()</code>
  * to enable string encoding and signatures.
  *
@@ -72,7 +72,6 @@ extern "C" {
  * @retval IOTC_BUFFER_TOO_SMALL_ERROR The provided buffer is too small for
  *     the JWT.
  */
-
 iotc_state_t iotc_create_iotcore_jwt(
     const char* project_id, uint32_t expiration_period_sec,
     const iotc_crypto_key_data_t* private_key_data, char* dst_jwt_buf,
