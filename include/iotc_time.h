@@ -25,7 +25,7 @@ extern "C" {
  * @name iotc_time_t
  * @brief Time storage type.
  *
- * Implement a 64-bit time type whenever possible to prevent timer rollovers.
+ * Use a 64-bit time type whenever possible to prevent timer rollovers.
  */
 typedef long iotc_time_t;
 
