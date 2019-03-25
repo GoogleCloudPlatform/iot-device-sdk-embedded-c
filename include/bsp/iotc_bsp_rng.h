@@ -55,6 +55,9 @@ uint32_t iotc_bsp_rng_get();
 /**
  * @function
  * @brief Shut down the platform-specific RNG.
+ *
+ * Free any resources.  The Device SDK will not invoke iotc_bsp_rng_get
+ * again without first calling iotc_bsp_rng_init.
  */
 void iotc_bsp_rng_shutdown();
 
