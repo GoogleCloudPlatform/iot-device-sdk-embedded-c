@@ -31,7 +31,7 @@ extern "C" {
 
 /**
  * @name iotc_context_handle_t
- * @brief Internal context handle. No user action required.
+ * @brief Internal context handle.
  */
 typedef int32_t iotc_context_handle_t;
 
@@ -62,8 +62,8 @@ typedef void(iotc_user_task_callback_t)(
  * @name iotc_user_callback_t
  * @brief Custom callback.
  *
- * The Device SDK passes callbacks to <code>iotc_user_callback_t</code>. Callbacks
- * notify the client application after an operation completes.
+ * The Device SDK invokes callbacks to notify the client application after an
+ * operation completes.
  *
  * @param [in] in_context_handle The context handle provided to the original
  * API call.
@@ -71,8 +71,8 @@ typedef void(iotc_user_task_callback_t)(
  *     on the original API call. For example, the <code>iotc_connect()</code>
  *     callback returns the iotc_connection_data_t* type so
  *     <code>iotc_connection_data_t* conn_data = (iotc_connection_data_t*)data;</code>.
- * @param [in] state IOTC_STATE_OK If a connection callback succeeds. See
- *     <code><a href="~/include/iotc_error.h">iotc_error.h</a></code>
+ * @param [in] state IOTC_STATE_OK If the operation corresponding Device SDK operation
+ *     succeeded. See <code><a href="~/include/iotc_error.h">iotc_error.h</a></code>
  *     for more error codes.
  */
 typedef void(iotc_user_callback_t)(iotc_context_handle_t in_context_handle,
@@ -80,10 +80,9 @@ typedef void(iotc_user_callback_t)(iotc_context_handle_t in_context_handle,
 
 /**
  * @enum iotc_sub_call_type_t
- * @brief Define the subscription callback type.
+ * @brief The subscription callback type definition.
  *
- * The <code>iotc_subscription_data_t()</code> implementation passes this value
- * to the custom callback.
+ * The Device SDK passes this value to the user-defined subscription callback function.
  *
  * @retval IOTC_SUB_UNKNOWN Unknown callback type. Check the state value.
  * @retval IOTC_SUBSCRIPTION_DATA_SUBACK Callback is a SUBACK notification.
@@ -97,10 +96,8 @@ typedef enum iotc_subscription_data_type_e {
 
 /**
  * @union iotc_sub_call_params_u
- * @brief A union that defines the data type passed to the subscription callback.
- *
- * @retval IOTC_SUBSCRIPTION_DATA_SUBACK Callback is a SUBACK notification.
- * @retval IOTC_SUBSCRIPTION_DATA_MESSAGE Callback is a MESSAGE notification.
+ * @brief A union that defines the operational data passed to the subscription
+ *      callback.
  */
 typedef union iotc_sub_call_params_u {
   struct {
@@ -140,8 +137,8 @@ typedef union iotc_sub_call_params_u {
  *
  * @param [in] in_context_handle The context on which the callback is invoked.
  * @param [in] call_type The data type of the data parameter.
- * @param [in] params A pointer to a structure that holds parameter details
- * @param [in] topic The name of the topic
+ * @param [in] params A pointer to a structure that holds parameter details.
+ * @param [in] topic The name of the topic.
  * @param [in] user_data A pointer specified when registering the subscription
  *     callback.
  */
@@ -152,14 +149,14 @@ typedef void(iotc_user_subscription_callback_t)(
 
 /**
  * @enum iotc_crypto_key_union_type_t
- * @brief Describe the iotc_crypto_key_union_t union structure.
+ * @brief Describes the iotc_crypto_key_union_t union structure.
  *
- * @retval IOTC_CRYPTO_KEY_UNION_TYPE_PEM The key_pem.key pointer contains
+ *      - IOTC_CRYPTO_KEY_UNION_TYPE_PEM The key_pem.key pointer contains
  * a null-terminated PEM key string.
- * @retval IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID A secure element for storage
- *     indexes keys by slots. Signal to the BSP the slot for cryptographic
- *     operations.
- * @retval IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM The union contains untyped data. 
+ *      - IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID A secure element for storage
+ * of keys by slot index. Signals to the BSP the slot to be used for
+ * cryptographic operations.
+ *      - IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM The union contains untyped data. 
  * The BSP must know the data format.
  */
 typedef enum iotc_crypto_key_union_type_e {
@@ -171,9 +168,9 @@ typedef enum iotc_crypto_key_union_type_e {
 /* @union iotc_crypto_key_union_t
  * @brief Describe the public or private key data.
  *
- * @param key A PEM-formatted public or private key.
- * @param key_slot Multi-slotted secure elements.
- * @param key_custo Untyped data.
+ * 1. key A PEM-formatted public or private key.
+ * 2. key_slot Multi-slotted secure elements.
+ * 3. key_custom Untyped data.
  */
 typedef union iotc_crypto_key_union_u {
   struct {
@@ -194,17 +191,16 @@ typedef union iotc_crypto_key_union_u {
  * @enum  iotc_crypto_key_signature_algorithm_e
  * @brief Define a key signature algorithm to sign JWTs.
  *
- * The Device SDK calls <code>create_iot_core_jwt()</code> before
- * <code>iotc_connect()</code>. Cite the same algorithm in
+ * The client application must call <code>create_iot_core_jwt()</code> before
+ * <code>iotc_connect()</code>. Cite the same algorithm used to provision your key in
  * <a href="https://cloud.google.com/iot/docs/how-tos/devices#creating_device_key_pairs">Cloud IoT Core</a>.
  *
  * <b>Note</b>: RSASSA-PKCS1-v1_5 with SHA-256 (RS256) is not supported.
  *
  * @see create_iot_core_jwt
  *
- * @retval IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_INVALID for development.
- * @retval IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256 ECDSA with P-256 and
- *     SHA-256.
+ *      - IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_INVALID for development.
+ *      - IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256 ECDSA with P-256 and SHA-256.
  */
 typedef enum iotc_crypto_key_signature_algorithm_e {
   IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_INVALID = 0,
@@ -213,7 +209,6 @@ typedef enum iotc_crypto_key_signature_algorithm_e {
 
 /* @struct iotc_crypto_key_data_t
  * @brief iotc_crypto_key_union structure.
- * 
  *
  * iotc_crypto_key_union includes an enumerated type that defines
  * whether to observe the union as a PEM key, slot ID, or undefined
