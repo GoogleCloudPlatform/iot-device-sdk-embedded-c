@@ -19,7 +19,8 @@
 
 #include <string.h>
 #include "iotc_allocator.h"
-#include "iotc_err.h"
+
+#include <iotc_error.h>
 
 #define IOTC_STR_EXPAND(tok) #tok
 #define IOTC_STR(tok) IOTC_STR_EXPAND(tok)

@@ -20,12 +20,13 @@
 
 #include "iotc.h"
 #include "iotc_data_desc.h"
-#include "iotc_err.h"
 #include "iotc_helpers.h"
 #include "iotc_mqtt_codec_layer_data.h"
 #include "iotc_mqtt_logic_layer_data_helpers.h"
 
 #include "iotc_memory_checks.h"
+
+#include <iotc_error.h>
 
 #include <errno.h>
 #include <stdio.h>

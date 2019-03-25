@@ -19,8 +19,9 @@
 
 #include <stdint.h>
 
-#include "iotc_err.h"
 #include "iotc_event_dispatcher_api.h"
+
+#include <iotc_error.h>
 
 #ifdef __cplusplus
 extern "C" {
