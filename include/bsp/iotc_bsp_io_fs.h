@@ -43,7 +43,7 @@ typedef intptr_t iotc_bsp_io_fs_resource_handle_t;
  * @brief File management function status.
  *
  * File management function implementations must return a status message to
- * the client application. IOTC_BSP_IO_FS_STATE_O represents success and
+ * the client application. IOTC_BSP_IO_FS_STATE_OK represents success and
  * others represent errors. 
  */
 typedef enum iotc_bsp_io_fs_state_e {
@@ -132,7 +132,7 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_stat(
  *
  * Implementations of this function must return a iotc_bsp_io_fs_resource_handle_t
  * handle that's passed to subsequent operations (read, write, or close). The
- * Device SDK calls this function and then passes passes resource_handle_out to
+ * Device SDK calls this function and then passes resource_handle_out to
  * <code>iotc_bsp_io_fs_read()</code> or <code>iotc_bsp_io_fs_write()</code>
  * to perform the corresponding operation.
  *
@@ -169,9 +169,9 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_open(
  * offset 0.
  *
  * Implementations of this function can allocate a buffer once, reuse the
- * buffer, and close the file to free the buffer. Or, implementations can
- * create a new buffer and free the previous one before running this 
- * function.
+ * buffer, and free the buffer when the file is closed. Or, implementations can
+ * create a new buffer on repeated calls and free the previous one before
+ * returning from this function.
  *
  * @param [in] resource_handle The iotc_bsp_io_fs_resource_handle_t handle from 
  *     <code>iotc_bsp_io_fs_open()</code>.
@@ -196,9 +196,10 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_read(
  * @function
  * @brief Write to a file.
  *
- * Implementations of this function can allocate a buffer once, resuse the
+ * Implementations of this function can allocate a buffer once, reuse the
  * buffer, and close the file to free the buffer. Or, implementations can
- * create a new buffer and free the previous one before running this function.
+ * create a new buffer and free the previous one before returning from this
+ * function.
  *
  * @param [in] resource_handle The iotc_bsp_io_fs_resource_handle_t handle from 
  *     <code>iotc_bsp_io_fs_open()</code>.
