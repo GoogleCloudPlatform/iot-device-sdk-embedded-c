@@ -95,8 +95,10 @@ typedef struct iotc_bsp_tls_init_params_s {
  * @typedef iotc_bsp_tls_context_t
  * @brief TLS context representation.
  *
- * The Device SDK doesn't read or write to this context directly. The Device
- * SDK calls <code>iotc_bsp_tls_init()</code> to create a TLS context.
+ * The Device SDK doesn't read or write to this context directly, but
+ * provides the context to the functions defined in this TLS BSP.
+ * The Device SDK calls <code>iotc_bsp_tls_init()</code> to create a
+ * TLS context.
  *
  * @see iotc_bsp_tls_init
  */
@@ -126,7 +128,7 @@ iotc_bsp_tls_state_t iotc_bsp_tls_init(iotc_bsp_tls_context_t** tls_context,
  * @function
  * @brief Free a TLS context.
  * 
- * After closing a connection, the client application can invoke this function 
+ * After closing a connection, the Device SDK will invoke this function 
  * to free the corresponding memory resources and delete any associated data.
  *
  * @see iotc_bsp_tls_context_t
@@ -143,8 +145,8 @@ iotc_bsp_tls_state_t iotc_bsp_tls_cleanup(iotc_bsp_tls_context_t** tls_context);
  * @brief Start TLS connections.
  *
  * The Device SDK calls this function to start a TLS handshake. If the function  
- * returns IOTC_BSP_TLS_STATE_WANT_WRITE or IOTC_BSP_TLS_STATE_WANT_READ, run it
- * again to complete the handshake.
+ * returns IOTC_BSP_TLS_STATE_WANT_WRITE or IOTC_BSP_TLS_STATE_WANT_READ, the
+ * Device SDK will invoke the function again to complete the handshake.
  *
  * @see iotc_bsp_tls_context_t
  * 
@@ -153,11 +155,11 @@ iotc_bsp_tls_state_t iotc_bsp_tls_cleanup(iotc_bsp_tls_context_t** tls_context);
 
  * @retval IOTC_BSP_TLS_STATE_OK The TLS handshake successfully completed.
  * @retval IOTC_BSP_TLS_STATE_WANT_READ The TLS handshake is partially complete.
- *     Run the function again to read the remaining data from the socket
- *     specified in the tls_context parameter.
- * @retval IOTC_BSP_TLS_STATE_WANT_WRITE The TLS handshake is partially
- *     complete. Run the function again to write the remaining data to the
+ *     The function will be invoked again to read the remaining data from the
  *     socket specified in the tls_context parameter.
+ * @retval IOTC_BSP_TLS_STATE_WANT_WRITE The TLS handshake is partially
+ *     complete. The function will be invoked again to write the remaining data
+ *     to the socket specified in the tls_context parameter.
  * @retval IOTC_BSP_TLS_STATE_CERT_ERROR Can't validate CA certificate.
  * @retval IOTC_BSP_TLS_STATE_CONNECT_ERROR Can't complete TLS handshake.
  */
@@ -179,8 +181,8 @@ iotc_bsp_tls_state_t iotc_bsp_tls_connect(iotc_bsp_tls_context_t* tls_context);
  * @retval IOTC_BSP_TLS_STATE_OK All data is successfully read and stored in
  *     the buffer to which data_ptr points.
  * @retval IOTC_BSP_TLS_STATE_WANT_READ The TLS handshake is partially complete.
- *     Run the function again to read the remaining data from the socket
- *     specified in the tls_context parameter.
+ *     The function will be called again to read the remaining data from the
+ *     socket specified in the tls_context parameter.
  * @retval IOTC_BSP_TLS_STATE_READ_ERROR Can't read data.
  */
 iotc_bsp_tls_state_t iotc_bsp_tls_read(iotc_bsp_tls_context_t* tls_context,
@@ -191,8 +193,7 @@ iotc_bsp_tls_state_t iotc_bsp_tls_read(iotc_bsp_tls_context_t* tls_context,
  * @function
  * @brief Count the pending readable bytes.
  *
- * Implementations of this function must call the <code>iotc_bsp_tls_pending()</code>
- * implementation and return the the number of bytes that are available to be
+ * Return the the number of bytes that are available to be
  * read by the <code>iotc_bsp_tls_read</code> implementation.
  *
  * @see iotc_bsp_tls_context_t
@@ -219,8 +220,8 @@ int iotc_bsp_tls_pending(iotc_bsp_tls_context_t* tls_context);
  *
  * @retval IOTC_BSP_TLS_STATE_OK All data is successfully written.
  * @retval IOTC_BSP_TLS_STATE_WANT_WRITE The TLS handshake is partially
- *     complete. Run the function again to write the remaining data to the
- *     socket specified in the tls_context parameter.
+ *     complete.The function will be called again to write the remaining
+ *     data to the socket specified in the tls_context parameter.
  * @retval IOTC_BSP_TLS_STATE_WRITE_ERROR Can't write data.
  */
 iotc_bsp_tls_state_t iotc_bsp_tls_write(iotc_bsp_tls_context_t* tls_context,
