@@ -128,7 +128,7 @@ typedef enum iotc_bsp_socket_type_e {
 /**
  * @typedef iotc_bsp_protocol_type_e
  * @brief The version of the socket protocol.
- *
+ *Z
  */
 typedef enum iotc_bsp_protocol_type_e {
   /** IPv4. */
@@ -201,7 +201,7 @@ iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t* iotc_socket, const char* host,
  * initialized iotc_bsp_socket_state_t structure. 
  *
  * @param [in] socket_events_array An array of socket events.
- * @param [in] socket_events_array_size The size, in bytes of
+ * @param [in] socket_events_array_size The number of elements in
  * socket_events_array.
  * @param [in] timeout The number of seconds before timing out.
  *
@@ -246,9 +246,7 @@ iotc_bsp_io_net_connection_check(iotc_bsp_socket_t iotc_socket,
  * The Device SDK calls this function to write data to a socket. This 
  * function writes data in chunks, so if it returns
  * IOTC_BSP_IO_NET_STATE_BUSY then the Device SDK calls the function again
- * to send the remaining data. If the subsequent call also returns
- * IOTC_BSP_IO_NET_STATE_BUSY, the Device SDK waits more time for the 
- * first chunk to transmit and then tries again.
+ * to send the remaining data on the next tick of the event loop.
  *
  * This is a non-blocking operation. 
  *
@@ -264,7 +262,7 @@ iotc_bsp_io_net_connection_check(iotc_bsp_socket_t iotc_socket,
  * @retval IOTC_BSP_IO_NET_STATE_OK All data is written to the socket.
  * @retval IOTC_BSP_IO_NET_STATE_BUSY None or some of the data is
  *     written to the socket but no error occurred.
- * @retval IOTC_BSP_IO_NET_STATE_ERROR No data is sent to the host.
+ * @retval IOTC_BSP_IO_NET_STATE_ERROR There is an error on the socket.
  */
 iotc_bsp_io_net_state_t
 iotc_bsp_io_net_write(iotc_bsp_socket_t iotc_socket_nonblocking,
@@ -283,7 +281,7 @@ iotc_bsp_io_net_write(iotc_bsp_socket_t iotc_socket_nonblocking,
  *
  * @retval IOTC_BSP_IO_NET_STATE_OK Data is successfully read from the socket.
  * @retval IOTC_BSP_IO_NET_STATE_BUSY No data is available on the socket.
- * @retval IOTC_BSP_IO_NET_STATE_ERROR No data is read from the socket.
+ * @retval IOTC_BSP_IO_NET_STATE_ERROR There is an error on the socket.
  */
 iotc_bsp_io_net_state_t
 iotc_bsp_io_net_read(iotc_bsp_socket_t iotc_socket_nonblocking,
@@ -298,7 +296,8 @@ iotc_bsp_io_net_read(iotc_bsp_socket_t iotc_socket_nonblocking,
  * @see iotc_bsp_io_net_create_socket
  *
  * @retval IOTC_BSP_IO_NET_STATE_OK Socket successfully closed.
- * @retval IOTC_BSP_IO_NET_STATE_ERROR Socket remains open.
+ * @retval IOTC_BSP_IO_NET_STATE_ERROR An error occurred during the 
+ *     socket operation.
  */
 iotc_bsp_io_net_state_t
 iotc_bsp_io_net_close_socket(iotc_bsp_socket_t* iotc_socket_nonblocking);
