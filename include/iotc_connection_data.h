@@ -44,7 +44,8 @@ typedef enum iotc_connection_state_e {
 
 /**
  * @enum iotc_session_type_e
- * @brief MQTT session types. Note that CONTINUE isn't currently supported.
+ * @brief MQTT session types. Note that CONTINUE isn't currently supported
+ * by IoT Core.
  */
 typedef enum iotc_session_type_e {
   IOTC_SESSION_CLEAN,   /** MQTT clean session. */
@@ -56,7 +57,7 @@ typedef enum iotc_session_type_e {
  * @brief The connection parameters received by the <code>iotc_connect()</code>
  * callback.
  *
- * The Device SDK can resuse these parameters to request another connection
+ * The application may reuse these parameters to request another connection
  * from within the callback.
  *
  * @see iotc_connect
