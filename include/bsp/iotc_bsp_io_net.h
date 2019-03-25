@@ -176,13 +176,14 @@ typedef struct iotc_bsp_socket_events_s {
  * @function
  * @brief Create a socket and connect it to an endpoint. 
  *
+ * @param [out] iotc_socket The platform-specific socket representation should
+ *     be stored in this parameter.  This value will be passed to all further
+ *     networking bsp calls.
  * @param [in] host The null-terminated IP or fully-qualified domain name of the
  *     host to connect to.
  * @param [in] port The port number of the endpoint.
- * @param [in] socket_type The socket protocol. Can be <code>TCP</code>
+ * @param [in] socket_type The socket type. Can be <code>TCP</code>
  *     or <code>UDP</code>.
- * @param [out] iotc_socket_nonblocking The platform-specific socket
- *     representation.
  *
  * @retval IOTC_BSP_IO_NET_STATE_OK Socket successfully connected to host.
  * @retval IOTC_BSP_IO_NET_STATE_ERROR Socket didn't connect.
