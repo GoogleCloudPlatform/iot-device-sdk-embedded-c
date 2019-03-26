@@ -44,7 +44,7 @@ typedef intptr_t iotc_bsp_io_fs_resource_handle_t;
  *
  * File management function implementations must return a status message to
  * the client application. IOTC_BSP_IO_FS_STATE_OK represents success and
- * others represent errors. 
+ * others represent errors.
  */
 typedef enum iotc_bsp_io_fs_state_e {
   /** Operation successful. */
@@ -86,7 +86,7 @@ typedef enum iotc_bsp_io_fs_resource_type_e {
 /**
  * @name iotc_bsp_io_fs_stat_s
  * @brief Resource size.
- * 
+ *
  * The <code>iotc_bsp_io_fs_stat()</code> function requests this
  * information.
  *
@@ -99,7 +99,7 @@ typedef struct iotc_bsp_io_fs_stat_s {
 /**
  * @enum iotc_bsp_io_fs_open_flags_t
  * @brief File operations.
- * 
+ *
  * Each value represents a file operation. To open files, the Device SDK
  * passes the corresponding value to <code>iotc_bsp_io_fs_open()</code>.
  *
@@ -119,7 +119,7 @@ typedef enum iotc_bsp_io_fs_open_flags {
  * @param [in] resource_name File name.
  * @param [out] resource_stat A structure for the file size information.
  *
- * @see iotc_bsp_io_fs_state_e 
+ * @see iotc_bsp_io_fs_state_e
  *
  * @return iotc_bsp_io_fs_state_t File management function status.
  */
@@ -130,11 +130,11 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_stat(
  * @function
  * @brief Open a file.
  *
- * Implementations of this function must return a iotc_bsp_io_fs_resource_handle_t
- * handle that's passed to subsequent operations (read, write, or close). The
- * Device SDK calls this function and then passes resource_handle_out to
- * <code>iotc_bsp_io_fs_read()</code> or <code>iotc_bsp_io_fs_write()</code>
- * to perform the corresponding operation.
+ * Implementations of this function must return a
+ * iotc_bsp_io_fs_resource_handle_t handle that's passed to subsequent
+ * operations (read, write, or close). The Device SDK calls this function and
+ * then passes resource_handle_out to <code>iotc_bsp_io_fs_read()</code> or
+ * <code>iotc_bsp_io_fs_write()</code> to perform the corresponding operation.
  *
  * @param [in] resource_name File name.
  * @param [in] size (Optional) The size, in bytes, of the file. Required on
@@ -145,7 +145,7 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_stat(
  *
  * @see iotc_bsp_io_fs_read
  * @see iotc_bsp_io_fs_write
- * @see iotc_bsp_io_fs_state_e 
+ * @see iotc_bsp_io_fs_state_e
  * @see iotc_bsp_io_fs_open_flags_t
  * @see iotc_bsp_io_fs_resource_handle_t
  *
@@ -158,11 +158,11 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_open(
 
 /**
  * @function
- * @brief Read a file. 
+ * @brief Read a file.
  *
  * The Device SDK passes an iotc_bsp_io_fs_resource_handle_t handle to
  * this function in order to read a file. Before calling this function,
- * the Device SDK calls the <code>iotc_bsp_io_fs_open()</code> function 
+ * the Device SDK calls the <code>iotc_bsp_io_fs_open()</code> function
  * to create an iotc_bsp_io_fs_resource_handle_t handle.
  *
  * Implementations of this function must fill the buffer parameter at
@@ -173,7 +173,7 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_open(
  * create a new buffer on repeated calls and free the previous one before
  * returning from this function.
  *
- * @param [in] resource_handle The iotc_bsp_io_fs_resource_handle_t handle from 
+ * @param [in] resource_handle The iotc_bsp_io_fs_resource_handle_t handle from
  *     <code>iotc_bsp_io_fs_open()</code>.
  * @param [in] offset The position within the resource, in bytes, from which
  *     to start read operations.
@@ -184,7 +184,7 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_open(
  *
  * @see iotc_bsp_io_fs_open
  * @see iotc_bsp_io_fs_close
- * @see iotc_bsp_io_fs_state_e 
+ * @see iotc_bsp_io_fs_state_e
  *
  * @return iotc_bsp_io_fs_state_t File management function status.
  */
@@ -201,7 +201,7 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_read(
  * create a new buffer and free the previous one before returning from this
  * function.
  *
- * @param [in] resource_handle The iotc_bsp_io_fs_resource_handle_t handle from 
+ * @param [in] resource_handle The iotc_bsp_io_fs_resource_handle_t handle from
  *     <code>iotc_bsp_io_fs_open()</code>.
  * @param [in] buffer A pointer to a byte array with the data to write to the
  *     file.
@@ -211,7 +211,7 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_read(
  * @param [out] bytes_written The number of bytes written to the file.
  *
  * @see iotc_bsp_io_fs_open
- * @see iotc_bsp_io_fs_state_e 
+ * @see iotc_bsp_io_fs_state_e
  *
  * @return iotc_bsp_io_fs_state_t File management function status.
  */
@@ -224,13 +224,13 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_write(
  * @function
  * @brief Close a file.
  *
- * Implementation of this function must free any resources that were 
+ * Implementation of this function must free any resources that were
  * used to read or write to the file.
  *
- * @param [in] resource_handle The iotc_bsp_io_fs_resource_handle_t handle from 
+ * @param [in] resource_handle The iotc_bsp_io_fs_resource_handle_t handle from
  *     <code>iotc_bsp_io_fs_open()</code>.
  *
- * @see iotc_bsp_io_fs_state_e 
+ * @see iotc_bsp_io_fs_state_e
  *
  * @return iotc_bsp_io_fs_state_t File management function status.
  */
@@ -243,7 +243,7 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_close(
  *
  * @param [in] resource_name The name of the file.
  *
- * @see iotc_bsp_io_fs_state_e 
+ * @see iotc_bsp_io_fs_state_e
  *
  * @return iotc_bsp_io_fs_state_t File management function status.
  */

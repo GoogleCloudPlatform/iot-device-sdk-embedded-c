@@ -29,25 +29,25 @@ extern "C" {
 /**
  * @file  iotc_bsp_crypto.h
  * @brief Encode and sign JWT credentials.
- * 
- * These functions implement a cryptography library to: generate and sign JWTs 
+ *
+ * These functions implement a cryptography library to: generate and sign JWTs
  * via ECC keys and SHA256; or format signed JWTs as URL-safe base64 strings.
  * Reference implementations are in the
  * <a href="~/src/bsp/crypto"><code>src/bsp/crypto</code></a> directory.
  *
  * The BSP uses the private key data or slot number provided to the
  * <code>iotc_connect()</code> function. The BSP doesn't format the JWT itself;
- * the BSP only signs JWTs. The <a href="../../api/html/index.html">Device SDK API</a>
- * formats the original JWT.
+ * the BSP only signs JWTs. The <a href="../../api/html/index.html">Device SDK
+ * API</a> formats the original JWT.
  *
- * All cryptography functions issue an <code>iotc_bsp_crypto_state_e</code> 
+ * All cryptography functions issue an <code>iotc_bsp_crypto_state_e</code>
  * status message.
  */
 
 /**
  * @typedef iotc_bsp_crypto_state_t
  * @brief Cryptographic function status.
- * 
+ *
  * Cryptographic function implementations must return a status message to the
  * client application. IOTC_BSP_CRYPTO_STATE_OK represents success and others
  * represent errors.
@@ -78,7 +78,7 @@ typedef enum iotc_bsp_crypto_state_e {
  * @brief Encode a string as a URL-safe, base64 string.
  *
  * The Device SDK replaces all URL-unsafe characters with a - (dash) or _
- * (underscore). 
+ * (underscore).
  *
  * @param [in,out] dst_string A pointer to a buffer that stores the URL-safe,
  *     base64 string. The buffer is already allocated by the Device SDK.
@@ -138,10 +138,11 @@ iotc_bsp_crypto_state_t iotc_bsp_sha256(uint8_t* dst_buf_32_bytes,
  * @retval IOTC_BSP_TLS_STATE_OK The ECC signature is successfully created.
  * @retval IOTC_BSP_CRYPTO_ERROR Can't create ECC signature.
  */
-iotc_bsp_crypto_state_t iotc_bsp_ecc(
-    const iotc_crypto_key_data_t* private_key, uint8_t* dst_buf,
-    size_t dst_buf_size, size_t* bytes_written, const uint8_t* src_buf,
-    size_t src_buf_size);
+iotc_bsp_crypto_state_t iotc_bsp_ecc(const iotc_crypto_key_data_t* private_key,
+                                     uint8_t* dst_buf, size_t dst_buf_size,
+                                     size_t* bytes_written,
+                                     const uint8_t* src_buf,
+                                     size_t src_buf_size);
 
 #ifdef __cplusplus
 }

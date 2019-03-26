@@ -44,7 +44,7 @@ typedef int32_t iotc_timed_task_handle_t;
 /**
  * @name iotc_user_task_callback_t
  * @brief Custom callback for timed tasks.
- * 
+ *
  * This is a user-defined custom callback. The Device SDK passes a pointer
  * to a <code>iotc_schedule_timed_task()</code> callback function in order
  * to schedule the timed task.
@@ -52,7 +52,8 @@ typedef int32_t iotc_timed_task_handle_t;
  * @param [in] in_context_handle The context handle provided to
  *     <code>iotc_schedule_timed_task()</code>.
  * @param [in] timed_task_handle The handle that identifies the timed task.
- * @param [in] user_data the data provided to <code>iotc_schedule_timed_task()</code>.
+ * @param [in] user_data the data provided to
+ * <code>iotc_schedule_timed_task()</code>.
  */
 typedef void(iotc_user_task_callback_t)(
     const iotc_context_handle_t context_handle,
@@ -70,10 +71,11 @@ typedef void(iotc_user_task_callback_t)(
  * @param [in] data API-specific information. Cast to a specific type depending
  *     on the original API call. For example, the <code>iotc_connect()</code>
  *     callback returns the iotc_connection_data_t* type so
- *     <code>iotc_connection_data_t* conn_data = (iotc_connection_data_t*)data;</code>.
- * @param [in] state IOTC_STATE_OK If the operation corresponding Device SDK operation
- *     succeeded. See <code><a href="~/include/iotc_error.h">iotc_error.h</a></code>
- *     for more error codes.
+ *     <code>iotc_connection_data_t* conn_data =
+ * (iotc_connection_data_t*)data;</code>.
+ * @param [in] state IOTC_STATE_OK If the operation corresponding Device SDK
+ * operation succeeded. See <code><a
+ * href="~/include/iotc_error.h">iotc_error.h</a></code> for more error codes.
  */
 typedef void(iotc_user_callback_t)(iotc_context_handle_t in_context_handle,
                                    void* data, iotc_state_t state);
@@ -82,7 +84,8 @@ typedef void(iotc_user_callback_t)(iotc_context_handle_t in_context_handle,
  * @enum iotc_sub_call_type_t
  * @brief The subscription callback type definition.
  *
- * The Device SDK passes this value to the user-defined subscription callback function.
+ * The Device SDK passes this value to the user-defined subscription callback
+ * function.
  *
  * @retval IOTC_SUB_UNKNOWN Unknown callback type. Check the state value.
  * @retval IOTC_SUBSCRIPTION_DATA_SUBACK Callback is a SUBACK notification.
@@ -131,7 +134,7 @@ typedef union iotc_sub_call_params_u {
 /**
  * @name iotc_user_subscription_callback_t
  * @brief Subscription callback.
- * 
+ *
  * The subscription callback notifies the user that the subscribed
  * topic recieved messages.
  *
@@ -156,7 +159,7 @@ typedef void(iotc_user_subscription_callback_t)(
  *      - IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID A secure element for storage
  * of keys by slot index. Signals to the BSP the slot to be used for
  * cryptographic operations.
- *      - IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM The union contains untyped data. 
+ *      - IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM The union contains untyped data.
  * The BSP must know the data format.
  */
 typedef enum iotc_crypto_key_union_type_e {
@@ -192,15 +195,18 @@ typedef union iotc_crypto_key_union_u {
  * @brief Define a key signature algorithm to sign JWTs.
  *
  * The client application must call <code>create_iot_core_jwt()</code> before
- * <code>iotc_connect()</code>. Cite the same algorithm used to provision your key in
- * <a href="https://cloud.google.com/iot/docs/how-tos/devices#creating_device_key_pairs">Cloud IoT Core</a>.
+ * <code>iotc_connect()</code>. Cite the same algorithm used to provision your
+ * key in <a
+ * href="https://cloud.google.com/iot/docs/how-tos/devices#creating_device_key_pairs">Cloud
+ * IoT Core</a>.
  *
  * <b>Note</b>: RSASSA-PKCS1-v1_5 with SHA-256 (RS256) is not supported.
  *
  * @see create_iot_core_jwt
  *
  *      - IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_INVALID for development.
- *      - IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256 ECDSA with P-256 and SHA-256.
+ *      - IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256 ECDSA with P-256 and
+ * SHA-256.
  */
 typedef enum iotc_crypto_key_signature_algorithm_e {
   IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_INVALID = 0,
@@ -212,7 +218,7 @@ typedef enum iotc_crypto_key_signature_algorithm_e {
  *
  * iotc_crypto_key_union includes an enumerated type that defines
  * whether to observe the union as a PEM key, slot ID, or undefined
- * data type. 
+ * data type.
  *
  * Refer to <code>iotc_crypto_key_params_u()</code> for more information.
  *

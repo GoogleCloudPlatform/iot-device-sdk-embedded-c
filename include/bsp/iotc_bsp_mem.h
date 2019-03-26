@@ -21,7 +21,7 @@
  * @file iotc_bsp_mem.h
  * @brief Manage platform memory.
  *
- * Implement these functions to customize how the Device SDK manages memory. For 
+ * Implement these functions to customize how the Device SDK manages memory. For
  * instance, custom implementations can use static instead of heap memory.
  */
 
@@ -59,7 +59,7 @@ void* iotc_bsp_mem_realloc(void* ptr, size_t byte_count);
 /**
  * @function
  * @brief Free a block of memory.
- 
+
  * Implementations of this function free a block of memory that
  * the <code>iotc_bsp_mem_malloc()</code> or <code>iotc_bsp_mem_realloc()</code>
  * implementations allocated.

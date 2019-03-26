@@ -127,8 +127,8 @@ iotc_bsp_tls_state_t iotc_bsp_tls_init(iotc_bsp_tls_context_t** tls_context,
 /**
  * @function
  * @brief Free a TLS context.
- * 
- * After closing a connection, the Device SDK will invoke this function 
+ *
+ * After closing a connection, the Device SDK will invoke this function
  * to free the corresponding memory resources and delete any associated data.
  *
  * @see iotc_bsp_tls_context_t
@@ -144,12 +144,12 @@ iotc_bsp_tls_state_t iotc_bsp_tls_cleanup(iotc_bsp_tls_context_t** tls_context);
  * @function
  * @brief Start TLS connections.
  *
- * The Device SDK calls this function to start a TLS handshake. If the function  
+ * The Device SDK calls this function to start a TLS handshake. If the function
  * returns IOTC_BSP_TLS_STATE_WANT_WRITE or IOTC_BSP_TLS_STATE_WANT_READ, the
  * Device SDK will invoke the function again to complete the handshake.
  *
  * @see iotc_bsp_tls_context_t
- * 
+ *
  * @param [in] tls_context The iotc_bsp_tls_context_t TLS context
  *     representation.
 

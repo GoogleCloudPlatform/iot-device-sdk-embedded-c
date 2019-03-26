@@ -41,21 +41,25 @@ extern "C" {
 
 /**
  * @brief Create a JWT.
- * 
- * Creates a JWT string. To connect to Cloud IoT Core. Pass the JWT to iotc_connect 
- * as the password parameter.
  *
- * This function invokes the BSP implementations of <code>iotc_bsp_sha256()</code>, 
- * <code>iotc_bsp_ecc()</code> and <code>iotc_bsp_base64_encode_urlsafe()</code>
- * to enable string encoding and signatures.
+ * Creates a JWT string. To connect to Cloud IoT Core. Pass the JWT to
+ * iotc_connect as the password parameter.
+ *
+ * This function invokes the BSP implementations of
+ * <code>iotc_bsp_sha256()</code>, <code>iotc_bsp_ecc()</code> and
+ * <code>iotc_bsp_base64_encode_urlsafe()</code> to enable string encoding and
+ * signatures.
  *
  * This function only supports ES256 key types.
  *
  * @param [in] expiration_period_sec The number of seconds before this JWT
  * expires.
  * @param [in] project_id The GCP project ID.
- * @param [in] private_key_data ES256 <a href"https://cloud.google.com/iot/docs/how-tos/credentials/keys">private key data</a>.
- * @param [in,out] dst_jwt_buf A pointer to a buffer that stores a formatted and signed JWT.
+ * @param [in] private_key_data ES256 <a
+ * href"https://cloud.google.com/iot/docs/how-tos/credentials/keys">private key
+ * data</a>.
+ * @param [in,out] dst_jwt_buf A pointer to a buffer that stores a formatted and
+ * signed JWT.
  * @param [in] dst_jwt_buf_len The length of the dst_jwt_buf buffer, in bytes.
  * @param [out] bytes_written The number of bytes written to dst_jwt_buf.
  *
