@@ -50,8 +50,10 @@ typedef enum iotc_connection_state_e {
  * by IoT Core.
  */
 typedef enum iotc_session_type_e {
-  IOTC_SESSION_CLEAN,   /** MQTT clean session. */
-  IOTC_SESSION_CONTINUE /** MQTT unclean session. */
+  /** MQTT clean session. */
+  IOTC_SESSION_CLEAN,
+  /** MQTT unclean session. */
+  IOTC_SESSION_CONTINUE
 } iotc_session_type_t;
 
 /**
@@ -64,20 +66,33 @@ typedef enum iotc_session_type_e {
  *
  * @see iotc_connect
  */
-typedef struct {
+typedef struct iotc_connection_data_s {
+  /** MQTT service hostname. */
   char* host;
+  /** MQTT connect username. */
   char* username;
+  /** MQTT connect password. */
   char* password;
+  /** MQTT connect client id. */
   char* client_id;
+  /** MQTT service host port. */
   uint16_t port;
+  /** MQTT connect connection timeout in seconds. */
   uint16_t connection_timeout;
+  /** MQTT keepalive timeout in seconds. */
   uint16_t keepalive_timeout;
+  /** Tracks current connection state. */
   iotc_connection_state_t connection_state;
+  /** Denote clean or continued MQTT session types. */
   iotc_session_type_t session_type;
-  char* will_topic;               /* UNUSED */
-  char* will_message;             /* UNUSED */
-  iotc_mqtt_qos_t will_qos;       /* UNUSED */
-  iotc_mqtt_retain_t will_retain; /* UNUSED */
+  /** Unused. */
+  char* will_topic;
+  /** Unused. */
+  char* will_message;
+  /** Unused. */
+  iotc_mqtt_qos_t will_qos;
+  /** Unused. */
+  iotc_mqtt_retain_t will_retain;
 } iotc_connection_data_t;
 
 #ifdef __cplusplus
