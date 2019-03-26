@@ -29,17 +29,19 @@ extern "C" {
  * @brief All possible states of the connection process and lifecycle.
  */
 typedef enum iotc_connection_state_e {
-  IOTC_CONNECTION_STATE_UNINITIALIZED =
-      0,                            /** The connection is not
-                                       established and there is no pending
-                                       connect operation in libiotc. */
-  IOTC_CONNECTION_STATE_OPENING,    /** The connect operation started.
-                                     */
-  IOTC_CONNECTION_STATE_OPENED,     /** The connect operation is successfully
-                                     finished. */
-  IOTC_CONNECTION_STATE_CLOSING,    /** The disconnect operation started. */
-  IOTC_CONNECTION_STATE_CLOSED,     /** The connection is closed. */
-  IOTC_CONNECTION_STATE_OPEN_FAILED /** Can't open connection. */
+  /** The connection is not established and there is no pending
+   * connect operation in libiotc. */
+  IOTC_CONNECTION_STATE_UNINITIALIZED = 0,
+  /** The connect operation started. */
+  IOTC_CONNECTION_STATE_OPENING,
+  /** The connect operation is successfully finished. */
+  IOTC_CONNECTION_STATE_OPENED,
+  /** The disconnect operation started. */
+  IOTC_CONNECTION_STATE_CLOSING,
+  /** The connection is closed. */
+  IOTC_CONNECTION_STATE_CLOSED,
+  /** Can't open connection. */
+  IOTC_CONNECTION_STATE_OPEN_FAILED
 } iotc_connection_state_t;
 
 /**
