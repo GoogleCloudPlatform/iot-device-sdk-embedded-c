@@ -78,9 +78,8 @@ typedef enum iotc_bsp_io_fs_state_e {
  * @brief Resource types.
  */
 typedef enum iotc_bsp_io_fs_resource_type_e {
-  IOTC_BSP_IO_FS_CERTIFICATE = 0, /**< 0 **/
-  IOTC_BSP_IO_FS_CREDENTIALS,     /**< 1 **/
-  IOTC_BSP_IO_FS_CONFIG_DATA      /**< 2 **/
+  /** TLS server authentication certificates. **/
+  IOTC_BSP_IO_FS_CERTIFICATE = 0,
 } iotc_bsp_io_fs_resource_type_t;
 
 /**
@@ -93,6 +92,7 @@ typedef enum iotc_bsp_io_fs_resource_type_e {
  * @see iotc_bsp_io_fs_stat
  */
 typedef struct iotc_bsp_io_fs_stat_s {
+  /** The size of the resource in bytes. **/
   size_t resource_size;
 } iotc_bsp_io_fs_stat_t;
 
@@ -107,8 +107,11 @@ typedef struct iotc_bsp_io_fs_stat_s {
  * @see iotc_bsp_io_fs_state_e
  */
 typedef enum iotc_bsp_io_fs_open_flags {
+  /** Open the file for read operations. **/
   IOTC_BSP_IO_FS_OPEN_READ = 1 << 0,
+  /** Open the file for write operations. **/
   IOTC_BSP_IO_FS_OPEN_WRITE = 1 << 1,
+  /** Open the file to append. **/
   IOTC_BSP_IO_FS_OPEN_APPEND = 1 << 2,
 } iotc_bsp_io_fs_open_flags_t;
 
