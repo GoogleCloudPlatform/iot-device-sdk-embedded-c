@@ -62,6 +62,9 @@ typedef enum iotc_bsp_tls_state_e {
  * @brief Parameter for <code>iotc_bsp_tls_init()</code> to create a TLS
  * context.
  *
+ * The memory limiter uses the alloc, calloc, realloc and free functions
+ * as part of its memory tracking of the TLS implementation allocations.
+ *
  * @see iotc_bsp_tls_init
  * @see iotc_bsp_tls_send_callback
  * @see iotc_bsp_tls_recv_callback
@@ -76,13 +79,16 @@ typedef struct iotc_bsp_tls_init_params_s {
   /** The length, in bytes, of ca_cert_pem_buf. */
   size_t ca_cert_pem_buf_length;
 
-  /** Pointers to the client application's memory management functions.
-   * The BSP memory limiter calls these funtions to track the TLS
-   * implementation's memory allocations.
-   */
+  /** Pointer to the client application's memory allocation function. */
   void* (*fp_libiotc_alloc)(size_t);
+
+  /** Pointer to the client application's array allocation function. */
   void* (*fp_libiotc_calloc)(size_t, size_t);
+
+  /** Pointer to the client application's reallocation function. */
   void* (*fp_libiotc_realloc)(void*, size_t);
+
+  /** Pointer to the client application's free memory function. */
   void (*fp_libiotc_free)(void*);
 
   /** A pointer to the host's domain name. Must be a null-terminated
@@ -233,7 +239,7 @@ iotc_bsp_tls_state_t iotc_bsp_tls_write(iotc_bsp_tls_context_t* tls_context,
 iotc_bsp_tls_state_t iotc_bsp_tls_recv_callback(char* buf, int sz,
                                                 void* context, int* bytes_sent);
 
-/** Notify the client application to write data to a socket. Don't modify this
+/** Notify the client application to write data to a socket. Do not modify this
  * function. */
 iotc_bsp_tls_state_t iotc_bsp_tls_send_callback(char* buf, int sz,
                                                 void* context, int* bytes_sent);
