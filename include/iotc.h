@@ -275,7 +275,7 @@ extern iotc_state_t iotc_connect_to(iotc_context_handle_t iotc_h,
                                     uint16_t keepalive_timeout,
                                     iotc_user_callback_t* client_callback);
 
-/*
+/**
  * @brief Publish a message to Cloud IoT Core on a given topic.
  *
  * To publish a message, the device must already be connected to Cloud IoT Core.
