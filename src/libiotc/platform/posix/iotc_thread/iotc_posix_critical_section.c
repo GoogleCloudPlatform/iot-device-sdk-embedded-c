@@ -17,8 +17,9 @@
 #include "iotc_allocator.h"
 #include "iotc_critical_section_def.h"
 #include "iotc_debug.h"
-#include "iotc_err.h"
 #include "iotc_macros.h"
+
+#include <iotc_error.h>
 
 #ifdef __cplusplus
 extern "C" {

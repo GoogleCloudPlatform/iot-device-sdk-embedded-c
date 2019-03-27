@@ -21,7 +21,7 @@
 #include <stdlib.h>
 
 #include <iotc_bsp_io_fs.h>
-#include <iotc_err.h>
+#include <iotc_error.h>
 
 #define IOTC_FS_INVALID_RESOURCE_HANDLE -1
 #define iotc_fs_init_resource_handle() IOTC_FS_INVALID_RESOURCE_HANDLE

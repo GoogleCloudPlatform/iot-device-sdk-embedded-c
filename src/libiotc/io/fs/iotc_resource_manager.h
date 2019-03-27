@@ -18,9 +18,10 @@
 #define __IOTC_RESOURCE_MANAGER_H__
 
 #include "iotc_data_desc.h"
-#include "iotc_err.h"
 #include "iotc_event_handle.h"
 #include "iotc_fs_api.h"
+
+#include <iotc_error.h>
 
 /**
  * @struct iotc_resource_manager_context_t

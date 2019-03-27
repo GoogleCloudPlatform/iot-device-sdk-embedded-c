@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-#include "iotc_err.h"
 #include "iotc_macros.h"
+
+#include <iotc_error.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 #ifndef IOTC_OPT_NO_ERROR_STRINGS
-const char* iotc_error_string[IOTC_ERROR_COUNT] = {
+#define IOTC_ERROR_STRINGS_COUNT IOTC_ERROR_COUNT + 1
+const char* iotc_error_string[IOTC_ERROR_STRINGS_COUNT] = {
     "IOTC_STATE_OK",                    /* 0 IOTC_STATE_OK */
     "IOTC_STATE_TIMEOUT",               /* 1 IOTC_STATE_TIMEOUT */
     "IOTC_STATE_WANT_READ",             /* 2 IOTC_STATE_WANT_READ */
@@ -114,12 +116,14 @@ const char* iotc_error_string[IOTC_ERROR_COUNT] = {
     "IOTC_NULL_PROJECT_ID_ERROR",       /* 69 IOTC_NULL_PROJECT_ID_ERROR */
     "IOTC_ALG_NOT_SUPPORTED_ERROR",     /* 70 IOTC_ALG_NOT_SUPPORTED_ERROR */
     "IOTC_JWT_FORMATTION_ERROR",        /* 71 IOTC_JWT_FORMATTION_ERROR */
-    "IOTC_JWT_PROJECTID_TOO_LONG_ERROR" /* 72 IOTC_JWT_PROJECTID_TOO_LONG_ERROR
+    "IOTC_JWT_PROJECTID_TOO_LONG_ERROR",/* 72 IOTC_JWT_PROJECTID_TOO_LONG_ERROR
                                          */
     "IOTC_NULL_DEVICE_PATH_ERROR",      /* 73 IOTC_NULL_DEVICE_PATH_ERROR */
     "IOTC_BUFFER_TOO_SMALL_ERROR",      /* 74 IOTC_BUFFER_TOO_SMALL_ERROR */
     "IOTC_NULL_KEY_DATA_ERROR",         /* 75 IOTC_NULL_KEY_DATA_ERROR */
-    "IOTC_NULL_CLIENT_ID_ERROR"         /* 76 IOTC_NULL_CLIENT_ID_ERROR */
+    "IOTC_NULL_CLIENT_ID_ERROR",        /* 76 IOTC_NULL_CLIENT_ID_ERROR */
+
+    "IOTC_ERROR_UNDEFINED"              /* The error code is not recognized */
 };
 #else
 const char empty_sting[] = "";
@@ -130,7 +134,12 @@ const char* iotc_get_state_string(iotc_state_t e) {
   IOTC_UNUSED(e);
   return empty_sting;
 #else
-  return iotc_error_string[IOTC_MIN((short)e, IOTC_ERROR_COUNT - 1)];
+   // If the error is greater than the range of valid error codes
+  // return a message indicating that the error code is undefined
+  if ((short)e < IOTC_STATE_OK) {
+    return iotc_error_string[IOTC_ERROR_STRINGS_COUNT - 1];
+  }
+  return iotc_error_string[IOTC_MIN((short)e, IOTC_ERROR_STRINGS_COUNT - 1)];
 #endif
 }
 
