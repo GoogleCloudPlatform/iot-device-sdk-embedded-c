@@ -24,7 +24,7 @@ git clone https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c.git
 - [`include/bsp`](include/bsp): Header files of the Board Support Package (BSP). Functions declared here must be defined in a device-specific BSP implementation. When compiling your BSP source, make sure this directory is on the include path.
 - [`make`](make): Build system configuration files.
 - `obj`: Object files generated during a build.
-- [`res`](src): Resource files (for example, trusted root CA certificates.)
+- [`res`](res): Resource files (for example, trusted root CA certificates.)
 - [`src`](src): The source files of the Device SDK. A BSP implementation is provided for POSIX.
 - [`third_party`](third_party): Third-party open-source components.
 - [`tools`](tools): Scripts used by the maintainers of the repository.
