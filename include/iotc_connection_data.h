@@ -26,52 +26,73 @@ extern "C" {
 
 /**
  * @enum iotc_connection_state_e
- * @brief Defines all possible states of the connection process and lifecycle.
+ * @brief All possible states of the connection process and lifecycle.
  */
 typedef enum iotc_connection_state_e {
-  IOTC_CONNECTION_STATE_UNINITIALIZED =
-      0,                            /** the connection is not
-                                       established and there is no pending
-                                       connect operation in libiotc. */
-  IOTC_CONNECTION_STATE_OPENING,    /** the connect operation has been started.
-                                     */
-  IOTC_CONNECTION_STATE_OPENED,     /** connect operation has been finished
-                                     successfully. */
-  IOTC_CONNECTION_STATE_CLOSING,    /** disconnect operation has been started */
-  IOTC_CONNECTION_STATE_CLOSED,     /** connection is closed */
-  IOTC_CONNECTION_STATE_OPEN_FAILED /**< there was an error during connect
-                                     operation */
+  /** The connection is not established and there is no pending
+   * connect operation in libiotc. */
+  IOTC_CONNECTION_STATE_UNINITIALIZED = 0,
+  /** The connect operation started. */
+  IOTC_CONNECTION_STATE_OPENING,
+  /** The connect operation is successfully finished. */
+  IOTC_CONNECTION_STATE_OPENED,
+  /** The disconnect operation started. */
+  IOTC_CONNECTION_STATE_CLOSING,
+  /** The connection is closed. */
+  IOTC_CONNECTION_STATE_CLOSED,
+  /** Can't open connection. */
+  IOTC_CONNECTION_STATE_OPEN_FAILED
 } iotc_connection_state_t;
 
 /**
  * @enum iotc_session_type_e
- * @brief MQTT session types. Note that CONTINUE isn't currently supported.
+ * @brief MQTT session types. Note that CONTINUE isn't currently supported
+ * by IoT Core.
  */
 typedef enum iotc_session_type_e {
-  IOTC_SESSION_CLEAN,   /**< MQTT clean session */
-  IOTC_SESSION_CONTINUE /**< MQTT unclean session */
+  /** MQTT clean session. */
+  IOTC_SESSION_CLEAN,
+  /** MQTT unclean session. */
+  IOTC_SESSION_CONTINUE
 } iotc_session_type_t;
 
 /**
  * @struct  iotc_connection_data_t
- * @brief   Connection parameters received by iotc_connect's callback function.
- * These values may be reused to request another connection from within the
+ * @brief The connection parameters received by the <code>iotc_connect()</code>
  * callback.
+ *
+ * The application may reuse these parameters to request another connection
+ * from within the callback.
+ *
+ * @see iotc_connect
  */
-typedef struct {
+typedef struct iotc_connection_data_s {
+  /** MQTT service hostname. */
   char* host;
+  /** MQTT connect username. */
   char* username;
+  /** MQTT connect password. */
   char* password;
+  /** MQTT connect client id. */
   char* client_id;
+  /** MQTT service host port. */
   uint16_t port;
+  /** MQTT connect connection timeout in seconds. */
   uint16_t connection_timeout;
+  /** MQTT keepalive timeout in seconds. */
   uint16_t keepalive_timeout;
+  /** Tracks current connection state. */
   iotc_connection_state_t connection_state;
+  /** Denote clean or continued MQTT session types. */
   iotc_session_type_t session_type;
-  char* will_topic;               /* UNUSED */
-  char* will_message;             /* UNUSED */
-  iotc_mqtt_qos_t will_qos;       /* UNUSED */
-  iotc_mqtt_retain_t will_retain; /* UNUSED */
+  /** Unused. */
+  char* will_topic;
+  /** Unused. */
+  char* will_message;
+  /** Unused. */
+  iotc_mqtt_qos_t will_qos;
+  /** Unused. */
+  iotc_mqtt_retain_t will_retain;
 } iotc_connection_data_t;
 
 #ifdef __cplusplus
