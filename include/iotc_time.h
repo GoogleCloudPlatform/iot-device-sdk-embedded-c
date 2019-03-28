@@ -21,13 +21,15 @@
 extern "C" {
 #endif
 
+#include <stdint.h>
+
 /**
  * @name iotc_time_t
  * @brief Time storage type.
  *
  * Use a 64-bit time type whenever possible to prevent timer rollovers.
  */
-typedef long iotc_time_t;
+typedef int64_t iotc_time_t;
 
 #ifdef __cplusplus
 }
