@@ -26,9 +26,9 @@
 #include "../../common/src/commandline.h"
 #include "../../common/src/example_utils.h"
 
+#include <iotc_error.h>
 #include <iotc_jwt.h>
 #include <stdio.h>
-#include <iotc_error.h>
 
 /* Application variables. */
 iotc_crypto_key_data_t iotc_connect_private_key_data;
@@ -108,7 +108,8 @@ int main(int argc, char* argv[]) {
       IOTC_JWT_SIZE, &bytes_written);
 
   if (IOTC_STATE_OK != state) {
-    printf("iotc_create_iotcore_jwt returned with error: %ul : %s\n", state, iotc_get_state_string(state));
+    printf("iotc_create_iotcore_jwt returned with error: %ul : %s\n", state,
+           iotc_get_state_string(state));
     return -1;
   }
 

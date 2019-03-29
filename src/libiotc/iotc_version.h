@@ -19,6 +19,6 @@
 
 #define IOTC_MAJOR 1
 #define IOTC_MINOR 0
-#define IOTC_REVISION 0
+#define IOTC_REVISION 1
 
 #endif /* __IOTC_VERSION_H__ */
