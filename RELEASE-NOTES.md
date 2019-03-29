@@ -15,13 +15,13 @@
 - Networking BSP:
   - Added UDP and IPv6 support.
   - Removed the function `iotc_bsp_io_net_create_socket`. Sockets should now be created in BSP implementations of `iotc_bsp_iot_net_socket_connect`.
-  - See [`include/bsp/iotc_bsp_io_net.h`](include/bsp_itoc_bsp_io_net.h) for more information about these changes.
+  - See [`include/bsp/iotc_bsp_io_net.h`](./include/bsp_itoc_bsp_io_net.h) for more information about these changes.
   - Removed `src/bsp/platform/posix/iotc_bsp_hton.h` as it was no longer required.
 
 - Time API:
   - The `iotc_time_t` typedef is now defined as an `int64_t`.
   - Added the function `iotc_bsp_time_getmonotonictime_milliseconds`.
-  - See [`include/bsp/iotc_time.h`](include/bsp/iotc_time.h) for more information about these changes.
+  - See [`include/bsp/iotc_time.h`](./include/bsp/iotc_time.h) for more information about these changes.
 
 # Google Cloud IoT Core Device SDK for Embedded C version  1.0
 #### February 22, 2019
