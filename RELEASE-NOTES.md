@@ -1,3 +1,26 @@
+# Google Cloud IoT Core Device SDK for Embedded C version  1.0.1
+#### March 29, 2019
+
+- The TLS Board Support Package (BSP) reference implementation for mbedTLS has been updated to use deterministic ECDSA signatures.
+
+- The function`iotc_get_state_string` can now be used to query error strings during application debugging. Strings will not be compiled into the SDK library by default for size considerations. See `include/iotc_error.h` for more information.
+
+- Updated the gtest framework compilation standard to c++14.  This does not affect the IoT Device SDK library sources.
+
+- Documentation:
+  - Updates to the Device SDK [API](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/api/html/) and [BSP](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/bsp/html/) doxygen documentation.
+  - [`README.md`](README.md) formatting updates.
+  - [`CONTRIBUTING.md`](CONTRIBUTING.md) includes a new pull request processes and a link to the Google style guidelines.
+
+- Networking BSP:
+  - Added UDP and IPv6 support to the networking BSP.
+  - Removed the function `iotc_bsp_io_net_create_socket` from Network BSP. Sockets are created in `iotc_bsp_iot_net_socket_connect`.
+  - Removed `src/bsp/platform/posix/iotc_bsp_hton.h`. `hton` support is no longer required by the implementation.
+
+- Time API:
+  - The `iotc_time_t` data type is now defined as type `int64_t`.
+  - Added the function `iotc_bsp_time_getmonotonictime_milliseconds` to the time BSP.  See `include/bsp/iotc_time.h` for more information.
+
 # Google Cloud IoT Core Device SDK for Embedded C version  1.0
 #### February 22, 2019
 
