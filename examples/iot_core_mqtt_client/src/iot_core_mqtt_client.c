@@ -1,7 +1,7 @@
 /* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Device SDK for Embedded C,
- * it is licensed under the BSD 3-Clause license; you may not use this file
+ * This is part of the Google Cloud IoT Device SDK for Embedded C.
+ * It is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
  * You may obtain a copy of the License at:
@@ -26,9 +26,9 @@
 #include "../../common/src/commandline.h"
 #include "../../common/src/example_utils.h"
 
+#include <iotc_error.h>
 #include <iotc_jwt.h>
 #include <stdio.h>
-#include <iotc_error.h>
 
 /* Application variables. */
 iotc_crypto_key_data_t iotc_connect_private_key_data;
@@ -108,7 +108,8 @@ int main(int argc, char* argv[]) {
       IOTC_JWT_SIZE, &bytes_written);
 
   if (IOTC_STATE_OK != state) {
-    printf("iotc_create_iotcore_jwt returned with error: %ul : %s\n", state, iotc_get_state_string(state));
+    printf("iotc_create_iotcore_jwt returned with error: %ul : %s\n", state,
+           iotc_get_state_string(state));
     return -1;
   }
 

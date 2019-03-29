@@ -1,7 +1,7 @@
 /* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Device SDK for Embedded C,
- * it is licensed under the BSD 3-Clause license; you may not use this file
+ * This is part of the Google Cloud IoT Device SDK for Embedded C.
+ * It is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
  * You may obtain a copy of the License at:
@@ -220,7 +220,7 @@ iotc_state_t iotc_io_net_layer_pull(void* context, void* data,
   iotc_bsp_io_net_state_t bsp_state = IOTC_BSP_IO_NET_STATE_OK;
 
   if (IOTC_THIS_LAYER_NOT_OPERATIONAL(context) || layer_data == NULL) {
-    if (data != NULL) // let's clean the memory
+    if (data != NULL)  // let's clean the memory
     {
       buffer_desc = (iotc_data_desc_t*)data;
       iotc_free_desc(&buffer_desc);
@@ -234,7 +234,7 @@ iotc_state_t iotc_io_net_layer_pull(void* context, void* data,
     buffer_desc = (iotc_data_desc_t*)data;
 
     memset(buffer_desc->data_ptr, 0, IOTC_IO_BUFFER_SIZE);
-    assert(buffer_desc->capacity == IOTC_IO_BUFFER_SIZE); // sanity check
+    assert(buffer_desc->capacity == IOTC_IO_BUFFER_SIZE);  // sanity check
 
     buffer_desc->curr_pos = 0;
     buffer_desc->length = 0;

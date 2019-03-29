@@ -1,7 +1,7 @@
 /* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Device SDK for Embedded C,
- * it is licensed under the BSD 3-Clause license; you may not use this file
+ * This is part of the Google Cloud IoT Device SDK for Embedded C.
+ * It is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
  * You may obtain a copy of the License at:
@@ -99,31 +99,31 @@ const char* iotc_error_string[IOTC_ERROR_STRINGS_COUNT] = {
     "The passed or default context is NULL", /* 52 IOTC_NULL_CONTEXT */
     "The last will topic cannot be NULL",    /* 53 IOTC_NULL_WILL_TOPIC */
     "The last will message cannot be NULL",  /* 54 IOTC_NULL_WILL_MESSAGE */
-    "IOTC_NO_MORE_RESOURCE_AVAILABLE",  /* 55 IOTC_NO_MORE_RESOURCE_AVAILABLE */
-    "IOTC_FS_RESOURCE_NOT_AVAILABLE",   /* 56 IOTC_FS_RESOURCE_NOT_AVAILABLE*/
-    "IOTC_FS_ERROR",                    /* 57 IOTC_FS_ERROR */
-    "IOTC_NOT_SUPPORTED",               /* 58 IOTC_NOT_SUPPORTED */
-    "IOTC_EVENT_PROCESS_STOPPED",       /* 59 IOTC_EVENT_PROCESS_STOPPED */
-    "IOTC_STATE_RESEND",                /* 60 IOTC_STATE_RESEND */
-    "IOTC_NULL_HOST",                   /* 61 IOTC_STATE_RESEND */
-    "IOTC_TLS_FAILED_CERT_ERROR",       /* 62 IOTC_TLS_FAILED_CERT_ERROR */
-    "IOTC_FS_OPEN_ERROR",               /* 63 IOTC_FS_OPEN_ERROR */
-    "IOTC_FS_OPEN_READ_ONLY",           /* 64 IOTC_FS_OPEN_READ_ONLY */
-    "IOTC_FS_READ_ERROR",               /* 65 IOTC_FS_READ_ERROR */
-    "IOTC_FS_WRITE_ERROR",              /* 66 IOTC_FS_WRITE_ERROR */
-    "IOTC_FS_CLOSE_ERROR",              /* 67 IOTC_FS_CLOSE_ERROR */
-    "IOTC_FS_REMOVE_ERROR",             /* 68 IOTC_FS_REMOVE_ERROR */
-    "IOTC_NULL_PROJECT_ID_ERROR",       /* 69 IOTC_NULL_PROJECT_ID_ERROR */
-    "IOTC_ALG_NOT_SUPPORTED_ERROR",     /* 70 IOTC_ALG_NOT_SUPPORTED_ERROR */
-    "IOTC_JWT_FORMATTION_ERROR",        /* 71 IOTC_JWT_FORMATTION_ERROR */
-    "IOTC_JWT_PROJECTID_TOO_LONG_ERROR",/* 72 IOTC_JWT_PROJECTID_TOO_LONG_ERROR
-                                         */
-    "IOTC_NULL_DEVICE_PATH_ERROR",      /* 73 IOTC_NULL_DEVICE_PATH_ERROR */
-    "IOTC_BUFFER_TOO_SMALL_ERROR",      /* 74 IOTC_BUFFER_TOO_SMALL_ERROR */
-    "IOTC_NULL_KEY_DATA_ERROR",         /* 75 IOTC_NULL_KEY_DATA_ERROR */
-    "IOTC_NULL_CLIENT_ID_ERROR",        /* 76 IOTC_NULL_CLIENT_ID_ERROR */
+    "IOTC_NO_MORE_RESOURCE_AVAILABLE", /* 55 IOTC_NO_MORE_RESOURCE_AVAILABLE */
+    "IOTC_FS_RESOURCE_NOT_AVAILABLE",  /* 56 IOTC_FS_RESOURCE_NOT_AVAILABLE*/
+    "IOTC_FS_ERROR",                   /* 57 IOTC_FS_ERROR */
+    "IOTC_NOT_SUPPORTED",              /* 58 IOTC_NOT_SUPPORTED */
+    "IOTC_EVENT_PROCESS_STOPPED",      /* 59 IOTC_EVENT_PROCESS_STOPPED */
+    "IOTC_STATE_RESEND",               /* 60 IOTC_STATE_RESEND */
+    "IOTC_NULL_HOST",                  /* 61 IOTC_STATE_RESEND */
+    "IOTC_TLS_FAILED_CERT_ERROR",      /* 62 IOTC_TLS_FAILED_CERT_ERROR */
+    "IOTC_FS_OPEN_ERROR",              /* 63 IOTC_FS_OPEN_ERROR */
+    "IOTC_FS_OPEN_READ_ONLY",          /* 64 IOTC_FS_OPEN_READ_ONLY */
+    "IOTC_FS_READ_ERROR",              /* 65 IOTC_FS_READ_ERROR */
+    "IOTC_FS_WRITE_ERROR",             /* 66 IOTC_FS_WRITE_ERROR */
+    "IOTC_FS_CLOSE_ERROR",             /* 67 IOTC_FS_CLOSE_ERROR */
+    "IOTC_FS_REMOVE_ERROR",            /* 68 IOTC_FS_REMOVE_ERROR */
+    "IOTC_NULL_PROJECT_ID_ERROR",      /* 69 IOTC_NULL_PROJECT_ID_ERROR */
+    "IOTC_ALG_NOT_SUPPORTED_ERROR",    /* 70 IOTC_ALG_NOT_SUPPORTED_ERROR */
+    "IOTC_JWT_FORMATTION_ERROR",       /* 71 IOTC_JWT_FORMATTION_ERROR */
+    "IOTC_JWT_PROJECTID_TOO_LONG_ERROR", /* 72 IOTC_JWT_PROJECTID_TOO_LONG_ERROR
+                                          */
+    "IOTC_NULL_DEVICE_PATH_ERROR",       /* 73 IOTC_NULL_DEVICE_PATH_ERROR */
+    "IOTC_BUFFER_TOO_SMALL_ERROR",       /* 74 IOTC_BUFFER_TOO_SMALL_ERROR */
+    "IOTC_NULL_KEY_DATA_ERROR",          /* 75 IOTC_NULL_KEY_DATA_ERROR */
+    "IOTC_NULL_CLIENT_ID_ERROR",         /* 76 IOTC_NULL_CLIENT_ID_ERROR */
 
-    "IOTC_ERROR_UNDEFINED"              /* The error code is not recognized */
+    "IOTC_ERROR_UNDEFINED" /* The error code is not recognized */
 };
 #else
 const char empty_sting[] = "";
@@ -134,7 +134,7 @@ const char* iotc_get_state_string(iotc_state_t e) {
   IOTC_UNUSED(e);
   return empty_sting;
 #else
-   // If the error is greater than the range of valid error codes
+  // If the error is greater than the range of valid error codes
   // return a message indicating that the error code is undefined
   if ((short)e < IOTC_STATE_OK) {
     return iotc_error_string[IOTC_ERROR_STRINGS_COUNT - 1];

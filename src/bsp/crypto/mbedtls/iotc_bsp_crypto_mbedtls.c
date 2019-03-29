@@ -1,7 +1,7 @@
 /* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Device SDK for Embedded C,
- * it is licensed under the BSD 3-Clause license; you may not use this file
+ * This is part of the Google Cloud IoT Device SDK for Embedded C.
+ * It is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
  * You may obtain a copy of the License at:
@@ -128,7 +128,6 @@ iotc_bsp_crypto_state_t iotc_bsp_ecc(
     const iotc_crypto_key_data_t* private_key_data, uint8_t* dst_buf,
     size_t dst_buf_size, size_t* bytes_written, const uint8_t* src_buf,
     size_t src_buf_len) {
-
   if (NULL == private_key_data || NULL == dst_buf || NULL == bytes_written ||
       NULL == src_buf) {
     return IOTC_BSP_CRYPTO_INVALID_INPUT_PARAMETER_ERROR;
