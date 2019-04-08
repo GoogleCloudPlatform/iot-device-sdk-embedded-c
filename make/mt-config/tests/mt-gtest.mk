@@ -1,7 +1,7 @@
 # Copyright 2018-2019 Google LLC
 #
-# This is part of the Google Cloud IoT Device SDK for Embedded C,
-# it is licensed under the BSD 3-Clause license; you may not use this file
+# This is part of the Google Cloud IoT Device SDK for Embedded C.
+# It is licensed under the BSD 3-Clause license; you may not use this file
 # except in compliance with the License.
 #
 # You may obtain a copy of the License at:
@@ -69,6 +69,7 @@ IOTC_GTEST_CXX_FLAGS += $(IOTC_INCLUDE_FLAGS)
 IOTC_GTEST_CXX_FLAGS += -I$(GTEST_DIR)/include -I$(GTEST_DIR)/include/gtest
 IOTC_GTEST_CXX_FLAGS += -I$(GMOCK_DIR)/include -I$(GMOCK_DIR)/include/gmock
 IOTC_GTEST_CXX_FLAGS += -I$(LIBIOTC)/src/tests
+IOTC_GTEST_CXX_FLAGS += -I$(LIBIOTC)/src/tests/tools
 IOTC_GTEST_CXX_FLAGS += $(foreach platformdep,$(IOTC_PLATFORM_MODULES) \
             ,-I$(IOTC_GTEST_SOURCE_DIR)/platform/$(IOTC_PLATFORM_BASE)/$(platformdep))
 

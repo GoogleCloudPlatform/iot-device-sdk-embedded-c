@@ -1,7 +1,7 @@
 /* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Device SDK for Embedded C,
- * it is licensed under the BSD 3-Clause license; you may not use this file
+ * This is part of the Google Cloud IoT Device SDK for Embedded C.
+ * It is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
  * You may obtain a copy of the License at:
@@ -16,14 +16,17 @@
 
 #include <iotc_bsp_io_net.h>
 
+#include <arpa/inet.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <netdb.h>
+#include <stdio.h>
+#include <string.h>
 #include <sys/socket.h>
 #include <sys/time.h>
+#include <sys/types.h>
 #include <unistd.h>
-
-#include <stdio.h>
+#include "iotc_macros.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -33,57 +36,71 @@ extern "C" {
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
 #endif
 
-iotc_bsp_io_net_state_t iotc_bsp_io_net_create_socket(
-    iotc_bsp_socket_t* iotc_socket) {
-  *iotc_socket = socket(AF_INET, SOCK_STREAM, 0);
+iotc_bsp_io_net_state_t iotc_bsp_io_net_socket_connect(
+    iotc_bsp_socket_t* iotc_socket, const char* host, uint16_t port,
+    iotc_bsp_socket_type_t socket_type) {
+  struct addrinfo hints;
+  struct addrinfo *result, *rp = NULL;
+  int status;
 
-  if (-1 == *iotc_socket) {
+  memset(&hints, 0, sizeof(hints));
+  hints.ai_family = AF_UNSPEC;
+  hints.ai_socktype = socket_type;
+  hints.ai_flags = 0;
+  hints.ai_protocol = 0;
+
+  // Address resolution.
+  status = getaddrinfo(host, NULL, &hints, &result);
+  if (0 != status) {
     return IOTC_BSP_IO_NET_STATE_ERROR;
   }
 
-  /* Enable nonblocking mode for a posix socket */
-  const int flags = fcntl(*iotc_socket, F_GETFL, 0);
+  for (rp = result; rp != NULL; rp = rp->ai_next) {
+    *iotc_socket = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
+    if (-1 == *iotc_socket) continue;
 
-  if (-1 == flags || -1 == fcntl(*iotc_socket, F_SETFL, flags | O_NONBLOCK)) {
-    return IOTC_BSP_IO_NET_STATE_ERROR;
+    // Set the socket to be non-blocking.
+    const int flags = fcntl(*iotc_socket, F_GETFL);
+    if (-1 == fcntl(*iotc_socket, F_SETFL, flags | O_NONBLOCK)) {
+      freeaddrinfo(result);
+      return IOTC_BSP_IO_NET_STATE_ERROR;
+    }
+
+    switch (rp->ai_family) {
+      case AF_INET6:
+        ((struct sockaddr_in6*)(rp->ai_addr))->sin6_port = htons(port);
+        break;
+      case AF_INET:
+        ((struct sockaddr_in*)(rp->ai_addr))->sin_port = htons(port);
+        break;
+      default:
+        return IOTC_BSP_IO_NET_STATE_ERROR;
+        break;
+    }
+
+    // Attempt to connect.
+    status = connect(*iotc_socket, rp->ai_addr, rp->ai_addrlen);
+
+    if (-1 != status) {
+      freeaddrinfo(result);
+      return IOTC_BSP_IO_NET_STATE_OK;
+    } else {
+      if (EINPROGRESS == errno) {
+        freeaddrinfo(result);
+        return IOTC_BSP_IO_NET_STATE_OK;
+      } else {
+        close(*iotc_socket);
+      }
+    }
   }
-
-  return IOTC_BSP_IO_NET_STATE_OK;
-}
-
-iotc_bsp_io_net_state_t iotc_bsp_io_net_connect(iotc_bsp_socket_t* iotc_socket,
-                                                const char* host,
-                                                uint16_t port) {
-  struct hostent* hostinfo = gethostbyname(host);
-
-  /* if null it means that the address has not been found */
-  if (NULL == hostinfo) {
-    return IOTC_BSP_IO_NET_STATE_ERROR;
-  }
-
-  struct sockaddr_in name = {
-      .sin_family = AF_INET,
-      .sin_port = htons(port),
-      .sin_addr = *((struct in_addr*)hostinfo->h_addr_list[0]),
-      .sin_zero = {0}};
-
-  if (-1 ==
-      connect(*iotc_socket, (struct sockaddr*)&name, sizeof(struct sockaddr))) {
-    return (EINPROGRESS == errno) ? IOTC_BSP_IO_NET_STATE_OK
-                                  : IOTC_BSP_IO_NET_STATE_ERROR;
-  } else {
-    // todo_atigyi: what to do here?
-    // does this mean the socket is BLOCKING?
-    return IOTC_BSP_IO_NET_STATE_ERROR;
-  }
-
+  freeaddrinfo(result);
   return IOTC_BSP_IO_NET_STATE_ERROR;
 }
 
 iotc_bsp_io_net_state_t iotc_bsp_io_net_connection_check(
     iotc_bsp_socket_t iotc_socket, const char* host, uint16_t port) {
-  (void)host;
-  (void)port;
+  IOTC_UNUSED(host);
+  IOTC_UNUSED(port);
 
   int valopt = 0;
   socklen_t lon = sizeof(int);
@@ -137,7 +154,6 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_write(iotc_bsp_socket_t iotc_socket,
     if (ECONNRESET == errval || EPIPE == errval) {
       return IOTC_BSP_IO_NET_STATE_CONNECTION_RESET;
     }
-
     return IOTC_BSP_IO_NET_STATE_ERROR;
   }
 

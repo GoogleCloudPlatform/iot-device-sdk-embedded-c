@@ -1,7 +1,7 @@
 # Copyright 2018-2019 Google LLC
 #
-# This is part of the Google Cloud IoT Device SDK for Embedded C,
-# it is licensed under the BSD 3-Clause license; you may not use this file
+# This is part of the Google Cloud IoT Device SDK for Embedded C.
+# It is licensed under the BSD 3-Clause license; you may not use this file
 # except in compliance with the License.
 #
 # You may obtain a copy of the License at:
@@ -30,15 +30,6 @@ endif
 
 ifndef IOTC_LIBCRYPTO_AVAILABLE
     IOTC_UTEST_EXCLUDED += iotc_utest_jwt_openssl_validation.c
-endif
-
-# removing TLS layer related tests in case TLS is turned off from compilation
-ifdef IOTC_NO_TLS_LAYER
-    IOTC_UTEST_EXCLUDED += iotc_utest_bsp_crypto_base64.c
-    IOTC_UTEST_EXCLUDED += iotc_utest_bsp_crypto_sha256.c
-    IOTC_UTEST_EXCLUDED += iotc_utest_bsp_crypto_ecc.c
-    IOTC_UTEST_EXCLUDED += iotc_utest_bsp_crypto_jwt.c
-    IOTC_UTEST_EXCLUDED += iotc_utest_bsp_crypto_jwt_openssl_validation.c
 endif
 
 IOTC_UTEST_EXCLUDED := $(addprefix $(IOTC_UTEST_SOURCE_DIR)/, $(IOTC_UTEST_EXCLUDED))

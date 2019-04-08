@@ -1,7 +1,7 @@
 /* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Device SDK for Embedded C,
- * it is licensed under the BSD 3-Clause license; you may not use this file
+ * This is part of the Google Cloud IoT Device SDK for Embedded C.
+ * It is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
  * You may obtain a copy of the License at:
@@ -73,15 +73,6 @@ IOTC_TT_TESTCASE_PREDECLARATION(utest_helper_functions);
 IOTC_TT_TESTCASE_PREDECLARATION(utest_mqtt_serializer);
 IOTC_TT_TESTCASE_PREDECLARATION(utest_handle);
 IOTC_TT_TESTCASE_PREDECLARATION(utest_timed_task);
-
-#ifndef IOTC_NO_TLS_LAYER
-IOTC_TT_TESTCASE_PREDECLARATION(utest_bsp_crypto_base64);
-IOTC_TT_TESTCASE_PREDECLARATION(utest_bsp_crypto_sha256);
-IOTC_TT_TESTCASE_PREDECLARATION(utest_bsp_crypto_ecc);
-#ifdef IOTC_LIBCRYPTO_AVAILABLE
-IOTC_TT_TESTCASE_PREDECLARATION(utest_jwt_openssl_validation);
-#endif
-#endif
 
 #ifdef IOTC_MEMORY_LIMITER_ENABLED
 IOTC_TT_TESTCASE_PREDECLARATION(utest_memory_limiter);
@@ -229,12 +220,6 @@ struct testgroup_t groups[] = {
 #endif
 
     {"utest_rng - ", utest_rng},
-
-#ifndef IOTC_NO_TLS_LAYER
-    {"utest_bsp_crypto_base64 - ", utest_bsp_crypto_base64},
-    {"utest_bsp_crypto_sha256 - ", utest_bsp_crypto_sha256},
-    {"utest_bsp_crypto_ecc - ", utest_bsp_crypto_ecc},
-#endif
 
     END_OF_GROUPS};
 

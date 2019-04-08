@@ -1,7 +1,7 @@
 /* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Device SDK for Embedded C,
- * it is licensed under the BSD 3-Clause license; you may not use this file
+ * This is part of the Google Cloud IoT Device SDK for Embedded C.
+ * It is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
  * You may obtain a copy of the License at:
@@ -30,49 +30,34 @@ extern "C" {
 #endif
 
 /*! \file
- * @brief The main API for compiling your Application against the
- * the Google Cloud IoT Device SDK for Embedded C (IoTC).
+ * @brief Securely connect client applications to Google Cloud IoT Core.
  *
  * \mainpage Google Cloud IoT Device SDK for Embedded C API
  *
  * # Welcome
- * The functions of the main IoTC Client API are used to build a client
- * connection to the Google Cloud IoT Core Service over a secure socket, and
- * publish / subscribe to messages over MQTT.
- * This documention, in conjuction with the IoTC Client User Guide
- * (<code>/doc/user_guide.md</code>) and source examples in
- * <code>/examples/</code>, should provide
- * you with enough information to create your custom
- * IoTC Client-enabled applications.
+ * The Device SDK API securely connects client applications to Cloud IoT Core
+ * in order to publish and subscribe to messages via MQTT.
  *
- * If you're looking for information on how to port the IoTC Client
- * to your custom embedded device, then please direct your attention to the
- * Board Support Package (BSP) documentation.  This exists in two parts, the
- * IoTC Client Porting Guide (<code>/doc/porting_guide.md</code>) and the
- * <a href="../../bsp/html/index.html">BSP doxygen</a>.
+ * To port the Device SDK to your device, review the Board Support Package (BSP)
+ * <a href="../../bsp/html/index.html">reference</a> and
+ * <a href="../../../porting_guide.md">porting guide</a>.
  *
- * # Where to Start
- * All of the standard IoTC Client API functions are contained within
- * the <code>/include</code> directory of the project's base path, and have the
- * 'iotc' prefix. We suggest clicking on iotc.h in the doxygen
- * File tab to get started.
+ * # Getting started
+ * All of the standard Device SDK API functions are in the <code>/include</code>
+ * directory and have the 'iotc' prefix. To get started, navigate to the
+ * <b>File</b> tab and open <code>iotc.h</code>.
  *
- * For most POSIX systems this might be all of the documentation that
- * you need. However, if you're building the library to be exeucted on your
- * own custom platform with non POSIX library support, then you may also
- * need to browse the Board Support Package (BSP) functions as well.
- * These functions are documented in the BSP doxygen documentation
- * contained in a sibling directory as this doxygen.
+ * These documents are a complete reference for POSIX systems. Use the <a
+ * href="../../bsp/html/index.html">BSP</a> to build the Device SDK on a custom,
+ * non-POSIX platform.
  *
- * # Further Reading
- * <ul><li><a href="../../bsp/html/index.html">
- * IoTC Board Support Package doxygen</a></li>
+ * # Further reading
+ * <ul><li>Device SDK <a href="../../bsp/html/index.html">BSP reference</a></li>
  * <li>
  * <a href="http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html">
  * MQTT v3.1.1 Specification</a></li>
- * <li> IoTC Client Users Guide (<code>/doc/user_guide.md</code>)</li>
- * <li> IoTC Client Porting Guide (<code>/doc/porting_guide.md</code>)</il>
-
+ * <li>Device SDK <a href="../../../user_guide.md">user guide</a></li>
+ * <li>Device SDK <a href="../../../porting_guide.md">porting guide</a></li>
  * </ul>
  */
 
@@ -81,103 +66,108 @@ extern "C" {
  * ----------------------------------------------------------------------- */
 
 /**
- * @brief     Required before use of the IoTC Client library.
- * @detailed  This should be the first function that you call on a new runtime.
+ * @brief Initialize libraries. Required operation.
  *
- * @retval IOTC_STATE_OK              Status OK
+ * Applications should call this first when starting a new runtime.
+ *
+ * @retval IOTC_STATE_OK Status OK.
  */
 extern iotc_state_t iotc_initialize();
 
 /**
- * @brief     Signals the IoTC Client library to cleanup any internal memory.
- * @detailed  This should by the last function called while shutting down your
- * application. Any resources that were created during initialization will be
- * cleaned up and freed.
+ * @brief Free all resources created during initialization.
  *
- * Note that you should always clean up IoTC contexts individually with
- * iotc_delete_context
+ * Call to shut down the Device SDK and to free any of its resources.
+ *
+ * <b>Note</b>: Clean up contexts individually with
+ * <code>iotc_delete_context()</code> before calling this function.
  *
  * @see iotc_initialize
  * @see iotc_create_context
  * @see iotc_delete_context
  * @see iotc_shutdown_connection
  *
- * @retval IOTC_STATE_OK              Status OK
- * @retval IOTC_FAILED_INITIALIZATION An urecoverable error occured
+ * @retval IOTC_STATE_OK Status OK.
+ * @retval IOTC_FAILED_INITIALIZATION An urecoverable error occurred.
  */
 extern iotc_state_t iotc_shutdown();
 
 /**
- * @brief     Creates a connection context for subscriptions and publications
- * @detailed  This should by invoked following a successful libiotc
- * initialization.  This  creates a specific context that can be passed to
- * connection, subscription, and publish functions.
+ * @brief Create a connection context.
+ *
+ * Invoke after initalizing <code>libiotc</code> through
+ *      <code>iotc_initialize()</code>.
  *
  * @see iotc_initialize
  * @see iotc_delete_context
  *
- * @retval nonnegative number         A valid context handle.
- * @retval negative number            A negated error code, defined in
- * iotc_error.h.
+ * @retval nonnegative_number a valid context handle is created.
+ * @retval negative_number If the function fails, it returns the
+ *     <a href="~/include/iotc_error.h">error code</a> multiplied by -1.
  */
 extern iotc_context_handle_t iotc_create_context();
 
 /**
- * @brief     Frees the provided connection context
- * @detailed  This should by invoked to free up memory when your applicaiton has
- * disconnected from the Google Cloud IoT Core service through the given
- * context.
+ * @brief Frees the provided context.
  *
- * You may reuse a disconnected context to attempt to reconnect
- * to the service; you do not need to destroy a disconnected context and create
- * a new one.
+ * Invoke to free memory after the client application disconnects
+ * from Cloud IoT Core.
  *
- * NOTE: Please do not delete the context in the disconnection callback
- * itself. Doing so many cause data corruption or a crash after the connect
- * callback returns.  Instead, delete the context either  on the next tick of
- * the client event loop in iotc_process_events_tick, or on POSIX, after
- * iotc_process_blocking returns due to a call to iotc_events_stop.
+ * You may reuse disconnected contexts to reconnect to Cloud IoT Core;
+ * you don't need to destroy and recreate contexts.
  *
- * @param [in] context handle that should be freed.
+ * Do not delete a context in the connection callback.
+ *
+ * On POSIX systems, the client application must delete the context after
+ * <code>iotc_process_blocking()</code> returns.
+ *
+ * On non-POSIX systems, the application must delete the context on the
+ * event loop tick after the disconnection event (not in the disconnection
+ * callback itself).
+ *
+ * @param [in] context Context handle to free.
  *
  * @see iotc_create_context
  *
- * @retval IOTC_STATE_OK           Status OK
- * @retval IOTC_INVALID_PARAMETER  If the provided context handle is invalid.
+ * @retval IOTC_STATE_OK Status OK.
+ * @retval IOTC_INVALID_PARAMETER The provided context handle is invalid.
  */
 extern iotc_state_t iotc_delete_context(iotc_context_handle_t context_handle);
 
 /**
- * @brief     Used to determine the state of a IoTC Client context's connection
- * to the remote service.
+ * @brief Determine if a context is connected to Cloud IoT Core.
  *
- * @param [in] context handle to determine the connection status of.
+ * @param [in] context Handle of which to determine the connection.
  *
  * @see iotc_create_context
  * @see iotc_connect
  * @see iotc_connect_to
  *
- * @retval 1 if the context is currently connected
- * @retval 0 if the context is invalid, or the connection is currently any one
- * of the other following states: Unitialized, connecting, closing or closed.
+ * @retval 1 The context is currently connected
+ * @retval 0 The context is invalid or the connection is currently any one
+ *     of the other following states: unitialized, connecting, closing, or
+ * closed.
  */
 extern uint8_t iotc_is_context_connected(iotc_context_handle_t context_handle);
 
 /**
- * @brief     Invokes the IoTC Client Event Processing loop.
- * @detailed  This function is meant to be execute the IoTC Client
- * as the main application process and therefore it does not return
- * until iotc_events_stop is invoked.
+ * @brief Invoke the event processing loop.
  *
- * If you're executing on a platform that cannot block indefinitely, then
- * please use iotc_events_process_tick instead.
+ * The IoT Device SDK has an event queueing mechanism to faciliate connection,
+ * subscription and publication requests in a non blocking, asynchronous manner.
  *
- * NOTE: if the client is in a state of IOTC_EVENT_PROCESS_STOPPED,
- * then the client will need to be destroyed and reiniitalized before the event
- * engine will properly process events again.  Therefore, stopping the event
- * system should be used sparringly, most likely in the standard process of
- * a reboot operation, or on POSIX, the standard process of client application
- * shutdown.
+ * Calling this function will execute the Device SDKs event engine as the main
+ * application process.  This function will not return until
+ * <code>iotc_events_stop()</code> is invoked.
+ *
+ * Alternatively, call <code>iotc_events_process_tick()</code> to process events
+ * on platforms that have main application loops which cannot block
+ * indefinitely.
+ *
+ * <b>Note</b>: The event engine won't process events when the Device SDK
+ * is in the IOTC_EVENT_PROCESS_STOPPED state. Invoke
+ * <code>iotc_shutdown()</code> and then reinitialize the Device SDK with
+ * <code>iotc_initialize</code> to process events again.
  *
  * @see iotc_events_process_tick
  * @see iotc_events_stop
@@ -185,43 +175,32 @@ extern uint8_t iotc_is_context_connected(iotc_context_handle_t context_handle);
 extern void iotc_events_process_blocking();
 
 /**
- * @brief     Invokes the IOTC Client Event Processing loop.
- * @detailed This function will begin to process any pending tasks but then
- * return control to the client application.
+ * @brief Invoke the event processing loop.
  *
- * This function should be used on Embedded devices
- * only. It is meant for RTOS or No OS devices which require that control be
- * yielded to the OS for standard tick operations.
+ * This function proccesses any pending tasks of a non-blocking manner and
+ * returns control back to the client application.
  *
- * NOTE: This function WILL BLOCK on standard UNIX devices like LINUX or MAC
- * OSX.
+ * Recommended for RTOS or non-OS devices that must yield for standard tick
+ * operations.
  *
- * NOTE: if the client is in a state of IOTC_EVENT_PROCESS_STOPPED,
- * then the client will need to be destroyed and reiniitalized before the event
- * engine will properly process events again.  Therefore, stopping the event
- * system should be used sparringly, most likely in the standard process of
- * a reboot operation, or on POSIX, the standard process of client application
- * shutdown.
- *
- * IOTC_STATE_OK will be returned if the event system is ongoing and
- * can continue to operate
- *
- * IOTC_EVENT_PROCESS_STOPPED will be returned if iotc_events_stop
- * has been invoked by the client application or if the event
- * processor has been stopped due to an unrecoverable error.
+ * <b>Note</b>: The event engine won't process events when the Device SDK
+ * is in the IOTC_EVENT_PROCESS_STOPPED state. Invoke
+ * <code>iotc_shutdown()</code> and then reinitialize the Device SDK with
+ * <code>iotc_initialize</code> to process events again.
  *
  * @see iotc_events_process_blocking
  * @see iotc_events_stop
  *
- * @retval IOTC_STATE_OK           Status OK.
- * @retval IOTC_EVENT_PROCESS_STOPPED  If the event processor has been stopped.
+ * @retval IOTC_STATE_OK Status OK. The event system is ongoing and
+ *     can continue to operate.
+ * @retval IOTC_EVENT_PROCESS_STOPPED The event processor stopped because the
+ *     client application invoked <code>iotc_events_stop()</code> or an
+ *     unrecoverable error occurred.
  */
 extern iotc_state_t iotc_events_process_tick();
 
 /**
- * @brief     Causes the IoTC Client event loop to exit.
- * @detailed  Used to exit the blocking event loop, or to signal
- * that an irrecoverable event has occurred.
+ * @brief Shuts down the event engine.
  *
  * @see iotc_events_process_blocking
  * @see iotc_events_process_tick
@@ -229,51 +208,46 @@ extern iotc_state_t iotc_events_process_tick();
 extern void iotc_events_stop();
 
 /**
- * @brief Opens a connection to the Google Cloud IoT Core service using the
- * provided context.  Includes a callback.
- * @detailed  Using the provided context, this function requests that a
- * connection be made to the Google Cloud IoT Core service given the
- * provided credentials. The callback method is a connection state
- * monitor callback, and will be invoked when this connection attempt
- * completes successfully, has failed, or after disconnection if a
- * connection was established.
+ * @brief Connect to Cloud IoT Core with the provided context.
  *
- * The callback function is type defined by iotc_user_callback_t, which has
- * the following signature:
+ * This parameters include a pointer to connection state monitor callback
+ * function.
+ *
+ * <code>iotc_user_callback_t()</code> defines the connection state monitor
+ * callback. <code>iotc_user_callback_t()</code> has the following signature:
  *    void foo( iotc_context_handle_t in_context_handle
  *                  , void* data
  *                  , iotc_state_t state )
  *
- * where the callback parameters are:
- *   - in_context_handle is the context handle that you provided to
- *     iotc_connect
- *   - data is a multifunctional structure. Please see the IoTC User Guide
- *     or examples/ for More Information.
- *   - state should be IOTC_STATE_OK if the connection succeeded. For other
- *     error codes please see the IoTC User Guide or Examples.
+ * The following are the <code>iotc_user_callback_t()</code> callback function
+ * parameters:
+ *   - in_context_handle: the context handle provided to
+ * <code>iotc_connect()</code>.
+ *   - data: a multifunctional structure in the client application. See the <a
+ * href="../../../porting_guide.md">porting guide</a> or <code>examples/</code>
+ * for more information.
+ *   - state: IOTC_STATE_OK if the connection succeeds. See <code><a
+ * href="~/include/iotc_error.h">iotc_error.h</a></code> for more error codes.
  *
- * @param [in] iotc_h a context handle created by invoking
- * iotc_create_context.
- * @param [in] username the MQTT Connect Username. For IoT Core, this
- * parameter is unused.
- * @param [in] password the MQTT Connect Password. For IoT Core, this
- * should be the IoT Core Connecting JWT created by the function
- * iotc_create_iotcore_jwt.
- * @param [in] client_id the MQTT connect client identifier. For IoT Core, this
- * must be the device_path of your device. Please see
- * https://cloud.google.com/iot/docs/how-tos/mqtt-bridge which details
- * how to construct the device path string.
- * @param [in] connection_timeout Number of seconds that the socket will be
- * kept before CONNACK without data coming from the server. In case of 0,
- * the TCP timeout will be used.
- * @param [in] keepalive_timeout Number of seconds that the socket will be
- * kept connected while being unused.
+ * @param [in] iotc_h A context handle created by invoking
+ * <code>iotc_create_context()</code>.
+ * @param [in] username The MQTT username. Cloud IoT Core ignores this
+ * parameter.
+ * @param [in] password The MQTT password. Cloud IoT Core requires a JWT. Create
+ * a JWT with the <code>iotc_create_iotcore_jwt()</code> function.
+ * @param [in] client_id The MQTT client identifier. Cloud IoT Core requires a
+ *     <a
+ * href="https://cloud.google.com/iot/docs/how-tos/mqtt-bridge#device_authentication">device
+ * path</a>.
+ * @param [in] connection_timeout The number of seconds to keep the socket
+ * before CONNACK. If 0, the TCP timeout is used.
+ * @param [in] keepalive_timeout The number of seconds that the MQTT service
+ * keeps the socket is be kept open without hearing from the client.
  *
  * @see iotc_create_context
  * @see iotc_create_iotcore_jwt
  *
- * @retval IOTC_STATE_OK  If the connection request was formatted
- * correctly and the client is processing the request with IoT Core.
+ * @retval IOTC_STATE_OK The connection request is correctly enqueued.
  */
 extern iotc_state_t iotc_connect(iotc_context_handle_t iotc_h,
                                  const char* username, const char* password,
@@ -283,14 +257,13 @@ extern iotc_state_t iotc_connect(iotc_context_handle_t iotc_h,
                                  iotc_user_callback_t* client_callback);
 
 /**
- * @brief Opens a MQTT connection to a custom service endpoint using the
- * provided context, host and port.
+ * @brief Connect to a custom service endpoint via MQTT.
  *
- * @param [in] host client will connect to this address
- * @param [in] port client will connect to the host on this port
+ * @param [in] host Address at which the client connects.
+ * @param [in] port Port of the host on which to connect.
  *
  * This function's behavior and other parameters are identical to
- * function iotc_connect.
+ * the <code>iotc_connect()</code> function.
  *
  * @see iotc_connect
  */
@@ -302,49 +275,51 @@ extern iotc_state_t iotc_connect_to(iotc_context_handle_t iotc_h,
                                     uint16_t keepalive_timeout,
                                     iotc_user_callback_t* client_callback);
 
-/*
- * @detailed  Using the provided context, this function requests that a message
- * be delivered to the IoT Core service on the given topic. This requires that a
- * connection has already been established to the IoT Core service via a call
- * to iotc_connect or iot_connect_to.
+/**
+ * @brief Publish a message to Cloud IoT Core on a given topic.
  *
- * The callback function should have the following signature:
+ * To publish a message, the device must already be connected to Cloud IoT Core.
+ * Please see <code>iotc_connect()</code> or <code>iot_connect_to()</code> to
+ * connect to Cloud IoT Core.
+ *
+ * The callback function has the following signature:
+ *  <pre>
  *  void foo( iotc_context_handle_t in_context_handle
  *                , void* user_data
  *                , iotc_state_t state )
+ *  </pre>
  *
- * where the callback parameters are:
- *   - in_context_handle is context handle that you provided to iotc_publish.
- *   - user_data is the value that the application passed in the user_data
- * parameter of the publish call (below.) This can be used for you attach
- * any sort support data or relevant data that would help identify the message.
- *   - state should be IOTC_STATE_OK if the publication succeded, or a non ok
- * value if the publish failed.
+ * The callback parameters are:
+ *   - in_context_handle: A context handle provided to
+ * <code>iotc_publish()</code>.
+ *   - user_data: (Optional) The value that the client application passed to the
+ * <code>iotc_publish()</code>.
+ *   - state: IOTC_STATE_OK The publication has succeeded. For information on
+ * other error codes, see the <a href="../../../porting_guide.md">porting
+ * guide</a> or <code>examples/</code> directory.
  *
- * please return IOTC_STATE_OK for these callbacks.
  *
- * @param [in] iotc_h a context handle created by invoking iotc_create_context.
- * @param [in] topic a string based topic name that you have created for
- * messaging via the IoT Core webservice.
- * @param [in] msg the payload to send to the IoT Core service.
- * @param [in] qos Quality of Service MQTT level. 0, 1, or 2.  Please see MQTT
- * specification or iotc_mqtt_qos_e in iotc_mqtt_message.h for constant values.
- * Note: Currently Google Cloud IoT Core does not support QoS 2.
- * @param [in] callback Optional callback function that will be called upon
- * successful or unsuccessful msg delivery. This may be NULL.
- * @param [in] user_data Optional abstract data that will be passed to callback
- * when the publication completes. This may be NULL.
+ * @param [in] iotc_h A context handle created by invoking iotc_create_context.
+ * @param [in] topic A string based topic name that you have created for
+ *     messaging via the IoT Core webservice.
+ * @param [in] msg The payload of the message.
+ * @param [in] qos The Quality of Service (QoS) level. Can be <code>0</code>,
+ * <code>1</code>, or <code>2</code>. Cloud IoT Core doesn't support QoS
+ * level 2. For more information, see the MQTT specification or
+ * <code>iotc_mqtt_qos_e()</code> in <code>iotc_mqtt_message.h</code>.
+ * @param [in] callback (Optional) The callback function. Invoked after a
+ * message is successfully or unsuccessfully delivered.
+ * @param [in] user_data (Optional) Abstract data passed to a callback function.
  *
  * @see iotc_create_context
  * @see iotc_publish_data
  *
- * @retval IOTC_STATE_OK         If the publication request was formatted
- * correctly and has be queued for publication.
- * @retval IOTC_OUT_OF_MEMORY    If the platform did not have enough free memory
- * to fulfill the request.
- * @retval IOTC_INTERNAL_ERROR   If an unforseen and unrecoverable error has
- * occurred.
- * @retval IOTC_BACKOFF_TERMINAL If backoff has been applied.
+ * @retval IOTC_STATE_OK The publication request is correctly formatted and
+ *     queued for publication.
+ * @retval IOTC_OUT_OF_MEMORY The platform doesn't have enough memory
+ *     to fulfull the request.
+ * @retval IOTC_INTERNAL_ERROR An unrecoverable error occurred.
+ * @retval IOTC_BACKOFF_TERMINAL Backoff applied.
  */
 extern iotc_state_t iotc_publish(iotc_context_handle_t iotc_h,
                                  const char* topic, const char* msg,
@@ -353,27 +328,26 @@ extern iotc_state_t iotc_publish(iotc_context_handle_t iotc_h,
                                  void* user_data);
 
 /**
- * @brief     Publishes binary data to the Google Cloud IoT service on the given
- * topic.
- * @detailed Using the provided context, this function requests that binary data
- * be delivered to the IoT Core service on the given topic. This requires that a
- * connection already be made to the IoT Core service via a iotc_connect call.
+ * @brief Publish binary data to Cloud IoT Core on a given topic.
  *
- * Note: This function is idential to iotc_publish except that it
- * doesn't assume a null terminated string. Instead a pointer and data
- * length are provided.
+ * To publish a message, the device must already be connected to Cloud IoT Core.
+ * The Device SDK calls <code>iotc_connect()</code> or
+ * <code>iot_connect_to()</code> to connect to Cloud IoT Core.
  *
- * @param [in] data the payload to send to the IoT Core service.
- * @param [in] data_len the size in bytes of the data buf to send.
+ * Unlike <code>iotc_publish()</code>, <code>iotc_publish_data()</code>
+ * accepts a pointer and data length instead of a null-terminated string.
+ *
+ * @param [in] data The message payload.
+ * @param [in] data_len The size of the message, in bytes.
  *
  * @see iotc_create_context
  * @see iotc_publish
+ * @see iotc_publish_data
  *
- * @retval IOTC_STATE_OK If the publication request was formatted correctly.
- * @retval IOTC_OUT_OF_MEMORY   If the platform did not have enough free memory
- * to fulfill the request.
- * @retval IOTC_INTERNAL_ERROR  If an unforseen and unrecoverable error has
- * occurred.
+ * @retval IOTC_STATE_OK The publication request is correctly formatted.
+ * @retval IOTC_OUT_OF_MEMORY The platform doesn't have enough memory
+ *     to fulfull the request.
+ * @retval IOTC_INTERNAL_ERROR An unrecoverable error occurred.
  */
 extern iotc_state_t iotc_publish_data(iotc_context_handle_t iotc_h,
                                       const char* topic, const uint8_t* data,
@@ -383,56 +357,57 @@ extern iotc_state_t iotc_publish_data(iotc_context_handle_t iotc_h,
                                       void* user_data);
 
 /**
- * @brief     Subscribes to notifications if a message from the Google
- * Cloud IoT Core service is posted to the given topic.
- * @detailed  Using the provided context, this function formats a request to
- * subscribe to a topic in the IoT Core service.  If the subscription is
- * successful then incoming messages will be provided to the callback function.
- * Subscription falures will also invoke the callback function with parameters
- * that denote the error.
+ * @brief Subscribe to an MQTT topic via Cloud IoT Core.
  *
- * The callback function is type defined by iotc_user_callback_t, which has the
- * following siguature:
+ * Makes an MQTT request to Cloud IoT core for topic subscription request.
+ *
+ * After subscribing to an MQTT topic, incoming messages will be delivered to
+ *the callback function. If the client application can't subscribe to the MQTT
+ *topic, the callback function will return information about the error.
+ *
+ * <code>iotc_user_callback_t</code> defines the subscription callback function.
+ * <code>iotc_user_callback_t</code> has the following signature:
+ *    <pre>
  *    void foo( iotc_context_handle_t in_context_handle,
  *          iotc_sub_call_type_t call_type,
  *          const iotc_sub_call_params_t* const params,
  *          iotc_state_t state,
  *          void* user_data )
+ *    </pre>
  *
- * where:
- *   - context_handle is the context handle you provided to iotc_subscribe.
- *   - call_type each callback invocation may be related to subscription
- * confirmation or a new message, this enum points to the type of the
- * invocation.
- *   - params is a structure that holds the details about the subscription
- * confirmation or new message.  The data in this structure will vary depending
- * on the call_type value
- *   - state should be IOTC_STATE_OK if the message reception succeeded or
- * IOTC_MQTT_SUBSCRIPTION_SUCCESSFULL/IOTC_MQTT_SUBSCRIPTION_FAILED in case of
- * successfull / failed subscription, values different than described should be
- * treated as errors.
- *   - user_data is the pointer you provided to user parameter in iotc_subscribe
+ * The <code>iotc_user_callback_t</code> parameters are:
+ *   - context_handle: The context handle provided to
+ *<code>iotc_subscribe</code>.
+ *   - call_type: The type of callback invocation. Each callback invocation may
+ *be related to a subscription confirmation or a new message.
+ *   - params: The details about subscription confirmations or new messages. The
+ *data in this structure varies by call_type value.
+ *   - state: IOTC_STATE_OK The operation succeeded. For information on other
+ *error codes, see the <a href="../../../porting_guide.md">porting guide</a> or
+ *<code>examples/</code> directory.
+ *   - user_data: The pointer from the corresponding <code>iotc_subscribe</code>
+ *user .        parameter.
  *
- * @param [in] iotc_h a context handle created by invoking iotc_create_context
- * @param [in] topic a string based topic name that you have created for
- * messaging via the IoT Core webservice.
- * @param [in] qos Quality of Service MQTT level. 0, 1, or 2.  Please see MQTT
- * specification or iotc_mqtt_qos_e in iotc_mqtt_message.h for constant values.
- * @param [in] callback a function pointer to be invoked when a
- * message arrives, as described above
- * @param [in] user a pointer that will be returned back during the callback
- * invocation
+ * @param [in] iotc_h A context handle created by invoking iotc_create_context.
+ * @param [in] topic A string with the name of an MQTT topic.
+ * @param [in] qos The Quality of Service (QoS) level. Can be <code>0</code>,
+ *<code>1</code>, or <code>2</code>. Cloud IoT Core doesn't support QoS level 2.
+ *For more information, see the MQTT specification or
+ *<code>iotc_mqtt_qos_e</code> in <code>iotc_mqtt_message.h</code>.
+ * @param [in] callback The callback function. Invoked after a message is
+ *     successfully or unsuccessfully received.
+ * @param [in] user_data (Optional) A pointer which will be passed to the
+ *callback function's user_data parameter.
  *
  * @see iotc_create_context
  * @see iotc_connect
  * @see iotc_publish
  * @see iotc_publish_data
  *
- * @retval IOTC_STATE_OK If the publication request was formatted correctly.
- * @retval IOTC_OUT_OF_MEMORY   If the platform did not have enough free memory
- * to fulfill the request.
- * @retval IOTC_INTERNAL_ERROR  If an unforseen and unrecoverable error has
- * occurred.
+ * @retval IOTC_STATE_OK The subscription request is correctly formatted.
+ * @retval IOTC_OUT_OF_MEMORY The platform doesn't have enough memory
+ *     to fulfull the request.
+ * @retval IOTC_INTERNAL_ERROR An unrecoverable error occurred.
  */
 extern iotc_state_t iotc_subscribe(iotc_context_handle_t iotc_h,
                                    const char* topic, const iotc_mqtt_qos_t qos,
@@ -440,16 +415,16 @@ extern iotc_state_t iotc_subscribe(iotc_context_handle_t iotc_h,
                                    void* user_data);
 
 /**
- * @brief     Closes the connection associated with the provide context.
- * @detailed  Closes the connection to the Google Cloud IoT Core Service.  This
- * will happen asynchronously. The callback is defined by iotc_connect.
+ * @brief Asynchronously disconnect from Cloud IoT Core.
  *
- * @param [in] iotc_h a context handle created by invoking iotc_create_context.
+ * After disconnecting, the Device SDK invokes the <code>iotc_connect()</code>
+ * callback with a disconnection status code in the state parameter.
+ *
+ * @param [in] iotc_h A context handle created by invoking iotc_create_context.
  *
  * @retval IOTC_SOCKET_NO_ACTIVE_CONNECTION_ERROR If there is no connection for
  * this context.
- * @retval IOTC_STATE_OK If the disconnection request has been queued for
- * process.
+ * @retval IOTC_STATE_OK If the disconnection request is enqueued.
  *
  * @see iotc_create_context
  * @see iotc_connect
@@ -457,45 +432,44 @@ extern iotc_state_t iotc_subscribe(iotc_context_handle_t iotc_h,
 extern iotc_state_t iotc_shutdown_connection(iotc_context_handle_t iotc_h);
 
 /**
- * @brief     Schedule a task for timed execution
- * @detailed Using the provided context, this function adds a task to the
- * internal event system. The callback method will be invoked when the given
- * time has passed.
+ * @brief Execute a function after a number of elapsed seconds.
  *
- * The callback function should have the following siguature:
- *  typedef void ( iotc_user_task_callback_t ) ( const iotc_context_handle_t
- *    context_handle, const iotc_timed_task_handle_t, timed_task_handle, void*
- *    user_data );
+ * The callback method will be invoked by the Device SDK event system after a
+ * specified number of seconds.
  *
- * where:
- *   - in_context_handle the context handle you provided to
- * iotc_schedule_timed_task
- *   - timed_task_handle is the handle that iotc_schedule_timed_task call
- * returned, this can be used to cancel the task if the task is no longer needed
- * from within the callback
- *   - user_data is the data you provided to iotc_schedule_timed_task
+ * The callback function has the following signature:
+ *    <pre>
+ *    typedef void ( iotc_user_task_callback_t ) ( const iotc_context_handle_t
+ *      context_handle, const iotc_timed_task_handle_t, timed_task_handle, void*
+ *      user_data );
+ *    <pre>
  *
- * @param [in] iotc_h a context handle created by invoking iotc_create_context.
- * @param [in] iotc_user_task_callback_t* a function pointer to be invoked when
- * given time has passed.
- * @param [in] seconds_from_now number of seconds to wait before task
- * invocation.
- * @param [in] repeats_forever if zero is passed the callback will be called
- * only once, otherwise the callback will be called continuously with the
- * seconds_from_now delay until iotc_cancel_timed_task() called.
+ * The callback parameters are:
+ *   - in_context_handle: The context handle provided to
+ * <code>iotc_schedule_timed_task</code>.
+ *   - timed_task_handle: The handle <code>iotc_schedule_timed_task</code>
+ * returns.
+ *   - user_data: The optional data provided to
+ * <code>iotc_schedule_timed_task</code>.
+ *
+ * @param [in] iotc_h A context handle created by invoking
+ * <code>iotc_create_context</code>.
+ * @param [in] iotc_user_task_callback_t* A function invoked after a specified
+ *    amount of time.
+ * @param [in] seconds_from_now The number of seconds to wait before invoking
+ *     the <code>iotc_user_task_callback_t*</code> function.
+ * @param [in] repeats_forever The callback is repeatedly executed at
+ *     seconds_from_now intervals. If the repeats_forever parameter is set to
+ *     <code>0</code>, the callback is executed only once.
+ * @param [in] data (Optional) A pointer which will be passed to the callback
+ * function's user_data parameter.
  *
  * @see iotc_create_context
  * @see iotc_cancel_timed_task
  *
- * @retval iotc_time_task_handle_t if bigger than 0 it's the unique identifier
- * of the task, if smaller, it's an error code multiplied by -1, the possible
- * error codes are:
- *
- *  - IOTC_STATE_OK If the request was formatted correctly.
- *  - IOTC_OUT_OF_MEMORY If the platform did not have enough free
- * memory to fulfill the request
- *  - IOTC_INTERNAL_ERROR  If an unforseen and unrecoverable error has
- * occurred.
+ * @retval iotc_time_task_handle_t A unique identifier for the scheduled task.
+ * If the function encounters an error, iotc_time_task_handle_t is the <a
+ * href="~/include/iotc_error.h">error code</a> multiplied by -1.
  */
 iotc_timed_task_handle_t iotc_schedule_timed_task(
     iotc_context_handle_t iotc_h, iotc_user_task_callback_t* callback,
@@ -503,11 +477,10 @@ iotc_timed_task_handle_t iotc_schedule_timed_task(
     void* data);
 
 /**
- * @brief     Cancel a timed task
- * @detailed  This function cancels the timed execution of the task specified
- * by the given handle.
+ * @brief Cancel a timed task by removing it from the internal event system.
  *
- * @param [in] timed_task_handle a handle returned by iotc_schedule_timed_task.
+ * @param [in] timed_task_handle The handle
+ * <code>iotc_schedule_timed_task</code> returned.
  *
  * @see iotc_create_context
  * @see iotc_schedule_timed_task
@@ -520,17 +493,17 @@ void iotc_cancel_timed_task(iotc_timed_task_handle_t timed_task_handle);
  * ---------------------------------------------------------------------- */
 
 /**
- * @brief     Timeout value that's passed to the networking implementation
- * @detailed  This function configures how long a socket will live while there
- * is no data sent on the socket.  Note that the MQTT Keep Alive
- * value configured in the iotc_connect will cause the IoTC Client to
- * periodically create network traffic, as part of the MQTT specification.
+ * @brief Set connection timeout.
  *
- * This value is only observed when constructing new connections, so invoking
- * this will not have any affect on on-going connections.
+ * Specify the number of seconds sockets remain open when data isn't passing
+ * through them. Note that the Device SDK periodically creates network traffic
+ * per MQTT specifications.
  *
- * @param [in] timeout a timeout value that will be passed to the implementing
- * networking layer during socket initialization.
+ * Only new connections observe this timeout.
+ *
+ * @param [in] timeout The number of seconds before timing out. This parameter
+ *     is passed to the implementing networking layer during socket
+ *     initialization to automatically keep connections open.
  *
  * @see iotc_connect
  * @see iotc_connect_to
@@ -539,82 +512,63 @@ void iotc_cancel_timed_task(iotc_timed_task_handle_t timed_task_handle);
 extern void iotc_set_network_timeout(uint32_t timeout);
 
 /**
- * @brief     Returns the timeout value for socket connections.
- * @detailed  Queries the current configuration of network timeout values that
- *will be fed to that native network implementation when sockets are
- *initialized.
+ * @brief Query the current network timeout value.
  *
  * @see iotc_set_network_timeout
  **/
 extern uint32_t iotc_get_network_timeout(void);
 
 /**
- * @brief     Sets Maximum Amount of Heap Allocated Memory the IoTC Client may
- * use.
- * @detailed  This function is part of an optional configuration of the IoTC
- * Client called the Memory Limiter.
+ * @brief Set the maximum heap memory the Device SDK can use.
  *
- * This system can be used to guarantee that the IoTC Client will use only a
- * certain amount of the heapspace during its standard execution.  On many
- * platforms this can also include the heap usage of the TLS implementation if
- * the TLS implementation can be written to use the IoTC malloc and free
- * functions.
+ * Restricts the heap memory that the Device SDK can use. The specified value is
+ * the maximum heapspace, in bytes, the Device SDK can use during standard
+ * execution.
  *
- * @param [in] max_bytes the upper bounds of memory that the IoTC Client will
- * use in its serialization, parsing and encryption of mqtt packets, and for the
- *  facilitation of Client Application callbacks and events.
+ * This function is part of the Device SDK <a
+ * href="../../../user_guide.md#memory-limiter">memory limiter</a>.
  *
- * @retval IOTC_NOT_SUPPORTED If the Memory Limiter module has not been compiled
- *  into this version of the IoTC Client Library
+ * @param [in] max_bytes The maximum amount of heap memory, in bytes, that
+ *     the Device SDK can use.
  *
- * @retval IOTC_OUT_OF_MEMORY If the new memory limit is too small to support
- *  the current IoTC Client heapspace footprint.
- *
- * @retval IOTC_STATE_OK the new memory limit has been set to the value
- *  specified by max_bytes.
+ * @retval IOTC_STATE_OK The new memory limit has been succesfully set.
+ * @retval IOTC_NOT_SUPPORTED The memory limiter module isn't compiled into the
+ * Device SDK.
+ * @retval IOTC_OUT_OF_MEMORY The new memory limit is too small to support
+ *     the current heapspace footprint.
  */
 iotc_state_t iotc_set_maximum_heap_usage(const size_t max_bytes);
 
 /**
- * @brief     Fetches the IoTC Client's current amount of heap usage
- * @detailed  This function is part of an optional configuration of the IoTC
- * Client called the Memory Limiter.  If enabled, you can use this function to
- * determine the current heap usage of the IoTC Client.  Depending on the TLS
- * implementation, this might also include the TLS buffers used for encoding /
- * decoding and certificate parsing.
+ * @brief  Query the Device SDK's current heap usage.
  *
- * @retval IOTC_NOT_SUPPORTED If the Memory Limiter module has not been compiled
- *  into this version of the IoTC Client Library
+ * Determines the bytes of heap memory that the Device SDK is using. This
+ * function is part of the Device SDK <a
+ * href="../../../user_guide.md#memory-limiter">memory limiter</a>.
  *
- * @retval IOTC_INVALID_PARAMETER If the provided parameter is NULL
- *
- * @retval IOTC_STATE_OK if the parameter has been filled-in with the IoTC
- * Client's current heap usage.
- *
+ * @retval IOTC_STATE_OK On success.
+ * @retval IOTC_NOT_SUPPORTED The memory limiter module isn't installed.
+ * @retval IOTC_INVALID_PARAMETER The parameter is provided but defined as NULL.
  */
 iotc_state_t iotc_get_heap_usage(size_t* const heap_usage);
 
 /**
- * @brief Contains the major version number of the IoTC Client
- * library.
+ * @brief The device SDK major version number.
  **/
 extern const uint16_t iotc_major;
 
 /**
- * @brief Contains the minor version number of the IoTC Client
- * library.
+ * @brief The device SDK minor version number.
  **/
 extern const uint16_t iotc_minor;
 
 /**
- * @brief Contains the revsion number of the IoTC Client library.
+ * @brief The device SDK revision number.
  **/
 extern const uint16_t iotc_revision;
 
 /**
- * @brief String representation of the Major.Minor.Revision version
- * of the IoTC Client library.
- * library.
+ * @brief The device SDK "major.minor.revision" version string.
  **/
 extern const char iotc_cilent_version_str[];
 
@@ -622,8 +576,7 @@ extern const char iotc_cilent_version_str[];
 #include "iotc_fs_api.h"
 
 /**
- * @brief     Sets filesystem functions so that the libiotc can use custom
- * filesystem
+ * @brief Permits The IoT Device SDK to use custom a filesystem.
  */
 iotc_state_t iotc_set_fs_functions(const iotc_fs_functions_t fs_functions);
 

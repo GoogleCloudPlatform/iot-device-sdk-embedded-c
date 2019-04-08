@@ -1,7 +1,7 @@
 # Copyright 2018-2019 Google LLC
 #
-# This is part of the Google Cloud IoT Device SDK for Embedded C,
-# it is licensed under the BSD 3-Clause license; you may not use this file
+# This is part of the Google Cloud IoT Device SDK for Embedded C.
+# It is licensed under the BSD 3-Clause license; you may not use this file
 # except in compliance with the License.
 #
 # You may obtain a copy of the License at:
@@ -33,7 +33,7 @@ MD ?= @
 IOTC_BSP_TLS ?= mbedtls
 
 # Cryptographic BSP implementation
-IOTC_BSP_CRYPTO ?= mbedtls
+IOTC_BSP_CRYPTO ?= $(IOTC_BSP_TLS)
 
 #detect if the build happen on Travis
 ifdef TRAVIS_OS_NAME
