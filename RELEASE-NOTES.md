@@ -1,5 +1,5 @@
 # Google Cloud IoT Core Device SDK for Embedded C version  1.0.1
-#### March 29, 2019
+#### April 8, 2019
 
 - The TLS Board Support Package (BSP) reference implementation for mbedTLS has been updated to use deterministic ECDSA signatures.
 
