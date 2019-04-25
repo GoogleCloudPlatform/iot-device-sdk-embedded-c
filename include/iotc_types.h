@@ -26,6 +26,10 @@
 extern "C" {
 #endif
 
+/*! \file
+ * @brief Custom data formats.
+ */
+
 #define IOTC_INVALID_CONTEXT_HANDLE -1
 #define IOTC_INVALID_TIMED_TASK_HANDLE -1
 
@@ -53,7 +57,7 @@ typedef int32_t iotc_timed_task_handle_t;
  *     <code>iotc_schedule_timed_task()</code>.
  * @param [in] timed_task_handle The handle that identifies the timed task.
  * @param [in] user_data the data provided to
- * <code>iotc_schedule_timed_task()</code>.
+ *     <code>iotc_schedule_timed_task()</code>.
  */
 typedef void(iotc_user_task_callback_t)(
     const iotc_context_handle_t context_handle,
@@ -72,10 +76,11 @@ typedef void(iotc_user_task_callback_t)(
  *     on the original API call. For example, the <code>iotc_connect()</code>
  *     callback returns the iotc_connection_data_t* type so
  *     <code>iotc_connection_data_t* conn_data =
- * (iotc_connection_data_t*)data;</code>.
+ *     (iotc_connection_data_t*)data;</code>.
  * @param [in] state IOTC_STATE_OK If the operation corresponding Device SDK
- * operation succeeded. See <code><a
- * href="~/include/iotc_error.h">iotc_error.h</a></code> for more error codes.
+ *     operation succeeded. See <code><a
+ *     href="~/include/iotc_error.h">iotc_error.h</a></code> for more error
+ *     codes.
  */
 typedef void(iotc_user_callback_t)(iotc_context_handle_t in_context_handle,
                                    void* data, iotc_state_t state);
@@ -86,15 +91,11 @@ typedef void(iotc_user_callback_t)(iotc_context_handle_t in_context_handle,
  *
  * The Device SDK passes this value to the user-defined subscription callback
  * function.
- *
- * @retval IOTC_SUB_UNKNOWN Unknown callback type. Check the state value.
- * @retval IOTC_SUBSCRIPTION_DATA_SUBACK Callback is a SUBACK notification.
- * @retval IOTC_SUBSCRIPTION_DATA_MESSAGE Callback is a MESSAGE notification.
  */
 typedef enum iotc_subscription_data_type_e {
-  IOTC_SUB_CALL_UNKNOWN = 0,
-  IOTC_SUB_CALL_SUBACK,
-  IOTC_SUB_CALL_MESSAGE
+  IOTC_SUB_CALL_UNKNOWN = 0, /** Unknown callback type. Check the state value. */
+  IOTC_SUB_CALL_SUBACK, /** Callback is a <code>SUBACK</code> notification. */
+  IOTC_SUB_CALL_MESSAGE /** Callback is a <code>MESSAGE</code> notification. */
 } iotc_sub_call_type_t;
 
 /**
@@ -133,7 +134,7 @@ typedef union iotc_sub_call_params_u {
 
 /**
  * @name iotc_user_subscription_callback_t
- * @brief Subscription callback.
+ * @brief The subscription callback.
  *
  * The subscription callback notifies the user that the subscribed
  * topic recieved messages.
@@ -152,65 +153,52 @@ typedef void(iotc_user_subscription_callback_t)(
 
 /**
  * @enum iotc_crypto_key_union_type_t
- * @brief Describes the iotc_crypto_key_union_t union structure.
- *
- *      - IOTC_CRYPTO_KEY_UNION_TYPE_PEM The key_pem.key pointer contains
- * a null-terminated PEM key string.
- *      - IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID A secure element for storage
- * of keys by slot index. Signals to the BSP the slot to be used for
- * cryptographic operations.
- *      - IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM The union contains untyped data.
- * The BSP must know the data format.
+ * @brief The iotc_crypto_key_union_t union structure.
  */
 typedef enum iotc_crypto_key_union_type_e {
-  IOTC_CRYPTO_KEY_UNION_TYPE_PEM = 0,
-  IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID,
-  IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM,
+  IOTC_CRYPTO_KEY_UNION_TYPE_PEM = 0, /** The <code>key_pem.key</code> pointer
+      contains a null-terminated PEM key string. */
+  IOTC_CRYPTO_KEY_UNION_TYPE_SLOT_ID, /** The union contains a secure 
+      element for storage of keys by slot index. This is the slot that the
+      BSP uses for cryptographic operations. */
+  IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM, /** The union contains untyped data.
+      The BSP must know the data format. */
 } iotc_crypto_key_union_type_t;
 
 /* @union iotc_crypto_key_union_t
- * @brief Describe the public or private key data.
- *
- * 1. key A PEM-formatted public or private key.
- * 2. key_slot Multi-slotted secure elements.
- * 3. key_custom Untyped data.
+ * @brief The public or private key data.
  */
 typedef union iotc_crypto_key_union_u {
   struct {
     char* key;
-  } key_pem;
+  } key_pem; /** A PEM-formatted public or private key. */
 
   struct {
     uint8_t slot_id;
-  } key_slot;
+  } key_slot; /** Multi-slotted secure elements. */
 
   struct {
     void* data;
     size_t data_size;
-  } key_custom;
+  } key_custom; /** Untyped data. */
 } iotc_crypto_key_union_t;
 
 /**
  * @enum  iotc_crypto_key_signature_algorithm_e
- * @brief Define a key signature algorithm to sign JWTs.
+ * @brief The key signature algorithm to sign JWTs.
  *
  * The client application must call <code>create_iot_core_jwt()</code> before
  * <code>iotc_connect()</code>. Cite the same algorithm used to provision your
- * key in <a
- * href="https://cloud.google.com/iot/docs/how-tos/devices#creating_device_key_pairs">Cloud
- * IoT Core</a>.
- *
- * <b>Note</b>: RSASSA-PKCS1-v1_5 with SHA-256 (RS256) is not supported.
+ * key in <a href="https://cloud.google.com/iot/docs/how-tos/
+ * devices#creating_device_key_pairs">Cloud IoT Core</a>.
  *
  * @see create_iot_core_jwt
- *
- *      - IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_INVALID for development.
- *      - IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256 ECDSA with P-256 and
- * SHA-256.
  */
 typedef enum iotc_crypto_key_signature_algorithm_e {
-  IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_INVALID = 0,
-  IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256
+  IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_INVALID = 0, /** The key signature
+       algorithm is invalid. */
+  IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256 /** The key signature
+       algorithm is ECDSA with P-256 and SHA-256. */
 } iotc_crypto_key_signature_algorithm_t;
 
 /* @struct iotc_crypto_key_data_t
@@ -219,8 +207,6 @@ typedef enum iotc_crypto_key_signature_algorithm_e {
  * iotc_crypto_key_union includes an enumerated type that defines
  * whether to observe the union as a PEM key, slot ID, or undefined
  * data type.
- *
- * Refer to <code>iotc_crypto_key_params_u()</code> for more information.
  *
  * @see iotc_crypto_key_params_u
  */

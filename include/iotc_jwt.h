@@ -23,6 +23,10 @@
 extern "C" {
 #endif
 
+/*! \file
+ * @brief Creates JSON Web Tokens (JWTs).
+ */
+
 #define IOTC_JWT_HEADER_BUF_SIZE 40
 #define IOTC_JWT_HEADER_BUF_SIZE_BASE64 \
   (((IOTC_JWT_HEADER_BUF_SIZE + 2) / 3) * 4)
@@ -40,10 +44,10 @@ extern "C" {
    1 + IOTC_JWT_MAX_SIGNATURE_SIZE_BASE64)
 
 /**
- * @brief Create a JWT.
+ * @brief Creates a JWT.
  *
- * Creates a JWT string. To connect to Cloud IoT Core. Pass the JWT to
- * iotc_connect as the password parameter.
+ * To connect to Cloud IoT Core, pass the JWT to the <code>iotc_connect()</code> 
+ * password parameter.
  *
  * This function invokes the BSP implementations of
  * <code>iotc_bsp_sha256()</code>, <code>iotc_bsp_ecc()</code> and
@@ -65,14 +69,14 @@ extern "C" {
  *
  * @retval IOTC_STATE_OK A JWT is successfully generated.
  * @retval IOTC_INVALID_PARAMETER The project_id, private_key_data or
- * dst_jwt_buf parameters are NULL, or a crypto BSP function returns
+ *     dst_jwt_buf parameters are NULL, or a cryptography BSP function returns
  *     IOTC_BSP_CRYPTO_INVALID_INPUT_PARAMETER_ERROR.
  * @retval IOTC_ALG_NOT_SUPPORTED_ERROR The provided private key isn't
  *     an ES256 key.
  * @retval IOTC_NULL_KEY_DATA_ERROR The provided private key is a PEM file
  *     but the crypto_key_union pointer is NULL.
- * @retval IOTC_NOT_IMPLEMENTED The crypto_key_union pointer type is
- *     unknown.
+ * @retval IOTC_NOT_IMPLEMENTED The <code>crypto_key_union</code> pointer
+ *     type is unknown.
  * @retval IOTC_BUFFER_TOO_SMALL_ERROR The provided buffer is too small for
  *     the JWT.
  */

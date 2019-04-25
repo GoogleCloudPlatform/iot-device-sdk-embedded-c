@@ -30,7 +30,7 @@ extern "C" {
 #endif
 
 /*! \file
- * @brief Securely connects client applications to Google Cloud IoT Core.
+ * @brief Connects client applications to Google Cloud IoT Core.
  *
  * \mainpage Google Cloud IoT Device SDK for Embedded C API
  *

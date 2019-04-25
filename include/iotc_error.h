@@ -21,6 +21,10 @@
 extern "C" {
 #endif
 
+/*! \file
+ * @brief Error messages and codes.
+ */
+
 /**
  * @name iotc_state_t
  * @brief Internal error codes.
@@ -106,33 +110,25 @@ typedef enum {
   /** 75 */ IOTC_NULL_KEY_DATA_ERROR,
   /** 76 */ IOTC_NULL_CLIENT_ID_ERROR,
 
-  IOTC_ERROR_COUNT /* add above this line, and this sould always be last. */
+  IOTC_ERROR_COUNT /* Add errors above this line; this should always be last line. */
 } iotc_state_t;
 
 /**
- * @def
- * @brief undefine to enable the translation of iotc_state_t to human readable
- * strings
+ * @brief Undefine to translate <code>iotc_state_t</code> to human-readable 
+ * strings.
  */
 #define IOTC_OPT_NO_ERROR_STRINGS 1
 
 /**
- * @function
  * @brief Returns a string representation of the value of iotc_state_t.
  * If the passed value is not valid it returns a string indicating such.
  *
- * NOTE: If IOTC_OPT_NO_ERROR_STRINGS is not defined always returns an empty
- * string.
- *
- * @param [in] e the iotc_state_t to be translated to a string.
+ * @param [in] e The <code>iotc_state_t</code> error code.
  *
  * @see iotc_state_t
  * @see IOTC_OPT_NO_ERROR_STRINGS
  *
- * @retval the string representation of e
- * @retval a string indicating that e is not valid if e is not in the range
- * IOTC_STATE_OK to IOTC_ERROR_COUNT-1
- * @retval an empty string if IOTC_OPT_NO_ERROR_STRINGS is not defined
+ * @return The string representation of the error code.
  */
 extern const char* iotc_get_state_string(iotc_state_t e);
 
