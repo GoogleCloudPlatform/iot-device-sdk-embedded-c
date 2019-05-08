@@ -51,8 +51,7 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
 iotc_state_t</h2></td></tr>
-<tr><td class="ititle" colspan="2"><p><a class="anchor" id="amgrpea6a5068b219ae8cee8e0c48038ef5a3"></a>Internal error codes.</p>
-<p>IOTC_STATE_OK represents success. Others represent errors. </p>
+<tr><td class="ititle" colspan="2"><p><a class="anchor" id="amgrpea6a5068b219ae8cee8e0c48038ef5a3"></a>Internal error codes. </p>
 </td></tr>
 <tr class="memitem:a5b9b9e146fa56247c4cd112ca7e4dbfb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d7c/iotc__error_8h.html#a5b9b9e146fa56247c4cd112ca7e4dbfb">IOTC_OPT_NO_ERROR_STRINGS</a>&#160;&#160;&#160;1</td></tr>
 <tr class="separator:a5b9b9e146fa56247c4cd112ca7e4dbfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -160,7 +159,11 @@ iotc_state_t</h2></td></tr>
 <tr class="memitem:a3c1a0d0d2e3b0263fb9ac191c9f08321"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d7c/iotc__error_8h.html#a3c1a0d0d2e3b0263fb9ac191c9f08321">iotc_get_state_string</a> (<a class="el" href="../../d4/d7c/iotc__error_8h.html#a31af29ceaf88c8f978117b3be5545932">iotc_state_t</a> e)</td></tr>
 <tr class="separator:a3c1a0d0d2e3b0263fb9ac191c9f08321"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Defines error messages and codes. </p>
+
+<p class="definition">Definition in file <a class="el" href="../../d4/d7c/iotc__error_8h_source.html">iotc_error.h</a>.</p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a5b9b9e146fa56247c4cd112ca7e4dbfb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5b9b9e146fa56247c4cd112ca7e4dbfb">&#9670;&nbsp;</a></span>IOTC_OPT_NO_ERROR_STRINGS</h2>
 
@@ -172,6 +175,8 @@ iotc_state_t</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>A flag to translate <code>iotc_state_t</code> numeric codes to strings. </p>
 
 <p class="definition">Definition at line <a class="el" href="../../d4/d7c/iotc__error_8h_source.html#l00117">117</a> of file <a class="el" href="../../d4/d7c/iotc__error_8h_source.html">iotc_error.h</a>.</p>
 
@@ -347,7 +352,7 @@ iotc_state_t</h2></td></tr>
 <tr><td class="fieldname"><a id="a31af29ceaf88c8f978117b3be5545932a0657638b82f15444b88c805036529b62"></a>IOTC_ERROR_COUNT&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d7c/iotc__error_8h_source.html#l00030">30</a> of file <a class="el" href="../../d4/d7c/iotc__error_8h_source.html">iotc_error.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d7c/iotc__error_8h_source.html#l00032">32</a> of file <a class="el" href="../../d4/d7c/iotc__error_8h_source.html">iotc_error.h</a>.</p>
 
 </div>
 </div>
@@ -368,26 +373,17 @@ iotc_state_t</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>@function </p>
-<p>Returns a string representation of the value of iotc_state_t. If the passed value is not valid it returns a string indicating such.</p>
-<p>NOTE: If IOTC_OPT_NO_ERROR_STRINGS is not defined always returns an empty string.</p>
+<p>Returns a string representation of the value of <code>iotc_state_t</code>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">e</td><td>the iotc_state_t to be translated to a string.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">e</td><td>The <code>iotc_state_t</code> error code.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d4/d7c/iotc__error_8h.html#a31af29ceaf88c8f978117b3be5545932">iotc_state_t</a> </dd>
 <dd>
-<a class="el" href="../../d4/d7c/iotc__error_8h.html#a5b9b9e146fa56247c4cd112ca7e4dbfb">IOTC_OPT_NO_ERROR_STRINGS</a></dd></dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">the</td><td>string representation of e </td></tr>
-    <tr><td class="paramname">a</td><td>string indicating that e is not valid if e is not in the range IOTC_STATE_OK to IOTC_ERROR_COUNT-1 </td></tr>
-    <tr><td class="paramname">an</td><td>empty string if IOTC_OPT_NO_ERROR_STRINGS is not defined </td></tr>
-  </table>
-  </dd>
-</dl>
+<a class="el" href="../../d4/d7c/iotc__error_8h.html#a5b9b9e146fa56247c4cd112ca7e4dbfb" title="A flag to translate iotc_state_t numeric codes to strings.">IOTC_OPT_NO_ERROR_STRINGS</a></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The string representation of the error code. </dd></dl>
 
 </div>
 </div>
