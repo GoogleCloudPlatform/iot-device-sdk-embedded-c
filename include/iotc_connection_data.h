@@ -24,13 +24,17 @@
 extern "C" {
 #endif
 
+/*! \file
+ * @brief Defines connection states.
+ */
+
 /**
  * @enum iotc_connection_state_e
- * @brief All possible states of the connection process and lifecycle.
+ * @brief Connection process and lifecycle states.
  */
 typedef enum iotc_connection_state_e {
   /** The connection is not established and there is no pending
-   * connect operation in libiotc. */
+   * connect operation in <code>libiotc</code>. */
   IOTC_CONNECTION_STATE_UNINITIALIZED = 0,
   /** The connect operation started. */
   IOTC_CONNECTION_STATE_OPENING,
@@ -46,8 +50,7 @@ typedef enum iotc_connection_state_e {
 
 /**
  * @enum iotc_session_type_e
- * @brief MQTT session types. Note that CONTINUE isn't currently supported
- * by IoT Core.
+ * @brief MQTT session types.
  */
 typedef enum iotc_session_type_e {
   /** MQTT clean session. */
@@ -57,12 +60,9 @@ typedef enum iotc_session_type_e {
 } iotc_session_type_t;
 
 /**
- * @struct  iotc_connection_data_t
+ * @struct iotc_connection_data_t
  * @brief The connection parameters received by the <code>iotc_connect()</code>
  * callback.
- *
- * The application may reuse these parameters to request another connection
- * from within the callback.
  *
  * @see iotc_connect
  */

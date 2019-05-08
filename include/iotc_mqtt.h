@@ -22,61 +22,72 @@ extern "C" {
 #endif
 
 /*! \file
- * @brief MQTT specifications.
+ * @brief Sets MQTT specifications
  */
 
 /**
  * @name iotc_mqtt_retain_t
- * @brief MQTT retain flag.
+ * @brief The MQTT retain flag.
  *
- * For details, see the <a href"http://docs.oasis-open.org/mqtt/mqtt/
+ * For details, see the <a href="http://docs.oasis-open.org/mqtt/mqtt/
  * v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718030">MQTT retain
  * specifications</a>.
  */
 typedef enum iotc_mqtt_retain_e {
+  /** 0 */
   IOTC_MQTT_RETAIN_FALSE = 0,
+  /** 1 */
   IOTC_MQTT_RETAIN_TRUE = 1,
 } iotc_mqtt_retain_t;
 
 /**
  * @name iotc_mqtt_qos_t
- * @brief MQTT Quality of Service levels.
+ * @brief The MQTT Quality of Service levels.
  *
- * For details, see the <a href"http://docs.oasis-open.org/mqtt/
+ * For details, see the <a href="http://docs.oasis-open.org/mqtt/
  * mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718099">MQTT QoS
  * specifications</a>.
  */
 typedef enum iotc_mqtt_qos_e {
+  /** 0 */
   IOTC_MQTT_QOS_AT_MOST_ONCE = 0,
+  /** 1 */
   IOTC_MQTT_QOS_AT_LEAST_ONCE = 1,
+  /** 2 */
   IOTC_MQTT_QOS_EXACTLY_ONCE = 2,
 } iotc_mqtt_qos_t;
 
 /**
  * @name iotc_mqtt_suback_status_t
- * @brief MQTT SUBACK status.
+ * @brief The MQTT SUBACK status.
  *
- * For details, see the <a href"http://docs.oasis-open.org/mqtt/
+ * For details, see the <a href="http://docs.oasis-open.org/mqtt/
  * mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718068">MQTT
  * SUBACK payload specifications</a>.
  */
 typedef enum iotc_mqtt_suback_status_e {
+  /** 0x00 */
   IOTC_MQTT_QOS_0_GRANTED = 0x00,
+  /** 0x01 */
   IOTC_MQTT_QOS_1_GRANTED = 0x01,
+  /** 0x02 */
   IOTC_MQTT_QOS_2_GRANTED = 0x02,
+  /** 0x80 */
   IOTC_MQTT_SUBACK_FAILED = 0x80
 } iotc_mqtt_suback_status_t;
 
 /**
  * @name iotc_mqtt_dup_t
- * @brief MQTT DUP flag.
+ * @brief The MQTT DUP flag.
  *
- * For details, see the <a href"http://docs.oasis-open.org/mqtt/
+ * For details, see the <a href="http://docs.oasis-open.org/mqtt/
  * mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718038">MQTT DUP
  * specifications</a>.
  */
 typedef enum iotc_mqtt_dup_e {
+  /** 0 */
   IOTC_MQTT_DUP_FALSE = 0,
+  /** 1 */
   IOTC_MQTT_DUP_TRUE = 1,
 } iotc_mqtt_dup_t;
 

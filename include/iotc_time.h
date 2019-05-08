@@ -22,7 +22,7 @@ extern "C" {
 #endif
 
 /*! \file
- * @brief Time storage definition.
+ * @brief Defines the time storage type.
  */
 
 #include <stdint.h>

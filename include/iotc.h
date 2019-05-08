@@ -30,13 +30,14 @@ extern "C" {
 #endif
 
 /*! \file
- * @brief Connects client applications to Google Cloud IoT Core.
+ * @brief Connects client applications to Cloud IoT Core
  *
  * \mainpage Google Cloud IoT Device SDK for Embedded C API
  *
  * # Welcome
- * The Device SDK API securely connects client applications to Cloud IoT Core
- * in order to publish and subscribe to messages via MQTT.
+ * The Device SDK API securely connects client applications to
+ * <a href="https://cloud.google.com/iot-core/">Cloud IoT Core</a> in order to
+ * publish and subscribe to messages via MQTT.
  *
  * To port the Device SDK to your device, review the Board Support Package (BSP)
  * <a href="../../bsp/html/index.html">reference</a> and
@@ -68,7 +69,7 @@ extern "C" {
 /**
  * @brief Initializes the BSP time and random number libraries.
  *
- * Applications should call this first when starting a new runtime.
+ * Applications must call this first when starting a new runtime.
  *
  * @retval IOTC_STATE_OK The libraries are successfully initialized.
  */
@@ -79,7 +80,7 @@ extern iotc_state_t iotc_initialize();
  * during initialization.
  *
  * Before calling this function, clean up each context with
- *     <code>iotc_delete_context()</code>.
+ * <code>iotc_delete_context()</code>.
  *
  * @see iotc_initialize
  * @see iotc_create_context
@@ -93,9 +94,6 @@ extern iotc_state_t iotc_shutdown();
 /**
  * @brief Creates a connection context.
  *
- * Before calling this function, invoke <code>libiotc</code> via
- * <code>iotc_initialize()</code>.
- *
  * @see iotc_initialize
  * @see iotc_delete_context
  *
@@ -107,19 +105,12 @@ extern iotc_context_handle_t iotc_create_context();
 /**
  * @brief Frees the provided context.
  *
- * After the client application disconnects from Cloud IoT Core, invoke
- * this function to free memory. Do not delete a context in the connection
- * callback.
- * 
  * On POSIX systems, the client application must delete the context after
  * <code>iotc_process_blocking()</code> returns.
  *
  * On non-POSIX systems, the application must delete the context on the
  * event loop tick after the disconnection event (not in the disconnection
  * callback itself).
- *
- * Note: you may reuse disconnected contexts to reconnect to Cloud IoT Core;
- * you don't need to destroy and recreate contexts.
  *
  * @param [in] context The context handle to free.
  *
@@ -147,23 +138,16 @@ extern iotc_state_t iotc_delete_context(iotc_context_handle_t context_handle);
 extern uint8_t iotc_is_context_connected(iotc_context_handle_t context_handle);
 
 /**
- * @brief Invokes the event processing loop.
- *
- * The Device SDK has an event queueing mechanism to faciliate connection,
- * subscription and publication requests in a non blocking, asynchronous manner.
- * This function executes the Device SDKs event engine as the main
- * application process. 
- *
- * This function will not return until <code>iotc_events_stop()</code> is invoked.
- *
- * This function only processes events on platforms with main application loops
- * that can block indefinitely. For other platforms, call
+ * @details Invokes the event processing loop and executes the Device SDKs event
+ * engine as the main application process. Returns after
+ * <code>iotc_events_stop()</code> is invoked. Processes events on platforms with
+ * main application loops that can block indefinitely. For other platforms, call
  * <code>iotc_events_process_tick()</code>.
  *
- * Note: The event engine won't process events when the Device SDK is in the
- * IOTC_EVENT_PROCESS_STOPPED state. If the Device SDK is in this state, invoke
- * <code>iotc_shutdown()</code> and then reinitialize the Device SDK to process
- * events again.
+ * The event engine won't process events when the Device SDK is in the
+ * <code>IOTC_EVENT_PROCESS_STOPPED</code> state. If the Device SDK is in this 
+ * state, invoke <code>iotc_shutdown()</code> and then reinitialize the Device SDK
+ * to process events again.
  *
  * @see iotc_events_process_tick
  * @see iotc_events_stop
@@ -171,15 +155,13 @@ extern uint8_t iotc_is_context_connected(iotc_context_handle_t context_handle);
 extern void iotc_events_process_blocking();
 
 /**
- * @brief Invokes the event processing loop.
+ * @details Invokes the event processing loop. This function is for RTOS or non-OS
+ * devices that must yield for standard tick operations.
  *
- * This function is for RTOS or non-OS devices that must yield for standard tick
- * operations.
- *
- * Note: The event engine won't process events when the Device SDK is in the
- * IOTC_EVENT_PROCESS_STOPPED state. If the Device SDK is in this state, invoke
- * <code>iotc_shutdown()</code> and then reinitialize the Device SDK to process
- * events again.
+ * The event engine won't process events when the Device SDK is in the
+ * <code>IOTC_EVENT_PROCESS_STOPPED</code> state. If the Device SDK is in this 
+ * state, invoke <code>iotc_shutdown()</code> and then reinitialize the Device SDK
+ * to process events again.
  *
  * @see iotc_events_process_blocking
  * @see iotc_events_stop
@@ -201,10 +183,7 @@ extern iotc_state_t iotc_events_process_tick();
 extern void iotc_events_stop();
 
 /**
- * @brief Connects to Cloud IoT Core with the provided context.
- *
- * This parameters include a pointer to connection state monitor callback
- * function.
+ * @brief Connects to Cloud IoT Core.
  *
  * @param [in] iotc_h A context handle created by invoking
  * <code>iotc_create_context()</code>.
@@ -213,13 +192,12 @@ extern void iotc_events_stop();
  * @param [in] password The MQTT password. Cloud IoT Core requires a JWT. Create
  * a JWT with the <code>iotc_create_iotcore_jwt()</code> function.
  * @param [in] client_id The MQTT client identifier. Cloud IoT Core requires a
- *     <a
- * href="https://cloud.google.com/iot/docs/how-tos/mqtt-bridge#device_authentication">device
- * path</a>.
+ *     <a href="https://cloud.google.com/iot/docs/how-tos/mqtt-bridge#device_authentication">
+ *     device path</a>.
  * @param [in] connection_timeout The number of seconds to keep the socket
- * before CONNACK. If 0, the TCP timeout is used.
+ *     before <code>CONNACK</code>. If 0, the TCP timeout is used.
  * @param [in] keepalive_timeout The number of seconds that the MQTT service
- * keeps the socket is be kept open without hearing from the client.
+ *     keeps the socket is be kept open without hearing from the client.
  *
  * @see iotc_create_context
  * @see iotc_create_iotcore_jwt
@@ -245,13 +223,12 @@ extern iotc_state_t iotc_connect(iotc_context_handle_t iotc_h,
  * @param [in] password The MQTT password. Cloud IoT Core requires a JWT. Create
  * a JWT with the <code>iotc_create_iotcore_jwt()</code> function.
  * @param [in] client_id The MQTT client identifier. Cloud IoT Core requires a
- *     <a
- * href="https://cloud.google.com/iot/docs/how-tos/mqtt-bridge#device_authentication">device
- * path</a>.
+ *     <a href="https://cloud.google.com/iot/docs/how-tos/mqtt-bridge#device_authentication">
+ *     device path</a>.
  * @param [in] connection_timeout The number of seconds to keep the socket
- * before CONNACK. If 0, the TCP timeout is used.
+ *     before <code>CONNACK</code>. If 0, the TCP timeout is used.
  * @param [in] keepalive_timeout The number of seconds that the MQTT service
- * keeps the socket is be kept open without hearing from the client.
+ *     keeps the socket is be kept open without hearing from the client.
  *
  * @see iotc_connect
  */
@@ -265,9 +242,6 @@ extern iotc_state_t iotc_connect_to(iotc_context_handle_t iotc_h,
 
 /**
  * @brief Publishes a message to Cloud IoT Core on a given topic.
- *
- * Before publishing a message, connect the device to Cloud IoT Core or a
- * custom service endpoint.
  *
  * @param [in] iotc_h A context handle created by invoking iotc_create_context.
  * @param [in] topic A string based topic name that you have created for
@@ -302,9 +276,6 @@ extern iotc_state_t iotc_publish(iotc_context_handle_t iotc_h,
 /**
  * @brief Publishes binary data to Cloud IoT Core on a given topic.
  *
- * Before publishing a message, connect the device to Cloud IoT Core or a
- * custom service endpoint.
- *
  * <code>iotc_publish_data()</code> accepts a pointer and data length, whereas
  * <code>iotc_publish()</code> accepts a null-terminated string.
  *
@@ -330,20 +301,16 @@ extern iotc_state_t iotc_publish_data(iotc_context_handle_t iotc_h,
 /**
  * @brief Subscribes to an MQTT topic via Cloud IoT Core.
  *
- * After subscribing to an MQTT topic, incoming messages are delivered to the
- * callback function. If the client application can't subscribe to the MQTT
- * topic, the callback function will return information about the error.
- *
  * @param [in] iotc_h A context handle created by invoking iotc_create_context.
  * @param [in] topic A string with the name of an MQTT topic.
  * @param [in] qos The Quality of Service (QoS) level. Can be <code>0</code>,
  *     <code>1</code>, or <code>2</code>. Cloud IoT Core doesn't support QoS level 2.
  *     For more information, see the MQTT specification or
  *     <code>iotc_mqtt_qos_e</code> in <code>iotc_mqtt_message.h</code>.
- * @param [in] callback The callback function. Invoked after a message is
- *     successfully or unsuccessfully received.
+ * @param [in] callback The callback function to which messages are delivered. 
+ *     Invoked after a message is successfully or unsuccessfully received.
  * @param [in] user_data (Optional) A pointer which will be passed to the
- *callback function's user_data parameter.
+ *     callback function's user_data parameter.
  *
  * @see iotc_create_context
  * @see iotc_connect
@@ -361,10 +328,11 @@ extern iotc_state_t iotc_subscribe(iotc_context_handle_t iotc_h,
                                    void* user_data);
 
 /**
- * @brief Asynchronously disconnects from Cloud IoT Core.
+ * @brief Disconnects asynchronously from Cloud IoT Core.
  *
  * After disconnecting, the Device SDK passes the disconnection status code to the
- * <code>iotc_connect()</code>.
+ * <code>iotc_connect()</code>. You may reuse disconnected contexts to reconnect
+ * to Cloud IoT Core; you don't need to destroy and recreate contexts.
  *
  * @param [in] iotc_h A context handle created by invoking iotc_create_context.
  *
@@ -379,10 +347,6 @@ extern iotc_state_t iotc_shutdown_connection(iotc_context_handle_t iotc_h);
 
 /**
  * @brief Executes a function after a number of elapsed seconds.
- *
- * Specify the function to execute in the <a href="iotc__types_8h.html">
- * <code>iotc_user_task_callback_t*</code></a> parameter. The Device SDK event
- * system invokes this function after the specified number of seconds.
  *
  * @param [in] iotc_h A context handle created by invoking
  *     <code>iotc_create_context</code>.
@@ -416,8 +380,7 @@ iotc_timed_task_handle_t iotc_schedule_timed_task(
 /**
  * @brief Cancels a timed task by removing it from the internal event system.
  *
- * @param [in] timed_task_handle The handle
- *     <code>iotc_schedule_timed_task</code> returned.
+ * @param [in] timed_task_handle A code>iotc_time_task_handle_t</code> handle.
  *
  * @see iotc_create_context
  * @see iotc_schedule_timed_task
@@ -454,9 +417,8 @@ extern void iotc_set_network_timeout(uint32_t timeout);
 extern uint32_t iotc_get_network_timeout(void);
 
 /**
- * @brief Sets the maximum heap memory the Device SDK can use.
- *
- * This function is part of the Device SDK <a
+ * @details Sets the maximum heap memory the Device SDK can use. This function
+ * is part of the Device SDK <a
  * href="../../../user_guide.md#memory-limiter">memory limiter</a>.
  *
  * @param [in] max_bytes The maximum amount of heap memory, in bytes, that
@@ -471,9 +433,8 @@ extern uint32_t iotc_get_network_timeout(void);
 iotc_state_t iotc_set_maximum_heap_usage(const size_t max_bytes);
 
 /**
- * @brief Queries the Device SDK's current heap usage.
- *
- * This function is part of the Device SDK <a
+ * @details Queries the Device SDK's current heap usage. This function is part of
+ * the Device SDK <a
  * href="../../../user_guide.md#memory-limiter">memory limiter</a>.
  *
  * @retval IOTC_STATE_OK The current head usage is successfully queried.

@@ -27,7 +27,7 @@ extern "C" {
 #endif
 
 /*! \file
- * @brief Custom data formats.
+ * @brief Defines custom data formats.
  */
 
 #define IOTC_INVALID_CONTEXT_HANDLE -1
@@ -35,23 +35,22 @@ extern "C" {
 
 /**
  * @name iotc_context_handle_t
- * @brief Internal context handle.
+ * @brief An internal context handle.
  */
 typedef int32_t iotc_context_handle_t;
 
 /**
  * @name iotc_timed_task_handle_t
- * @brief Timed task handle to identify timed tasks.
+ * @brief The timed task handle to identify timed tasks.
  */
 typedef int32_t iotc_timed_task_handle_t;
 
 /**
  * @name iotc_user_task_callback_t
- * @brief Custom callback for timed tasks.
+ * @brief A custom callback for timed tasks.
  *
- * This is a user-defined custom callback. The Device SDK passes a pointer
- * to a <code>iotc_schedule_timed_task()</code> callback function in order
- * to schedule the timed task.
+ * The Device SDK passes a pointer to a <code>iotc_schedule_timed_task()</code>
+ * callback function in order to schedule the timed task.
  *
  * @param [in] in_context_handle The context handle provided to
  *     <code>iotc_schedule_timed_task()</code>.
@@ -65,22 +64,20 @@ typedef void(iotc_user_task_callback_t)(
 
 /**
  * @name iotc_user_callback_t
- * @brief Custom callback.
+ * @brief A custom callback.
  *
  * The Device SDK invokes callbacks to notify the client application after an
  * operation completes.
  *
  * @param [in] in_context_handle The context handle provided to the original
- * API call.
+ *     API call.
  * @param [in] data API-specific information. Cast to a specific type depending
  *     on the original API call. For example, the <code>iotc_connect()</code>
- *     callback returns the iotc_connection_data_t* type so
+ *     callback returns the iotc_connection_data_t* type, so
  *     <code>iotc_connection_data_t* conn_data =
  *     (iotc_connection_data_t*)data;</code>.
- * @param [in] state IOTC_STATE_OK If the operation corresponding Device SDK
- *     operation succeeded. See <code><a
- *     href="~/include/iotc_error.h">iotc_error.h</a></code> for more error
- *     codes.
+ * @param [in] state The internal <a
+ *     href="~/include/iotc_error.h">error messages</a>.
  */
 typedef void(iotc_user_callback_t)(iotc_context_handle_t in_context_handle,
                                    void* data, iotc_state_t state);
@@ -187,11 +184,6 @@ typedef union iotc_crypto_key_union_u {
  * @enum  iotc_crypto_key_signature_algorithm_e
  * @brief The key signature algorithm to sign JWTs.
  *
- * The client application must call <code>create_iot_core_jwt()</code> before
- * <code>iotc_connect()</code>. Cite the same algorithm used to provision your
- * key in <a href="https://cloud.google.com/iot/docs/how-tos/
- * devices#creating_device_key_pairs">Cloud IoT Core</a>.
- *
  * @see create_iot_core_jwt
  */
 typedef enum iotc_crypto_key_signature_algorithm_e {
@@ -202,11 +194,7 @@ typedef enum iotc_crypto_key_signature_algorithm_e {
 } iotc_crypto_key_signature_algorithm_t;
 
 /* @struct iotc_crypto_key_data_t
- * @brief iotc_crypto_key_union structure.
- *
- * iotc_crypto_key_union includes an enumerated type that defines
- * whether to observe the union as a PEM key, slot ID, or undefined
- * data type.
+ * @brief The <code>iotc_crypto_key_union</code> structure.
  *
  * @see iotc_crypto_key_params_u
  */

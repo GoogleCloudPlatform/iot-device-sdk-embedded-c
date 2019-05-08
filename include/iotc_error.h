@@ -22,14 +22,12 @@ extern "C" {
 #endif
 
 /*! \file
- * @brief Error messages and codes.
+ * @brief Defines error messages and codes.
  */
 
 /**
  * @name iotc_state_t
  * @brief Internal error codes.
- *
- * IOTC_STATE_OK represents success. Others represent errors.
  */
 typedef enum {
   /** 0 */ IOTC_STATE_OK = 0,
@@ -114,14 +112,13 @@ typedef enum {
 } iotc_state_t;
 
 /**
- * @brief Undefine to translate <code>iotc_state_t</code> to human-readable 
- * strings.
+ * @brief A flag to translate <code>iotc_state_t</code> numeric codes to strings.
  */
 #define IOTC_OPT_NO_ERROR_STRINGS 1
 
 /**
- * @brief Returns a string representation of the value of iotc_state_t.
- * If the passed value is not valid it returns a string indicating such.
+ * @brief Returns a string representation of the value of
+ * <code>iotc_state_t</code>.
  *
  * @param [in] e The <code>iotc_state_t</code> error code.
  *
