@@ -64,8 +64,9 @@ For more details on running the scripts, see [Security](#security).
 
 ### Building and executing tests
 
-To build and excecute all tests:
+To build and execute all tests:
 1. Run `git submodule init` from the project's root directory to initialize all test dependencies.
+1. Run `git submodule update` from the project's root directory to clone all submodules.
 1. Run `make tests`.
 
 By default, test execution is the final step of the `tests` build process. You can also execute the tests manually.
