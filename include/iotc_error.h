@@ -106,7 +106,7 @@ typedef enum {
   /** 75 */ IOTC_NULL_KEY_DATA_ERROR,
   /** 76 */ IOTC_NULL_CLIENT_ID_ERROR,
 
-  IOTC_ERROR_COUNT /* add above this line, and this sould always be last. */
+  IOTC_ERROR_COUNT /* add above this line, and this should always be last. */
 } iotc_state_t;
 
 /**
