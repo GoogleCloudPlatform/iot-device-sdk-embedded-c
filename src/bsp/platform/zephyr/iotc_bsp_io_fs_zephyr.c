@@ -22,7 +22,7 @@
 #include <assert.h>
 #include <errno.h>
 #include <iotc_fs_bsp_to_iotc_mapping.h>
-#include <memory.h>
+#include <string.h>
 #include <stdio.h>
 #include <sys/stat.h>
 #include <unistd.h>
