@@ -1,7 +1,7 @@
 /* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Device SDK for Embedded C,
- * it is licensed under the BSD 3-Clause license; you may not use this file
+ * This is part of the Google Cloud IoT Device SDK for Embedded C.
+ * It is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
  * You may obtain a copy of the License at:
@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include <iotc_error.h>
 #include <iotc_jwt.h>
 #include <stdio.h>
 
@@ -142,7 +143,8 @@ void on_connection_state_changed(iotc_context_handle_t in_context_handle,
        is contained in the 'state' variable. Here we log the error state and
        exit out of the application. */
     case IOTC_CONNECTION_STATE_OPEN_FAILED:
-      printf("ERROR!\tConnection has failed reason %d\n\n", state);
+      printf("ERROR!\tConnection has failed reason %d : %s\n\n", state,
+             iotc_get_state_string(state));
 
       /* exit it out of the application by stopping the event loop. */
       iotc_events_stop();
@@ -172,7 +174,8 @@ void on_connection_state_changed(iotc_context_handle_t in_context_handle,
          * in this example. */
         iotc_events_stop();
       } else {
-        printf("connection closed - reason %d!\n", state);
+        printf("connection closed - reason %d : %s!\n", state,
+               iotc_get_state_string(state));
         /* The disconnection was unforeseen.  Try to reconnect to the server
            with the previously set username and client_id, but regenerate
            the client authentication JWT password in case the disconnection

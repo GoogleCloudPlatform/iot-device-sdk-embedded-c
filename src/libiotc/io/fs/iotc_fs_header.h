@@ -1,7 +1,7 @@
 /* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Device SDK for Embedded C,
- * it is licensed under the BSD 3-Clause license; you may not use this file
+ * This is part of the Google Cloud IoT Device SDK for Embedded C.
+ * It is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
  * You may obtain a copy of the License at:
@@ -17,8 +17,9 @@
 #ifndef __IOTC_FS_HEADER_H__
 #define __IOTC_FS_HEADER_H__
 
-#include "iotc_err.h"
 #include "iotc_fs_api.h"
+
+#include <iotc_error.h>
 
 iotc_state_t iotc_fs_stat(const void* context,
                           const iotc_fs_resource_type_t resource_type,

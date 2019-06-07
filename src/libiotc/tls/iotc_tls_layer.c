@@ -1,7 +1,7 @@
 /* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Device SDK for Embedded C,
- * it is licensed under the BSD 3-Clause license; you may not use this file
+ * This is part of the Google Cloud IoT Device SDK for Embedded C.
+ * It is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
  * You may obtain a copy of the License at:
@@ -564,7 +564,7 @@ iotc_state_t iotc_tls_layer_init(void* context, void* data,
       iotc_make_handle(&iotc_tls_layer_init, context, data, in_out_state),
       NULL);
 
-  /* here the resource manger will start the close action */
+  /* here the resource manager will start the close action */
   IOTC_CR_YIELD(layer_data->tls_layer_conn_cs, IOTC_STATE_OK);
   /* here the resource manger finished closing this resource */
 

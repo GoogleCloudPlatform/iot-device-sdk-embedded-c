@@ -1,7 +1,7 @@
 /* Copyright 2019 Google LLC
  *
- * This is part of the Google Cloud IoT Device SDK for Embedded C,
- * it is licensed under the BSD 3-Clause license; you may not use this file
+ * This is part of the Google Cloud IoT Device SDK for Embedded C.
+ * It is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
  * You may obtain a copy of the License at:
@@ -22,7 +22,7 @@
 #include <assert.h>
 #include <errno.h>
 #include <iotc_fs_bsp_to_iotc_mapping.h>
-#include <memory.h>
+#include <string.h>
 #include <stdio.h>
 #include <sys/stat.h>
 #include <unistd.h>

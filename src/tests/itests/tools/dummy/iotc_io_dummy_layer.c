@@ -1,7 +1,7 @@
 /* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Device SDK for Embedded C,
- * it is licensed under the BSD 3-Clause license; you may not use this file
+ * This is part of the Google Cloud IoT Device SDK for Embedded C.
+ * It is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
  * You may obtain a copy of the License at:
@@ -21,11 +21,12 @@
 #include "iotc_allocator.h"
 #include "iotc_common.h"
 #include "iotc_debug.h"
-#include "iotc_err.h"
 #include "iotc_io_dummy_layer.h"
 #include "iotc_io_dummy_layer_state.h"
 #include "iotc_layer_api.h"
 #include "iotc_macros.h"
+
+#include <iotc_error.h>
 
 iotc_state_t iotc_io_dummy_layer_push(void* context, void* data,
                                       iotc_state_t in_out_state) {

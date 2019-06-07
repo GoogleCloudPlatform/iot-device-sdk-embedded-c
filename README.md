@@ -7,27 +7,31 @@ The Device SDK supports concurrent Pub/Sub traffic on a non-blocking socket impl
 For more details, see the user guide in the `docs` directory.
 
 ## Source
-To get the source, clone from the master branch of the Google Cloud IoT Device SDK for Embedded C GitHub repository:
+To get the source, clone from the `master` branch of the [Google Cloud IoT
+Device SDK for Embedded C GitHub
+repository](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c.git):
 
-[https://github.com/googlecloudplatform/iot-device-sdk-embedded-c](https://github.com/googlecloudplatform/iot-device-sdk-embedded-c)
+```
+git clone https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c.git
+```
 
 ### Directory structure
 
-- **bin**: Executables and libraries produced by a build.
-- **doc**: Documentation: Doxygen references, user guide, and porting guide.
-- **examples**: Example source with makefiles. After you build with `make`, this directory will also contain the example executables.
-- **include**: Header files of the Device SDK API. You must add this directory to the header include path when compiling your application against the source.
-- **include/bsp**: Header files of the Board Support Package (BSP). Functions declared here must be defined in a device-specific BSP implementation. When compiling your BSP source, make sure this directory is on the include path.
-- **make**: Build system configuration files.
-- **obj**: Object files generated during a build.
-- **res**: Resource files (for example, trusted root CA certificates.)
-- **src**: The source files of the Device SDK. A BSP implementation is provided for POSIX.
-- **third_party**: Third-party open-source components.
-- **tools**: Scripts used by the maintainers of the repository.
+- `bin`: Executables and libraries produced by a build.
+- [`doc`](doc): Documentation: Doxygen references, user guide, and porting guide.
+- [`examples`](examples): Example source with makefiles. After you build with `make`, this directory will also contain the example executables.
+- [`include`](include): Header files of the Device SDK API. You must add this directory to the header include path when compiling your application against the source.
+- [`include/bsp`](include/bsp): Header files of the Board Support Package (BSP). Functions declared here must be defined in a device-specific BSP implementation. When compiling your BSP source, make sure this directory is on the include path.
+- [`make`](make): Build system configuration files.
+- `obj`: Object files generated during a build.
+- [`res`](res): Resource files (for example, trusted root CA certificates.)
+- [`src`](src): The source files of the Device SDK. A BSP implementation is provided for POSIX.
+- [`third_party`](third_party): Third-party open-source components.
+- [`tools`](tools): Scripts used by the maintainers of the repository.
 
 ## Building
 
-The default build environment for the Device SDK is `make`. It invokes [GCC](https://www.gnu.org/software/gcc/) to produce a native build on a POSIX host. This serves as the default development environment on Ubuntu.
+The default build tool for the Device SDK is `make`. It invokes [GCC](https://www.gnu.org/software/gcc/) to produce a native build on a POSIX host. This serves as the default development environment on Ubuntu.
 
 Run the following command to build the Device SDK:
 
@@ -35,7 +39,7 @@ Run the following command to build the Device SDK:
 make
 ```
 
-The source can be cross-compiled to other target platforms via custom toolchains and the makefile, or with a specific device SDK’s IDE. For more information, see the porting guide in `doc/porting_guide.md`.
+The source can be cross-compiled to other target platforms via custom toolchains and the makefile, or with a specific device SDK’s IDE. For more information, see [the porting guide](doc/porting_guide.md).
 
 ### Building a TLS static library
 
@@ -50,9 +54,9 @@ make clean
 make IOTC_BSP_TLS=wolfssl
 ```
 
-The value of IOTC_BSP_TLS determines which script is run.
-- mbedTLS: `res/tls/build_mbedtls.sh`
-- wolfSSL: `res/tls/build_wolfssl.sh`
+The value of `IOTC_BSP_TLS` determines which script is run.
+- mbedTLS: [`res/tls/build_mbedtls.sh`](res/tls/build_mbedtls.sh)
+- wolfSSL: [`res/tls/build_wolfssl.sh`](res/tls/build_wolfssl.sh)
 
 The mbedTLS build script includes a git clone and branch checkout of the mbedTLS source (upon confirmation of the license agreement). However, the wolfSSL build script requires you to clone the repository yourself. When you run `make IOTC_BSP_TLS=wolfSSL`, instructions are provided for cloning the repository.
 
@@ -60,7 +64,10 @@ For more details on running the scripts, see [Security](#security).
 
 ### Building and executing tests
 
-Run `make tests` to build and execute all tests.
+To build and execute all tests:
+1. Run `git submodule init` from the project's root directory to initialize all test dependencies.
+1. Run `git submodule update` from the project's root directory to clone all submodules.
+1. Run `make tests`.
 
 By default, test execution is the final step of the `tests` build process. You can also execute the tests manually.
 
@@ -78,7 +85,7 @@ Before building the examples, build both the Device SDK static library and a TLS
 1. Create a project, registry and device in Cloud IoT Core.
 2. Create [Cloud IoT Core device credentials](https://cloud.google.com/iot/docs/how-tos/credentials/keys).
 3. Follow the steps in the examples README.md files to provision the device credentials and build the client applications.
-4. Run `make` in the examples home folders. The `make` process automatically downloads the Google Root CA PEM file to the example directories. The file enables TLS when communicating with Cloud IoT Core.
+4. Run `make` in the [`examples`](examples) folder. The `make` process automatically downloads the Google Root CA PEM file to the example directories. The file enables TLS when communicating with Cloud IoT Core.
 
 To securely connect to Cloud IoT Core, a root CA `.pem` file must be in the current working directory of the example executables. By default, the file is in `res/trusted_RootCA_certs/roots.pem` and contains two certificates that validate Cloud IoT Core credentials. The `make` process automatically moves this file from `res/trusted_RootCA_certs/roots.pem` to the correct location.
 
@@ -93,7 +100,7 @@ Follow the steps below to perform the cross-compilation process.
 - Build a TLS BSP implementation to invoke the TLS SDK for your platform. Store these in a new directory `src/bsp/tls/TARGET_TLS_SOLUTION`.
 - Build a Cryptography BSP implementation to handle key signatures of JWTs on your target platform in the directory `src/bsp/crypto/TARGET_CRYPTO_SOLUCTION`.
 
-For more details on the cross-compilation process, see the porting guide in `doc/porting_guide.md`.
+For more details on the cross-compilation process, see [the porting guide](doc/porting_guide.md).
 
 ## Security
 
@@ -109,22 +116,23 @@ The Device SDK supports other TLS libraries through the BSP TLS API. For informa
 
 Branch      | Build status
 ------------|-------------
-master      | ![travis-private-repo-icon-master]
+master      | [![Build Status][travis-badge]][travis-url]
 
-[travis-private-repo-icon-master]: https://travis-ci.com/GoogleCloudPlatform/iot-device-sdk-embedded-c.svg?token=tzWdJymp9duuAGWpamkM&branch=master
-
+[travis-badge]: https://travis-ci.com/GoogleCloudPlatform/iot-device-sdk-embedded-c.svg?branch=master
+[travis-url]: https://travis-ci.com/GoogleCloudPlatform/iot-device-sdk-embedded-c
 
 ## Contributing
 
-For information about contributing to this repository, see `CONTRIBUTING.MD`.
+For information about contributing to this repository, see
+[`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Learn more
 
-Review the following documentation.
+Review the following documentation:
 
-- [doc/user_guide.md](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/blob/master/doc/user_guide.md): User guide that covers Device SDK features and usage.
-- [doc/porting_guide.md](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/blob/master/doc/porting_guide.md): Porting guide that provides information about porting the Device SDK to target devices.
-- Device SDK [API](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/api/html/index.html) and [BSP](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/bsp/html/index.html) references.
+- [`doc/user_guide.md`](doc/user_guide.md): User guide that covers Device SDK features and usage.
+- [`doc/porting_guide.md`](doc/porting_guide.md): Porting guide that provides information about porting the Device SDK to target devices.
+- Device SDK [API](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/api/html/) and [BSP](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/bsp/html/) references.
 
 ## License
 
@@ -132,4 +140,4 @@ Copyright 2018-2019 Google LLC
 
 Licensed under the BSD 3-Clause license.
 
-For more information, see `LICENSE.md`.
+For more information, see [`LICENSE.md`](LICENSE.md).

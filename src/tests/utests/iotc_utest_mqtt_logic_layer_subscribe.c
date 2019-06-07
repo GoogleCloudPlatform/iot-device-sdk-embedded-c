@@ -1,7 +1,7 @@
 /* Copyright 2018-2019 Google LLC
  *
- * This is part of the Google Cloud IoT Device SDK for Embedded C,
- * it is licensed under the BSD 3-Clause license; you may not use this file
+ * This is part of the Google Cloud IoT Device SDK for Embedded C.
+ * It is licensed under the BSD 3-Clause license; you may not use this file
  * except in compliance with the License.
  *
  * You may obtain a copy of the License at:
@@ -20,7 +20,6 @@
 #include "tinytest_macros.h"
 
 #include "iotc.h"
-#include "iotc_err.h"
 #include "iotc_globals.h"
 #include "iotc_handle.h"
 #include "iotc_helpers.h"
@@ -29,6 +28,8 @@
 #include "iotc_mqtt_logic_layer_subscribe_command.h"
 #include "iotc_mqtt_message.h"
 #include "iotc_user_sub_call_wrapper.h"
+
+#include <iotc_error.h>
 
 #include <errno.h>
 #include <stdio.h>
