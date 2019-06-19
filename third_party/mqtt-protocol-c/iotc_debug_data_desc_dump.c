@@ -24,7 +24,7 @@ void iotc_debug_data_desc_dump(const iotc_data_desc_t* buffer) {
     return;
   }
 
-  iotc_debug_printf("[%" SCNu32 "] ", buffer->length);
+  iotc_debug_printf("[%lu] ", buffer->length);
 
   char hex = 0;
   size_t i = 0;

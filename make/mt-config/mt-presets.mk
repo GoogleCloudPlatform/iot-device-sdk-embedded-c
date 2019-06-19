@@ -22,7 +22,7 @@ CONFIG_POSIX_MIN           =posix_fs-posix_platform-tls_bsp
 CONFIG_POSIX_MIN_UNSECURE  =posix_fs-posix_platform
 
 # CONFIG for ZEPHYR presets
-CONFIG_ZEPHYR_MAX          =memory_fs-posix_platform-tls_bsp-memory_limiter
+CONFIG_ZEPHYR_MAX          =memory_fs-posix_platform-tls_bsp
 
 # CONFIG for ARM
 CONFIG_DUMMY_MAX           =memory_fs-memory_limiter

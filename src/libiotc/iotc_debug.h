@@ -38,7 +38,7 @@ extern "C" {
 #include <stdio.h>
 #define __iotc_printf(...) \
   printf(__VA_ARGS__);     \
-  fflush(stdout);
+  // fflush(stdout);
 #else /* IOTC_DEBUG_PRINTF */
 #define __iotc_printf(...) IOTC_DEBUG_PRINTF(__VA_ARGS__);
 #endif /* IOTC_DEBUG_PRINTF */
