@@ -63,8 +63,8 @@ IOTC_ZEPHYR_PREREQUISITE_AUTOCONF = $(LIBIOTC)/examples/zephyr_native_posix/buil
 $(IOTC_ZEPHYR_README_PATH):
 	@echo "IOTC Zephyr build: git clone Zephyr repository to $(dir $@)"
 	@git clone https://github.com/zephyrproject-rtos/zephyr $(dir $@)
-	@git -C $(dir $@) checkout 6798a421e1
-	@git -C $(dir $@) apply $(IOTC_THIRD_PARTY_DIR)/iotc_zephyr_dtc_version.patch
+	@git -C $(dir $@) checkout zephyr-v1.14.0
+	#  @git -C $(dir $@) apply $(IOTC_THIRD_PARTY_DIR)/iotc_zephyr_dtc_version.patch
 
 export ZEPHYR_TOOLCHAIN_VARIANT = zephyr
 export ZEPHYR_BASE = $(IOTC_THIRD_PARTY_DIR)/zephyr
