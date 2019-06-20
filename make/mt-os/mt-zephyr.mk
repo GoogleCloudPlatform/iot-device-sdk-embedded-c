@@ -18,6 +18,7 @@ AR ?= ar
 
 IOTC_C_FLAGS += -fPIC -m32
 IOTC_C_FLAGS += -imacros autoconf.h
+IOTC_C_FLAGS += -DIOTC_DEBUG_PRINTF\(...\)=printf\(__VA_ARGS__\)
 
 IOTC_LIB_FLAGS += $(IOTC_TLS_LIBFLAGS) -lpthread -lm -lcrypto
 
@@ -26,7 +27,6 @@ include make/mt-os/mt-os-common.mk
 IOTC_BSP_TLS_BUILD_ARGS = -m32
 
 IOTC_INCLUDE_FLAGS += -I$(ZEPHYR_BASE)/include
-#  sys/types.h
 IOTC_INCLUDE_FLAGS += -I$(ZEPHYR_BASE)/include/posix
 IOTC_INCLUDE_FLAGS += -I$(ZEPHYR_BASE)/lib/libc/minimal/include
 
@@ -39,7 +39,6 @@ IOTC_INCLUDE_FLAGS += -I$(LIBIOTC)/examples/zephyr_native_posix/build/zephyr/inc
 IOTC_ARFLAGS += -rs -c $(XI)
 
 IOTC_C_FLAGS += -Wno-ignored-qualifiers
-IOTC_C_FLAGS += -Wno-shift-overflow
 IOTC_C_FLAGS += -Wno-builtin-declaration-mismatch
 
 # Temporarily disable these warnings until the code gets changed.

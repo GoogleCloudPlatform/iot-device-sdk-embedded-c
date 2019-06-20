@@ -37,8 +37,6 @@ const size_t iotc_bsp_io_fs_buffer_size = 1024;
     goto err_handling;                      \
   }
 
-int* z_impl_z_errno(void) { return 0; }
-
 /**
  * @brief iotc_bsp_io_fs_posix_file_handle_container_t
  *
@@ -161,7 +159,7 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_open(
 
   /* if error on open check the errno value */
   IOTC_BSP_IO_FS_CHECK_CND(
-      fp < 1, iotc_bsp_io_fs_posix_errno_2_iotc_bsp_io_fs_state(errno),
+      fp <= 0, iotc_bsp_io_fs_posix_errno_2_iotc_bsp_io_fs_state(errno),
       ret);
 
   /* allocate memory for the files database element */
@@ -338,12 +336,6 @@ err_handling:
 }
 
 iotc_bsp_io_fs_state_t iotc_bsp_io_fs_remove(const char* const resource_name) {
-  int ret = 1; // remove(resource_name);
-
-  IOTC_BSP_IO_FS_CHECK_CND(
-      0 != ret, iotc_bsp_io_fs_posix_errno_2_iotc_bsp_io_fs_state(errno), ret);
-
-err_handling:
-
-  return ret;
+  return IOTC_BSP_IO_FS_NOT_IMPLEMENTED;
 }
+

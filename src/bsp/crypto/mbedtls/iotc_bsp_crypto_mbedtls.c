@@ -17,7 +17,7 @@
 #include "sys/types.h"
 #include "iotc_bsp_crypto.h"
 #include "iotc_bsp_mem.h"
-#include "iotc_helpers.h"
+#include "iotc_debug.h"
 #include "iotc_macros.h"
 
 #include "mbedtls/base64.h"
@@ -193,7 +193,7 @@ iotc_bsp_crypto_state_t iotc_bsp_ecc(
 
 err_handling:
   if (0 != mbedtls_ret) {
-    printf("mbedtls_ret: %d", mbedtls_ret);
+    iotc_debug_format("mbedtls_ret: %d", mbedtls_ret);
   }
 
   mbedtls_mpi_free(&r);
