@@ -96,35 +96,6 @@ err_handling:
   return IOTC_BSP_CRYPTO_SHA256_ERROR;
 }
 
-#if 0  // TODO(atigyi): use this struct to channel necessary application
-       //               parameter to ecc signature function. Insted of
-       //               usage of two mutually excluive parameters:
-       //               private_key_pem, jwt_signature_data
-typedef enum {
-  IOTC_BSP_CRYPTO_KEY_PEM = 0,
-  IOTC_BSP_CRYPTO_KEY_SLOT_ID,
-  IOTC_BSP_CRYPTO_KEY_CUSTOM,
-} iotc_bsp_crypto_key_type_t;
-
-typedef struct {
-  iotc_bsp_crypto_key_type_t key_type;
-  union {
-    struct {
-      const char* key;
-    } key_pem;
-
-    struct {
-      uint8_t slot_id;
-    } key_slot_id;
-
-    struct {
-      const void* data;
-      size_t data_size;
-    } key_custom;
-  };
-} iotc_bsp_crypto_key_t;
-#endif
-
 iotc_bsp_crypto_state_t iotc_bsp_ecc(
     const iotc_crypto_key_data_t* private_key_data, uint8_t* dst_buf,
     size_t dst_buf_size, size_t* bytes_written, const uint8_t* src_buf,
