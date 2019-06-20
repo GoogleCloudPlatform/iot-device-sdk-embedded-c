@@ -25,6 +25,7 @@
 #include "iotc_bsp_time.h"
 #include "iotc_config.h"
 #include "iotc_data_desc.h"
+#include <stdio.h>
 
 #ifdef IOTC_PLATFORM_BASE_WMSDK
 #include <wm_os.h>
@@ -35,7 +36,6 @@ extern "C" {
 #endif
 
 #ifndef IOTC_DEBUG_PRINTF
-#include <stdio.h>
 #define __iotc_printf(...) \
   printf(__VA_ARGS__);     \
   fflush(stdout);
