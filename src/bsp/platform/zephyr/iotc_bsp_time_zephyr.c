@@ -17,7 +17,7 @@
 #include <iotc_bsp_time.h>
 
 #include <stddef.h>
-#include <time.h>
+#include <sys/time.h>
 
 void iotc_bsp_time_init() { /* empty */
 }
