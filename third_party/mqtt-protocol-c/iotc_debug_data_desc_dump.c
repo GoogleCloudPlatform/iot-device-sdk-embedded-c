@@ -24,7 +24,7 @@ void iotc_debug_data_desc_dump(const iotc_data_desc_t* buffer) {
     return;
   }
 
-  iotc_debug_printf("[%lu] ", buffer->length);
+  iotc_debug_printf("[%u] ", buffer->length);
 
   char hex = 0;
   size_t i = 0;

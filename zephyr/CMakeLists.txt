@@ -16,11 +16,7 @@ target_include_directories(google_iot_device_sdk INTERFACE
 
 add_compile_definitions(IOTC_FS_MEMORY)
 
-add_compile_definitions(MBEDTLS_BASE64_C)
-add_compile_definitions(MBEDTLS_PLATFORM_MEMORY)
-
 add_compile_definitions(IOTC_DEBUG_OUTPUT)
-add_compile_definitions(BSP_DEBUG_LOG)
 
 zephyr_library()
 zephyr_library_sources(
