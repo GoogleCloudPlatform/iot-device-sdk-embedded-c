@@ -4,11 +4,9 @@ zephyr_interface_library_named(google_iot_device_sdk)
 
 target_include_directories(google_iot_device_sdk INTERFACE
 	../include
-	../include/bsp
 	)
 
-file(GLOB_RECURSE all_dirs_src LIST_DIRECTORIES true ../src/only_dir_match.xxx)
-#  message(${all_dirs_third_party})
+file(GLOB_RECURSE all_dirs_src LIST_DIRECTORIES true ../src/no_file_match.collect_only_dirs)
 
 target_include_directories(google_iot_device_sdk INTERFACE
 	${all_dirs_src}
@@ -16,21 +14,10 @@ target_include_directories(google_iot_device_sdk INTERFACE
 	)
 
 add_compile_definitions(IOTC_FS_MEMORY)
-
-#  ERROR: TODO(atigyi): cert verify MUST be turned back on, TODO(b/136539357)
-add_compile_definitions(IOTC_DISABLE_CERTVERIFY)
-
 add_compile_definitions(IOTC_DEBUG_OUTPUT)
 
 zephyr_library()
 zephyr_library_sources(
-../src/bsp/crypto/mbedtls/iotc_bsp_crypto_mbedtls.c
-#  ../src/bsp/platform/zephyr/iotc_bsp_io_fs_zephyr.c
-../src/bsp/platform/zephyr/iotc_bsp_io_net_zephyr.c
-../src/bsp/platform/zephyr/iotc_bsp_mem_zephyr.c
-../src/bsp/platform/zephyr/iotc_bsp_rng_zephyr.c
-../src/bsp/platform/zephyr/iotc_bsp_time_zephyr.c
-../src/bsp/tls/mbedtls/iotc_bsp_tls_mbedtls.c
 ../src/libiotc/control_topic/iotc_control_topic_layer.c
 ../src/libiotc/datastructures/iotc_vector.c
 ../src/libiotc/event_dispatcher/iotc_event_dispatcher.c
@@ -77,9 +64,6 @@ zephyr_library_sources(
 )
 
 zephyr_library_link_libraries(google_iot_device_sdk)
-
-target_link_libraries(google_iot_device_sdk INTERFACE zephyr_interface)
-target_link_libraries(google_iot_device_sdk INTERFACE mbedTLS)
 
 endif()
 
