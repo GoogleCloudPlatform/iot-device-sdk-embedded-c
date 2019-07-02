@@ -1,4 +1,5 @@
-#  if(CONFIG_GOOGLE_IOT_DEVICE)
+if(CONFIG_GOOGLE_IOT_DEVICE_SDK)
+
 zephyr_interface_library_named(google_iot_device_sdk)
 
 target_include_directories(google_iot_device_sdk INTERFACE
@@ -15,6 +16,9 @@ target_include_directories(google_iot_device_sdk INTERFACE
 	)
 
 add_compile_definitions(IOTC_FS_MEMORY)
+
+#  ERROR: TODO(atigyi): cert verify MUST be turned back on, TODO(b/136539357)
+add_compile_definitions(IOTC_DISABLE_CERTVERIFY)
 
 add_compile_definitions(IOTC_DEBUG_OUTPUT)
 
@@ -77,4 +81,5 @@ zephyr_library_link_libraries(google_iot_device_sdk)
 target_link_libraries(google_iot_device_sdk INTERFACE zephyr_interface)
 target_link_libraries(google_iot_device_sdk INTERFACE mbedTLS)
 
-#  endif()
+endif()
+

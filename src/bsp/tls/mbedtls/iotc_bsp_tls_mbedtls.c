@@ -174,8 +174,7 @@ iotc_bsp_tls_state_t iotc_bsp_tls_init(
       &mbedtls_tls_context->conf, MBEDTLS_SSL_IS_CLIENT,
       MBEDTLS_SSL_TRANSPORT_STREAM, MBEDTLS_SSL_PRESET_DEFAULT);
 
-// #ifdef IOTC_DISABLE_CERTVERIFY
-#if 1
+#ifdef IOTC_DISABLE_CERTVERIFY
   mbedtls_ssl_conf_authmode(&mbedtls_tls_context->conf,
                             MBEDTLS_SSL_VERIFY_NONE);
 #else
