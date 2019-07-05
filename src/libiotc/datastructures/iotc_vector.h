@@ -72,7 +72,7 @@ typedef int8_t(iotc_vector_cmp_t)(const union iotc_vector_selector_u* e0,
 
 typedef int8_t(iotc_vector_pred_t)(union iotc_vector_selector_u* e0);
 
-extern iotc_vector_t* iotc_vector_create();
+extern iotc_vector_t* iotc_vector_create(void);
 
 /**
  * @brief iotc_vector_create_from

@@ -20,6 +20,10 @@
 #include "iotc_helpers.h"
 #include "iotc_list.h"
 
+iotc_state_t iotc_evtd_update_event_on_fd(iotc_evtd_instance_t* instance,
+                                          iotc_vector_t* container,
+                                          iotc_fd_t fd);
+
 static inline int8_t iotc_evtd_cmp_fd(
     const union iotc_vector_selector_u* e0,
     const union iotc_vector_selector_u* value) {

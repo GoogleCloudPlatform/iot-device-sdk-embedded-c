@@ -19,6 +19,16 @@
 #include "iotc_bsp_time.h"
 #include "iotc_event_dispatcher_api.h"
 
+iotc_state_t iotc_bsp_event_loop_transform_to_bsp_select(
+    iotc_evtd_instance_t** in_event_dispatchers, uint8_t in_num_evtds,
+    iotc_bsp_socket_events_t* in_socket_events_array,
+    size_t in_socket_events_array_length, iotc_time_t* out_timeout);
+
+iotc_state_t iotc_bsp_event_loop_update_event_dispatcher(
+    iotc_evtd_instance_t** in_event_dispatchers, uint8_t in_num_evtds,
+    iotc_bsp_socket_events_t* in_socket_events_array,
+    size_t in_socket_events_array_length);
+
 /**
  * @brief iotc_bsp_event_loop_count_all_sockets
  * @param event_dispatchers
