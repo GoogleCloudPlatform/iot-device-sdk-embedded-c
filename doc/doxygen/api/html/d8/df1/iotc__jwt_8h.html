@@ -76,7 +76,7 @@ Functions</h2></td></tr>
 <tr class="separator:af6e4cdf9d89a98a916b8584a03c03e4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Creates JSON Web Tokens (JWTs). </p>
+<div class="textblock"><p>Creates JSON Web Tokens. </p>
 
 <p class="definition">Definition in file <a class="el" href="../../d8/df1/iotc__jwt_8h_source.html">iotc_jwt.h</a>.</p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
@@ -245,15 +245,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Creates a JWT. Invokes the BSP implementations of <code>iotc_bsp_sha256()</code>, <code>iotc_bsp_ecc()</code> and <code>iotc_bsp_base64_encode_urlsafe()</code> to enable string encoding and signatures.</p>
+<p>Creates a JSON Web Token. Invokes the BSP implementations of <code>iotc_bsp_sha256()</code>, <code>iotc_bsp_ecc()</code> and <code>iotc_bsp_base64_encode_urlsafe()</code> to enable string encoding and signatures.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">expiration_period_sec</td><td>The number of seconds before this JWT expires. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">project_id</td><td>The GCP project ID. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">private_key_data</td><td>ES256 <a href="https://cloud.google.com/iot/docs/how-tos/credentials/keys">private key data</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">private_key_data</td><td>ES256 private key data. </td></tr>
     <tr><td class="paramdir">[in,out]</td><td class="paramname">dst_jwt_buf</td><td>A pointer to a buffer that stores a formatted and signed JWT. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">dst_jwt_buf_len</td><td>The length of the <code>dst_jwt_buf</code> buffer, in bytes. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">bytes_written</td><td>The number of bytes written to &lt;code&lt;dst_jwt_buf.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dst_jwt_buf_len</td><td>The length, in bytes, of the buffer to which dst_jwt_buf points. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">bytes_written</td><td>The number of bytes written to the buffer to which dst_jwt_buf points.</td></tr>
   </table>
   </dd>
 </dl>

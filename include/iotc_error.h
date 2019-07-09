@@ -112,20 +112,14 @@ typedef enum {
 } iotc_state_t;
 
 /**
- * @brief A flag to translate <code>iotc_state_t</code> numeric codes to strings.
+ * @brief A flag to translate ::iotc_state_t numeric codes to strings.
  */
 #define IOTC_OPT_NO_ERROR_STRINGS 1
 
 /**
- * @brief Returns a string representation of the value of
- * <code>iotc_state_t</code>.
+ * @brief Returns the {@link ::iotc_state_t error code} as a string.
  *
- * @param [in] e The <code>iotc_state_t</code> error code.
- *
- * @see iotc_state_t
- * @see IOTC_OPT_NO_ERROR_STRINGS
- *
- * @return The string representation of the error code.
+ * @param [in] e The numeric {@link ::iotc_state_t error code}.
  */
 extern const char* iotc_get_state_string(iotc_state_t e);
 

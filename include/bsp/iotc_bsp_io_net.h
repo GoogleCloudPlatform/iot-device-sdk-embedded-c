@@ -20,64 +20,51 @@
 /**
  * \mainpage Device SDK Board Support Package
  *
- * # Welcome
- * The Board Support Package (BSP) hosts the platform-specific code for the
- * Device SDK.
+ * @details The Board Support Package (BSP) is a set of well-defined functions
+ * that the Device SDK invokes to interact with hardware-specific drivers and
+ * routines.
  *
- * Modify the BSP accordingly to port the Device SDK to new platforms. Other
- * functionality, such as the Device SDK source, event system, MQTT serializer,
- * and callback system, isn't part of the BSP.
+ * Implement these functions to:
+ *     - Perform asychronous networking
+ *     - Allocate platform memory
+ *     - Generate random numbers
+ *     - Keep time
+ *     - Communicate with TLS
  *
- * # Getting started
- * The Device SDK includes a POSIX implementation of the BSP. Use this
- * implementation for for Linux desktops and devices.
+ * The Device SDK builds natively on POSIX platforms. See the
+ * <a href="../../../porting_guide.md">porting guide</a> for more information
+ * about customizing the BSP for non-POSIX platforms.
  *
- * To customize the BSP for non-POSIX platforms, see the <a
- * href="../../../porting_guide.md">porting guide</a>.
- * <code>iotc_bsp_rng.h</code>, <code>iotc_bsp_time.h</code>, and
- * <code>iotc_bsp_io_fs.h</code>.
+ * # POSIX BSP
+ * The POSIX BSP implementation is in the
+ * <code><a href="~/src/bsp/platforms/posix">src/bsp/platforms/posix</a></code>
+ * directory. It implements 
+ * <a href="https://en.wikipedia.org/wiki/Mbed_TLS">mbedTLS</a> by default.
  *
- * # BSP source files
- * The BSP consists of the following files. Each file meets a platform library
- * requirement.
- *  - <code>iotc_bsp_crypto.h</code> implements a cryptography library to sign
- * JWTs.
- *  - <code>iotc_bsp_io_net.h</code> implements asychronous networking.
- *  - <code>iotc_bsp_mem.h</code> allocates platform memory.
- *  - <code>iotc_bsp_rng.h</code> implements random number generation.
- *  - <code>iotc_bsp_time.h</code> implements time functions.
- *  - <code>iotc_bsp_tls.h</code> implements Transport Layer Security (TLS).
- *  - (Optional) <code>iotc_bsp_io_fs.h</code> manages the file system to load
- * certificates.
+ * # TLS implementations
+ * The Device SDK has turn-key
+ * <a href="../../../src/bsp/tls/mbedtls">mbedTLS</a>
+ * and <a href="~/src/bsp/tls/wolfssl">wolfSSL</a> implementations. The 
+ * default <code>make</code> target
+ * <a href="../../../src/bsp/tls/mbedtls">downloads and builds</a> mbedTLS. See
+ * the <a href="../../../doc/user-guide.md">user guide</a> to configure the
+ * Device SDK with wolfTLS.
  *
- * # TLS BSPs
- * The Device SDK includes the following out-of-the-box TLS implementations.
- *
- * ## mbedTLS
- * The default <code>make</code> target <a href"~/src/bsp/mbedtls">downloads and
- * builds</a> <a href"https://tls.mbed.org">mbedTLS</a>.
- *
- * ## wolfSSL
- * See the <a href="../../../user_guide.md">user guide</a> and <a
- * href="../../../porting_guide.md">porting guide</a> to configure the Device
- * SDK for wolfSSL.
- *
- * # Further Reading
- * <ul><li>Device SDK <a href="../../api/html/index.html">API reference</a></li>
- * <li>Device SDK <a href="../../../user_guide.md">user guide</a></li>
- * <li>Device SDK <a href="../../../porting_guide.md">porting guide</a></li>
- * </ul>
+ * The turn-key TLS implementations consist of customized
+ * <a href="dd/d79/iotc__bsp__tls_8h.html">iot_bsp_tls.h</a> and
+ * <a href="dd/d79/iotc__bsp__crypto_8h.html">iotc_bsp_crypto.h</a>
+ * functions:
+ * | mbedTLS | wolfSSL |
+ * | --- | --- |
+ * | <a href="../../../src/bsp/tls/mbedtls/iotc_bsp_tls_mbedtls.c">src/bsp/tls/mbedtls/iotc_bsp_tls_mbedtls.c</a> | <a href="../../../src/bsp/tls/wolfssl/iotc_bsp_tls_wolfssl.c">src/bsp/tls/wolfssl/iotc_bsp_tls_wolfssl.c</a> |
+ * | <a href="../../../src/bsp/crypto/mbedtls/iotc_bsp_crypto.c">src/bsp/crypto/mbedtls/iotc_bsp_crypto.c</a> | <a href="../../../src/bsp/crypto/wolfssl/iotc_bsp_crypto.c">src/bsp/crypto/wolfssl/iotc_bsp_crypto.c</a> |
  */
 
 /**
  * @file  iotc_bsp_io_net.h
- * @brief Perform asynchronous networking.
+ * @brief Creates and manages sockets for asynchronous networking
  *
- * Implementat these functions to connect a platform's networking SDK
- * to the Google Cloud IoT Device SDK in order to perform asynchronous,
- * platform-specific networking.
- *
- * A typical networking workflow consists of the following steps.
+ * @details A typical networking workflow:
  *    1. Create a socket.
  *    2. Connect the socket to a host.
  *    3. Check the connection status.
@@ -95,19 +82,17 @@ extern "C" {
 #endif
 
 /**
- * @typedef iotc_bsp_io_net_state_e
+ * @typedef iotc_bsp_io_net_state_t
  * @brief Networking status codes.
  *
- * Networking function implementations must report a status message to
- * the client application. IOTC_BSP_IO_NET_STATE_OK represents success
- * and others represent errors.
+ * @see iotc_bsp_io_net_state_e
  */
 typedef enum iotc_bsp_io_net_state_e {
-  /** Operation successful. */
+  /** The networking function succeeded. */
   IOTC_BSP_IO_NET_STATE_OK = 0,
-  /** Operation failed. Generic error. */
+  /** Something went wrong. */
   IOTC_BSP_IO_NET_STATE_ERROR = 1,
-  /** Resource is busy. Invoke function again. */
+  /** @details Resource is busy. Invoke function again. */
   IOTC_BSP_IO_NET_STATE_BUSY = 2,
   /** Connection lost. */
   IOTC_BSP_IO_NET_STATE_CONNECTION_RESET = 3,
@@ -117,8 +102,10 @@ typedef enum iotc_bsp_io_net_state_e {
 } iotc_bsp_io_net_state_t;
 
 /**
- * @typedef iotc_bsp_socket_type_e
+ * @typedef iotc_bsp_socket_type_t
  * @brief The socket protocol.
+ *
+ * @see #iotc_bsp_socket_type_e
  */
 typedef enum iotc_bsp_socket_type_e {
   /** TCP socket. */
@@ -129,8 +116,10 @@ typedef enum iotc_bsp_socket_type_e {
 } iotc_bsp_socket_type_t;
 
 /**
- * @typedef iotc_bsp_protocol_type_e
+ * @typedef iotc_bsp_protocol_type_t
  * @brief The version of the socket protocol.
+ *
+ * @see #iotc_bsp_protocol_type_e
  */
 typedef enum iotc_bsp_protocol_type_e {
   /** IPv4. */
@@ -142,16 +131,15 @@ typedef enum iotc_bsp_protocol_type_e {
 
 /**
  * @typedef iotc_bsp_socket_t
- * @brief Socket representation.
- *
- * This data type stores socket representations, such as handles and
- * descriptors. All socket operations require a socket representation.
+ * @brief The socket representation.
  */
 typedef intptr_t iotc_bsp_socket_t;
 
 /**
- * @typedef iotc_bsp_socket_event_s
- * @brief Socket state.
+ * @typedef iotc_bsp_socket_events_t
+ * @brief The socket state.
+ *
+ * @see #iotc_bsp_socket_events_s
  */
 typedef struct iotc_bsp_socket_events_s {
   /** Platform-specific socket value. */
@@ -179,36 +167,29 @@ typedef struct iotc_bsp_socket_events_s {
 } iotc_bsp_socket_events_t;
 
 /**
- * @function
- * @brief Create a socket and connect it to an endpoint.
+ * @details Creates a socket and connect it to an endpoint.
  *
- * @param [out] iotc_socket The platform-specific socket representation should
- *     be stored in this parameter.  This value will be passed to all further
- *     networking bsp calls.
+ * @param [out] iotc_socket The platform-specific socket representation
+ *     This value is passed to all further BSP networking calls.
  * @param [in] host The null-terminated IP or fully-qualified domain name of the
- *     host to connect to.
+ *     host at which to connect.
  * @param [in] port The port number of the endpoint.
- * @param [in] socket_type The socket type. Can be <code>TCP</code>
- *     or <code>UDP</code>.
+ * @param [in] socket_type The {@link #iotc_bsp_socket_type_e socket protocol}.
  *
  * @retval IOTC_BSP_IO_NET_STATE_OK Socket successfully connected to host.
- * @retval IOTC_BSP_IO_NET_STATE_ERROR Socket didn't connect.
+ * @retval IOTC_BSP_IO_NET_STATE_ERROR Can't connect socket.
  */
 iotc_bsp_io_net_state_t iotc_bsp_io_net_socket_connect(
     iotc_bsp_socket_t* iotc_socket, const char* host, uint16_t port,
     iotc_bsp_socket_type_t socket_type);
 
 /**
- * @function
- * @brief Query socket states to schedule read and write operations.
+ * @brief Queries socket states to schedule read and write operations.
  *
- * In the implementation of this function, each element in the
- * socket_events_array parameter must correspond to a socket and contain an
- * initialized iotc_bsp_socket_state_t structure.
- *
- * @param [in] socket_events_array An array of socket events.
+ * @param [in] socket_events_array An array of socket events. Each element must
+ *     be an initialized socket.
  * @param [in] socket_events_array_size The number of elements in
- * socket_events_array.
+ *     socket_events_array.
  * @param [in] timeout The number of seconds before timing out.
  *
  * @retval IOTC_BSP_IO_NET_STATE_OK Socket event successfully updated.
@@ -220,14 +201,12 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_select(
     size_t socket_events_array_size, long timeout_sec);
 
 /**
- * @function
- * @brief Check the socket connection status and report whether the socket is
- * connected to a host.
+ * @details Checks the socket connection status.
  *
  * The Device SDK calls this function implementation after
- * <code>iotc_bsp_io_net_connect()</code> to complete the socket the connection.
+ * iotc_bsp_io_net_connect() to complete the socket connection.
  *
- * This function implemetation server as a tool for monitoring asychronous
+ * This function implemetation serves as a tool for monitoring asychronous
  * connections. If this function impelementation determines that the socket is
  * connected, the Device SDK initiates a TLS handshake.
  *
@@ -236,73 +215,62 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_select(
  *     host to connect to.
  * @param [in] port The port number of the endpoint.
  *
- * @see iotc_bsp_io_net_connect
- *
- * @retval IOTC_BSP_IO_NET_STATE_OK Socket successfully connected.
- * @retval IOTC_BSP_IO_NET_STATE_ERROR Socket didn't connected.
+ * @retval IOTC_BSP_IO_NET_STATE_OK Socket is connected to host.
+ * @retval IOTC_BSP_IO_NET_STATE_ERROR Socket isn't connected.
  */
 iotc_bsp_io_net_state_t iotc_bsp_io_net_connection_check(
     iotc_bsp_socket_t iotc_socket, const char* host, uint16_t port);
 
 /**
- * @function
- * @brief Write data to a socket.
+ * @brief Writes data to a socket. This is a non-blocking operation.
  *
- * The Device SDK calls this function to write data to a socket. This
- * function writes data in chunks, so if it returns
- * IOTC_BSP_IO_NET_STATE_BUSY then the Device SDK calls the function again
- * to send the remaining data on the next tick of the event loop.
- *
- * This is a non-blocking operation.
+ * This function writes data in chunks, so the Device SDK calls it repeatedly
+ * until all chunks are written to the buf parameter. The Device SDK writes a
+ * new chunk to the socket on each event loop tick.
  *
  * @param [in] iotc_socket_nonblocking The socket on which to send data.
  * @param [out] out_written_count The number of bytes written to the socket.
- *     Negative values indicate a closed connection.
+ *     If the value is negative, the connection is closed.
  * @param [in] buf A pointer to a buffer with the data.
  * @param [in] count The size, in bytes, of the buffer to which the buf
- * parameter points.
- *
- * @see iotc_bsp_io_net_create_socket
+ *     parameter points.
  *
  * @retval IOTC_BSP_IO_NET_STATE_OK All data is written to the socket.
- * @retval IOTC_BSP_IO_NET_STATE_BUSY None or some of the data is
- *     written to the socket but no error occurred.
- * @retval IOTC_BSP_IO_NET_STATE_ERROR There is an error on the socket.
+ * @retval IOTC_BSP_IO_NET_STATE_BUSY None or some of the data is written to the
+ *     socket but no error occurred.
+ * @retval IOTC_BSP_IO_NET_STATE_ERROR Socket isn't connected.
+ *
+ * @see iotc_bsp_io_net_create_socket()
  */
 iotc_bsp_io_net_state_t iotc_bsp_io_net_write(
     iotc_bsp_socket_t iotc_socket_nonblocking, int* out_written_count,
     const uint8_t* buf, size_t count);
 
 /**
- * @function
- * @brief Read data from a socket. This is a non-blocking operation.
+ * @brief Reads data from a socket. This is a non-blocking operation.
  *
  * @param [in] iotc_socket_nonblocking The socket from which to read data.
  * @param [out] out_read_count The number of bytes read from the socket.
  * @param [out] buf A pointer to a buffer with the data read from the socket.
  * @param [in] count The size, in bytes, of the buf parameter.
  *
- * @see iotc_bsp_io_net_create_socket
- *
  * @retval IOTC_BSP_IO_NET_STATE_OK Data is successfully read from the socket.
  * @retval IOTC_BSP_IO_NET_STATE_BUSY No data is available on the socket.
- * @retval IOTC_BSP_IO_NET_STATE_ERROR There is an error on the socket.
+ * @retval IOTC_BSP_IO_NET_STATE_ERROR Socket isn't connected.
+ *
+ * @see iotc_bsp_io_net_create_socket()
  */
 iotc_bsp_io_net_state_t iotc_bsp_io_net_read(
     iotc_bsp_socket_t iotc_socket_nonblocking, int* out_read_count,
     uint8_t* buf, size_t count);
 
 /**
- * @function
- * @brief Close a socket.
+ * @brief Closes a socket. This is a non-blocking operation.
  *
  * @param [in] iotc_socket_nonblocking The socket to close.
  *
- * @see iotc_bsp_io_net_create_socket
- *
  * @retval IOTC_BSP_IO_NET_STATE_OK Socket successfully closed.
- * @retval IOTC_BSP_IO_NET_STATE_ERROR An error occurred during the
- *     socket operation.
+ * @retval IOTC_BSP_IO_NET_STATE_ERROR Socket isn't connected.
  */
 iotc_bsp_io_net_state_t iotc_bsp_io_net_close_socket(
     iotc_bsp_socket_t* iotc_socket_nonblocking);

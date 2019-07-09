@@ -46,7 +46,8 @@ $(function() {
 <a href="#nested-classes">Data Structures</a> &#124;
 <a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
-<a href="#enum-members">Enumerations</a>  </div>
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">iotc_bsp_io_fs.h File Reference</div>  </div>
 </div><!--header-->
@@ -71,12 +72,16 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:aab3febfe9062b6e5eb75c3c3bc95fbb4"><td class="memItemLeft" align="right" valign="top">typedef intptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aab3febfe9062b6e5eb75c3c3bc95fbb4">iotc_bsp_io_fs_resource_handle_t</a></td></tr>
-<tr class="separator:aab3febfe9062b6e5eb75c3c3bc95fbb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a25755bd29cc1264859275cc07f351d4e"><td class="memItemLeft" align="right" valign="top">typedef enum <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e">iotc_bsp_io_fs_state_e</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a25755bd29cc1264859275cc07f351d4e">iotc_bsp_io_fs_state_t</a></td></tr>
-<tr class="separator:a25755bd29cc1264859275cc07f351d4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adfdf84b8b00ab62efdbf35530a432a76"><td class="memItemLeft" align="right" valign="top">typedef enum <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a034487a9aff3fc7d702e9cfcddb8a1f0">iotc_bsp_io_fs_resource_type_e</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#adfdf84b8b00ab62efdbf35530a432a76">iotc_bsp_io_fs_resource_type_t</a></td></tr>
-<tr class="separator:adfdf84b8b00ab62efdbf35530a432a76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af35210d1e5577353a582ef327bd09656"><td class="memItemLeft" align="right" valign="top">typedef intptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af35210d1e5577353a582ef327bd09656">iotc_bsp_io_fs_resource_handle_t</a></td></tr>
+<tr class="separator:af35210d1e5577353a582ef327bd09656"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae0f67b38dc35f9e9f41c4673a4a976b"><td class="memItemLeft" align="right" valign="top">typedef enum <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e">iotc_bsp_io_fs_state_e</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aae0f67b38dc35f9e9f41c4673a4a976b">iotc_bsp_io_fs_state_t</a></td></tr>
+<tr class="separator:aae0f67b38dc35f9e9f41c4673a4a976b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9aeb44f18f13a22482488aa3a2d358f9"><td class="memItemLeft" align="right" valign="top">typedef enum <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a034487a9aff3fc7d702e9cfcddb8a1f0">iotc_bsp_io_fs_resource_type_e</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a9aeb44f18f13a22482488aa3a2d358f9">iotc_bsp_io_fs_resource_type_t</a></td></tr>
+<tr class="separator:a9aeb44f18f13a22482488aa3a2d358f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2c5ea369b5c47a13897772a5ade6052"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="../../df/db3/structiotc__bsp__io__fs__stat__s.html">iotc_bsp_io_fs_stat_s</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af2c5ea369b5c47a13897772a5ade6052">iotc_bsp_io_fs_stat_t</a></td></tr>
+<tr class="separator:af2c5ea369b5c47a13897772a5ade6052"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b5dbde50c01026f871bdb08d9f6bf9e"><td class="memItemLeft" align="right" valign="top">typedef enum <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5b1463dcc90f4f563a9a991435bdac9d">iotc_bsp_io_fs_open_flags</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a6b5dbde50c01026f871bdb08d9f6bf9e">iotc_bsp_io_fs_open_flags_t</a></td></tr>
+<tr class="separator:a6b5dbde50c01026f871bdb08d9f6bf9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -101,38 +106,30 @@ Enumerations</h2></td></tr>
 <tr class="memitem:a034487a9aff3fc7d702e9cfcddb8a1f0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a034487a9aff3fc7d702e9cfcddb8a1f0">iotc_bsp_io_fs_resource_type_e</a> { <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a034487a9aff3fc7d702e9cfcddb8a1f0ae08ec70dac3b9849506cc1478eba6cff">IOTC_BSP_IO_FS_CERTIFICATE</a> = 0
  }</td></tr>
 <tr class="separator:a034487a9aff3fc7d702e9cfcddb8a1f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="member-group"></a>
-iotc_bsp_io_fs_stat_s</h2></td></tr>
-<tr><td class="ititle" colspan="2"><p><a class="anchor" id="amgrp467bb30379e134ef7e86d26ad888cd0a"></a>Resource size.</p>
-<p>The <code><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a2f8e15dfd4c4c245712edf8ed81ac38e" title="@function">iotc_bsp_io_fs_stat()</a></code> function requests this information.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a2f8e15dfd4c4c245712edf8ed81ac38e" title="@function">iotc_bsp_io_fs_stat</a> </dd></dl>
-</td></tr>
 <tr class="memitem:a5b1463dcc90f4f563a9a991435bdac9d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5b1463dcc90f4f563a9a991435bdac9d">iotc_bsp_io_fs_open_flags</a> { <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5b1463dcc90f4f563a9a991435bdac9da341662247ba1c5094ac939f633f90637">IOTC_BSP_IO_FS_OPEN_READ</a> = 1 &lt;&lt; 0, 
 <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5b1463dcc90f4f563a9a991435bdac9da1f40c0919a442d22189192f78c9f9210">IOTC_BSP_IO_FS_OPEN_WRITE</a> = 1 &lt;&lt; 1, 
 <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5b1463dcc90f4f563a9a991435bdac9da0d03fd76949a4ff23fa1b05410d39382">IOTC_BSP_IO_FS_OPEN_APPEND</a> = 1 &lt;&lt; 2
  }</td></tr>
 <tr class="separator:a5b1463dcc90f4f563a9a991435bdac9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d6f73007cec965a0693aed36bde9fa1"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="../../df/db3/structiotc__bsp__io__fs__stat__s.html">iotc_bsp_io_fs_stat_s</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a9d6f73007cec965a0693aed36bde9fa1">iotc_bsp_io_fs_stat_t</a></td></tr>
-<tr class="separator:a9d6f73007cec965a0693aed36bde9fa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c0103715b0196efa260731a792db599"><td class="memItemLeft" align="right" valign="top">typedef enum <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5b1463dcc90f4f563a9a991435bdac9d">iotc_bsp_io_fs_open_flags</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a7c0103715b0196efa260731a792db599">iotc_bsp_io_fs_open_flags_t</a></td></tr>
-<tr class="separator:a7c0103715b0196efa260731a792db599"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f8e15dfd4c4c245712edf8ed81ac38e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a25755bd29cc1264859275cc07f351d4e">iotc_bsp_io_fs_state_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a2f8e15dfd4c4c245712edf8ed81ac38e">iotc_bsp_io_fs_stat</a> (const char *const resource_name, <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a9d6f73007cec965a0693aed36bde9fa1">iotc_bsp_io_fs_stat_t</a> *resource_stat)</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a2f8e15dfd4c4c245712edf8ed81ac38e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aae0f67b38dc35f9e9f41c4673a4a976b">iotc_bsp_io_fs_state_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a2f8e15dfd4c4c245712edf8ed81ac38e">iotc_bsp_io_fs_stat</a> (const char *const resource_name, <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af2c5ea369b5c47a13897772a5ade6052">iotc_bsp_io_fs_stat_t</a> *resource_stat)</td></tr>
 <tr class="separator:a2f8e15dfd4c4c245712edf8ed81ac38e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeda349a4d1ded4a9d2a3c867093d4515"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a25755bd29cc1264859275cc07f351d4e">iotc_bsp_io_fs_state_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aeda349a4d1ded4a9d2a3c867093d4515">iotc_bsp_io_fs_open</a> (const char *const resource_name, const size_t size, const <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a7c0103715b0196efa260731a792db599">iotc_bsp_io_fs_open_flags_t</a> open_flags, <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aab3febfe9062b6e5eb75c3c3bc95fbb4">iotc_bsp_io_fs_resource_handle_t</a> *resource_handle_out)</td></tr>
+<tr class="memitem:aeda349a4d1ded4a9d2a3c867093d4515"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aae0f67b38dc35f9e9f41c4673a4a976b">iotc_bsp_io_fs_state_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aeda349a4d1ded4a9d2a3c867093d4515">iotc_bsp_io_fs_open</a> (const char *const resource_name, const size_t size, const <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a6b5dbde50c01026f871bdb08d9f6bf9e">iotc_bsp_io_fs_open_flags_t</a> open_flags, <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af35210d1e5577353a582ef327bd09656">iotc_bsp_io_fs_resource_handle_t</a> *resource_handle_out)</td></tr>
 <tr class="separator:aeda349a4d1ded4a9d2a3c867093d4515"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee7d67db4d135e9eceb0f9688acdd424"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a25755bd29cc1264859275cc07f351d4e">iotc_bsp_io_fs_state_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aee7d67db4d135e9eceb0f9688acdd424">iotc_bsp_io_fs_read</a> (const <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aab3febfe9062b6e5eb75c3c3bc95fbb4">iotc_bsp_io_fs_resource_handle_t</a> resource_handle, const size_t offset, const uint8_t **buffer, size_t *const buffer_size)</td></tr>
+<tr class="memitem:aee7d67db4d135e9eceb0f9688acdd424"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aae0f67b38dc35f9e9f41c4673a4a976b">iotc_bsp_io_fs_state_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aee7d67db4d135e9eceb0f9688acdd424">iotc_bsp_io_fs_read</a> (const <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af35210d1e5577353a582ef327bd09656">iotc_bsp_io_fs_resource_handle_t</a> resource_handle, const size_t offset, const uint8_t **buffer, size_t *const buffer_size)</td></tr>
 <tr class="separator:aee7d67db4d135e9eceb0f9688acdd424"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa431e2397db542181f69518e9613fee6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a25755bd29cc1264859275cc07f351d4e">iotc_bsp_io_fs_state_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aa431e2397db542181f69518e9613fee6">iotc_bsp_io_fs_write</a> (const <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aab3febfe9062b6e5eb75c3c3bc95fbb4">iotc_bsp_io_fs_resource_handle_t</a> resource_handle, const uint8_t *const buffer, const size_t buffer_size, const size_t offset, size_t *const bytes_written)</td></tr>
+<tr class="memitem:aa431e2397db542181f69518e9613fee6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aae0f67b38dc35f9e9f41c4673a4a976b">iotc_bsp_io_fs_state_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aa431e2397db542181f69518e9613fee6">iotc_bsp_io_fs_write</a> (const <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af35210d1e5577353a582ef327bd09656">iotc_bsp_io_fs_resource_handle_t</a> resource_handle, const uint8_t *const buffer, const size_t buffer_size, const size_t offset, size_t *const bytes_written)</td></tr>
 <tr class="separator:aa431e2397db542181f69518e9613fee6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72a3a7345e5b251d1712618625738394"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a25755bd29cc1264859275cc07f351d4e">iotc_bsp_io_fs_state_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a72a3a7345e5b251d1712618625738394">iotc_bsp_io_fs_close</a> (const <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aab3febfe9062b6e5eb75c3c3bc95fbb4">iotc_bsp_io_fs_resource_handle_t</a> resource_handle)</td></tr>
+<tr class="memitem:a72a3a7345e5b251d1712618625738394"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aae0f67b38dc35f9e9f41c4673a4a976b">iotc_bsp_io_fs_state_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a72a3a7345e5b251d1712618625738394">iotc_bsp_io_fs_close</a> (const <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af35210d1e5577353a582ef327bd09656">iotc_bsp_io_fs_resource_handle_t</a> resource_handle)</td></tr>
 <tr class="separator:a72a3a7345e5b251d1712618625738394"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6b8240cb6ca31aa4ea3ad8462a1c883"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a25755bd29cc1264859275cc07f351d4e">iotc_bsp_io_fs_state_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aa6b8240cb6ca31aa4ea3ad8462a1c883">iotc_bsp_io_fs_remove</a> (const char *const resource_name)</td></tr>
+<tr class="memitem:aa6b8240cb6ca31aa4ea3ad8462a1c883"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aae0f67b38dc35f9e9f41c4673a4a976b">iotc_bsp_io_fs_state_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aa6b8240cb6ca31aa4ea3ad8462a1c883">iotc_bsp_io_fs_remove</a> (const char *const resource_name)</td></tr>
 <tr class="separator:aa6b8240cb6ca31aa4ea3ad8462a1c883"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Access and manage files. </p>
-<p>These functions facilitate non-volatile certificate storage. resource_name strings reference files. </p>
+<div class="textblock"><p>Implements functions to access and manage files. </p>
+<p>These functions facilitate non-volatile certificate storage. </p>
 
 <p class="definition">Definition in file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
@@ -151,7 +148,9 @@ iotc_bsp_io_fs_stat_s</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html#l00038">38</a> of file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
+<p>The handle points to an open file. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html#l00043">43</a> of file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
 
 </div>
 </div>
@@ -167,80 +166,93 @@ iotc_bsp_io_fs_stat_s</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html#l00037">37</a> of file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
+<p>The handle doesn't point to an open file. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html#l00041">41</a> of file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Typedef Documentation</h2>
-<a id="a7c0103715b0196efa260731a792db599"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c0103715b0196efa260731a792db599">&#9670;&nbsp;</a></span>iotc_bsp_io_fs_open_flags_t</h2>
+<a id="a6b5dbde50c01026f871bdb08d9f6bf9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b5dbde50c01026f871bdb08d9f6bf9e">&#9670;&nbsp;</a></span>iotc_bsp_io_fs_open_flags_t</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef enum <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5b1463dcc90f4f563a9a991435bdac9d">iotc_bsp_io_fs_open_flags</a>  <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a7c0103715b0196efa260731a792db599">iotc_bsp_io_fs_open_flags_t</a></td>
+          <td class="memname"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a6b5dbde50c01026f871bdb08d9f6bf9e">iotc_bsp_io_fs_open_flags_t</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>File operations. </p>
+<p>To open files, Device SDK passes these values to <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aeda349a4d1ded4a9d2a3c867093d4515">iotc_bsp_io_fs_open()</a>. </p>
+
 </div>
 </div>
-<a id="aab3febfe9062b6e5eb75c3c3bc95fbb4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aab3febfe9062b6e5eb75c3c3bc95fbb4">&#9670;&nbsp;</a></span>iotc_bsp_io_fs_resource_handle_t</h2>
+<a id="af35210d1e5577353a582ef327bd09656"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af35210d1e5577353a582ef327bd09656">&#9670;&nbsp;</a></span>iotc_bsp_io_fs_resource_handle_t</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef intptr_t <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aab3febfe9062b6e5eb75c3c3bc95fbb4">iotc_bsp_io_fs_resource_handle_t</a></td>
+          <td class="memname"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af35210d1e5577353a582ef327bd09656">iotc_bsp_io_fs_resource_handle_t</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html#l00035">35</a> of file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
+<p>A pointer to an open file. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html#l00038">38</a> of file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
 
 </div>
 </div>
-<a id="adfdf84b8b00ab62efdbf35530a432a76"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adfdf84b8b00ab62efdbf35530a432a76">&#9670;&nbsp;</a></span>iotc_bsp_io_fs_resource_type_t</h2>
+<a id="a9aeb44f18f13a22482488aa3a2d358f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9aeb44f18f13a22482488aa3a2d358f9">&#9670;&nbsp;</a></span>iotc_bsp_io_fs_resource_type_t</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef enum <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a034487a9aff3fc7d702e9cfcddb8a1f0">iotc_bsp_io_fs_resource_type_e</a>  <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#adfdf84b8b00ab62efdbf35530a432a76">iotc_bsp_io_fs_resource_type_t</a></td>
+          <td class="memname"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a9aeb44f18f13a22482488aa3a2d358f9">iotc_bsp_io_fs_resource_type_t</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Resource types. Must be TLS server authentication certificates. </p>
 
 </div>
 </div>
-<a id="a9d6f73007cec965a0693aed36bde9fa1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9d6f73007cec965a0693aed36bde9fa1">&#9670;&nbsp;</a></span>iotc_bsp_io_fs_stat_t</h2>
+<a id="af2c5ea369b5c47a13897772a5ade6052"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2c5ea369b5c47a13897772a5ade6052">&#9670;&nbsp;</a></span>iotc_bsp_io_fs_stat_t</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef struct <a class="el" href="../../df/db3/structiotc__bsp__io__fs__stat__s.html">iotc_bsp_io_fs_stat_s</a>  <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a9d6f73007cec965a0693aed36bde9fa1">iotc_bsp_io_fs_stat_t</a></td>
+          <td class="memname"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af2c5ea369b5c47a13897772a5ade6052">iotc_bsp_io_fs_stat_t</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>The size of TLS server authentication certificates. </p>
+
 </div>
 </div>
-<a id="a25755bd29cc1264859275cc07f351d4e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a25755bd29cc1264859275cc07f351d4e">&#9670;&nbsp;</a></span>iotc_bsp_io_fs_state_t</h2>
+<a id="aae0f67b38dc35f9e9f41c4673a4a976b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae0f67b38dc35f9e9f41c4673a4a976b">&#9670;&nbsp;</a></span>iotc_bsp_io_fs_state_t</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef enum <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e">iotc_bsp_io_fs_state_e</a>  <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a25755bd29cc1264859275cc07f351d4e">iotc_bsp_io_fs_state_t</a></td>
+          <td class="memname"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aae0f67b38dc35f9e9f41c4673a4a976b">iotc_bsp_io_fs_state_t</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>File management function status. </p>
+<p>File management functions must return a status message to the client application. </p>
 
 </div>
 </div>
@@ -265,7 +277,7 @@ iotc_bsp_io_fs_stat_s</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html#l00109">109</a> of file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html#l00102">102</a> of file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
 
 </div>
 </div>
@@ -285,7 +297,7 @@ iotc_bsp_io_fs_stat_s</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html#l00080">80</a> of file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html#l00082">82</a> of file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
 
 </div>
 </div>
@@ -300,14 +312,10 @@ iotc_bsp_io_fs_stat_s</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>File management function status. </p>
-<p>File management function implementations must return a status message to the client application. IOTC_BSP_IO_FS_STATE_OK represents success and others represent errors. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924ea2102e4ef2c185ff54376132a63b3094c"></a>IOTC_BSP_IO_FS_STATE_OK&#160;</td><td class="fielddoc"><p>Operation successful. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924ea2102e4ef2c185ff54376132a63b3094c"></a>IOTC_BSP_IO_FS_STATE_OK&#160;</td><td class="fielddoc"><p>The file management function succeeded. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924eafc38f0807bc6b77e389e5a852292e87e"></a>IOTC_BSP_IO_FS_ERROR&#160;</td><td class="fielddoc"><p>Operation failed. </p>
-<p>Generic error. </p>
+<tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924eafc38f0807bc6b77e389e5a852292e87e"></a>IOTC_BSP_IO_FS_ERROR&#160;</td><td class="fielddoc"><p>Something went wrong. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924eaaedb90d13f4245cffa6d59af5a44d91a"></a>IOTC_BSP_IO_FS_INVALID_PARAMETER&#160;</td><td class="fielddoc"><p>invalid parameter. </p>
 </td></tr>
@@ -331,7 +339,7 @@ iotc_bsp_io_fs_stat_s</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html#l00049">49</a> of file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html#l00051">51</a> of file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
 
 </div>
 </div>
@@ -343,26 +351,23 @@ iotc_bsp_io_fs_stat_s</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a25755bd29cc1264859275cc07f351d4e">iotc_bsp_io_fs_state_t</a> iotc_bsp_io_fs_close </td>
+          <td class="memname"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aae0f67b38dc35f9e9f41c4673a4a976b">iotc_bsp_io_fs_state_t</a> iotc_bsp_io_fs_close </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aab3febfe9062b6e5eb75c3c3bc95fbb4">iotc_bsp_io_fs_resource_handle_t</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af35210d1e5577353a582ef327bd09656">iotc_bsp_io_fs_resource_handle_t</a>&#160;</td>
           <td class="paramname"><em>resource_handle</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>@function </p>
-<p>Close a file.</p>
-<p>Implementation of this function must free any resources that were used to read or write to the file.</p>
+<p>Closes a file. Implementations of this function must free all of the resources used to read or write to the file.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">resource_handle</td><td>The iotc_bsp_io_fs_resource_handle_t handle from <code><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aeda349a4d1ded4a9d2a3c867093d4515" title="@function">iotc_bsp_io_fs_open()</a></code>.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">resource_handle</td><td>A <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af35210d1e5577353a582ef327bd09656">handle to an open file</a>.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e" title="File management function status.">iotc_bsp_io_fs_state_e</a></dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>iotc_bsp_io_fs_state_t File management function status. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>File management function status.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e">iotc_bsp_io_fs_state_e</a> </dd></dl>
 
 </div>
 </div>
@@ -373,7 +378,7 @@ iotc_bsp_io_fs_stat_s</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a25755bd29cc1264859275cc07f351d4e">iotc_bsp_io_fs_state_t</a> iotc_bsp_io_fs_open </td>
+          <td class="memname"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aae0f67b38dc35f9e9f41c4673a4a976b">iotc_bsp_io_fs_state_t</a> iotc_bsp_io_fs_open </td>
           <td>(</td>
           <td class="paramtype">const char *const&#160;</td>
           <td class="paramname"><em>resource_name</em>, </td>
@@ -387,13 +392,13 @@ iotc_bsp_io_fs_stat_s</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a7c0103715b0196efa260731a792db599">iotc_bsp_io_fs_open_flags_t</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a6b5dbde50c01026f871bdb08d9f6bf9e">iotc_bsp_io_fs_open_flags_t</a>&#160;</td>
           <td class="paramname"><em>open_flags</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aab3febfe9062b6e5eb75c3c3bc95fbb4">iotc_bsp_io_fs_resource_handle_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af35210d1e5577353a582ef327bd09656">iotc_bsp_io_fs_resource_handle_t</a> *&#160;</td>
           <td class="paramname"><em>resource_handle_out</em>&#160;</td>
         </tr>
         <tr>
@@ -403,29 +408,18 @@ iotc_bsp_io_fs_stat_s</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>@function </p>
-<p>Open a file.</p>
-<p>Implementations of this function must return a iotc_bsp_io_fs_resource_handle_t handle that's passed to subsequent operations (read, write, or close). The Device SDK calls this function and then passes resource_handle_out to <code><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aee7d67db4d135e9eceb0f9688acdd424" title="@function">iotc_bsp_io_fs_read()</a></code> or <code><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aa431e2397db542181f69518e9613fee6" title="@function">iotc_bsp_io_fs_write()</a></code> to perform the corresponding operation.</p>
+<p>Opens a file.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">resource_name</td><td>File name. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>(Optional) The size, in bytes, of the file. Required on non-POSIX implementations. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">open_flags</td><td>An iotc_bsp_io_fs_open_flags_t bitmask. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">resource_handle_out</td><td>A pointer to an iotc_bsp_io_fs_resource_handle handle.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">resource_name</td><td>The file name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>The size, in bytes, of the file. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">open_flags</td><td>A <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a6b5dbde50c01026f871bdb08d9f6bf9e">file operation</a> bitmask. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">resource_handle_out</td><td>A <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af35210d1e5577353a582ef327bd09656">handle to an open file</a>. The Device SDK passes this handle to <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aee7d67db4d135e9eceb0f9688acdd424">iotc_bsp_io_fs_read()</a> or <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aa431e2397db542181f69518e9613fee6">iotc_bsp_io_fs_write()</a> to perform the corresponding operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aee7d67db4d135e9eceb0f9688acdd424" title="@function">iotc_bsp_io_fs_read</a> </dd>
-<dd>
-<a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aa431e2397db542181f69518e9613fee6" title="@function">iotc_bsp_io_fs_write</a> </dd>
-<dd>
-<a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e" title="File management function status.">iotc_bsp_io_fs_state_e</a> </dd>
-<dd>
-<a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a7c0103715b0196efa260731a792db599">iotc_bsp_io_fs_open_flags_t</a> </dd>
-<dd>
-<a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aab3febfe9062b6e5eb75c3c3bc95fbb4">iotc_bsp_io_fs_resource_handle_t</a></dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>iotc_bsp_io_fs_state_t File management function status. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>File management function status.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e">iotc_bsp_io_fs_state_e</a> </dd></dl>
 
 </div>
 </div>
@@ -436,9 +430,9 @@ iotc_bsp_io_fs_stat_s</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a25755bd29cc1264859275cc07f351d4e">iotc_bsp_io_fs_state_t</a> iotc_bsp_io_fs_read </td>
+          <td class="memname"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aae0f67b38dc35f9e9f41c4673a4a976b">iotc_bsp_io_fs_state_t</a> iotc_bsp_io_fs_read </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aab3febfe9062b6e5eb75c3c3bc95fbb4">iotc_bsp_io_fs_resource_handle_t</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af35210d1e5577353a582ef327bd09656">iotc_bsp_io_fs_resource_handle_t</a>&#160;</td>
           <td class="paramname"><em>resource_handle</em>, </td>
         </tr>
         <tr>
@@ -466,27 +460,22 @@ iotc_bsp_io_fs_stat_s</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>@function </p>
-<p>Read a file.</p>
-<p>The Device SDK passes an iotc_bsp_io_fs_resource_handle_t handle to this function in order to read a file. Before calling this function, the Device SDK calls the <code><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aeda349a4d1ded4a9d2a3c867093d4515" title="@function">iotc_bsp_io_fs_open()</a></code> function to create an iotc_bsp_io_fs_resource_handle_t handle.</p>
-<p>Implementations of this function must fill the buffer parameter at offset 0.</p>
-<p>Implementations of this function can allocate a buffer once, reuse the buffer, and free the buffer when the file is closed. Or, implementations can create a new buffer on repeated calls and free the previous one before returning from this function.</p>
+<p>Reads a file. Implementations of this function must fill the buffer parameter at offset 0. The Device SDK opens the file before reading it.</p>
+<p>Implementations of this function can allocate buffers by:</p><ul>
+<li>Allocating the buffer once, resusing it at each function call, and freeing it when the file closes.</li>
+<li>Creating a new buffer each time the function is called and and freeing the old buffer before the function returns.</li>
+</ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">resource_handle</td><td>The iotc_bsp_io_fs_resource_handle_t handle from <code><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aeda349a4d1ded4a9d2a3c867093d4515" title="@function">iotc_bsp_io_fs_open()</a></code>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">resource_handle</td><td>A <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af35210d1e5577353a582ef327bd09656">handle to an open file</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">offset</td><td>The position within the resource, in bytes, from which to start read operations. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">buffer</td><td>A pointer to a buffer with the bytes read from the file. The buffer is already allocated by the Device SDK. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">buffer</td><td>A pointer to a buffer with the bytes read from the file. Function implementations must define how to allocate buffers The buffer is already allocated by the Device SDK. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">buffer_size</td><td>The number of bytes read from the file and stored in the buffer.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aeda349a4d1ded4a9d2a3c867093d4515" title="@function">iotc_bsp_io_fs_open</a> </dd>
-<dd>
-<a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a72a3a7345e5b251d1712618625738394" title="@function">iotc_bsp_io_fs_close</a> </dd>
-<dd>
-<a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e" title="File management function status.">iotc_bsp_io_fs_state_e</a></dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>iotc_bsp_io_fs_state_t File management function status. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>File management function status.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e">iotc_bsp_io_fs_state_e</a> </dd></dl>
 
 </div>
 </div>
@@ -497,7 +486,7 @@ iotc_bsp_io_fs_stat_s</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a25755bd29cc1264859275cc07f351d4e">iotc_bsp_io_fs_state_t</a> iotc_bsp_io_fs_remove </td>
+          <td class="memname"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aae0f67b38dc35f9e9f41c4673a4a976b">iotc_bsp_io_fs_state_t</a> iotc_bsp_io_fs_remove </td>
           <td>(</td>
           <td class="paramtype">const char *const&#160;</td>
           <td class="paramname"><em>resource_name</em></td><td>)</td>
@@ -506,16 +495,15 @@ iotc_bsp_io_fs_stat_s</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>@function </p>
-<p>Delete a file.</p>
+<p>Deletes a file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">resource_name</td><td>The name of the file.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e" title="File management function status.">iotc_bsp_io_fs_state_e</a></dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>iotc_bsp_io_fs_state_t File management function status. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>File management function status.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e">iotc_bsp_io_fs_state_e</a> </dd></dl>
 
 </div>
 </div>
@@ -526,7 +514,7 @@ iotc_bsp_io_fs_stat_s</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a25755bd29cc1264859275cc07f351d4e">iotc_bsp_io_fs_state_t</a> iotc_bsp_io_fs_stat </td>
+          <td class="memname"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aae0f67b38dc35f9e9f41c4673a4a976b">iotc_bsp_io_fs_state_t</a> iotc_bsp_io_fs_stat </td>
           <td>(</td>
           <td class="paramtype">const char *const&#160;</td>
           <td class="paramname"><em>resource_name</em>, </td>
@@ -534,7 +522,7 @@ iotc_bsp_io_fs_stat_s</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a9d6f73007cec965a0693aed36bde9fa1">iotc_bsp_io_fs_stat_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af2c5ea369b5c47a13897772a5ade6052">iotc_bsp_io_fs_stat_t</a> *&#160;</td>
           <td class="paramname"><em>resource_stat</em>&#160;</td>
         </tr>
         <tr>
@@ -545,17 +533,16 @@ iotc_bsp_io_fs_stat_s</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>@function </p>
-<p>Determine file size.</p>
+<p>Determines file size. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">resource_name</td><td>File name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">resource_name</td><td>The file name. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">resource_stat</td><td>A structure for the file size information.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e" title="File management function status.">iotc_bsp_io_fs_state_e</a></dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>iotc_bsp_io_fs_state_t File management function status. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>iotc_bsp_io_fs_state_e File management function status.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e">iotc_bsp_io_fs_state_e</a> </dd></dl>
 
 </div>
 </div>
@@ -566,9 +553,9 @@ iotc_bsp_io_fs_stat_s</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a25755bd29cc1264859275cc07f351d4e">iotc_bsp_io_fs_state_t</a> iotc_bsp_io_fs_write </td>
+          <td class="memname"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aae0f67b38dc35f9e9f41c4673a4a976b">iotc_bsp_io_fs_state_t</a> iotc_bsp_io_fs_write </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aab3febfe9062b6e5eb75c3c3bc95fbb4">iotc_bsp_io_fs_resource_handle_t</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af35210d1e5577353a582ef327bd09656">iotc_bsp_io_fs_resource_handle_t</a>&#160;</td>
           <td class="paramname"><em>resource_handle</em>, </td>
         </tr>
         <tr>
@@ -602,13 +589,14 @@ iotc_bsp_io_fs_stat_s</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>@function </p>
-<p>Write to a file.</p>
-<p>Implementations of this function can allocate a buffer once, reuse the buffer, and close the file to free the buffer. Or, implementations can create a new buffer and free the previous one before returning from this function.</p>
+<p>Writes to a file. The Device SDK opens the file before writing to it.</p>
+<p>Implementations of this function can allocate buffers by:</p><ul>
+<li>Allocating the buffer once, resusing it at each function call, and freeing it when the file closes.</li>
+<li>Creating a new buffer each time the function is called and and freeing the old buffer before the function returns.</li>
+</ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">resource_handle</td><td>The iotc_bsp_io_fs_resource_handle_t handle from <code><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aeda349a4d1ded4a9d2a3c867093d4515" title="@function">iotc_bsp_io_fs_open()</a></code>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">resource_handle</td><td>A <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af35210d1e5577353a582ef327bd09656">handle to an open file</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">buffer</td><td>A pointer to a byte array with the data to write to the file. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">buffer_size</td><td>The size, in bytes of the buffer. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">offset</td><td>The position within the resource, in bytes, from which to start to the write operation. </td></tr>
@@ -616,10 +604,8 @@ iotc_bsp_io_fs_stat_s</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aeda349a4d1ded4a9d2a3c867093d4515" title="@function">iotc_bsp_io_fs_open</a> </dd>
-<dd>
-<a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e" title="File management function status.">iotc_bsp_io_fs_state_e</a></dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>iotc_bsp_io_fs_state_t File management function status. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>File management function status.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e">iotc_bsp_io_fs_state_e</a> </dd></dl>
 
 </div>
 </div>

@@ -64,9 +64,11 @@ Functions</h2></td></tr>
 <tr class="separator:aec178ad6113ea06617fa118c5b4eb05f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Implement time functions. </p>
-<p>The client application uses these functions to keep track of time. Time functions implementations muyst determine the exact execution time of scheduled tasks and the delayed reconnection logic.</p>
-<p>Use hardware or NTP servers to maintain an accurate clock. </p>
+<div class="textblock"><p>Implements a timekeeping system. </p>
+<p>Use hardware or NTP servers to maintain an accurate clock. The Device SDK calls these functions to determine the:</p><ul>
+<li>Exact execution time of scheduled tasks</li>
+<li>Delayed reconnection logic </li>
+</ul>
 
 <p class="definition">Definition in file <a class="el" href="../../d0/dde/iotc__bsp__time_8h_source.html">iotc_bsp_time.h</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
@@ -85,8 +87,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>@function </p>
-<p>Return the milliseconds since Epoch. </p>
+<p>Returns the milliseconds since Epoch. </p>
 
 </div>
 </div>
@@ -105,8 +106,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>@function </p>
-<p>Return the seconds since Epoch. </p>
+<p>Returns the seconds since Epoch. </p>
 
 </div>
 </div>
@@ -125,8 +125,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>@function </p>
-<p>Return monotonically increasing time in milliseconds. </p>
+<p>Returns monotonically increasing time in milliseconds. </p>
 
 </div>
 </div>
@@ -145,9 +144,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>@function </p>
-<p>Initialize the timekeeping system.</p>
-<p>On POSIX systems, this function is empty because POSIX systems already include initialized timekeeping systems. On non-POSIX systems, implementations of this function can connect to an NTP service or initialize time-step functionality. </p>
+<p>Initializes the timekeeping system. </p>
 
 </div>
 </div>

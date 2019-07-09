@@ -42,7 +42,7 @@ typedef enum iotc_mqtt_retain_e {
 
 /**
  * @name iotc_mqtt_qos_t
- * @brief The MQTT Quality of Service levels.
+ * @brief MQTT Quality of Service levels.
  *
  * For details, see the <a href="http://docs.oasis-open.org/mqtt/
  * mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718099">MQTT QoS
@@ -59,7 +59,7 @@ typedef enum iotc_mqtt_qos_e {
 
 /**
  * @name iotc_mqtt_suback_status_t
- * @brief The MQTT SUBACK status.
+ * @brief MQTT SUBACK status.
  *
  * For details, see the <a href="http://docs.oasis-open.org/mqtt/
  * mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718068">MQTT
@@ -78,7 +78,7 @@ typedef enum iotc_mqtt_suback_status_e {
 
 /**
  * @name iotc_mqtt_dup_t
- * @brief The MQTT DUP flag.
+ * @brief MQTT DUP flag.
  *
  * For details, see the <a href="http://docs.oasis-open.org/mqtt/
  * mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718038">MQTT DUP

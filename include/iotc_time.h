@@ -29,7 +29,7 @@ extern "C" {
 
 /**
  * @name iotc_time_t
- * @brief The time storage type.
+ * @brief Time storage type.
  *
  * Use a 64-bit time type whenever possible to prevent timer rollovers.
  */

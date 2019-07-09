@@ -34,11 +34,11 @@ extern "C" {
  */
 typedef enum iotc_connection_state_e {
   /** The connection is not established and there is no pending
-   * connect operation in <code>libiotc</code>. */
+   * connection request. */
   IOTC_CONNECTION_STATE_UNINITIALIZED = 0,
   /** The connect operation started. */
   IOTC_CONNECTION_STATE_OPENING,
-  /** The connect operation is successfully finished. */
+  /** The client connected to a broker. */
   IOTC_CONNECTION_STATE_OPENED,
   /** The disconnect operation started. */
   IOTC_CONNECTION_STATE_CLOSING,
@@ -61,8 +61,7 @@ typedef enum iotc_session_type_e {
 
 /**
  * @struct iotc_connection_data_t
- * @brief The connection parameters received by the <code>iotc_connect()</code>
- * callback.
+ * @brief The connection parameters.
  *
  * @see iotc_connect
  */

@@ -42,23 +42,31 @@ $(function() {
 <div class="title">Google Cloud IoT Device SDK for Embedded C API </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1>Welcome</h1>
-<p>The Device SDK API securely connects client applications to <a href="https://cloud.google.com/iot-core/">Cloud IoT Core</a> in order to publish and subscribe to messages via MQTT.</p>
-<p>To port the Device SDK to your device, review the Board Support Package (BSP) <a href="../../bsp/html/index.html">reference</a> and <a href="../../../porting_guide.md">porting guide</a>.</p>
+<div class="textblock"><p>The Device SDK API securely connects client applications to <a href="https://cloud.google.com/iot-core/">Cloud IoT Core</a> in order to publish and subscribe to messages via <a href="http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html">MQTT</a>.</p>
 <h1>Getting started</h1>
-<p>All of the standard Device SDK API functions are in the <code>/include</code> directory and have the 'iotc' prefix. To get started, navigate to the <b>File</b> tab and open <code><a class="el" href="d9/d22/iotc_8h.html" title="Connects client applications to Cloud IoT Core.">iotc.h</a></code>.</p>
-<p>These documents are a complete reference for POSIX systems. Use the <a href="../../bsp/html/index.html">BSP</a> to build the Device SDK on a custom, non-POSIX platform.</p>
-<h1>Further reading</h1>
-<ul>
-<li>
-Device SDK <a href="../../bsp/html/index.html">BSP reference</a> </li>
-<li>
-<a href="http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html">MQTT v3.1.1 Specification</a> </li>
-<li>
-Device SDK <a href="../../../user_guide.md">user guide</a> </li>
-<li>
-Device SDK <a href="../../../porting_guide.md">porting guide</a> </li>
+<p>To use the Device SDK API:</p><ol type="1">
+<li><a href="https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c#building">Build</a> the Device SDK on your device</li>
+<li>Create a client application with the Device SDK API methods</li>
+</ol>
+<h2>Device SDK API methods</h2>
+<p>You can use the Device SDK API to create a client application that connects to and communicates with MQTT brokers. The <a href="../../../user_guide.md">user guide</a> demonstrates the <a href="../../../user_guide.md#typical-client-application-workflow">typical client application workflow</a>. It highlights the following Device SDK API methods:</p><ul>
+<li><b>Connecting to Cloud IoT Core</b><ul>
+<li><a class="el" href="d9/d22/iotc_8h.html#a949c6fa4e75efb1814aa5cbedf742c12">iotc_initialize()</a></li>
+<li><a class="el" href="d9/d22/iotc_8h.html#a657294c0f1cda3a8ec5a2bb284709657" title="Creates a connection context.">iotc_create_context()</a></li>
+<li><a class="el" href="d9/d22/iotc_8h.html#a48ab2dda7fedc71942119642f5b0e9c2" title="Connects to Cloud IoT Core.">iotc_connect(iotc_context_handle_t iotc_h, const char *username, const char *password, const char *client_id, uint16_t connection_timeout, uint16_t keepalive_timeout, iotc_user_callback_t *client_callback)</a></li>
 </ul>
+</li>
+<li><b>Publishing and subscribing to messages</b><ul>
+<li><a class="el" href="d9/d22/iotc_8h.html#ad182450f87d708b57451afadee80d94f" title="Publishes a message to an MQTT topic.">iotc_publish(iotc_context_handle_t iotc_h, const char *topic, const char *msg, const iotc_mqtt_qos_t qos, iotc_user_callback_t *callback, void *user_data)</a></li>
+<li><a class="el" href="d9/d22/iotc_8h.html#aea56344dbfbfd50707294338794920d8" title="Publishes binary data to an MQTT topic.">iotc_publish_data(iotc_context_handle_t iotc_h, const char *topic, const uint8_t *data, size_t data_len, const iotc_mqtt_qos_t qos, iotc_user_callback_t *callback, void *user_data)</a></li>
+<li><a class="el" href="d9/d22/iotc_8h.html#aca7aacc10616954169bff4eed5bfc834" title="Subscribes to an MQTT topic.">iotc_subscribe(iotc_context_handle_t iotc_h, const char *topic, const iotc_mqtt_qos_t qos, iotc_user_subscription_callback_t *callback, void *user_data)</a></li>
+</ul>
+</li>
+</ul>
+<p>See the <a href="globals_func.html">methods index</a> for a complete reference.</p>
+<h1>Dependencies</h1>
+<p>The Device SDK API uses the Device SDK <a href="../../bsp/html/index.html">Board Support Package</a> (BSP). The Device SDK API depends on the hardware-specific drivers and routines in the BSP to implement the MQTT protocol.</p>
+<p>The Device SDK has a BSP for POSIX platforms by default. To use the Device SDK API on non-POSIX platforms, you must first customize the BSP and <a href="../../../porting_guide.md">port it to your device</a>. </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
