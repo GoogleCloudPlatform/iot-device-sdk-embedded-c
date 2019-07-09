@@ -62,8 +62,8 @@ Functions</h2></td></tr>
 <tr class="separator:a74316f1a7e5b0a30c95aedf7ca747c1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Manage platform memory. </p>
-<p>Implement these functions to customize how the Device SDK manages memory. For instance, custom implementations can use static instead of heap memory. </p>
+<div class="textblock"><p>Implements functions to manage platform memory. </p>
+<p>For instance, custom implementations can use static instead of heap memory. </p>
 
 <p class="definition">Definition in file <a class="el" href="../../db/ddb/iotc__bsp__mem_8h_source.html">iotc_bsp_mem.h</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
@@ -83,8 +83,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>@function </p>
-<p>Allocate memory.</p>
+<p>Allocates memory. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">byte_count</td><td>The number of bytes to allocate.</td></tr>
@@ -111,12 +110,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>@function </p>
-<p>Free a block of memory.</p>
-<p>Implementations of this function free a block of memory that the <code>iotc_bsp_mem_malloc()</code> or <code><a class="el" href="../../db/ddb/iotc__bsp__mem_8h.html#a3d4152591ce63915c21f8ae94c0105e2" title="@function">iotc_bsp_mem_realloc()</a></code> implementations allocated.</p>
-<dl class="section see"><dt>See also</dt><dd>iotc_bsp_mem_malloc </dd>
-<dd>
-<a class="el" href="../../db/ddb/iotc__bsp__mem_8h.html#a3d4152591ce63915c21f8ae94c0105e2" title="@function">iotc_bsp_mem_realloc</a></dd></dl>
+<p>Frees a block of memory. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>A pointer to a memory block to free. </td></tr>
@@ -152,9 +146,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>@function </p>
-<p>Change the size of a memory block.</p>
-<p>If the new memory block size is smaller than the old memory block size, the Device SDK saves the maximum amount of memory, even if the block moves to a new location. If the new size is larger, the leftover memory is empty.</p>
+<p>Changes the size of a memory block. </p>
+<p>If the new memory block size is smaller than the old memory block, the Device SDK saves the maximum amount of memory, even if the block moves to a new location. If the new size is larger, the Device SDK leaves the leftover memory empty.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>A pointer to a memory block to reallocate.</td></tr>

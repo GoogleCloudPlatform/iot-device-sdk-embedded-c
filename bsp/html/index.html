@@ -42,37 +42,27 @@ $(function() {
 <div class="title">Device SDK Board Support Package </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1>Welcome</h1>
-<p>The Board Support Package (BSP) hosts the platform-specific code for the Device SDK.</p>
-<p>Modify the BSP accordingly to port the Device SDK to new platforms. Other functionality, such as the Device SDK source, event system, MQTT serializer, and callback system, isn't part of the BSP.</p>
-<h1>Getting started</h1>
-<p>The Device SDK includes a POSIX implementation of the BSP. Use this implementation for for Linux desktops and devices.</p>
-<p>To customize the BSP for non-POSIX platforms, see the <a href="../../../porting_guide.md">porting guide</a>. <code><a class="el" href="d7/d89/iotc__bsp__rng_8h.html" title="Implement a random number generator (RNG).">iotc_bsp_rng.h</a></code>, <code><a class="el" href="d0/dde/iotc__bsp__time_8h.html" title="Implement time functions.">iotc_bsp_time.h</a></code>, and <code><a class="el" href="d8/dc3/iotc__bsp__io__fs_8h.html" title="Access and manage files.">iotc_bsp_io_fs.h</a></code>.</p>
-<h1>BSP source files</h1>
-<p>The BSP consists of the following files. Each file meets a platform library requirement.</p><ul>
-<li><code><a class="el" href="d6/d01/iotc__bsp__crypto_8h.html" title="Encode and sign JWT credentials.">iotc_bsp_crypto.h</a></code> implements a cryptography library to sign JWTs.</li>
-<li><code><a class="el" href="d1/def/iotc__bsp__io__net_8h.html" title="Perform asynchronous networking.">iotc_bsp_io_net.h</a></code> implements asychronous networking.</li>
-<li><code><a class="el" href="db/ddb/iotc__bsp__mem_8h.html" title="Manage platform memory.">iotc_bsp_mem.h</a></code> allocates platform memory.</li>
-<li><code><a class="el" href="d7/d89/iotc__bsp__rng_8h.html" title="Implement a random number generator (RNG).">iotc_bsp_rng.h</a></code> implements random number generation.</li>
-<li><code><a class="el" href="d0/dde/iotc__bsp__time_8h.html" title="Implement time functions.">iotc_bsp_time.h</a></code> implements time functions.</li>
-<li><code><a class="el" href="dd/d79/iotc__bsp__tls_8h.html" title="Implement Transport Layer Security (TLS).">iotc_bsp_tls.h</a></code> implements Transport Layer Security (TLS).</li>
-<li>(Optional) <code><a class="el" href="d8/dc3/iotc__bsp__io__fs_8h.html" title="Access and manage files.">iotc_bsp_io_fs.h</a></code> manages the file system to load certificates.</li>
+<div class="textblock"><p>The Board Support Package (BSP) is a set of well-defined functions that the Device SDK invokes to interact with hardware-specific drivers and routines.</p>
+<p>Implement these functions to:</p><ul>
+<li>Perform asychronous networking</li>
+<li>Allocate platform memory</li>
+<li>Generate random numbers</li>
+<li>Keep time</li>
+<li>Communicate with TLS</li>
 </ul>
-<h1>TLS BSPs</h1>
-<p>The Device SDK includes the following out-of-the-box TLS implementations.</p>
-<h2>mbedTLS</h2>
-<p>The default <code>make</code> target &lt;a href"~/src/bsp/mbedtls"&gt;downloads and builds &lt;a href"https://tls.mbed.org"&gt;mbedTLS.</p>
-<h2>wolfSSL</h2>
-<p>See the <a href="../../../user_guide.md">user guide</a> and <a href="../../../porting_guide.md">porting guide</a> to configure the Device SDK for wolfSSL.</p>
-<h1>Further Reading</h1>
-<ul>
-<li>
-Device SDK <a href="../../api/html/index.html">API reference</a> </li>
-<li>
-Device SDK <a href="../../../user_guide.md">user guide</a> </li>
-<li>
-Device SDK <a href="../../../porting_guide.md">porting guide</a> </li>
-</ul>
+<p>The Device SDK builds natively on POSIX platforms. See the <a href="../../../porting_guide.md">porting guide</a> for more information about customizing the BSP for non-POSIX platforms.</p>
+<h1>POSIX BSP</h1>
+<p>The POSIX BSP implementation is in the <code><a href="~/src/bsp/platforms/posix">src/bsp/platforms/posix</a></code> directory. It implements <a href="https://en.wikipedia.org/wiki/Mbed_TLS">mbedTLS</a> by default.</p>
+<h1>TLS implementations</h1>
+<p>The Device SDK has turn-key <a href="../../../src/bsp/tls/mbedtls">mbedTLS</a> and <a href="~/src/bsp/tls/wolfssl">wolfSSL</a> implementations. The default <code>make</code> target <a href="../../../src/bsp/tls/mbedtls">downloads and builds</a> mbedTLS. See the <a href="../../../doc/user-guide.md">user guide</a> to configure the Device SDK with wolfTLS.</p>
+<p>The turn-key TLS implementations consist of customized <a href="dd/d79/iotc__bsp__tls_8h.html">iot_bsp_tls.h</a> and <a href="dd/d79/iotc__bsp__crypto_8h.html">iotc_bsp_crypto.h</a> functions: </p><table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">mbedTLS  </th><th class="markdownTableHeadNone">wolfSSL   </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><a href="../../../src/bsp/tls/mbedtls/iotc_bsp_tls_mbedtls.c">src/bsp/tls/mbedtls/iotc_bsp_tls_mbedtls.c</a>  </td><td class="markdownTableBodyNone"><a href="../../../src/bsp/tls/wolfssl/iotc_bsp_tls_wolfssl.c">src/bsp/tls/wolfssl/iotc_bsp_tls_wolfssl.c</a>   </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><a href="../../../src/bsp/crypto/mbedtls/iotc_bsp_crypto.c">src/bsp/crypto/mbedtls/iotc_bsp_crypto.c</a>  </td><td class="markdownTableBodyNone"><a href="../../../src/bsp/crypto/wolfssl/iotc_bsp_crypto.c">src/bsp/crypto/wolfssl/iotc_bsp_crypto.c</a>   </td></tr>
+</table>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->

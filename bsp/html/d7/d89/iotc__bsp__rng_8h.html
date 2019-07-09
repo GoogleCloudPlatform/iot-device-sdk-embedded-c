@@ -62,8 +62,9 @@ Functions</h2></td></tr>
 <tr class="separator:ac5da7e000c5e233be7a7976723f505e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Implement a random number generator (RNG). </p>
-<p>Don't hardcode the same seed value for all devices; use an entropy-based handware random number generator. The Device SDK prevents DDoS attacks by randomly distributing fleet-wide reconnection attempts, so predictable numbers may corrupt the BackOff system. </p>
+<div class="textblock"><p>Implements a random number generator (RNG). </p>
+<p>Always implement an entropy-based hardware RNG; don't hardcode the same seed value for all devices.</p>
+<p>The Device SDK prevents DDoS attacks by randomly distributing fleet-wide reconnection attempts, so predictable numbers may corrupt the backoff system. </p>
 
 <p class="definition">Definition in file <a class="el" href="../../d7/d89/iotc__bsp__rng_8h_source.html">iotc_bsp_rng.h</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
@@ -82,9 +83,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>@function </p>
-<p>Generate a 32-bit random number.</p>
-<dl class="section return"><dt>Returns</dt><dd>A random, 32-bit integer. </dd></dl>
+<p>Generates a random, 32-bit integer. </p>
 
 </div>
 </div>
@@ -103,9 +102,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>@function </p>
-<p>Initialize the platform-specific RNG prerequisites.</p>
-<p>The Device SDK calls this function before requesting the first random number. Implementations of this function must meet all of the platform-specific RNG prerequisites, such as generating a random number seed. </p>
+<p>Initializes the platform-specific RNG prerequisites. </p>
+<p>The Device SDK calls this function before requesting the first random number. </p>
 
 </div>
 </div>
@@ -124,9 +122,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>@function </p>
-<p>Shut down the platform-specific RNG.</p>
-<p>Free any resources. The Device SDK will not invoke iotc_bsp_rng_get again without first calling iotc_bsp_rng_init. </p>
+<p>Shuts down the platform-specific RNG and frees all allocated resources. </p>
 
 </div>
 </div>
