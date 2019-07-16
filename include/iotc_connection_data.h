@@ -29,8 +29,10 @@ extern "C" {
  */
 
 /**
- * @enum iotc_connection_state_e
+ * @typedef iotc_connection_state_t
  * @brief Connection process and lifecycle states.
+ *
+ * @see iotc_connection_state_e
  */
 typedef enum iotc_connection_state_e {
   /** The connection is not established and there is no pending
@@ -49,8 +51,10 @@ typedef enum iotc_connection_state_e {
 } iotc_connection_state_t;
 
 /**
- * @enum iotc_session_type_e
+ * @typedef iotc_session_type_t
  * @brief MQTT session types.
+ *
+ * @see iotc_session_type_e
  */
 typedef enum iotc_session_type_e {
   /** MQTT clean session. */
@@ -60,10 +64,10 @@ typedef enum iotc_session_type_e {
 } iotc_session_type_t;
 
 /**
- * @struct iotc_connection_data_t
+ * @typedef iotc_connection_data_t
  * @brief The connection parameters.
  *
- * @see iotc_connect
+ * @see iotc_connection_data_s
  */
 typedef struct iotc_connection_data_s {
   /** MQTT service hostname. */

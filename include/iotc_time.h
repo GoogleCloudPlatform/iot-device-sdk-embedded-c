@@ -28,7 +28,7 @@ extern "C" {
 #include <stdint.h>
 
 /**
- * @name iotc_time_t
+ * @typedef iotc_time_t
  * @details The time storage type.
  */
 typedef int64_t iotc_time_t;

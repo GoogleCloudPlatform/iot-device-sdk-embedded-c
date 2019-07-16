@@ -164,17 +164,19 @@ typedef enum iotc_crypto_key_union_type_e {
   IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM,
 } iotc_crypto_key_union_type_t;
 
-/* @typedef iotc_crypto_key_union_t
+/** @typedef iotc_crypto_key_union_t
  * @brief The public or private key data.
+ *
+ * @see iotc_crypto_key_union_u
  */
 typedef union iotc_crypto_key_union_u {
-  /** @brief A PEM-formatted public or private key. */
+  /** A PEM-formatted public or private key. */
   struct {
-    /** @brief The text of the public or private key. */
+    /** The text of the public or private key. */
     char* key;
   } key_pem;
 
-  /** @brief The slot IDs of secure elements. */
+  /** The slot IDs of secure elements. */
   struct {
     /** A slot ID. */
     uint8_t slot_id;
@@ -184,7 +186,7 @@ typedef union iotc_crypto_key_union_u {
   struct {
     /** The data in the format that the BSP determined. */
     void* data;
-    /** @brief The size, in bytes, of the untyped data. */
+    /** The size, in bytes, of the untyped data. */
     size_t data_size;
   } key_custom;
 } iotc_crypto_key_union_t;
