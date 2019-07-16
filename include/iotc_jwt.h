@@ -27,27 +27,33 @@ extern "C" {
  * @brief Creates JSON Web Tokens.
  */
 
+/** The size, in bytes, of the JSON Web Token header. */
 #define IOTC_JWT_HEADER_BUF_SIZE 40
+/** The size, in bytes, of the URL-encoded JSON Web Token header. */
 #define IOTC_JWT_HEADER_BUF_SIZE_BASE64 \
   (((IOTC_JWT_HEADER_BUF_SIZE + 2) / 3) * 4)
 
+/** The size, in bytes, of the JSON Web Token payload. */
 #define IOTC_JWT_PAYLOAD_BUF_SIZE 256
+/** The size, in bytes, of the URL-encoded JSON Web Token payload. */
 #define IOTC_JWT_PAYLOAD_BUF_SIZE_BASE64 \
   (((IOTC_JWT_PAYLOAD_BUF_SIZE + 2) / 3) * 4)
 
+/** The maximum size, in bytes, of the JSON Web Token signature. */
 #define IOTC_JWT_MAX_SIGNATURE_SIZE 132
+/** The maxiumum size, in bytes, of the URL-encoded JSON Web Token signature. */
 #define IOTC_JWT_MAX_SIGNATURE_SIZE_BASE64 \
   (((IOTC_JWT_MAX_SIGNATURE_SIZE + 2) / 3) * 4)
 
+/** The size, in bytes, of the JSON Web Token. */
 #define IOTC_JWT_SIZE                                                       \
   (IOTC_JWT_HEADER_BUF_SIZE_BASE64 + 1 + IOTC_JWT_PAYLOAD_BUF_SIZE_BASE64 + \
    1 + IOTC_JWT_MAX_SIGNATURE_SIZE_BASE64)
 
 /**
- * @details Creates a JSON Web Token. Invokes the BSP implementations of
- * <code>iotc_bsp_sha256()</code>, <code>iotc_bsp_ecc()</code> and
- * <code>iotc_bsp_base64_encode_urlsafe()</code> to enable string encoding and
- * signatures.
+ * @details Creates a JSON Web Token with the
+ * <a href="../../bsp/html/d6/d01/iotc__bsp__crypto_8h.html">BSP cyptrography
+ * library</a>.
  *
  * @param [in] expiration_period_sec The number of seconds before this JWT
  *     expires.
@@ -55,19 +61,22 @@ extern "C" {
  * @param [in] private_key_data ES256 private key data.
  * @param [in,out] dst_jwt_buf A pointer to a buffer that stores a formatted and
  *     signed JWT.
- * @param [in] dst_jwt_buf_len The length, in bytes, of the buffer to which dst_jwt_buf points.
- * @param [out] bytes_written The number of bytes written to the buffer to which dst_jwt_buf points.
+ * @param [in] dst_jwt_buf_len The length, in bytes, of the buffer to which
+ *     dst_jwt_buf points.
+ * @param [out] bytes_written The number of bytes written to the buffer to which
+ *     dst_jwt_buf points.
  *
- * @retval IOTC_STATE_OK A JWT is successfully generated.
- * @retval IOTC_INVALID_PARAMETER The project_id, private_key_data or
- *     dst_jwt_buf parameters are NULL, or a cryptography BSP function returns
- *     IOTC_BSP_CRYPTO_INVALID_INPUT_PARAMETER_ERROR.
+ * @retval IOTC_STATE_OK A JSON Web Token was generated.
+ * @retval IOTC_INVALID_PARAMETER A BSP
+ *     <a href="../../bsp/html/d6/d01/iotc__bsp__crypto_8h.html">
+ *     cryptography function</a> returned
+ *     IOTC_BSP_CRYPTO_INVALID_INPUT_PARAMETER_ERROR or any of the project_id,
+ *     private_key_data, or dst_jwt_buf parameters are null.
  * @retval IOTC_ALG_NOT_SUPPORTED_ERROR The provided private key isn't
  *     an ES256 key.
  * @retval IOTC_NULL_KEY_DATA_ERROR The provided private key is a PEM file
  *     but the crypto_key_union pointer is NULL.
- * @retval IOTC_NOT_IMPLEMENTED The <code>crypto_key_union</code> pointer
- *     type is unknown.
+ * @retval IOTC_NOT_IMPLEMENTED The crypto_key_union pointer type is unknown.
  * @retval IOTC_BUFFER_TOO_SMALL_ERROR The provided buffer is too small for
  *     the JWT.
  */

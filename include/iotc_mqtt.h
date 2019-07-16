@@ -27,11 +27,8 @@ extern "C" {
 
 /**
  * @name iotc_mqtt_retain_t
- * @brief The MQTT retain flag.
- *
- * For details, see the <a href="http://docs.oasis-open.org/mqtt/mqtt/
- * v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718030">MQTT retain
- * specifications</a>.
+ * @brief The MQTT <a href="http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718030">
+ * retain</a> flag.
  */
 typedef enum iotc_mqtt_retain_e {
   /** 0 */
@@ -42,11 +39,8 @@ typedef enum iotc_mqtt_retain_e {
 
 /**
  * @name iotc_mqtt_qos_t
- * @brief MQTT Quality of Service levels.
- *
- * For details, see the <a href="http://docs.oasis-open.org/mqtt/
- * mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718099">MQTT QoS
- * specifications</a>.
+ * @brief The MQTT <a href="http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718099">
+ * Quality of Service</a> levels.
  */
 typedef enum iotc_mqtt_qos_e {
   /** 0 */
@@ -59,11 +53,8 @@ typedef enum iotc_mqtt_qos_e {
 
 /**
  * @name iotc_mqtt_suback_status_t
- * @brief MQTT SUBACK status.
- *
- * For details, see the <a href="http://docs.oasis-open.org/mqtt/
- * mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718068">MQTT
- * SUBACK payload specifications</a>.
+ * @brief The MQTT <a href="http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718068">
+ * SUBACK</a> status.
  */
 typedef enum iotc_mqtt_suback_status_e {
   /** 0x00 */
@@ -78,11 +69,8 @@ typedef enum iotc_mqtt_suback_status_e {
 
 /**
  * @name iotc_mqtt_dup_t
- * @brief MQTT DUP flag.
- *
- * For details, see the <a href="http://docs.oasis-open.org/mqtt/
- * mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718038">MQTT DUP
- * specifications</a>.
+ * @brief The MQTT <a href="http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718038">
+ * DUP</a> flag.
  */
 typedef enum iotc_mqtt_dup_e {
   /** 0 */
