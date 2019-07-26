@@ -128,8 +128,7 @@ Functions</h2></td></tr>
 <tr class="separator:aa6b8240cb6ca31aa4ea3ad8462a1c883"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Implements functions to access and manage files. </p>
-<p>These functions facilitate non-volatile certificate storage. </p>
+<div class="textblock"><p>Manages TLS certificates. </p>
 
 <p class="definition">Definition in file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
@@ -150,7 +149,7 @@ Functions</h2></td></tr>
 
 <p>The handle points to an open file. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html#l00043">43</a> of file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html#l00041">41</a> of file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
 
 </div>
 </div>
@@ -168,7 +167,7 @@ Functions</h2></td></tr>
 
 <p>The handle doesn't point to an open file. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html#l00041">41</a> of file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html#l00039">39</a> of file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
 
 </div>
 </div>
@@ -185,8 +184,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>File operations. </p>
-<p>To open files, Device SDK passes these values to <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aeda349a4d1ded4a9d2a3c867093d4515">iotc_bsp_io_fs_open()</a>. </p>
+<p>The file operations. </p>
 
 </div>
 </div>
@@ -204,7 +202,7 @@ Functions</h2></td></tr>
 
 <p>A pointer to an open file. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html#l00038">38</a> of file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html#l00036">36</a> of file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
 
 </div>
 </div>
@@ -219,7 +217,9 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Resource types. Must be TLS server authentication certificates. </p>
+
+<p>The resource type of TLS certificates. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a034487a9aff3fc7d702e9cfcddb8a1f0">iotc_bsp_io_fs_resource_type_e</a> </dd></dl>
 
 </div>
 </div>
@@ -251,8 +251,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>File management function status. </p>
-<p>File management functions must return a status message to the client application. </p>
+<p>The file management function states. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e">iotc_bsp_io_fs_state_e</a> </dd></dl>
 
 </div>
 </div>
@@ -269,15 +269,15 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a5b1463dcc90f4f563a9a991435bdac9da341662247ba1c5094ac939f633f90637"></a>IOTC_BSP_IO_FS_OPEN_READ&#160;</td><td class="fielddoc"><p>Open the file for read operations. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a5b1463dcc90f4f563a9a991435bdac9da341662247ba1c5094ac939f633f90637"></a>IOTC_BSP_IO_FS_OPEN_READ&#160;</td><td class="fielddoc"><p>Open and read the file. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a5b1463dcc90f4f563a9a991435bdac9da1f40c0919a442d22189192f78c9f9210"></a>IOTC_BSP_IO_FS_OPEN_WRITE&#160;</td><td class="fielddoc"><p>Open the file for write operations. </p>
+<tr><td class="fieldname"><a id="a5b1463dcc90f4f563a9a991435bdac9da1f40c0919a442d22189192f78c9f9210"></a>IOTC_BSP_IO_FS_OPEN_WRITE&#160;</td><td class="fielddoc"><p>Open and write to the file. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a5b1463dcc90f4f563a9a991435bdac9da0d03fd76949a4ff23fa1b05410d39382"></a>IOTC_BSP_IO_FS_OPEN_APPEND&#160;</td><td class="fielddoc"><p>Open the file to append. </p>
+<tr><td class="fieldname"><a id="a5b1463dcc90f4f563a9a991435bdac9da0d03fd76949a4ff23fa1b05410d39382"></a>IOTC_BSP_IO_FS_OPEN_APPEND&#160;</td><td class="fielddoc"><p>Open and append to the file. </p>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html#l00102">102</a> of file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html#l00101">101</a> of file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
 
 </div>
 </div>
@@ -293,11 +293,11 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a034487a9aff3fc7d702e9cfcddb8a1f0ae08ec70dac3b9849506cc1478eba6cff"></a>IOTC_BSP_IO_FS_CERTIFICATE&#160;</td><td class="fielddoc"><p>TLS server authentication certificates. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a034487a9aff3fc7d702e9cfcddb8a1f0ae08ec70dac3b9849506cc1478eba6cff"></a>IOTC_BSP_IO_FS_CERTIFICATE&#160;</td><td class="fielddoc"><p>A TLS certificate resource. </p>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html#l00082">82</a> of file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html#l00083">83</a> of file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
 
 </div>
 </div>
@@ -317,29 +317,29 @@ Functions</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924eafc38f0807bc6b77e389e5a852292e87e"></a>IOTC_BSP_IO_FS_ERROR&#160;</td><td class="fielddoc"><p>Something went wrong. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924eaaedb90d13f4245cffa6d59af5a44d91a"></a>IOTC_BSP_IO_FS_INVALID_PARAMETER&#160;</td><td class="fielddoc"><p>invalid parameter. </p>
+<tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924eaaedb90d13f4245cffa6d59af5a44d91a"></a>IOTC_BSP_IO_FS_INVALID_PARAMETER&#160;</td><td class="fielddoc"><p>A parameter is invalid. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924eade07505bc689483faa6db20bb2ee4f5f"></a>IOTC_BSP_IO_FS_RESOURCE_NOT_AVAILABLE&#160;</td><td class="fielddoc"><p>File is not available. </p>
+<tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924eade07505bc689483faa6db20bb2ee4f5f"></a>IOTC_BSP_IO_FS_RESOURCE_NOT_AVAILABLE&#160;</td><td class="fielddoc"><p>The file isn't available. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924ea267a57e93c61ec7b047e81dcb1d7ad74"></a>IOTC_BSP_IO_FS_OUT_OF_MEMORY&#160;</td><td class="fielddoc"><p>Out of memory. </p>
+<tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924ea267a57e93c61ec7b047e81dcb1d7ad74"></a>IOTC_BSP_IO_FS_OUT_OF_MEMORY&#160;</td><td class="fielddoc"><p>The device is out of memory. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924ea301027a3cbe961a439a523aca429c218"></a>IOTC_BSP_IO_FS_NOT_IMPLEMENTED&#160;</td><td class="fielddoc"><p>Function not implemented on target platform. </p>
+<tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924ea301027a3cbe961a439a523aca429c218"></a>IOTC_BSP_IO_FS_NOT_IMPLEMENTED&#160;</td><td class="fielddoc"><p>The function isn't implmented on your platform. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924ea76264adb877e435dd373c118c38216c2"></a>IOTC_BSP_IO_FS_OPEN_ERROR&#160;</td><td class="fielddoc"><p>Cannot open file. </p>
+<tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924ea76264adb877e435dd373c118c38216c2"></a>IOTC_BSP_IO_FS_OPEN_ERROR&#160;</td><td class="fielddoc"><p>Can't open file. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924ead00544e4dec18aef14568a8da1b83d73"></a>IOTC_BSP_IO_FS_OPEN_READ_ONLY&#160;</td><td class="fielddoc"><p>Cannot open file because it's read-only. </p>
+<tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924ead00544e4dec18aef14568a8da1b83d73"></a>IOTC_BSP_IO_FS_OPEN_READ_ONLY&#160;</td><td class="fielddoc"><p>The file is read-only so the Device SDK can't open it. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924ea009ab63460062e4bd46242e90784fbfd"></a>IOTC_BSP_IO_FS_REMOVE_ERROR&#160;</td><td class="fielddoc"><p>File cannot be removed. </p>
+<tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924ea009ab63460062e4bd46242e90784fbfd"></a>IOTC_BSP_IO_FS_REMOVE_ERROR&#160;</td><td class="fielddoc"><p>The file can't be removed. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924ea4e985a5ded02dba408ab6039a61100b0"></a>IOTC_BSP_IO_FS_WRITE_ERROR&#160;</td><td class="fielddoc"><p>Cannot write data to file. </p>
+<tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924ea4e985a5ded02dba408ab6039a61100b0"></a>IOTC_BSP_IO_FS_WRITE_ERROR&#160;</td><td class="fielddoc"><p>Can't write data to file. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924ea07a2e8f98f45860f767fc3c1038625cb"></a>IOTC_BSP_IO_FS_READ_ERROR&#160;</td><td class="fielddoc"><p>Cannot be read file. </p>
+<tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924ea07a2e8f98f45860f767fc3c1038625cb"></a>IOTC_BSP_IO_FS_READ_ERROR&#160;</td><td class="fielddoc"><p>Can't be read file. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924ea1899d5c1d0f78e3f2c669656f7c3e7bf"></a>IOTC_BSP_IO_FS_CLOSE_ERROR&#160;</td><td class="fielddoc"><p>Cannot close file. </p>
+<tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924ea1899d5c1d0f78e3f2c669656f7c3e7bf"></a>IOTC_BSP_IO_FS_CLOSE_ERROR&#160;</td><td class="fielddoc"><p>Can't close file. </p>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html#l00051">51</a> of file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html#l00050">50</a> of file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
 
 </div>
 </div>
@@ -359,15 +359,13 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Closes a file. Implementations of this function must free all of the resources used to read or write to the file.</p>
+<p>Closes a file, frees all of the resources from reading or writing to the file, and returns a <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e">file management function state</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">resource_handle</td><td>A <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af35210d1e5577353a582ef327bd09656">handle to an open file</a>.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">resource_handle</td><td>A <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af35210d1e5577353a582ef327bd09656">handle to an open file</a>. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>File management function status.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e">iotc_bsp_io_fs_state_e</a> </dd></dl>
 
 </div>
 </div>
@@ -408,18 +406,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Opens a file.</p>
+<p>Opens a file and returns a <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e">file management function state</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">resource_name</td><td>The file name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">resource_name</td><td>The filename. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>The size, in bytes, of the file. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">open_flags</td><td>A <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a6b5dbde50c01026f871bdb08d9f6bf9e">file operation</a> bitmask. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">resource_handle_out</td><td>A <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af35210d1e5577353a582ef327bd09656">handle to an open file</a>. The Device SDK passes this handle to <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aee7d67db4d135e9eceb0f9688acdd424">iotc_bsp_io_fs_read()</a> or <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#aa431e2397db542181f69518e9613fee6">iotc_bsp_io_fs_write()</a> to perform the corresponding operation.</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">resource_handle_out</td><td>A <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af35210d1e5577353a582ef327bd09656">handle to an open file</a>. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>File management function status.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e">iotc_bsp_io_fs_state_e</a> </dd></dl>
 
 </div>
 </div>
@@ -460,8 +456,9 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Reads a file. Implementations of this function must fill the buffer parameter at offset 0. The Device SDK opens the file before reading it.</p>
-<p>Implementations of this function can allocate buffers by:</p><ul>
+
+<p>Reads a file and returns a <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e">file management function state</a>. </p>
+<p>The function must fill the buffer at offset 0. The function can allocate buffers by:</p><ul>
 <li>Allocating the buffer once, resusing it at each function call, and freeing it when the file closes.</li>
 <li>Creating a new buffer each time the function is called and and freeing the old buffer before the function returns.</li>
 </ul>
@@ -470,12 +467,10 @@ Functions</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">resource_handle</td><td>A <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af35210d1e5577353a582ef327bd09656">handle to an open file</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">offset</td><td>The position within the resource, in bytes, from which to start read operations. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">buffer</td><td>A pointer to a buffer with the bytes read from the file. Function implementations must define how to allocate buffers The buffer is already allocated by the Device SDK. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">buffer_size</td><td>The number of bytes read from the file and stored in the buffer.</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">buffer_size</td><td>The number of bytes read from the file and stored in the buffer. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>File management function status.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e">iotc_bsp_io_fs_state_e</a> </dd></dl>
 
 </div>
 </div>
@@ -495,15 +490,13 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Deletes a file. </p>
+<p>Deletes a file and returns a <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e">file management function state</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">resource_name</td><td>The name of the file.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">resource_name</td><td>The filename. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>File management function status.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e">iotc_bsp_io_fs_state_e</a> </dd></dl>
 
 </div>
 </div>
@@ -533,16 +526,14 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Determines file size. </p>
+<p>Gets the size of a file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">resource_name</td><td>The file name. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">resource_stat</td><td>A structure for the file size information.</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">resource_stat</td><td>The size, in bytes, of the file. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>iotc_bsp_io_fs_state_e File management function status.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e">iotc_bsp_io_fs_state_e</a> </dd></dl>
 
 </div>
 </div>
@@ -589,8 +580,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Writes to a file. The Device SDK opens the file before writing to it.</p>
-<p>Implementations of this function can allocate buffers by:</p><ul>
+<p>Writes to a file and returns a <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e">file management function state</a>.</p>
+<p>The function must fill the buffer at any offset. The function can allocate buffers by:</p><ul>
 <li>Allocating the buffer once, resusing it at each function call, and freeing it when the file closes.</li>
 <li>Creating a new buffer each time the function is called and and freeing the old buffer before the function returns.</li>
 </ul>
@@ -600,12 +591,10 @@ Functions</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">buffer</td><td>A pointer to a byte array with the data to write to the file. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">buffer_size</td><td>The size, in bytes of the buffer. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">offset</td><td>The position within the resource, in bytes, from which to start to the write operation. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">bytes_written</td><td>The number of bytes written to the file.</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">bytes_written</td><td>The number of bytes written to the file. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>File management function status.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#a5349d8646fec744682764ae561be924e">iotc_bsp_io_fs_state_e</a> </dd></dl>
 
 </div>
 </div>

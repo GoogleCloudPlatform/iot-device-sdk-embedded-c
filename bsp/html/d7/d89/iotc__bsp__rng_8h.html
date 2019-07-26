@@ -62,9 +62,8 @@ Functions</h2></td></tr>
 <tr class="separator:ac5da7e000c5e233be7a7976723f505e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Implements a random number generator (RNG). </p>
-<p>Always implement an entropy-based hardware RNG; don't hardcode the same seed value for all devices.</p>
-<p>The Device SDK prevents DDoS attacks by randomly distributing fleet-wide reconnection attempts, so predictable numbers may corrupt the backoff system. </p>
+<div class="textblock"><p>Generates random numbers. </p>
+<p>Always implement an entropy-based hardware RNG; don't hardcode the same seed value for all devices. The Device SDK prevents DDoS attacks by randomly attempting fleet-wide reconnections, so predictable numbers may corrupt the backoff system. </p>
 
 <p class="definition">Definition in file <a class="el" href="../../d7/d89/iotc__bsp__rng_8h_source.html">iotc_bsp_rng.h</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
@@ -83,7 +82,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Generates a random, 32-bit integer. </p>
+<p>Generates and returns a random, 32-bit integer. </p>
 
 </div>
 </div>
@@ -103,7 +102,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Initializes the platform-specific RNG prerequisites. </p>
-<p>The Device SDK calls this function before requesting the first random number. </p>
+<p>After booting, the Device SDK calls this function before requesting the first random number. </p>
 
 </div>
 </div>

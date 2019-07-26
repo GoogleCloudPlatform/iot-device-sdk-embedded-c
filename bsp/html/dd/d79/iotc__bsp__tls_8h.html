@@ -123,10 +123,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>The TLS context representation. </p>
-<p>The Device SDK doesn't read or write to this context directly. It passes the context to the TLS functions you implemented, so all of those functions must accept this parameter. </p>
+<p>The TLS context. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d79/iotc__bsp__tls_8h_source.html#l00100">100</a> of file <a class="el" href="../../dd/d79/iotc__bsp__tls_8h_source.html">iotc_bsp_tls.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d79/iotc__bsp__tls_8h_source.html#l00096">96</a> of file <a class="el" href="../../dd/d79/iotc__bsp__tls_8h_source.html">iotc_bsp_tls.h</a>.</p>
 
 </div>
 </div>
@@ -215,7 +214,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Frees a TLS context from memory and deletes any associated data. </p>
+<p>Frees a TLS context from memory, deletes any associated data and and returns a <a class="el" href="../../d9/d57/structiotc__bsp__tls__init__params__s.html">TLS function state</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[out]</td><td class="paramname">tls_context</td><td>A pointer to <a class="el" href="../../dd/d79/iotc__bsp__tls_8h.html#a265abda9c0f31f454688e90caae38168">the TLS context</a>.</td></tr>
@@ -247,20 +246,10 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Starts TLS connections. </p>
+<p>Starts TLS connections and returns a <a class="el" href="../../d9/d57/structiotc__bsp__tls__init__params__s.html">TLS function state</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">tls_context</td><td>A pointer to <a class="el" href="../../dd/d79/iotc__bsp__tls_8h.html#a265abda9c0f31f454688e90caae38168">the TLS context</a>.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">IOTC_BSP_TLS_STATE_OK</td><td>The TLS handshake successfully completed. </td></tr>
-    <tr><td class="paramname">IOTC_BSP_TLS_STATE_WANT_READ</td><td>The TLS handshake is partially complete. The Device SDK will invoke the function again to read the remaining data from the socket specified in the tls_context parameter. </td></tr>
-    <tr><td class="paramname">IOTC_BSP_TLS_STATE_WANT_WRITE</td><td>The TLS handshake is partially complete. The Device SDK will invoke the function again to write the remaining data to the socket specified in the tls_context parameter. </td></tr>
-    <tr><td class="paramname">IOTC_BSP_TLS_STATE_CERT_ERROR</td><td>Can't validate CA certificate. </td></tr>
-    <tr><td class="paramname">IOTC_BSP_TLS_STATE_CONNECT_ERROR</td><td>Can't complete TLS handshake. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">tls_context</td><td>A pointer to <a class="el" href="../../dd/d79/iotc__bsp__tls_8h.html#a265abda9c0f31f454688e90caae38168">the TLS context</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -293,19 +282,12 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Initializes a TLS library and create a TLS context. </p>
-<p>The Device SDK calls this function and then deletes init_params. Store persistant data outside the scope of this function.</p>
+<p>Initializes a TLS library, creates a TLS context and returns a <a class="el" href="../../d9/d57/structiotc__bsp__tls__init__params__s.html">TLS function state</a>. </p>
+<p>The Device SDK calls the function and then deletes init_params, so store persistant data outside the function scope.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[out]</td><td class="paramname">tls_context</td><td>A pointer to <a class="el" href="../../dd/d79/iotc__bsp__tls_8h.html#a265abda9c0f31f454688e90caae38168">the TLS context</a>. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">init_params</td><td>The <a class="el" href="../../dd/d79/iotc__bsp__tls_8h.html#a192cd1d46a8423e9e64529cef117c836">TLS context parameters</a>.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">IOTC_BSP_TLS_STATE_OK</td><td>The TLS context is successfully created. </td></tr>
-    <tr><td class="paramname">IOTC_BSP_TLS_STATE_INIT_ERROR</td><td>Can't initialize TLS library. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">init_params</td><td>The <a class="el" href="../../dd/d79/iotc__bsp__tls_8h.html#a192cd1d46a8423e9e64529cef117c836">TLS context parameters</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -328,14 +310,13 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Counts the pending readable bytes. </p>
+<p>Gets the pending readable bytes. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">tls_context</td><td>A pointer to <a class="el" href="../../dd/d79/iotc__bsp__tls_8h.html#a265abda9c0f31f454688e90caae38168">the TLS context</a>.</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">tls_context</td><td>A pointer to <a class="el" href="../../dd/d79/iotc__bsp__tls_8h.html#a265abda9c0f31f454688e90caae38168">the TLS context</a>. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The readable bytes available to <a class="el" href="../../dd/d79/iotc__bsp__tls_8h.html#aa56c6dd5e49f3931a2b0bad1b0a6c2d1" title="Reads data on a socket.">iotc_bsp_tls_read()</a>. </dd></dl>
 
 </div>
 </div>
@@ -377,21 +358,13 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Reads data on a socket. </p>
+<p>Reads data on a socket and returns a <a class="el" href="../../d9/d57/structiotc__bsp__tls__init__params__s.html">TLS function state</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[out]</td><td class="paramname">tls_context</td><td>A pointer to <a class="el" href="../../dd/d79/iotc__bsp__tls_8h.html#a265abda9c0f31f454688e90caae38168">the TLS context</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">data_ptr</td><td>A pointer to a buffer to store data that is read. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">data_size</td><td>The size, in bytes, of the buffer to which data_ptr points. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">bytes_read</td><td>The number of bytes read.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">IOTC_BSP_TLS_STATE_OK</td><td>All data is successfully read and stored in the buffer to which data_ptr points. </td></tr>
-    <tr><td class="paramname">IOTC_BSP_TLS_STATE_WANT_READ</td><td>The TLS handshake is partially complete. The Device SDK will invoke the function again to read the remaining data from the socket specified in the tls_context parameter. </td></tr>
-    <tr><td class="paramname">IOTC_BSP_TLS_STATE_READ_ERROR</td><td>Can't read data. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">bytes_read</td><td>The number of bytes read. </td></tr>
   </table>
   </dd>
 </dl>
@@ -435,9 +408,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Notifies the client application to read data on a socket. </p>
-<p>Don't modify this function. </p>
+<p>Notifies the client application to read data on a socket. Don't modify this function. </p>
 
 </div>
 </div>
@@ -478,9 +449,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Notifies the client application to write data to a socket. </p>
-<p>Don't modify this function. </p>
+<p>Notifies the client application to write data to a socket. Don't modify this function. </p>
 
 </div>
 </div>
@@ -522,21 +491,13 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Write data to a socket. </p>
+<p>Write data to a socket and returns a <a class="el" href="../../d9/d57/structiotc__bsp__tls__init__params__s.html">TLS function state</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[out]</td><td class="paramname">tls_context</td><td>A pointer to <a class="el" href="../../dd/d79/iotc__bsp__tls_8h.html#a265abda9c0f31f454688e90caae38168">the TLS context</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">data_ptr</td><td>A pointer to a buffer with the data to be sent. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">data_size</td><td>The size, in bytes, of the buffer to which <div class="fragment"><div class="line">data_ptr </div></div><!-- fragment --> points. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">bytes_written</td><td>The number of bytes written.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">IOTC_BSP_TLS_STATE_OK</td><td>All data is successfully written. </td></tr>
-    <tr><td class="paramname">IOTC_BSP_TLS_STATE_WANT_WRITE</td><td>The TLS handshake is partially complete. The Device SDK will invoke the function again to write the remaining data to the socket specified in the tls_context parameter. </td></tr>
-    <tr><td class="paramname">IOTC_BSP_TLS_STATE_WRITE_ERROR</td><td>Can't write data. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">bytes_written</td><td>The number of bytes written. </td></tr>
   </table>
   </dd>
 </dl>
