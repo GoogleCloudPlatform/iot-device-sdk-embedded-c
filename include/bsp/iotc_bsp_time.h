@@ -39,17 +39,17 @@ extern "C" {
 void iotc_bsp_time_init();
 
 /**
- * @brief Returns the seconds since Epoch.
+ * @brief Gets the seconds since Epoch.
  */
 iotc_time_t iotc_bsp_time_getcurrenttime_seconds();
 
 /**
- * @brief Returns the milliseconds since Epoch.
+ * @brief Gets the milliseconds since Epoch.
  */
 iotc_time_t iotc_bsp_time_getcurrenttime_milliseconds();
 
 /**
- * @brief Returns monotonically increasing time in milliseconds.
+ * @brief Gets the monotonic time in milliseconds.
  */
 iotc_time_t iotc_bsp_time_getmonotonictime_milliseconds();
 

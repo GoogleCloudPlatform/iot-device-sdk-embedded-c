@@ -22,11 +22,9 @@
  * @brief Generates random numbers.
  *
  * @details Always implement an entropy-based hardware RNG;
- * don't hardcode the same seed value for all devices.
- * 
- * The Device SDK prevents DDoS attacks by randomly distributing
- * fleet-wide reconnection attempts, so predictable numbers may corrupt the
- * backoff system.
+ * don't hardcode the same seed value for all devices. The Device SDK prevents
+ * DDoS attacks by randomly attempting fleet-wide reconnections, so predictable
+ * numbers may corrupt the backoff system.
  */
 
 #include <stdint.h>
@@ -38,12 +36,13 @@ extern "C" {
 /**
  * @brief Initializes the platform-specific RNG prerequisites.
  *
- * The Device SDK calls this function before requesting the first random number.
+ * After booting, the Device SDK calls this function before requesting the first
+ * random number.
  */
 void iotc_bsp_rng_init();
 
 /**
- * @brief Generates a random, 32-bit integer.
+ * @brief Generates and returns a random, 32-bit integer.
  */
 uint32_t iotc_bsp_rng_get();
 

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.15"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Google Cloud IoT Device SDK for Embedded C BSP: Device SDK Board Support Package</title>
+<title>Google Cloud IoT Device SDK for Embedded C BSP: Google Cloud IoT Device SDK for Embedded C Board Support Package</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -39,18 +39,17 @@ $(function() {
 </div><!-- top -->
 <div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">Device SDK Board Support Package </div>  </div>
+<div class="title">Google Cloud IoT Device SDK for Embedded C Board Support Package </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>The Board Support Package (BSP) is a set of well-defined functions that the Device SDK invokes to interact with hardware-specific drivers and routines.</p>
-<p>Implement these functions to:</p><ul>
+<div class="textblock"><p>This is a catalogue of the Board Support Package (BSP) and its components. The BSP is a set of well-defined functions that the Device SDK invokes to interact with hardware-specific drivers and routines. The functions run on POSIX platforms by default. You can customize the BSP for new devices; see the <a href="../../../porting_guide.md">porting guide</a> for instructions.</p>
+<p>The BSP has five files. The functions in each file implmenent the hardware-specific drivers and routines. You can customize the functions to run the Device SDK on new devices. The Device SDK invokes the functions to:</p><ul>
 <li>Perform asychronous networking</li>
 <li>Allocate platform memory</li>
 <li>Generate random numbers</li>
 <li>Keep time</li>
-<li>Communicate with TLS</li>
+<li>Implement Transport Layer Security</li>
 </ul>
-<p>The Device SDK builds natively on POSIX platforms. See the <a href="../../../porting_guide.md">porting guide</a> for more information about customizing the BSP for non-POSIX platforms.</p>
 <h1>POSIX BSP</h1>
 <p>The POSIX BSP implementation is in the <code><a href="~/src/bsp/platforms/posix">src/bsp/platforms/posix</a></code> directory. It implements <a href="https://en.wikipedia.org/wiki/Mbed_TLS">mbedTLS</a> by default.</p>
 <h1>TLS implementations</h1>

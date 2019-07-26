@@ -89,15 +89,13 @@ Functions</h2></td></tr>
 <tr class="separator:a9ea6764f8c16080bda1729db638f721f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Implements a cryptography library to create JSON Web Tokens (JWTs). </p>
-<p>Implementations of these functions:</p><ul>
-<li>Generate JWT credentials</li>
-<li>Sign JWTs with Elliptic Curve cryptography and SHA256</li>
-<li>Encode signed JWTs as URL-safe base64 strings.</li>
+<div class="textblock"><p>Implements a cryptography library for creating JSON Web Tokens. </p>
+<p>The cryptography library:</p><ul>
+<li>Generates JWT credentials</li>
+<li>Signs JWTs with Elliptic Curve cryptography and SHA256</li>
+<li>Encodes signed JWTs as URL-safe base64 strings.</li>
 </ul>
-<p>Reference implementations are in the <a href="../../../../../src/bsp/crypto">src/bsp/crypto</a> directory.</p>
-<p>The BSP uses the private key data or slot number provided <a href="../../../../api/html/index.html">Device SDK API</a>. The BSP doesn't format the JWT itself; the BSP only signs JWTs. The Device SDK formats the original JWT.</p>
-<p>All cryptography functions must issue a <a class="el" href="../../d6/d01/iotc__bsp__crypto_8h.html#a373aca3a308916b2a8d31a3dbb773401">status message</a>. </p>
+<p>The Device SDK has two <a href="../../../../bsp/html/index.html">turn-key cryptography libraries</a> for POSIX platforms: <a href="../../../../../src/bsp/crypto/mbedtls">mbedTLS</a> and <a href="../../../../../src/bsp/crypto/wolfssl">wolfSSL</a>. You can modify the functions in this file to create a new cryptography library. </p>
 
 <p class="definition">Definition in file <a class="el" href="../../d6/d01/iotc__bsp__crypto_8h_source.html">iotc_bsp_crypto.h</a>.</p>
 </div><h2 class="groupheader">Typedef Documentation</h2>
@@ -113,7 +111,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>The crytography function status. </p>
+<p>The crytography function states. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d6/d01/iotc__bsp__crypto_8h.html#a373aca3a308916b2a8d31a3dbb773401">iotc_bsp_crypto_state_e</a> </dd></dl>
 
 </div>
@@ -141,7 +139,7 @@ Functions</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="a373aca3a308916b2a8d31a3dbb773401a8648c2163ca7200e5b58a30123a897ff"></a>IOTC_BSP_CRYPTO_ECC_ERROR&#160;</td><td class="fielddoc"><p>Can't create ECC signature. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a373aca3a308916b2a8d31a3dbb773401a6d3efee3d3eb7c445ebef5bd608cd5fa"></a>IOTC_BSP_CRYPTO_BUFFER_TOO_SMALL_ERROR&#160;</td><td class="fielddoc"><p>Can't write data to buffer because the data is larger than the buffer. </p>
+<tr><td class="fieldname"><a id="a373aca3a308916b2a8d31a3dbb773401a6d3efee3d3eb7c445ebef5bd608cd5fa"></a>IOTC_BSP_CRYPTO_BUFFER_TOO_SMALL_ERROR&#160;</td><td class="fielddoc"><p>Can't write data to the buffer because the data is larger than the buffer. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a373aca3a308916b2a8d31a3dbb773401ae39d0e34f5e93c366373e4fa449d2a2c"></a>IOTC_BSP_CRYPTO_KEY_PARSE_ERROR&#160;</td><td class="fielddoc"><p>Can't parse private key data. </p>
 </td></tr>
@@ -151,7 +149,7 @@ Functions</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d01/iotc__bsp__crypto_8h_source.html#l00056">56</a> of file <a class="el" href="../../d6/d01/iotc__bsp__crypto_8h_source.html">iotc_bsp_crypto.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d01/iotc__bsp__crypto_8h_source.html#l00051">51</a> of file <a class="el" href="../../d6/d01/iotc__bsp__crypto_8h_source.html">iotc_bsp_crypto.h</a>.</p>
 
 </div>
 </div>
@@ -199,7 +197,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Encodes a string as a URL-safe, base64 string. Replaces all URL-unsafe characters with a - (dash) or _ (underscore).</p>
+
+<p>Encodes a string as a URL-safe, base64 string by replacing all URL-unsafe characters with a - (dash) or _ (underscore). </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">dst_string</td><td>A pointer to a buffer that stores the URL-safe, base64 string. The Device SDK allocates the buffer before calling this function implementation. </td></tr>
@@ -210,13 +209,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">IOTC_BSP_TLS_STATE_OK</td><td>The string is successfully encoded. </td></tr>
-    <tr><td class="paramname">IOTC_BSP_CRYPTO_BUFFER_TOO_SMALL_ERROR</td><td>The <code>dst_string</code> buffer is too small for the encoded string. </td></tr>
-  </table>
-  </dd>
-</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="../../d6/d01/iotc__bsp__crypto_8h.html#a373aca3a308916b2a8d31a3dbb773401">crytography function status</a>. </dd></dl>
 
 </div>
 </div>
@@ -270,22 +263,15 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Generates an ECC signature for a private key. </p>
+<p>Generates an ECC signature for a private key and returns a <a class="el" href="../../d6/d01/iotc__bsp__crypto_8h.html#a373aca3a308916b2a8d31a3dbb773401">crytography function status</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">private_key_pem</td><td>The private key data or slot number. Implementations of this function must use the same parameter provided to the Device SDK. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">private_key_pem</td><td>The private key data or slot number. Implementations of this function must use the same private key data or slot number provided to the Device SDK. </td></tr>
     <tr><td class="paramdir">[in,out]</td><td class="paramname">dst_buf</td><td>A pointer to a buffer into which the function stores the ECC signature. The buffer is already allocated by the Device SDK. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">dst_buf_size</td><td>The size, in bytes, of the buffer to which dst_buf points. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">bytes_written</td><td>The number of bytes written to dst_buf. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">src_buf</td><td>A pointer to a buffer of data to sign. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">src_buf_size</td><td>The size, in bytes, of the buffer to which src_buf points.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">IOTC_BSP_TLS_STATE_OK</td><td>The ECC signature is successfully created. </td></tr>
-    <tr><td class="paramname">IOTC_BSP_CRYPTO_ERROR</td><td>Can't create ECC signature. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">src_buf_size</td><td>The size, in bytes, of the buffer to which src_buf points. </td></tr>
   </table>
   </dd>
 </dl>
@@ -324,19 +310,12 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Generates a SHA256 cryptographic hash. </p>
+<p>Generates a SHA256 cryptographic hash and returns a <a class="el" href="../../d6/d01/iotc__bsp__crypto_8h.html#a373aca3a308916b2a8d31a3dbb773401">crytography function status</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">dst_buf_32_bytes</td><td>A pointer to 32-byte buffer into which this function stores the digest. The buffer is already allocated by the Device SDK. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">src_buf</td><td>A pointer to buffer with the string to encode. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">src_buf_size</td><td>The size, in bytes, of the buffer to which src_buf points.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">IOTC_BSP_TLS_STATE_OK</td><td>The digest is successfully created. </td></tr>
-    <tr><td class="paramname">IOTC_BSP_CRYPTO_ERROR</td><td>Can't create digest. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">src_buf_size</td><td>The size, in bytes, of the buffer to which src_buf points. </td></tr>
   </table>
   </dd>
 </dl>

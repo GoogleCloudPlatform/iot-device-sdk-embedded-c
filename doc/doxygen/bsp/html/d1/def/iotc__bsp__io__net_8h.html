@@ -111,15 +111,14 @@ Functions</h2></td></tr>
 <tr class="separator:aacac7bd43e8da3524323942562de1a83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Implements asynchronous networking. </p>
+<div class="textblock"><p>Creates and manages sockets for asynchronous networking in the native socket library. </p>
 <p>A typical networking workflow:</p><ol type="1">
 <li>Create a socket.</li>
 <li>Connect the socket to a host.</li>
 <li>Check the connection status.</li>
 <li>Send data to the host or read data from the socket.</li>
-<li>Close the socket.</li>
+<li>Close the socket. </li>
 </ol>
-<p>The BSP invokes networking functions in the native socket library. </p>
 
 <p class="definition">Definition in file <a class="el" href="../../d1/def/iotc__bsp__io__net_8h_source.html">iotc_bsp_io_net.h</a>.</p>
 </div><h2 class="groupheader">Typedef Documentation</h2>
@@ -135,8 +134,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Networking status codes. </p>
-<p>TLS function status.</p>
+<p>The networking function states. </p>
+<p>The TLS function states.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d1/def/iotc__bsp__io__net_8h.html#a78b7260d504aae4684e7130be2f50e5d">iotc_bsp_io_net_state_e</a> </dd></dl>
 
 </div>
@@ -189,7 +188,7 @@ Functions</h2></td></tr>
 
 <p>The socket representation. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d1/def/iotc__bsp__io__net_8h_source.html#l00136">136</a> of file <a class="el" href="../../d1/def/iotc__bsp__io__net_8h_source.html">iotc_bsp_io_net.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/def/iotc__bsp__io__net_8h_source.html#l00135">135</a> of file <a class="el" href="../../d1/def/iotc__bsp__io__net_8h_source.html">iotc_bsp_io_net.h</a>.</p>
 
 </div>
 </div>
@@ -227,15 +226,15 @@ Functions</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="a78b7260d504aae4684e7130be2f50e5dadea0554e14a7d07646b0916c2e9422b1"></a>IOTC_BSP_IO_NET_STATE_ERROR&#160;</td><td class="fielddoc"><p>Something went wrong. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a78b7260d504aae4684e7130be2f50e5da339dcef7ea3a6d0a02a5f664ff657bc8"></a>IOTC_BSP_IO_NET_STATE_BUSY&#160;</td><td class="fielddoc"><p>Resource is busy. Invoke function again. </p>
+<tr><td class="fieldname"><a id="a78b7260d504aae4684e7130be2f50e5da339dcef7ea3a6d0a02a5f664ff657bc8"></a>IOTC_BSP_IO_NET_STATE_BUSY&#160;</td><td class="fielddoc"><p>The resource is busy. Invoke function again. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a78b7260d504aae4684e7130be2f50e5da62be2f54ec2c3617de5de7981f979f21"></a>IOTC_BSP_IO_NET_STATE_CONNECTION_RESET&#160;</td><td class="fielddoc"><p>Connection lost. </p>
+<tr><td class="fieldname"><a id="a78b7260d504aae4684e7130be2f50e5da62be2f54ec2c3617de5de7981f979f21"></a>IOTC_BSP_IO_NET_STATE_CONNECTION_RESET&#160;</td><td class="fielddoc"><p>The connection was lost. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a78b7260d504aae4684e7130be2f50e5dad94e52d25620be370037fc7b492f3d6d"></a>IOTC_BSP_IO_NET_STATE_TIMEOUT&#160;</td><td class="fielddoc"><p>Timeout occurred. </p>
+<tr><td class="fieldname"><a id="a78b7260d504aae4684e7130be2f50e5dad94e52d25620be370037fc7b492f3d6d"></a>IOTC_BSP_IO_NET_STATE_TIMEOUT&#160;</td><td class="fielddoc"><p>A timeout occurred. </p>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../d1/def/iotc__bsp__io__net_8h_source.html#l00090">90</a> of file <a class="el" href="../../d1/def/iotc__bsp__io__net_8h_source.html">iotc_bsp_io_net.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/def/iotc__bsp__io__net_8h_source.html#l00089">89</a> of file <a class="el" href="../../d1/def/iotc__bsp__io__net_8h_source.html">iotc_bsp_io_net.h</a>.</p>
 
 </div>
 </div>
@@ -257,7 +256,7 @@ Functions</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../d1/def/iotc__bsp__io__net_8h_source.html#l00124">124</a> of file <a class="el" href="../../d1/def/iotc__bsp__io__net_8h_source.html">iotc_bsp_io_net.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/def/iotc__bsp__io__net_8h_source.html#l00123">123</a> of file <a class="el" href="../../d1/def/iotc__bsp__io__net_8h_source.html">iotc_bsp_io_net.h</a>.</p>
 
 </div>
 </div>
@@ -279,7 +278,7 @@ Functions</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../d1/def/iotc__bsp__io__net_8h_source.html#l00110">110</a> of file <a class="el" href="../../d1/def/iotc__bsp__io__net_8h_source.html">iotc_bsp_io_net.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/def/iotc__bsp__io__net_8h_source.html#l00109">109</a> of file <a class="el" href="../../d1/def/iotc__bsp__io__net_8h_source.html">iotc_bsp_io_net.h</a>.</p>
 
 </div>
 </div>
@@ -300,18 +299,10 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Closes a socket. </p>
-<p>This is a non-blocking operation.</p>
+<p>Closes a <a class="el" href="../../d1/def/iotc__bsp__io__net_8h.html#ab05ecacc96090fd045691909cf174807">socket</a> and returns a <a class="el" href="../../da/d17/structiotc__bsp__socket__events__s.html">networking function state</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">iotc_socket_nonblocking</td><td>The socket to close.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">IOTC_BSP_IO_NET_STATE_OK</td><td>Socket successfully closed. </td></tr>
-    <tr><td class="paramname">IOTC_BSP_IO_NET_STATE_ERROR</td><td>Socket isn't connected. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">iotc_socket_nonblocking</td><td>The socket to close. </td></tr>
   </table>
   </dd>
 </dl>
@@ -349,21 +340,13 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Checks the socket connection status.</p>
-<p>The Device SDK calls this function implementation after iotc_bsp_io_net_connect() to complete the socket connection.</p>
-<p>This function implemetation serves as a tool for monitoring asychronous connections. If this function impelementation determines that the socket is connected, the Device SDK initiates a TLS handshake.</p>
+<p>Checks a <a class="el" href="../../d1/def/iotc__bsp__io__net_8h.html#ab05ecacc96090fd045691909cf174807">socket</a> connection status and returns a <a class="el" href="../../da/d17/structiotc__bsp__socket__events__s.html">networking function state</a>.</p>
+<p>The Device SDK calls the function after iotc_bsp_io_net_connect() to complete the socket connection. If the function determines that the socket is connected, the Device SDK initiates a TLS handshake.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">iotc_socket_nonblocking</td><td>The socket on which check the connection. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">host</td><td>The null-terminated IP or fully-qualified domain name of the host to connect to. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">port</td><td>The port number of the endpoint.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">IOTC_BSP_IO_NET_STATE_OK</td><td>Socket is connected to host. </td></tr>
-    <tr><td class="paramname">IOTC_BSP_IO_NET_STATE_ERROR</td><td>Socket isn't connected. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">host</td><td>The null-terminated IP or fully-qualified domain name of the host at which to connect. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">port</td><td>The port number of the endpoint. </td></tr>
   </table>
   </dd>
 </dl>
@@ -408,26 +391,16 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Reads data from a socket. </p>
-<p>This is a non-blocking operation.</p>
+<p>Reads data from a <a class="el" href="../../d1/def/iotc__bsp__io__net_8h.html#ab05ecacc96090fd045691909cf174807">socket</a> and returns a <a class="el" href="../../da/d17/structiotc__bsp__socket__events__s.html">networking function state</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">iotc_socket_nonblocking</td><td>The socket from which to read data. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">out_read_count</td><td>The number of bytes read from the socket. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">buf</td><td>A pointer to a buffer with the data read from the socket. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">count</td><td>The size, in bytes, of the buf parameter.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">count</td><td>The size, in bytes, of the buffer to which the buf parameter points. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">IOTC_BSP_IO_NET_STATE_OK</td><td>Data is successfully read from the socket. </td></tr>
-    <tr><td class="paramname">IOTC_BSP_IO_NET_STATE_BUSY</td><td>No data is available on the socket. </td></tr>
-    <tr><td class="paramname">IOTC_BSP_IO_NET_STATE_ERROR</td><td>Socket isn't connected.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section see"><dt>See also</dt><dd>iotc_bsp_io_net_create_socket() </dd></dl>
 
 </div>
 </div>
@@ -463,23 +436,16 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Queries socket states to schedule read and write operations. </p>
+<p>Checks a <a class="el" href="../../d1/def/iotc__bsp__io__net_8h.html#ab05ecacc96090fd045691909cf174807">socket</a> for scheduled read or write operations. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">socket_events_array</td><td>An array of socket events. Each element must be an initialized socket. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">socket_events_array</td><td>An array of initialized sockets. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">socket_events_array_size</td><td>The number of elements in socket_events_array. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">timeout</td><td>The number of seconds before timing out.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">IOTC_BSP_IO_NET_STATE_OK</td><td>Socket event successfully updated. </td></tr>
-    <tr><td class="paramname">IOTC_BSP_IO_NET_STATE_TIMEOUT</td><td>Query timed out. </td></tr>
-    <tr><td class="paramname">IOTC_BSP_IO_NET_STATE_ERROR</td><td>Can't query socket status. </td></tr>
-  </table>
-  </dd>
-</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="../../da/d17/structiotc__bsp__socket__events__s.html">networking function state</a>. </dd></dl>
 
 </div>
 </div>
@@ -520,20 +486,13 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Creates a socket and connect it to an endpoint.</p>
+<p>Creates a socket, connects it to an endpoint and returns a <a class="el" href="../../da/d17/structiotc__bsp__socket__events__s.html">networking function state</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[out]</td><td class="paramname">iotc_socket</td><td>The platform-specific socket representation This value is passed to all further BSP networking calls. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">host</td><td>The null-terminated IP or fully-qualified domain name of the host at which to connect. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">port</td><td>The port number of the endpoint. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">socket_type</td><td>The <a class="el" href="../../d1/def/iotc__bsp__io__net_8h.html#a6dd6fa8d0dd6d838ced98b9ecc105423">socket protocol</a>.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">IOTC_BSP_IO_NET_STATE_OK</td><td>Socket successfully connected to host. </td></tr>
-    <tr><td class="paramname">IOTC_BSP_IO_NET_STATE_ERROR</td><td>Can't connect socket. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">socket_type</td><td>The <a class="el" href="../../d1/def/iotc__bsp__io__net_8h.html#a6dd6fa8d0dd6d838ced98b9ecc105423">socket protocol</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -578,27 +537,17 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Writes data to a socket. </p>
-<p>This is a non-blocking operation.</p>
-<p>This function writes data in chunks, so the Device SDK calls it repeatedly until all chunks are written to the buf parameter. The Device SDK writes a new chunk to the socket on each event loop tick.</p>
+<p>Writes data to a <a class="el" href="../../d1/def/iotc__bsp__io__net_8h.html#ab05ecacc96090fd045691909cf174807">socket</a> and returns a <a class="el" href="../../da/d17/structiotc__bsp__socket__events__s.html">networking function state</a>. </p>
+<p>This function writes data in chunks, so the Device SDK calls it repeatedly until all chunks are written to the buffer. The Device SDK writes a new chunk to the socket on each event loop tick.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">iotc_socket_nonblocking</td><td>The socket on which to send data. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">out_written_count</td><td>The number of bytes written to the socket. If the value is negative, the connection is closed. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">buf</td><td>A pointer to a buffer with the data. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">count</td><td>The size, in bytes, of the buffer to which the buf parameter points.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">count</td><td>The size, in bytes, of the buffer to which the buf parameter points. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">IOTC_BSP_IO_NET_STATE_OK</td><td>All data is written to the socket. </td></tr>
-    <tr><td class="paramname">IOTC_BSP_IO_NET_STATE_BUSY</td><td>None or some of the data is written to the socket but no error occurred. </td></tr>
-    <tr><td class="paramname">IOTC_BSP_IO_NET_STATE_ERROR</td><td>Socket isn't connected.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section see"><dt>See also</dt><dd>iotc_bsp_io_net_create_socket() </dd></dl>
 
 </div>
 </div>

@@ -62,7 +62,7 @@ Functions</h2></td></tr>
 <tr class="separator:a74316f1a7e5b0a30c95aedf7ca747c1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Implements functions to manage platform memory. </p>
+<div class="textblock"><p>Manages platform memory. </p>
 <p>For instance, custom implementations can use static instead of heap memory. </p>
 
 <p class="definition">Definition in file <a class="el" href="../../db/ddb/iotc__bsp__mem_8h_source.html">iotc_bsp_mem.h</a>.</p>
@@ -83,14 +83,13 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Allocates memory. </p>
+<p>Allocates memory and returns a pointer to the beginning of the allocated block. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">byte_count</td><td>The number of bytes to allocate.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">byte_count</td><td>The number of bytes to allocate. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A pointer to the beginning of the allocated block. </dd></dl>
 
 </div>
 </div>
@@ -146,15 +145,14 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Changes the size of a memory block. </p>
+<p>Changes the size of a memory block and returns a pointer to the rallocated block. </p>
 <p>If the new memory block size is smaller than the old memory block, the Device SDK saves the maximum amount of memory, even if the block moves to a new location. If the new size is larger, the Device SDK leaves the leftover memory empty.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>A pointer to a memory block to reallocate.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>A pointer to a memory block to reallocate. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A pointer to the reallocated memory block. </dd></dl>
 
 </div>
 </div>

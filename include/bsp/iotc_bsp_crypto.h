@@ -30,26 +30,21 @@ extern "C" {
  * @file  iotc_bsp_crypto.h
  * @brief Implements a cryptography library for creating JSON Web Tokens.
  * 
- * @details Implementations of these functions:
- *     - Generate JWT credentials
- *     - Sign JWTs with Elliptic Curve cryptography and SHA256
- *     - Encode signed JWTs as URL-safe base64 strings.
+ * @details The cryptography library:
+ *     - Generates JWT credentials
+ *     - Signs JWTs with Elliptic Curve cryptography and SHA256
+ *     - Encodes signed JWTs as URL-safe base64 strings.
  *
- * Reference implementations are in the
- * <a href="../../../src/bsp/crypto">src/bsp/crypto</a> directory.
- *
- * The BSP uses the private key data or slot number provided
- * <a href="../../api/html/index.html">Device SDK API</a>. The BSP doesn't
- * format the JWT itself; the BSP only signs JWTs. The Device SDK
- * formats the original JWT.
- *
- * All cryptography functions must issue a
- * {@link #iotc_bsp_crypto_state_e status message}.
+ * The Device SDK has two <a href="../../bsp/html/index.html">turn-key
+ * cryptography libraries</a> for POSIX platforms:
+ * <a href="../../../src/bsp/crypto/mbedtls">mbedTLS</a> and
+ * <a href="../../../src/bsp/crypto/wolfssl">wolfSSL</a>. You can modify the
+ * functions in this file to create a new cryptography library.
  */
 
 /**
  * @typedef iotc_bsp_crypto_state_t
- * @brief The crytography function status.
+ * @brief The crytography function states.
  *
  * @see #iotc_bsp_crypto_state_e
  */
@@ -64,7 +59,7 @@ typedef enum iotc_bsp_crypto_state_e {
   IOTC_BSP_CRYPTO_SHA256_ERROR,
   /** Can't create ECC signature. */
   IOTC_BSP_CRYPTO_ECC_ERROR,
-  /** Can't write data to buffer because the data is larger than the buffer. */
+  /** Can't write data to the buffer because the data is larger than the buffer. */
   IOTC_BSP_CRYPTO_BUFFER_TOO_SMALL_ERROR,
   /** Can't parse private key data. */
   IOTC_BSP_CRYPTO_KEY_PARSE_ERROR,
@@ -75,8 +70,8 @@ typedef enum iotc_bsp_crypto_state_e {
 } iotc_bsp_crypto_state_t;
 
 /**
- * @details Encodes a string as a URL-safe, base64 string. Replaces all URL-unsafe
- * characters with a - (dash) or _ (underscore).
+ * @brief Encodes a string as a URL-safe, base64 string by replacing all
+ * URL-unsafe characters with a - (dash) or _ (underscore).
  *
  * @param [in,out] dst_string A pointer to a buffer that stores the URL-safe,
  *     base64 string. The Device SDK allocates the buffer before calling this
@@ -89,37 +84,34 @@ typedef enum iotc_bsp_crypto_state_e {
  * @param [in] src_buf_size The size, in bytes, of buffer to which
  *     src_buf points.
  *
- * @retval IOTC_BSP_TLS_STATE_OK The string is successfully encoded.
- * @retval IOTC_BSP_CRYPTO_BUFFER_TOO_SMALL_ERROR The <code>dst_string</code>
- *     buffer is too small for the encoded string.
+ * @returns A {@link iotc_bsp_crypto_state_e crytography function status}.
  */
 iotc_bsp_crypto_state_t iotc_bsp_base64_encode_urlsafe(
     unsigned char* dst_string, size_t dst_string_size, size_t* bytes_written,
     const uint8_t* src_buf, size_t src_buf_size);
 
 /**
- * @brief Generates a SHA256 cryptographic hash.
+ * @brief Generates a SHA256 cryptographic hash and returns a
+ * {@link #iotc_bsp_crypto_state_e crytography function status}.
  *
  * @param [in,out] dst_buf_32_bytes A pointer to 32-byte buffer into which
- *      this function stores the digest. The buffer is already
- *      allocated by the Device SDK.
+ *     this function stores the digest. The buffer is already
+ *     allocated by the Device SDK.
  * @param [in] src_buf A pointer to buffer with the string to encode.
  * @param [in] src_buf_size The size, in bytes, of the buffer to which
  *     src_buf points.
- *
- * @retval IOTC_BSP_TLS_STATE_OK The digest is successfully created.
- * @retval IOTC_BSP_CRYPTO_ERROR Can't create digest.
  */
 iotc_bsp_crypto_state_t iotc_bsp_sha256(uint8_t* dst_buf_32_bytes,
                                         const uint8_t* src_buf,
                                         uint32_t src_buf_size);
 
 /**
- * @brief Generates an ECC signature for a private key.
+ * @brief Generates an ECC signature for a private key and returns a
+ * {@link #iotc_bsp_crypto_state_e crytography function status}.
  *
  * @param [in] private_key_pem The private key data or slot number.
- *     Implementations of this function must use the same parameter provided
- *     to the Device SDK.
+ *     Implementations of this function must use the same private key data or
+ *     slot number provided to the Device SDK.
  * @param [in,out] dst_buf A pointer to a buffer into which the function
  *     stores the ECC signature. The buffer is already allocated by the
  *     Device SDK.
@@ -129,9 +121,6 @@ iotc_bsp_crypto_state_t iotc_bsp_sha256(uint8_t* dst_buf_32_bytes,
  * @param [in] src_buf A pointer to a buffer of data to sign.
  * @param [in] src_buf_size The size, in bytes, of the buffer to which
  *     src_buf points.
- *
- * @retval IOTC_BSP_TLS_STATE_OK The ECC signature is successfully created.
- * @retval IOTC_BSP_CRYPTO_ERROR Can't create ECC signature.
  */
 iotc_bsp_crypto_state_t iotc_bsp_ecc(const iotc_crypto_key_data_t* private_key,
                                      uint8_t* dst_buf, size_t dst_buf_size,

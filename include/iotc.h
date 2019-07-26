@@ -30,11 +30,10 @@ extern "C" {
 #endif
 
 /*! \file
+ * @mainpage Google Cloud IoT Device SDK for Embedded C API
  * @brief Connects client applications to Cloud IoT Core
  *
- * \mainpage Google Cloud IoT Device SDK for Embedded C API
- *
- * The Device SDK securely connects client applications to
+ * @details The Device SDK securely connects client applications to
  * <a href="https://cloud.google.com/iot-core/">Cloud IoT Core</a> in order to
  * publish and subscribe to messages via
  * <a href="http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html">
