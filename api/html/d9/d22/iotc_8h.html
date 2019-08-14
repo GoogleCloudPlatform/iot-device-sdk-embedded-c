@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.15"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Google Cloud IoT Device SDK for Embedded C API: iotc.h File Reference</title>
+<title>Google Cloud IoT Device SDK for Embedded C: iotc.h File Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -18,7 +18,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Google Cloud IoT Device SDK for Embedded C API
+   <div id="projectname">Google Cloud IoT Device SDK for Embedded C
    </div>
   </td>
  </tr>
@@ -131,7 +131,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Cancels a timed task by removing it from the internal event system. </p>
+<p>Removes a scheduled task from the internal event system. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">timed_task_handle</td><td>A unique ID for the scheduled task. </td></tr>
@@ -205,13 +205,7 @@ Variables</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">password</td><td>The MQTT password. Cloud IoT Core requires a <a class="el" href="../../d8/df1/iotc__jwt_8h.html#af6e4cdf9d89a98a916b8584a03c03e4e">JWT</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">client_id</td><td>The MQTT client ID. Cloud IoT Core requires a <a href="https://cloud.google.com/iot/docs/how-tos/mqtt-bridge#device_authentication">device path</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">connection_timeout</td><td>The number of seconds to wait for a <code>CONNACK</code> response before closing the socket. If <code>0</code>, the TCP timeout is used. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">keepalive_timeout</td><td>The number of seconds the broker will wait for the client application to send a message. If no message is sent to the broker during the interval, the broker automatically closes the connection.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">IOTC_STATE_OK</td><td>The connection request was enqueued. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">keepalive_timeout</td><td>The number of seconds the broker will wait for the client application to send a message. If no message is sent to the broker during the interval, the broker automatically closes the connection. </td></tr>
   </table>
   </dd>
 </dl>
@@ -342,14 +336,7 @@ Variables</h2></td></tr>
 <p>On non-POSIX systems, the application must free the context on the event loop tick after the disconnection event (not in the disconnection callback itself).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">context</td><td>The <a class="el" href="../../d9/d22/iotc_8h.html#a657294c0f1cda3a8ec5a2bb284709657">context handle</a> to free.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">IOTC_STATE_OK</td><td>The context was freed. </td></tr>
-    <tr><td class="paramname">IOTC_INVALID_PARAMETER</td><td>The <a class="el" href="../../d9/d22/iotc_8h.html#a657294c0f1cda3a8ec5a2bb284709657">context handle</a> is invalid. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">context</td><td>The <a class="el" href="../../d9/d22/iotc_8h.html#a657294c0f1cda3a8ec5a2bb284709657">context handle</a> to free. </td></tr>
   </table>
   </dd>
 </dl>
@@ -372,7 +359,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>Invokes the event processing loop and executes the Device SDKs event engine as the main application process. The function processes events on platforms with main application loops that can block indefinitely. For other platforms, call <a class="el" href="../../d9/d22/iotc_8h.html#af3efc2d5d965a14116fb8fdbd3a4e45e">iotc_events_process_tick()</a>.</p>
 <p>You can call the function anytime but it returns only after calling <a class="el" href="../../d9/d22/iotc_8h.html#a3809c15f5bbf5f7a2a569c11b87a29dc" title="Shuts down the event engine.">iotc_events_stop()</a>.</p>
-<p>The event engine won't <a class="el" href="../../d9/d22/iotc_8h.html#af3efc2d5d965a14116fb8fdbd3a4e45e">process events</a> when the Device SDK is in the <a class="el" href="../../d4/d7c/iotc__error_8h.html#a31af29ceaf88c8f978117b3be5545932">IOTC_EVENT_PROCESS_STOPPED state</a>. If returns IOTC_EVENT_PROCESS_STOPPED is returned, <a class="el" href="../../d9/d22/iotc_8h.html#ac5bb467d736cd8b6e8de62e8a5fdda23">shutdown</a> and <a class="el" href="../../d9/d22/iotc_8h.html#a949c6fa4e75efb1814aa5cbedf742c12">reinitialize</a> the Device SDK to process events again. </p>
+<p>The event engine won't <a class="el" href="../../d9/d22/iotc_8h.html#af3efc2d5d965a14116fb8fdbd3a4e45e">process events</a> when the Device SDK is in the <a class="el" href="../../d4/d7c/iotc__error_8h.html#a31af29ceaf88c8f978117b3be5545932">IOTC_EVENT_PROCESS_STOPPED state</a>. If the function returns IOTC_EVENT_PROCESS_STOPPED, <a class="el" href="../../d9/d22/iotc_8h.html#ac5bb467d736cd8b6e8de62e8a5fdda23">shutdown</a> and <a class="el" href="../../d9/d22/iotc_8h.html#a949c6fa4e75efb1814aa5cbedf742c12">reinitialize</a> the Device SDK to process events again. </p>
 
 </div>
 </div>
@@ -390,15 +377,8 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Invokes the event processing loop. The function is for RTOS or non-OS devices that must yield for standard tick operations.</p>
-<p>The event engine won't <a class="el" href="../../d9/d22/iotc_8h.html#af3efc2d5d965a14116fb8fdbd3a4e45e">process events</a> when the Device SDK is in the <a class="el" href="../../d4/d7c/iotc__error_8h.html#a31af29ceaf88c8f978117b3be5545932">IOTC_EVENT_PROCESS_STOPPED state</a>. If the function returns IOTC_EVENT_PROCESS_STOPPED, <a class="el" href="../../d9/d22/iotc_8h.html#ac5bb467d736cd8b6e8de62e8a5fdda23">shutdown</a> and <a class="el" href="../../d9/d22/iotc_8h.html#a949c6fa4e75efb1814aa5cbedf742c12">reinitialize</a> the Device SDK to process events again.</p>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">IOTC_STATE_OK</td><td>The event system is ongoing and can continue to operate. </td></tr>
-    <tr><td class="paramname">IOTC_EVENT_PROCESS_STOPPED</td><td>The event processor stopped because the client application <a class="el" href="../../d9/d22/iotc_8h.html#a3809c15f5bbf5f7a2a569c11b87a29dc">shut down the event engine</a> or an unrecoverable error occurred. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Invokes the event processing loop on RTOS or non-OS devices that must yield for standard tick operations.</p>
+<p>The event engine won't <a class="el" href="../../d9/d22/iotc_8h.html#af3efc2d5d965a14116fb8fdbd3a4e45e">process events</a> when the Device SDK is in the <a class="el" href="../../d4/d7c/iotc__error_8h.html#a31af29ceaf88c8f978117b3be5545932">IOTC_EVENT_PROCESS_STOPPED state</a>. If the function returns IOTC_EVENT_PROCESS_STOPPED, <a class="el" href="../../d9/d22/iotc_8h.html#ac5bb467d736cd8b6e8de62e8a5fdda23">shutdown</a> and <a class="el" href="../../d9/d22/iotc_8h.html#a949c6fa4e75efb1814aa5cbedf742c12">reinitialize</a> the Device SDK to process events again. </p>
 
 </div>
 </div>
@@ -436,15 +416,8 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Queries the amount of heap memory allocated to the Device SDK. The function is part of the Device SDK <a href="../../../../../user_guide.md#memory-limiter">memory limiter</a>.</p>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">IOTC_STATE_OK</td><td>The current heap usage was queried. </td></tr>
-    <tr><td class="paramname">IOTC_NOT_SUPPORTED</td><td>The memory limiter module isn't installed. </td></tr>
-    <tr><td class="paramname">IOTC_INVALID_PARAMETER</td><td>No heap memory allocated. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Gets the amount of heap memory allocated to the Device SDK.</p>
+<p>The function is part of the <a href="../../../../../user_guide.md#memory-limiter">memory limiter</a>. If no heap memory is allocated, the function runs but returns IOTC_INVALID_PARAMETER. </p>
 
 </div>
 </div>
@@ -464,7 +437,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Queries the current <a class="el" href="../../d9/d22/iotc_8h.html#a9823988b2ba20b09a483fdf9678ce8b3">network timeout value</a>. </p>
+<p>Gets the <a class="el" href="../../d9/d22/iotc_8h.html#a9823988b2ba20b09a483fdf9678ce8b3">connection timeout</a>. </p>
 
 </div>
 </div>
@@ -482,13 +455,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Initializes the BSP time and random number libraries. Applications must call the function first when starting a new runtime.</p>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">IOTC_STATE_OK</td><td>The libraries were initialized. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Initializes the BSP time and random number libraries. Applications must call the function first when starting a new runtime. </p>
 
 </div>
 </div>
@@ -508,7 +475,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Determines if a context is <a class="el" href="../../d9/d22/iotc_8h.html#a48ab2dda7fedc71942119642f5b0e9c2">connected to Cloud IoT Core</a>. </p>
+<p>Checks if a context is <a class="el" href="../../d9/d22/iotc_8h.html#a48ab2dda7fedc71942119642f5b0e9c2">connected to Cloud IoT Core</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">context</td><td>The handle for which to determine the connection.</td></tr>
@@ -583,16 +550,7 @@ Variables</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">msg</td><td>The payload of the message. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">qos</td><td>The Quality of Service (QoS) level. Can be <code>0</code>, <code>1</code>, or <code>2</code>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">callback</td><td>(Optional) The callback function. Invoked after a message is successfully or unsuccessfully delivered. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">user_data</td><td>(Optional) Abstract data passed to the callback function.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">IOTC_STATE_OK</td><td>The publication request was enqueued. </td></tr>
-    <tr><td class="paramname">IOTC_OUT_OF_MEMORY</td><td>The platform doesn't have enough memory to fulfull the request. </td></tr>
-    <tr><td class="paramname">IOTC_BACKOFF_TERMINAL</td><td>The backoff was applied. </td></tr>
-    <tr><td class="paramname">IOTC_INTERNAL_ERROR</td><td>Something went wrong. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">user_data</td><td>(Optional) Abstract data passed to the callback function. </td></tr>
   </table>
   </dd>
 </dl>
@@ -656,19 +614,10 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Publishes binary data to an MQTT topic. </p>
-<p>The function accepts a pointer and data length, whereas <a class="el" href="../../d9/d22/iotc_8h.html#ad182450f87d708b57451afadee80d94f" title="Publishes a message to an MQTT topic.">iotc_publish()</a> accepts a null-terminated string.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>The message payload. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">data_len</td><td>The size, in bytes, of the message.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">IOTC_STATE_OK</td><td>The publication request was enqueued. </td></tr>
-    <tr><td class="paramname">IOTC_OUT_OF_MEMORY</td><td>The platform doesn't have enough memory to fulfull the request. </td></tr>
-    <tr><td class="paramname">IOTC_INTERNAL_ERROR</td><td>Something went wrong. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>A pointer to a buffer with the message payload. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">data_len</td><td>The size, in bytes, of the message. </td></tr>
   </table>
   </dd>
 </dl>
@@ -750,7 +699,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Allows the Device SDK to use custom a filesystem. </p>
+<p>Sets the file operations to <a href="../../../../bsp/html/d8/dc3/iotc__bsp__io__fs_8h.html">custom file management functions</a>. </p>
 
 </div>
 </div>
@@ -769,18 +718,11 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Sets the maximum heap memory that the Device SDK can use. The function is part of the Device SDK <a href="../../../../../user_guide.md#memory-limiter">memory limiter</a>.</p>
+<p>Sets the maximum heap memory that the Device SDK can use.</p>
+<p>The function is part of the <a href="../../../../../user_guide.md#memory-limiter">memory limiter</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">max_bytes</td><td>The maximum amount of heap memory, in bytes, that the Device SDK can use during standard execution.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">IOTC_STATE_OK</td><td>The new memory limit was set. </td></tr>
-    <tr><td class="paramname">IOTC_NOT_SUPPORTED</td><td>The memory limiter module isn't compiled into the Device SDK. </td></tr>
-    <tr><td class="paramname">IOTC_OUT_OF_MEMORY</td><td>The new memory limit is too small to support the current heapspace footprint. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">max_bytes</td><td>The maximum amount of heap memory, in bytes, that the Device SDK can use during standard execution. </td></tr>
   </table>
   </dd>
 </dl>
@@ -829,14 +771,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Shuts down the Device SDK and frees all resources created during <a class="el" href="../../d9/d22/iotc_8h.html#a949c6fa4e75efb1814aa5cbedf742c12">initialization</a>. <a class="el" href="../../">iotc_delete_context()</a> all contexts before calling the function.</p>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">IOTC_STATE_OK</td><td>The Device SDK was shut down.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d9/d22/iotc_8h.html#ada03683c17e3cf3c5ed286e040140dc9" title="Disconnects asynchronously from an MQTT broker.">iotc_shutdown_connection</a> </dd></dl>
+<p>Shuts down the Device SDK and frees all resources created during <a class="el" href="../../d9/d22/iotc_8h.html#a949c6fa4e75efb1814aa5cbedf742c12">initialization</a>. <a class="el" href="../../">iotc_delete_context()</a> all contexts before calling the function. </p>
 
 </div>
 </div>
@@ -860,14 +795,7 @@ Variables</h2></td></tr>
 <p>After disconnecting, the Device SDK passes the disconnection status code to <a class="el" href="../../d9/d22/iotc_8h.html#a48ab2dda7fedc71942119642f5b0e9c2" title="Connects to Cloud IoT Core.">iotc_connect()</a>. You may reuse disconnected contexts to reconnect to Cloud IoT Core; you don't need to destroy and recreate contexts.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">iotc_h</td><td>A <a class="el" href="../../d9/d22/iotc_8h.html#a657294c0f1cda3a8ec5a2bb284709657">context handle</a>.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">IOTC_STATE_OK</td><td>The disconnection request was enqueued. </td></tr>
-    <tr><td class="paramname">IOTC_SOCKET_NO_ACTIVE_CONNECTION_ERROR</td><td>The device isn't connected to an MQTT broker. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">iotc_h</td><td>A <a class="el" href="../../d9/d22/iotc_8h.html#a657294c0f1cda3a8ec5a2bb284709657">context handle</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -925,15 +853,7 @@ Variables</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">topic</td><td>The MQTT topic. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">qos</td><td>The Quality of Service (QoS) level. Can be <code>0</code>, <code>1</code>, or <code>2</code>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">callback</td><td>The <a class="el" href="../../d7/d2c/iotc__types_8h.html#a770dc79f2e93d4c2dc22871c830f12a3">callback</a> invoked after a message is published to the MQTT topic. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">user_data</td><td>(Optional) A pointer that to the callback function's user_data parameter.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">IOTC_STATE_OK</td><td>The subscription request was enqueued. </td></tr>
-    <tr><td class="paramname">IOTC_OUT_OF_MEMORY</td><td>The platform doesn't have enough memory to fulfull the request. </td></tr>
-    <tr><td class="paramname">IOTC_INTERNAL_ERROR</td><td>An unrecoverable error occurred. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">user_data</td><td>(Optional) A pointer that to the callback function's user_data parameter. </td></tr>
   </table>
   </dd>
 </dl>
