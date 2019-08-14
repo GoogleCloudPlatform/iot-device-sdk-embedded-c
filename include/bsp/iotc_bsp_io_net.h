@@ -26,31 +26,24 @@
  * new devices; see the <a href="../../../porting_guide.md">porting guide</a>
  * for instructions.
  *
- * The BSP has five files. The functions in each file implmenent the
- * hardware-specific drivers and routines. You can customize the functions to
- * run the Device SDK on new devices. The Device SDK invokes the functions to:
- *     - Perform asychronous networking
- *     - Allocate platform memory
- *     - Generate random numbers
- *     - Keep time
- *     - Implement Transport Layer Security
- *
  * # POSIX BSP
- * The POSIX BSP implementation is in the
+ * The POSIX BSP is in the
  * <code><a href="~/src/bsp/platforms/posix">src/bsp/platforms/posix</a></code>
- * directory. It implements 
- * <a href="https://en.wikipedia.org/wiki/Mbed_TLS">mbedTLS</a> by default.
+ * directory. If you're customizing the BSP for a new device, you can refer
+ * to this implementation as an example.
  *
  * # TLS implementations
- * The Device SDK has turn-key
+ * The SDK has turn-key
  * <a href="../../../src/bsp/tls/mbedtls">mbedTLS</a>
  * and <a href="~/src/bsp/tls/wolfssl">wolfSSL</a> implementations. The 
  * default <code>make</code> target
- * <a href="../../../src/bsp/tls/mbedtls">downloads and builds</a> mbedTLS. See
- * the <a href="../../../doc/user-guide.md">user guide</a> to configure the
- * Device SDK with wolfTLS.
+ * <a href="../../../src/bsp/tls/mbedtls">downloads and builds</a> mbedTLS.
  *
- * The turn-key TLS implementations consist of customized
+ * To use the turn-key wolfTLS implementation, specify 
+ * <code>IOTC_BSP_TLS=wolfssl</code> in the
+ * <a href="../../../doc/porting_guide.md#build-environment">main makefile</a>.
+ *
+ * The turn-key TLS libraries consist of customized
  * <a href="dd/d79/iotc__bsp__tls_8h.html">iot_bsp_tls.h</a> and
  * <a href="dd/d79/iotc__bsp__crypto_8h.html">iotc_bsp_crypto.h</a>
  * functions:
@@ -58,6 +51,55 @@
  * | --- | --- |
  * | <a href="../../../src/bsp/tls/mbedtls/iotc_bsp_tls_mbedtls.c">src/bsp/tls/mbedtls/iotc_bsp_tls_mbedtls.c</a> | <a href="../../../src/bsp/tls/wolfssl/iotc_bsp_tls_wolfssl.c">src/bsp/tls/wolfssl/iotc_bsp_tls_wolfssl.c</a> |
  * | <a href="../../../src/bsp/crypto/mbedtls/iotc_bsp_crypto.c">src/bsp/crypto/mbedtls/iotc_bsp_crypto.c</a> | <a href="../../../src/bsp/crypto/wolfssl/iotc_bsp_crypto.c">src/bsp/crypto/wolfssl/iotc_bsp_crypto.c</a> |
+ *
+ * # File summary
+ * The BSP has five files. Each file implements a library of
+ * hardware-specific drivers and routines.
+ *
+ * | File | Description |
+ * | --- | --- |
+ * | iotc_bsp_crytpo.c | Perform asychronous networking |
+ * | iotc_bsp_io_fs.c | |
+ * | iotc_bsp_mem.c | Allocate platform memory |
+ * | iotc_bsp_rng.c | Generate random numbers |
+ * | iotc_bsp_time.c | Keep time |
+ * | iotc_bsp_tls.c | Implement Transport Layer Security |
+ *
+ * # Function summary
+ *
+ * | Function | Description |
+ * | --- | --- |
+ * iotc_bsp_base64_encode_urlsafe() | Encodes a string as a URL-safe, base64 string by replacing all URL-unsafe characters with a - (dash) or _ (underscore). |
+ * iotc_bsp_ecc() | Generates an Elliptic Curve signature for a private key. |
+ * iotc_bsp_io_fs_close() | Closes a file and frees all of the resources from reading or writing to the file. |
+ * iotc_bsp_io_fs_open() | Opens a file. |
+ * iotc_bsp_io_fs_read() | Reads a file. |
+ * iotc_bsp_io_fs_remove() | Deletes a file. |
+ * iotc_bsp_io_fs_stat() | Gets the size of a file. |
+ * iotc_bsp_io_fs_write() | Writes to a file. |
+ * iotc_bsp_io_net_close_socket() | Closes a {@link iotc_bsp_io_net_socket_connect() socket}. |
+ * iotc_bsp_io_net_connection_check() | Checks a {@link iotc_bsp_io_net_socket_connect() socket} connection status |
+ * iotc_bsp_io_net_read() | Reads from a {@link iotc_bsp_io_net_socket_connect() socket}. |
+ * iotc_bsp_io_net_select() | Checks a {@link iotc_bsp_io_net_socket_connect() socket} for scheduled read or write operations. |
+ * iotc_bsp_io_net_socket_connect() | Creates a socket and connects it to an endpoint. |
+ * iotc_bsp_io_net_write() | Writes to a {@link iotc_bsp_io_net_socket_connect() socket}. |
+ * iotc_bsp_mem_alloc() | Allocates memory and returns a pointer to the allocated block. |
+ * iotc_bsp_mem_free() | Frees a block of memory. |
+ * iotc_bsp_mem_realloc() | Changes the size of a memory block and returns a pointer to the reallocated block. |
+ * iotc_bsp_rng_get() | Generates and returns a random, 32-bit integer. |
+ * iotc_bsp_rng_init() | Initializes the platform-specific RNG requirements. |
+ * iotc_bsp_rng_shutdown() | Shuts down the RNG and frees all of the resources from initializing and generating random numbers. |
+ * iotc_bsp_sha256() | Generates a SHA256 cryptographic hash. |
+ * iotc_bsp_time_getcurrenttime_milliseconds() | Gets the milliseconds since Epoch. |
+ * iotc_bsp_time_getcurrenttime_seconds() | Gets the seconds since Epoch. |
+ * iotc_bsp_time_getmonotonictime_milliseconds() | Gets the monotonic time in milliseconds. |
+ * iotc_bsp_time_init() | Initializes the platform-specific timekeeping requirements. |
+ * iotc_bsp_tls_cleanup() | Frees a TLS context from memory and deletes any associated data. |
+ * iotc_bsp_tls_connect() | Starts a TLS handshake. |
+ * iotc_bsp_tls_init() | Initializes a TLS library and creates a TLS context. |
+ * iotc_bsp_tls_pending() | Gets the pending readable bytes. |
+ * iotc_bsp_tls_read() | Decrypts MQTT messages. |
+ * iotc_bsp_tls_write() | Encrypts MQTT messages. |
  */
 
 /**
@@ -170,8 +212,7 @@ typedef struct iotc_bsp_socket_events_s {
 } iotc_bsp_socket_events_t;
 
 /**
- * @details Creates a socket, connects it to an endpoint and returns a
- * {@link #iotc_bsp_socket_events_s networking function state}.
+ * @details Creates a socket and connects it to an endpoint.
  *
  * @param [out] iotc_socket The platform-specific socket representation
  *     This value is passed to all further BSP networking calls.
@@ -201,12 +242,11 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_select(
 
 /**
  * @details Checks a {@link iotc_bsp_io_net_socket_connect() socket} connection
- * status and returns a
- * {@link #iotc_bsp_socket_events_s networking function state}.
+ * status.
  *
- * The Device SDK calls the function after iotc_bsp_io_net_connect() to complete
- * the socket connection. If the function determines that the socket is
- * connected, the Device SDK initiates a TLS handshake.
+ * The SDK calls the function after iotc_bsp_io_net_connect() to complete the
+ * socket connection. If the socket is connected, the SDK initiates a TLS
+ * handshake.
  *
  * @param [in] iotc_socket_nonblocking The socket on which check the connection.
  * @param [in] host The null-terminated IP or fully-qualified domain name of the
@@ -217,8 +257,7 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_connection_check(
     iotc_bsp_socket_t iotc_socket, const char* host, uint16_t port);
 
 /**
- * @brief Writes data to a {@link iotc_bsp_io_net_socket_connect() socket} and
- * returns a {@link #iotc_bsp_socket_events_s networking function state}.
+ * @brief Writes data to a {@link iotc_bsp_io_net_socket_connect() socket}.
  *
  * @details This function writes data in chunks, so the Device SDK calls it
  * repeatedly until all chunks are written to the buffer. The Device SDK writes
@@ -236,8 +275,7 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_write(
     const uint8_t* buf, size_t count);
 
 /**
- * @brief Reads data from a {@link iotc_bsp_io_net_socket_connect() socket} and
- * returns a {@link #iotc_bsp_socket_events_s networking function state}.
+ * @brief Reads data from a {@link iotc_bsp_io_net_socket_connect() socket}.
  *
  * @param [in] iotc_socket_nonblocking The socket from which to read data.
  * @param [out] out_read_count The number of bytes read from the socket.
@@ -250,8 +288,7 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_read(
     uint8_t* buf, size_t count);
 
 /**
- * @brief Closes a {@link iotc_bsp_io_net_socket_connect() socket} and returns a
- * {@link #iotc_bsp_socket_events_s networking function state}.
+ * @brief Closes a {@link iotc_bsp_io_net_socket_connect() socket}.
  *
  * @param [in] iotc_socket_nonblocking The socket to close.
  */

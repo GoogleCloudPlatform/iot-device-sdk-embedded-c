@@ -65,28 +65,28 @@ typedef enum iotc_session_type_e {
 
 /**
  * @typedef iotc_connection_data_t
- * @brief The connection parameters.
+ * @brief The MQTT CONNECT parameters.
  *
  * @see iotc_connection_data_s
  */
 typedef struct iotc_connection_data_s {
-  /** MQTT service hostname. */
+  /** The MQTT broker hostname. */
   char* host;
-  /** MQTT connect username. */
+  /** The MQTT client username. */
   char* username;
-  /** MQTT connect password. */
+  /** The MQTT client password. */
   char* password;
-  /** MQTT connect client id. */
+  /** The MQTT client ID. */
   char* client_id;
-  /** MQTT service host port. */
+  /** The port on which the MQTT broker listens. */
   uint16_t port;
-  /** MQTT connect connection timeout in seconds. */
+  /** The connection timeout in seconds. */
   uint16_t connection_timeout;
-  /** MQTT keepalive timeout in seconds. */
+  /** MQTT keepalive in seconds. */
   uint16_t keepalive_timeout;
-  /** Tracks current connection state. */
+  /** The CONNACK message from the MQTT broker. */
   iotc_connection_state_t connection_state;
-  /** Denote clean or continued MQTT session types. */
+  /** The MQTT client session. */
   iotc_session_type_t session_type;
   /** Unused. */
   char* will_topic;

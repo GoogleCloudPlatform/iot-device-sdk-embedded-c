@@ -78,7 +78,7 @@ typedef enum iotc_bsp_io_fs_state_e {
  * @typedef iotc_bsp_io_fs_resource_type_t
  * @brief The resource type of TLS certificates.
  *
- * @see ::iotc_bsp_io_fs_resource_type_e
+ * @see #iotc_bsp_io_fs_resource_type_e
  */
 typedef enum iotc_bsp_io_fs_resource_type_e {
   /** A TLS certificate resource. */
@@ -88,15 +88,19 @@ typedef enum iotc_bsp_io_fs_resource_type_e {
 /**
  * @typedef iotc_bsp_io_fs_stat_t
  * @brief The size of TLS server authentication certificates.
+ *
+ * @see #iotc_bsp_io_fs_stat_s
  */
 typedef struct iotc_bsp_io_fs_stat_s {
-  /** The size of the resource in bytes. */
+  /** The size, in bytes, of the resource. */
   size_t resource_size;
 } iotc_bsp_io_fs_stat_t;
 
 /**
  * @typedef iotc_bsp_io_fs_open_flags_t
  * @brief The file operations.
+ *
+ * @see #iotc_bsp_io_fs_open_flags
  */
 typedef enum iotc_bsp_io_fs_open_flags {
   /** Open and read the file. */
@@ -117,8 +121,7 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_stat(
     const char* const resource_name, iotc_bsp_io_fs_stat_t* resource_stat);
 
 /**
- * @details Opens a file and returns a
- * {@link #iotc_bsp_io_fs_state_e file management function state}.
+ * @details Opens a file.
  *
  * @param [in] resource_name The filename.
  * @param [in] size The size, in bytes, of the file.
@@ -133,8 +136,7 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_open(
     iotc_bsp_io_fs_resource_handle_t* resource_handle_out);
 
 /**
- * @brief Reads a file and returns a
- * {@link #iotc_bsp_io_fs_state_e file management function state}.
+ * @brief Reads a file.
  *
  * @details The function must fill the buffer at offset 0. The function can
  * allocate buffers by:
@@ -158,8 +160,7 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_read(
     const uint8_t** buffer, size_t* const buffer_size);
 
 /**
- * @details Writes to a file and returns a
- * {@link #iotc_bsp_io_fs_state_e file management function state}.
+ * @details Writes to a file.
  *
  * @details The function must fill the buffer at any offset. The function can
  * allocate buffers by:
@@ -183,9 +184,8 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_write(
     size_t* const bytes_written);
 
 /**
- * @details Closes a file, frees all of the resources from reading or writing
- * to the file, and returns a
- * {@link #iotc_bsp_io_fs_state_e file management function state}.
+ * @details Closes a file and frees all of the resources from reading or writing
+ * to the file.
  *
  * @param [in] resource_handle A
  *     {@link ::iotc_bsp_io_fs_resource_handle_t handle to an open file}.
@@ -194,8 +194,7 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_close(
     const iotc_bsp_io_fs_resource_handle_t resource_handle);
 
 /**
- * @brief Deletes a file and returns a
- * {@link #iotc_bsp_io_fs_state_e file management function state}.
+ * @brief Deletes a file.
  *
  * @param [in] resource_name The filename.
  */

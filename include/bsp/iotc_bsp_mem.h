@@ -32,8 +32,7 @@ extern "C" {
 #endif
 
 /**
- * @brief Allocates memory and returns a pointer to the beginning of the
- * allocated block.
+ * @brief Allocates memory and returns a pointer to the allocated block.
  *
  * @param [in] byte_count The number of bytes to allocate.
  */
@@ -41,11 +40,11 @@ void* iotc_bsp_mem_alloc(size_t byte_count);
 
 /**
  * @brief Changes the size of a memory block and returns a pointer to the
- * rallocated block.
+ * reallocated block.
  *
  * @details If the new memory block size is smaller than the old memory block,
- * the Device SDK saves the maximum amount of memory, even if the block moves to
- * a new location. If the new size is larger, the Device SDK leaves the leftover
+ * the SDK saves the maximum amount of memory, even if the block moves to a new
+ * location. If the new size is larger, the Device SDK leaves the leftover
  * memory empty.
  *
  * @param [in] ptr A pointer to a memory block to reallocate.

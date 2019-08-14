@@ -72,7 +72,8 @@ typedef void(iotc_user_task_callback_t)(
  * @param [in] in_context_handle The context handle provided to the original
  *     API call.
  * @param [in] data The API-specific parameters.
- * @param [in] state The internal {@link iotc_error.h error message}.
+ * @param [in] state The {@link iotc_error.h state} on which to invoke the
+ *     callback.
  */
 typedef void(iotc_user_callback_t)(iotc_context_handle_t in_context_handle,
                                    void* data, iotc_state_t state);
@@ -206,9 +207,6 @@ typedef enum iotc_crypto_key_signature_algorithm_e {
 /* @typedef iotc_crypto_key_data_t
  * @brief The parameters with which to create
  *     {@link create_iot_core_jwt() JSON Web Tokens}.
- *
- * @see ::iotc_crypto_key_union_type_t
- * @see ::iotc_crypto_key_signature_algorithm_t
  */
 typedef struct {
   iotc_crypto_key_union_type_t crypto_key_union_type;

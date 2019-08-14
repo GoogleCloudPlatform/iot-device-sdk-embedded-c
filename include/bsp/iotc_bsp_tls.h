@@ -96,11 +96,10 @@ typedef struct iotc_bsp_tls_init_params_s {
 typedef void iotc_bsp_tls_context_t;
 
 /**
- * @brief Initializes a TLS library, creates a TLS context and returns a
- * {@link #iotc_bsp_tls_init_params_s TLS function state}.
+ * @brief Initializes a TLS library and creates a TLS context.
  *
- * The Device SDK calls the function and then deletes init_params, so store
- * persistant data outside the function scope.
+ * The SDK calls the function and then deletes init_params, so store persistant
+ * data outside the function scope.
  *
  * @param [out] tls_context A pointer to
  *     {@link ::iotc_bsp_tls_context_t the TLS context}.
@@ -110,8 +109,7 @@ typedef void iotc_bsp_tls_context_t;
 iotc_bsp_tls_state_t iotc_bsp_tls_init(iotc_bsp_tls_context_t** tls_context,
                                        iotc_bsp_tls_init_params_t* init_params);
 /**
- * @brief Frees a TLS context from memory, deletes any associated data and
- * and returns a {@link #iotc_bsp_tls_init_params_s TLS function state}.
+ * @brief Frees a TLS context from memory and deletes any associated data.
  *
  * @param [out] tls_context A pointer to
  *     {@link ::iotc_bsp_tls_context_t the TLS context}.
@@ -121,8 +119,7 @@ iotc_bsp_tls_state_t iotc_bsp_tls_init(iotc_bsp_tls_context_t** tls_context,
 iotc_bsp_tls_state_t iotc_bsp_tls_cleanup(iotc_bsp_tls_context_t** tls_context);
 
 /**
- * @brief Starts TLS connections and returns a
- * {@link #iotc_bsp_tls_init_params_s TLS function state}.
+ * @brief Starts a TLS handshake.
  *
  * @param [out] tls_context A pointer to
  *     {@link ::iotc_bsp_tls_context_t the TLS context}.
@@ -130,8 +127,7 @@ iotc_bsp_tls_state_t iotc_bsp_tls_cleanup(iotc_bsp_tls_context_t** tls_context);
 iotc_bsp_tls_state_t iotc_bsp_tls_connect(iotc_bsp_tls_context_t* tls_context);
 
 /**
- * @brief Reads data on a socket and returns a
- * {@link #iotc_bsp_tls_init_params_s TLS function state}.
+ * @brief Reads data on a socket.
  *
  * @param [out] tls_context A pointer to
  *     {@link ::iotc_bsp_tls_context_t the TLS context}.
@@ -153,8 +149,7 @@ iotc_bsp_tls_state_t iotc_bsp_tls_read(iotc_bsp_tls_context_t* tls_context,
 int iotc_bsp_tls_pending(iotc_bsp_tls_context_t* tls_context);
 
 /**
- * @brief Write data to a socket and returns a
- * {@link #iotc_bsp_tls_init_params_s TLS function state}.
+ * @brief Write data to a socket.
  *
  * @param [out] tls_context A pointer to
  *     {@link ::iotc_bsp_tls_context_t the TLS context}.

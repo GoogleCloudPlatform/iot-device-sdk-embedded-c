@@ -27,31 +27,31 @@ extern "C" {
  * @brief Creates JSON Web Tokens.
  */
 
-/** The size, in bytes, of the JSON Web Token header. */
+/** The size, in bytes, of the JWT header. */
 #define IOTC_JWT_HEADER_BUF_SIZE 40
-/** The size, in bytes, of the URL-encoded JSON Web Token header. */
+/** The size, in bytes, of the URL-encoded JWT header. */
 #define IOTC_JWT_HEADER_BUF_SIZE_BASE64 \
   (((IOTC_JWT_HEADER_BUF_SIZE + 2) / 3) * 4)
 
-/** The size, in bytes, of the JSON Web Token payload. */
+/** The size, in bytes, of the JWT payload. */
 #define IOTC_JWT_PAYLOAD_BUF_SIZE 256
-/** The size, in bytes, of the URL-encoded JSON Web Token payload. */
+/** The size, in bytes, of the URL-encoded JWT payload. */
 #define IOTC_JWT_PAYLOAD_BUF_SIZE_BASE64 \
   (((IOTC_JWT_PAYLOAD_BUF_SIZE + 2) / 3) * 4)
 
-/** The maximum size, in bytes, of the JSON Web Token signature. */
+/** The maximum size, in bytes, of the JWT signature. */
 #define IOTC_JWT_MAX_SIGNATURE_SIZE 132
-/** The maxiumum size, in bytes, of the URL-encoded JSON Web Token signature. */
+/** The maxiumum size, in bytes, of the URL-encoded JWT. */
 #define IOTC_JWT_MAX_SIGNATURE_SIZE_BASE64 \
   (((IOTC_JWT_MAX_SIGNATURE_SIZE + 2) / 3) * 4)
 
-/** The size, in bytes, of the JSON Web Token. */
+/** The size, in bytes, of the JWT. */
 #define IOTC_JWT_SIZE                                                       \
   (IOTC_JWT_HEADER_BUF_SIZE_BASE64 + 1 + IOTC_JWT_PAYLOAD_BUF_SIZE_BASE64 + \
    1 + IOTC_JWT_MAX_SIGNATURE_SIZE_BASE64)
 
 /**
- * @details Creates a JSON Web Token with the
+ * @details Creates a JWT with the
  * <a href="../../bsp/html/d6/d01/iotc__bsp__crypto_8h.html">BSP cyptrography
  * library</a>.
  *
@@ -65,20 +65,6 @@ extern "C" {
  *     dst_jwt_buf points.
  * @param [out] bytes_written The number of bytes written to the buffer to which
  *     dst_jwt_buf points.
- *
- * @retval IOTC_STATE_OK A JSON Web Token was generated.
- * @retval IOTC_INVALID_PARAMETER A BSP
- *     <a href="../../bsp/html/d6/d01/iotc__bsp__crypto_8h.html">
- *     cryptography function</a> returned
- *     IOTC_BSP_CRYPTO_INVALID_INPUT_PARAMETER_ERROR or any of the project_id,
- *     private_key_data, or dst_jwt_buf parameters are null.
- * @retval IOTC_ALG_NOT_SUPPORTED_ERROR The provided private key isn't
- *     an ES256 key.
- * @retval IOTC_NULL_KEY_DATA_ERROR The provided private key is a PEM file
- *     but the crypto_key_union pointer is NULL.
- * @retval IOTC_NOT_IMPLEMENTED The crypto_key_union pointer type is unknown.
- * @retval IOTC_BUFFER_TOO_SMALL_ERROR The provided buffer is too small for
- *     the JWT.
  */
 iotc_state_t iotc_create_iotcore_jwt(
     const char* project_id, uint32_t expiration_period_sec,

@@ -28,18 +28,17 @@ extern "C" {
 
 /**
  * @file  iotc_bsp_crypto.h
- * @brief Implements a cryptography library for creating JSON Web Tokens.
+ * @brief Implements a TLS library for creating JSON Web Tokens.
  * 
- * @details The cryptography library:
+ * @details The TLS library:
  *     - Generates JWT credentials
  *     - Signs JWTs with Elliptic Curve cryptography and SHA256
  *     - Encodes signed JWTs as URL-safe base64 strings.
  *
- * The Device SDK has two <a href="../../bsp/html/index.html">turn-key
- * cryptography libraries</a> for POSIX platforms:
- * <a href="../../../src/bsp/crypto/mbedtls">mbedTLS</a> and
- * <a href="../../../src/bsp/crypto/wolfssl">wolfSSL</a>. You can modify the
- * functions in this file to create a new cryptography library.
+ * The SDK has two <a href="../../bsp/html/index.html">turn-key TLS libraries
+ * for POSIX platforms: <a href="../../../src/bsp/crypto/mbedtls">mbedTLS</a>
+ * and <a href="../../../src/bsp/crypto/wolfssl">wolfSSL</a>. You can modify the
+ * functions in this file to create a new TLS library.
  */
 
 /**
@@ -91,12 +90,11 @@ iotc_bsp_crypto_state_t iotc_bsp_base64_encode_urlsafe(
     const uint8_t* src_buf, size_t src_buf_size);
 
 /**
- * @brief Generates a SHA256 cryptographic hash and returns a
- * {@link #iotc_bsp_crypto_state_e crytography function status}.
+ * @brief Generates a SHA256 cryptographic hash.
  *
  * @param [in,out] dst_buf_32_bytes A pointer to 32-byte buffer into which
  *     this function stores the digest. The buffer is already
- *     allocated by the Device SDK.
+ *     allocated by the SDK.
  * @param [in] src_buf A pointer to buffer with the string to encode.
  * @param [in] src_buf_size The size, in bytes, of the buffer to which
  *     src_buf points.
@@ -106,15 +104,14 @@ iotc_bsp_crypto_state_t iotc_bsp_sha256(uint8_t* dst_buf_32_bytes,
                                         uint32_t src_buf_size);
 
 /**
- * @brief Generates an ECC signature for a private key and returns a
- * {@link #iotc_bsp_crypto_state_e crytography function status}.
+ * @brief Generates an Elliptic Curve signature for a private key.
  *
  * @param [in] private_key_pem The private key data or slot number.
  *     Implementations of this function must use the same private key data or
- *     slot number provided to the Device SDK.
+ *     slot number provided to iotc_create_iotcore_jwt().
  * @param [in,out] dst_buf A pointer to a buffer into which the function
- *     stores the ECC signature. The buffer is already allocated by the
- *     Device SDK.
+ *     stores the Elliptic Curve signature. The buffer is already allocated by
+ *     the SDK.
  * @param [in] dst_buf_size The size, in bytes, of the buffer to which
  *     dst_buf points.
  * @param [out] bytes_written The number of bytes written to dst_buf.

@@ -30,74 +30,228 @@ extern "C" {
 #endif
 
 /*! \file
- * @mainpage Google Cloud IoT Device SDK for Embedded C API
+ * @mainpage Google Cloud IoT device SDK for embedded C 1.0.1
  * @brief Connects client applications to Cloud IoT Core
  *
- * @details The Device SDK securely connects client applications to
- * <a href="https://cloud.google.com/iot-core/">Cloud IoT Core</a> in order to
- * publish and subscribe to messages via
- * <a href="http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html">
- * MQTT</a>.
+ * @details The Cloud IoT device SDK for embedded C is a library of source files
+ * for securely connecting to and communicating with
+ * <a href="https://cloud.google.com/iot-core/">Cloud IoT Core</a>. The SDK is
+ * designed for embedded IoT devices,
+ * <a href="../../../user_guide.md#feature-overview">so it</a>:
  *
- * # Getting started
- * To
- * <a href="https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c#building">build</a>
- * the Device SDK:
- *     1. {@code git clone https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c.git}
- *     2. {@code cd iot-device-sdk-embedded-c}
- *     3. (Optional) Customize the <a href="#dependencies">Board Support Package
- *        </a> for your device.
- *     4. {@code make}
+ * - Communicates over MQTT v3.1.1 with TLS
+ * - Publishes and subscribes asychronously
+ * - Abstracts hardware-specific drivers and routines in the Board Support Package
+ * - Runs on single, non-blocking thread and operates thread-safe event queue
  *
- * ## Device SDK functions
- * You can use the Device SDK API to create a client application that connects 
- * to and communicates with MQTT brokers. The
- * <a href="../../../user_guide.md">user guide</a> demonstrates the
- * <a href="../../../user_guide.md#typical-client-application-workflow">typical
- * client application workflow</a>. It highlights the following Device SDK
- * functions:
+ * The repository has example client applications for connecting:
  *
- * **Connecting to Cloud IoT Core**
- *    * {@code iotc_initialize()}
- *    * {@code iotc_create_context()}
- *    * {@code iotc_connect(iotc_context_handle_t iotc_h,
- *                             const char *username,
- *                             const char *password,
- *                             const char *client_id,
- *                             uint16_t connection_timeout,
- *                             uint16_t keepalive_timeout,
- *                             iotc_user_callback_t *client_callback)}
+ * - <a href="../../../../examples/freertos_linux/Linux_gcc_gcp_iot">Zephyr
+ * <code>native_posix</code></a> board applications to Cloud IoT Core
+ * - <a href="../../../../examples/freertos_linux/Linux_gcc_gcp_iot">FreeRTOS</a>
+ * applications to Cloud IoT Core
+ * - <a href="../../../../examples/freertos_linux/Linux_gcc_gcp_iot">Native Linux</a>
+ * applications to Cloud IoT Core
  *
- * **Publishing and subscribing to messages**
- *    * {@code iotc_publish(iotc_context_handle_t iotc_h,
- *                             const char *topic,
- *                             const char *msg,
- *                             const iotc_mqtt_qos_t qos,
- *                             iotc_user_callback_t *callback,
- *                             void *user_data)}
- *    * {@code iotc_publish_data(iotc_context_handle_t iotc_h,
- *                                  const char *topic, const uint8_t *data,
- *                                  size_t data_len,
- *                                  const iotc_mqtt_qos_t qos,
- *                                  iotc_user_callback_t *callback,
- *                                  void *user_data)}
- *    * {@code iotc_subscribe(iotc_context_handle_t iotc_h,
- *                               const char *topic, 
- *                               const iotc_mqtt_qos_t qos, 
- *                               iotc_user_subscription_callback_t *callback,
- *                               void *user_data)}
+ * <b>Note</b>Build client applications with <code>make</code> to generate their
+ * executables.
+ * 
+ * # Quickstart on a POSIX platform
+ * This section shows you how to create a client application on a Linux device and
+ * publish telemetry events to Cloud IoT Core.
+ * 
+ * Client applications build natively on POSIX platforms, so you don't need to
+ * customize the Board Support Package. You'll build this client application with
+ * mbedTLS, the default TLS library.
+ * 
+ * Before connecting to Cloud IoT Core,
+ * <a href="https://cloud.google.com/iot/docs/how-tos/devices">register the device</a>
+ * with an
+ * <a href="https://cloud.google.com/iot/docs/how-tos/credentials/keys#generating_an_elliptic_curve_keys">Elliptic Curve key pair</a>.
+ * 
+ * ## Download the SDK
+ * @code{.sh}
+ * git clone https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c.git
+ * @endcode
+ * 
+ * ## Create a client application
+ * 
+ * The client application is a C program that connects to an interacts with
+ * Cloud IoT Core. This client application publishes telemetry events from a
+ * native Linux device to Cloud IoT Core.
+ * 
+ * To start, create a C file called my_iot_app.c and paste in the code snippets
+ * to:
+ * 
+ * 1. Initialize the SDK
+ * 2. Connect to Cloud IoT Core
+ * 3. Publish telemetry events to Cloud IoT Core
+ * 
+ * ### Initialize the SDK
+ * 
+ * <ol>
+ *   <li>
+ *     Link the SDK to your client application:
  *
- * See the <a href="globals_func.html">methods index</a> for a complete
- * reference.
+ *     @code{.c}
+ *     #include <iotc.h>
+ *     #include <iotc_error.h>
+ *     #include <iotc_jwt.h>
+ *     @endcode
+ *   </li>
+ *   <li>
+ *     Initialize the BSP time and random number libraries:
  *
- * # Dependencies 
+ *     @code{.c}
+ *     const iotc_state_t error_init = iotc_initialize();
+ *     @endcode
+ * 
+ *     The TLS library uses these functions to create JWTs.
+ *   </li>
+ * </ol>
+ * 
+ * ### Communicate with Cloud IoT Core
+ * 
+ * <ol>
+ *   <li>
+ *     Create a connection context:
+ *
+ *     @code{.c}
+ *     iotc_context = iotc_create_context();
+ *     @endcode
+ *
+ *     The context represents the socket connection, so the client applications
+ *     knows where to publish telemetry events.
+ *   </li>
+ *   <li>
+ *     Create a JWT:
+ *
+ *     @code{.c}
+ *     char jwt[IOTC_JWT_SIZE] = {0};
+ *     size_t bytes_written = 0;
+ *     iotc_state_t state = iotc_create_iotcore_jwt(
+ *       iotc_project_id,
+ *       3600,
+ *       &iotc_connect_private_key_data,
+ *       jwt,
+ *       IOTC_JWT_SIZE,
+ *       &bytes_written);
+ *     @endcode
+ *   </li>
+ *   <li>
+ *     Connect to Cloud IoT Core:
+ *
+ *     @code{.c}
+ *     iotc_connect(iotc_context, /NULL, jwt,
+ *                iotc_device_path, connection_timeout,
+ *                keepalive_timeout, &on_connection_state_changed);
+ *     @endcode
+ *
+ *     The {@link iotc_connect()} function sends a CONNECT message to the Cloud IoT
+ *     Core MQTT broker. 
+ *   </li>
+ *   <li>
+ *     Publish a telemetry event to Cloud IoT Core:
+ *
+ *     @code{.c}
+ *     iotc_publish(iotc_context, iotc_device_path
+ *                msg, qos);
+ *     @endcode 
+ *
+ *     The {@link iotc_publish()} function sends a PUBLISH message to the MQTT
+ *     broker. The payload of the message is the telemetry event.
+ *   </li>
+ * </ol>
+ * 
+ * ### Build the client application
+ * 
+ * The SDK builds with <code>make</code>, so the build configuration is in
+ * makefiles. Build client applications on the target device—not your
+ * workstation.
+ * 
+ * To build a client application with the default build configuration:
+ * 
+ * <ol>
+ *   <li>
+ *     Run <code>make</code> from the
+ *     <a href="https://github.com/GoogleCloudPlatform/iot-edge-sdk-embedded-c">root directory</a>
+ *     of the SDK.
+ *   </li>
+ *   <li>
+ *     Create a makefile in the root directory of the client application. This
+ *     makefile specifies build rules and targets for your client application.
+ * 
+ *     On native Linux devices, you can use the configurations in
+ *     <a href="../../../examples/common/rules.mk"><code>rules.mk</code></a> and
+ *     <a href="../../../examples/common/targets.mk"><code>targets.mk</code></a>.
+ *     Copy them to the root directory of your client application and include them
+ *     in the makefile:
+ *     
+ *     @code{.mk}
+ *     include rules.mk
+ *     include targets.mk
+ *     @endcode
+ *   </li>
+ *   <li>
+ *     Run <code>make</code> from the root directory of your client application.
+ *     <code>make</code> compiles the program and generates an executable.
+ * </ol>
+ * 
+ * ## Run the generated executable
+ *
+ * Run the executable to start your client application:
+ *
+ * @code{.sh}
+ * ./my_iot_app.exe
+ * @endcode
+ *
+ * # File summary
+ * The library functions are in:
+ *
+ * | File | Description |
+ * | --- | --- |
+ * | iotc.h | Connects to and communicates with Cloud IoT Core |
+ * | iotc_error.h | Defines state messages and their numeric codes |
+ * | iotc_jwt.h | Creates JSON Web Tokens |
+ *
+ * See [File list]() for a complete file reference, including files with only
+ * helper functions.
+ *
+ * # Function summary
+ * | Function | Description |
+ * | --- | --- |
+ * | iotc_cancel_timed_task() | Removes a scheduled task from the internal event system. |
+ * | iotc_connect() | Connects to Cloud IoT Core. |
+ * | iotc_connect_to() | Connects to a custom MQTT broker endpoint. |
+ * | iotc_create_context() | Creates a connection context. |
+ * | iotc_create_iotcore_jwt() | Creates a JSON Web Token. |
+ * | iotc_delete_context() | Frees the provided context. |
+ * | iotc_events_process_blocking() | Invokes the event processing loop and executes the Device SDKs event engine as the main application process. |
+ * | iotc_events_process_tick() | Invokes the event processing loop on RTOS or non-OS devices that must yield for standard tick operations. |
+ * | iotc_events_stop() | Shuts down the event engine. |
+ * | iotc_get_heap_usage() | Gets the amount of heap memory allocated to the Device SDK. |
+ * | iotc_get_network_timeout() | Gets the {@link iotc_set_network_timeout() connection timeout}.
+ * | iotc_get_state_string() | Gets the {@link ::iotc_state_t state message} associated with a numeric code. |
+ * | iotc_initialize() | Initializes the BSP time and random number libraries. |
+ * | iotc_is_context_connected() | Checks if a context is {@link iotc_connect() connected to Cloud IoT Core}. |
+ * | iotc_publish() | Publishes a message to an MQTT topic. |
+ * | iotc_publish_data() | Publishes binary data to an MQTT topic. |
+ * | iotc_schedule_timed_task() | Executes a function after an interval and returns a unique ID for the scheduled task. |
+ * | iotc_set_fs_functions() | Sets the file operations to <a href="../../bsp/html/d8/dc3/iotc__bsp__io__fs_8h.html">custom file management functions</a>. |
+ * | iotc_set_maximum_heap_usage() | Sets the maximum heap memory that the Device SDK can use. |
+ * | iotc_set_network_timeout() | Sets the connection timeout. |
+ * | iotc_shutdown() | Shuts down the Device SDK and frees all resources created during {@link iotc_initialize() initialization}. |
+ * | iotc_shutdown_connection() | Disconnects asynchronously from an MQTT broker. |
+ * | iotc_subscribe() | Subscribes to an MQTT topic. |
+ *
+ * # Board Support Package 
  * The Device SDK calls
  * <a href="../../bsp/html/index.html">the hardware-specific drivers and
  * routines</a> in the Board Support Package (BSP) to implement the MQTT
- * protocol. The BSP is a part of the Device SDK.
+ * protocol.
  *
- * The Device SDK has a turn-key POSIX BSP, so it builds natively on POSIX
- * platforms. Customize the BSP to build the Device SDK on non-POSIX platforms.
+ * The SDK has a turn-key POSIX BSP, so it builds natively on POSIX platforms.
+ * You can customize the BSP to port the SDK to non-POSIX platforms.
  */
 
 /* -----------------------------------------------------------------------
@@ -107,8 +261,6 @@ extern "C" {
 /**
  * @details Initializes the BSP time and random number libraries. Applications
  * must call the function first when starting a new runtime.
- *
- * @retval IOTC_STATE_OK The libraries were initialized.
  */
 extern iotc_state_t iotc_initialize();
 
@@ -116,10 +268,6 @@ extern iotc_state_t iotc_initialize();
  * @details Shuts down the Device SDK and frees all resources created during
  * {@link iotc_initialize() initialization}. {@link Free iotc_delete_context()}
  * all contexts before calling the function.
- *
- * @retval IOTC_STATE_OK The Device SDK was shut down.
- *
- * @see iotc_shutdown_connection
  */
 extern iotc_state_t iotc_shutdown();
 
@@ -140,14 +288,11 @@ extern iotc_context_handle_t iotc_create_context();
  * callback itself).
  *
  * @param [in] context The {@link iotc_create_context() context handle} to free.
- *
- * @retval IOTC_STATE_OK The context was freed.
- * @retval IOTC_INVALID_PARAMETER The {@link iotc_create_context() context handle} is invalid.
  */
 extern iotc_state_t iotc_delete_context(iotc_context_handle_t context_handle);
 
 /**
- * @brief Determines if a context is
+ * @brief Checks if a context is
  * {@link iotc_connect() connected to Cloud IoT Core}.
  *
  * @param [in] context The handle for which to determine the connection.
@@ -164,33 +309,28 @@ extern uint8_t iotc_is_context_connected(iotc_context_handle_t context_handle);
  * loops that can block indefinitely. For other platforms, call
  * iotc_events_process_tick().
  *
- * You can call the function anytime but it returns only after calling iotc_events_stop().
+ * You can call the function anytime but it returns only after calling
+ * iotc_events_stop().
  * 
  * The event engine won't {@link iotc_events_process_tick() process events} when
  * the Device SDK is in the
  * {@link ::iotc_state_t IOTC_EVENT_PROCESS_STOPPED state}. If
- * returns IOTC_EVENT_PROCESS_STOPPED is returned,
+ * the function returns IOTC_EVENT_PROCESS_STOPPED,
  * {@link iotc_shutdown() shutdown} and {@link iotc_initialize() reinitialize}
  * the Device SDK to process events again.
  */
 extern void iotc_events_process_blocking();
 
 /**
- * @details Invokes the event processing loop. The function is for RTOS or non-OS
- * devices that must yield for standard tick operations.
+ * @details Invokes the event processing loop on RTOS or non-OS devices that
+ * must yield for standard tick operations.
  *
  * The event engine won't {@link iotc_events_process_tick() process events} when
  * the Device SDK is in the
- * {@link ::iotc_state_t IOTC_EVENT_PROCESS_STOPPED state}. If the function
- * returns IOTC_EVENT_PROCESS_STOPPED, {@link iotc_shutdown() shutdown} and
- * {@link iotc_initialize() reinitialize} the Device SDK to process events
- * again.
- *
- * @retval IOTC_STATE_OK The event system is ongoing and can continue to
- *     operate.
- * @retval IOTC_EVENT_PROCESS_STOPPED The event processor stopped because the
- *     client application {@link iotc_events_stop() shut down the event engine}
- *     or an unrecoverable error occurred.
+ * {@link ::iotc_state_t IOTC_EVENT_PROCESS_STOPPED state}. If
+ * the function returns IOTC_EVENT_PROCESS_STOPPED,
+ * {@link iotc_shutdown() shutdown} and {@link iotc_initialize() reinitialize}
+ * the Device SDK to process events again.
  */
 extern iotc_state_t iotc_events_process_tick();
 
@@ -217,8 +357,6 @@ extern void iotc_events_stop();
  *     the client application to send a message. If no message is sent to the
  *     broker during the interval, the broker automatically closes the
  *     connection.
- *
- * @retval IOTC_STATE_OK The connection request was enqueued.
  */
 extern iotc_state_t iotc_connect(iotc_context_handle_t iotc_h,
                                  const char* username, const char* password,
@@ -264,12 +402,6 @@ extern iotc_state_t iotc_connect_to(iotc_context_handle_t iotc_h,
  *     message is successfully or unsuccessfully delivered.
  * @param [in] user_data (Optional) Abstract data passed to the callback
  *     function.
- *
- * @retval IOTC_STATE_OK The publication request was enqueued.
- * @retval IOTC_OUT_OF_MEMORY The platform doesn't have enough memory
- *     to fulfull the request.
- * @retval IOTC_BACKOFF_TERMINAL The backoff was applied.
- * @retval IOTC_INTERNAL_ERROR Something went wrong.
  */
 extern iotc_state_t iotc_publish(iotc_context_handle_t iotc_h,
                                  const char* topic, const char* msg,
@@ -280,16 +412,8 @@ extern iotc_state_t iotc_publish(iotc_context_handle_t iotc_h,
 /**
  * @brief Publishes binary data to an MQTT topic.
  *
- * The function accepts a pointer and data length, whereas
- * iotc_publish() accepts a null-terminated string.
- *
- * @param [in] data The message payload.
+ * @param [in] data A pointer to a buffer with the message payload.
  * @param [in] data_len The size, in bytes, of the message.
- *
- * @retval IOTC_STATE_OK The publication request was enqueued.
- * @retval IOTC_OUT_OF_MEMORY The platform doesn't have enough memory
- *     to fulfull the request.
- * @retval IOTC_INTERNAL_ERROR Something went wrong.
  */
 extern iotc_state_t iotc_publish_data(iotc_context_handle_t iotc_h,
                                       const char* topic, const uint8_t* data,
@@ -309,11 +433,6 @@ extern iotc_state_t iotc_publish_data(iotc_context_handle_t iotc_h,
  *     invoked after a message is published to the MQTT topic.
  * @param [in] user_data (Optional) A pointer that to the callback function's
  *     user_data parameter.
- *
- * @retval IOTC_STATE_OK The subscription request was enqueued.
- * @retval IOTC_OUT_OF_MEMORY The platform doesn't have enough memory
- *     to fulfull the request.
- * @retval IOTC_INTERNAL_ERROR An unrecoverable error occurred.
  */
 extern iotc_state_t iotc_subscribe(iotc_context_handle_t iotc_h,
                                    const char* topic, const iotc_mqtt_qos_t qos,
@@ -328,10 +447,6 @@ extern iotc_state_t iotc_subscribe(iotc_context_handle_t iotc_h,
  * to Cloud IoT Core; you don't need to destroy and recreate contexts.
  *
  * @param [in] iotc_h A {@link iotc_create_context() context handle}.
- *
- * @retval IOTC_STATE_OK The disconnection request was enqueued.
- * @retval IOTC_SOCKET_NO_ACTIVE_CONNECTION_ERROR The device isn't connected to
- *     an MQTT broker.
  */
 extern iotc_state_t iotc_shutdown_connection(iotc_context_handle_t iotc_h);
 
@@ -360,7 +475,7 @@ iotc_timed_task_handle_t iotc_schedule_timed_task(
     void* data);
 
 /**
- * @brief Cancels a timed task by removing it from the internal event system.
+ * @brief Removes a scheduled task from the internal event system.
  *
  * @param [in] timed_task_handle A unique ID for the scheduled task.
  */
@@ -382,39 +497,33 @@ void iotc_cancel_timed_task(iotc_timed_task_handle_t timed_task_handle);
  *     isn't passing through them. When the socket initializes, this parameter 
  *     is passed to the implemented networking layer to automatically keep
  *     connections open.
- **/
+ */
 extern void iotc_set_network_timeout(uint32_t timeout);
 
 /**
- * @brief Queries the current
- * {@link iotc_set_network_timeout() network timeout value}.
- **/
+ * @brief Gets the
+ * {@link iotc_set_network_timeout() connection timeout}.
+ */
 extern uint32_t iotc_get_network_timeout(void);
 
 /**
- * @details Sets the maximum heap memory that the Device SDK can use. The
- * function is part of the Device SDK <a
- * href="../../../user_guide.md#memory-limiter">memory limiter</a>.
+ * @details Sets the maximum heap memory that the Device SDK can use.
+ *
+ * The function is part of the
+ * <a href="../../../user_guide.md#memory-limiter">memory limiter</a>.
  *
  * @param [in] max_bytes The maximum amount of heap memory, in bytes, that
  *     the Device SDK can use during standard execution.
- *
- * @retval IOTC_STATE_OK The new memory limit was set.
- * @retval IOTC_NOT_SUPPORTED The memory limiter module isn't compiled into the
- *     Device SDK.
- * @retval IOTC_OUT_OF_MEMORY The new memory limit is too small to support
- *     the current heapspace footprint.
  */
 iotc_state_t iotc_set_maximum_heap_usage(const size_t max_bytes);
 
 /**
- * @details Queries the amount of heap memory allocated to the Device SDK. The
- * function is part of the Device SDK <a
- * href="../../../user_guide.md#memory-limiter">memory limiter</a>.
+ * @details Gets the amount of heap memory allocated to the Device SDK.
  *
- * @retval IOTC_STATE_OK The current heap usage was queried.
- * @retval IOTC_NOT_SUPPORTED The memory limiter module isn't installed.
- * @retval IOTC_INVALID_PARAMETER No heap memory allocated.
+ * The function is part of the
+ * <a href="../../../user_guide.md#memory-limiter">memory limiter</a>. If no
+ * heap memory is allocated, the function runs but returns
+ * IOTC_INVALID_PARAMETER.
  */
 iotc_state_t iotc_get_heap_usage(size_t* const heap_usage);
 
@@ -442,7 +551,9 @@ extern const char iotc_cilent_version_str[];
 #include "iotc_fs_api.h"
 
 /**
- * @brief Allows the Device SDK to use custom a filesystem.
+ * @brief Sets the file operations to
+ * <a href="../../bsp/html/d8/dc3/iotc__bsp__io__fs_8h.html">custom file
+ * management functions</a>.
  */
 iotc_state_t iotc_set_fs_functions(const iotc_fs_functions_t fs_functions);
 

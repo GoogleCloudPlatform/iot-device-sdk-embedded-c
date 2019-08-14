@@ -34,7 +34,7 @@ extern "C" {
 #endif
 
 /**
- * @brief Initializes the timekeeping system.
+ * @brief Initializes the platform-specific timekeeping requirements.
  */
 void iotc_bsp_time_init();
 

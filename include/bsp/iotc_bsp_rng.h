@@ -34,9 +34,9 @@ extern "C" {
 #endif
 
 /**
- * @brief Initializes the platform-specific RNG prerequisites.
+ * @brief Initializes the platform-specific RNG requirements.
  *
- * After booting, the Device SDK calls this function before requesting the first
+ * The SDK calls this function after booting and before requesting the first
  * random number.
  */
 void iotc_bsp_rng_init();
@@ -47,8 +47,8 @@ void iotc_bsp_rng_init();
 uint32_t iotc_bsp_rng_get();
 
 /**
- * @brief Shuts down the platform-specific RNG and frees all allocated
- * resources.
+ * @brief Shuts down the RNG and frees all of the resources from initializing
+ * and generating random numbers.
  */
 void iotc_bsp_rng_shutdown();
 
