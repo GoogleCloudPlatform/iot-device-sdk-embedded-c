@@ -95,6 +95,7 @@ typedef enum iotc_subscription_data_type_e {
 
 /**
  * @typedef iotc_sub_call_params_t
+ * @struct iotc_sub_call_params_u
  * @brief The operational data for the user-defined
  * {@link ::iotc_user_subscription_callback_t subscription callback}.
  */
@@ -165,7 +166,9 @@ typedef enum iotc_crypto_key_union_type_e {
   IOTC_CRYPTO_KEY_UNION_TYPE_CUSTOM,
 } iotc_crypto_key_union_type_t;
 
-/** @typedef iotc_crypto_key_union_t
+/** 
+ * @typedef iotc_crypto_key_union_t
+ * @struct iotc_crypto_key_union_u
  * @brief The public or private key data.
  *
  * @see iotc_crypto_key_union_u
@@ -204,7 +207,9 @@ typedef enum iotc_crypto_key_signature_algorithm_e {
   IOTC_CRYPTO_KEY_SIGNATURE_ALGORITHM_ES256
 } iotc_crypto_key_signature_algorithm_t;
 
-/* @typedef iotc_crypto_key_data_t
+/**
+ * @typedef iotc_crypto_key_data_t
+ * @struct iotc_crypto_key_data_t
  * @brief The parameters with which to create
  *     {@link create_iot_core_jwt() JSON Web Tokens}.
  */

@@ -31,7 +31,7 @@ extern "C" {
 
 /*! \file
  * @brief Connects to and communicates with Cloud IoT Core
- * @mainpage Google Cloud IoT device SDK for embedded C 1.0.2
+ * @mainpage Overview
  *
  * @details The Cloud IoT device SDK for embedded C is a library of source files
  * for securely connecting to and communicating with
@@ -46,12 +46,12 @@ extern "C" {
  *
  * The repository has example client applications for connecting:
  *
- * - <a href="../../../../examples/freertos_linux/Linux_gcc_gcp_iot">Zephyr
- * <code>native_posix</code></a> board applications to Cloud IoT Core
+ * - <a href="../../../../examples/iot_core_mqtt_client">Native Linux</a>
+ * devices to Cloud IoT Core
+ * - <a href="../../../../examples/zephyr_native_posix">Zephyr <code>native_posix</code></a>
+ * boards to Cloud IoT Core
  * - <a href="../../../../examples/freertos_linux/Linux_gcc_gcp_iot">FreeRTOS</a>
- * applications to Cloud IoT Core
- * - <a href="../../../../examples/freertos_linux/Linux_gcc_gcp_iot">Native Linux</a>
- * applications to Cloud IoT Core
+ * platforms to Cloud IoT Core
  * 
  * # Quickstart on a POSIX platform
  * This section shows you how to create a client application on a Linux device and
@@ -273,7 +273,7 @@ extern iotc_state_t iotc_initialize();
 
 /**
  * @details Shuts down the Device SDK and frees all resources created during
- * {@link iotc_initialize() initialization}. {@link Free iotc_delete_context()}
+ * {@link iotc_initialize() initialization}. {@link iotc_delete_context() Free}
  * all contexts before calling the function.
  */
 extern iotc_state_t iotc_shutdown();
