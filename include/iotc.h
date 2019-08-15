@@ -30,8 +30,8 @@ extern "C" {
 #endif
 
 /*! \file
- * @mainpage Google Cloud IoT device SDK for embedded C 1.0.1
- * @brief Connects client applications to Cloud IoT Core
+ * @brief Connects to and communicates with Cloud IoT Core
+ * @mainpage Google Cloud IoT device SDK for embedded C 1.0.2
  *
  * @details The Cloud IoT device SDK for embedded C is a library of source files
  * for securely connecting to and communicating with
@@ -42,7 +42,7 @@ extern "C" {
  * - Communicates over MQTT v3.1.1 with TLS
  * - Publishes and subscribes asychronously
  * - Abstracts hardware-specific drivers and routines in the Board Support Package
- * - Runs on single, non-blocking thread and operates thread-safe event queue
+ * - Runs on single, non-blocking thread and operates a thread-safe event queue
  *
  * The repository has example client applications for connecting:
  *
@@ -52,9 +52,6 @@ extern "C" {
  * applications to Cloud IoT Core
  * - <a href="../../../../examples/freertos_linux/Linux_gcc_gcp_iot">Native Linux</a>
  * applications to Cloud IoT Core
- *
- * <b>Note</b>Build client applications with <code>make</code> to generate their
- * executables.
  * 
  * # Quickstart on a POSIX platform
  * This section shows you how to create a client application on a Linux device and
@@ -70,6 +67,7 @@ extern "C" {
  * <a href="https://cloud.google.com/iot/docs/how-tos/credentials/keys#generating_an_elliptic_curve_keys">Elliptic Curve key pair</a>.
  * 
  * ## Download the SDK
+ *
  * @code{.sh}
  * git clone https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c.git
  * @endcode
@@ -142,18 +140,26 @@ extern "C" {
  *     Connect to Cloud IoT Core:
  *
  *     @code{.c}
+ *     const char iotc_device_path = 'projects/PROJECT_ID/locations/REGION/registries/REGISTRY_ID/devices/DEVICE_ID';
+ *     const uint16_t connection_timeout = 10;
+ *     const uint16_t keepalive_timeout = 20;
+ *
  *     iotc_connect(iotc_context, /NULL, jwt,
  *                iotc_device_path, connection_timeout,
- *                keepalive_timeout, &on_connection_state_changed);
+ *                keepalive_timeout);
  *     @endcode
  *
  *     The {@link iotc_connect()} function sends a CONNECT message to the Cloud IoT
- *     Core MQTT broker. 
+ *     Core MQTT broker. The MQTT topic is the
+ *     <a href="https://cloud.google.com/iot/docs/how-tos/mqtt-bridge#configuring_mqtt_clients">device path</a>.
  *   </li>
  *   <li>
  *     Publish a telemetry event to Cloud IoT Core:
  *
  *     @code{.c}
+ *     const char msg = 'Hello world';
+ *     const iotc_mqtt_qos_t qos = 1;
+ *
  *     iotc_publish(iotc_context, iotc_device_path
  *                msg, qos);
  *     @endcode 
@@ -163,7 +169,7 @@ extern "C" {
  *   </li>
  * </ol>
  * 
- * ### Build the client application
+ * ## Build the client application
  * 
  * The SDK builds with <code>make</code>, so the build configuration is in
  * makefiles. Build client applications on the target device—not your
@@ -178,8 +184,9 @@ extern "C" {
  *     of the SDK.
  *   </li>
  *   <li>
- *     Create a makefile in the root directory of the client application. This
- *     makefile specifies build rules and targets for your client application.
+ *     Create a makefile (called <code>Makefile</code>) in the root directory of
+ *     the client application. This makefile specifies build rules and targets
+ *     for your client application.
  * 
  *     On native Linux devices, you can use the configurations in
  *     <a href="../../../examples/common/rules.mk"><code>rules.mk</code></a> and
@@ -197,7 +204,7 @@ extern "C" {
  *     <code>make</code> compiles the program and generates an executable.
  * </ol>
  * 
- * ## Run the generated executable
+ * ## Start the client application
  *
  * Run the executable to start your client application:
  *
