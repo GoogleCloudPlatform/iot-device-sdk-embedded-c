@@ -21,17 +21,29 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 @licend  The above is the entire license notice
 for the JavaScript code in this file
 */
-var menudata={children:[
-{text:"Main Page",url:"index.html"},
-{text:"Files",url:"files.html"},
-{text:"Globals",url:"globals.html",children:[
-{text:"All",url:"globals.html",children:[
-{text:"i",url:"globals.html#index_i"}]},
-{text:"Functions",url:"globals_func.html"},
-{text:"Variables",url:"globals_vars.html"},
-{text:"Typedefs",url:"globals_type.html"},
-{text:"Enumerations",url:"globals_enum.html"},
-{text:"Enumerator",url:"globals_eval.html",children:[
-{text:"i",url:"globals_eval.html#index_i"}]},
-{text:"Macros",url:"globals_defs.html"}]},
-{text:"Example MQTT clients",url:"https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/tree/master/examples"}]}
+var NAVTREE =
+[
+  [ "Google Cloud IoT device SDK for embedded C 1.0.2", "index.html", [
+    [ "Overview", "index.html", null ],
+    [ "Files", "files.html", "files" ],
+    [ "Data Structures", "annotated.html", "annotated" ],
+    [ "Index", "globals.html", [
+      [ "All", "globals.html", null ],
+      [ "Functions", "globals_func.html", null ],
+      [ "Variables", "globals_vars.html", null ],
+      [ "Typedefs", "globals_type.html", null ],
+      [ "Enumerations", "globals_enum.html", null ],
+      [ "Enumerator", "globals_eval.html", null ],
+      [ "Macros", "globals_defs.html", null ]
+    ] ],
+    [ "Example MQTT clients", "^https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/tree/master/examples", null ]
+  ] ]
+];
+
+var NAVTREEINDEX =
+[
+"annotated.html"
+];
+
+var SYNCONMSG = 'click to disable panel synchronisation';
+var SYNCOFFMSG = 'click to enable panel synchronisation';
