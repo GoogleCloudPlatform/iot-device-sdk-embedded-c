@@ -22,26 +22,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 for the JavaScript code in this file
 */
 var menudata={children:[
-{text:"Main Page",url:"index.html"},
-{text:"Data Structures",url:"annotated.html",children:[
-{text:"Data Structures",url:"annotated.html"},
-{text:"Data Structure Index",url:"classes.html"},
-{text:"Data Fields",url:"functions.html",children:[
-{text:"All",url:"functions.html"},
-{text:"Variables",url:"functions_vars.html"}]}]},
-{text:"Files",url:"files.html",children:[
-{text:"File List",url:"files.html"},
-{text:"Globals",url:"globals.html",children:[
-{text:"All",url:"globals.html",children:[
-{text:"i",url:"globals.html#index_i"},
-{text:"p",url:"globals.html#index_p"},
-{text:"s",url:"globals.html#index_s"}]},
-{text:"Functions",url:"globals_func.html",children:[
-{text:"i",url:"globals_func.html#index_i"}]},
-{text:"Typedefs",url:"globals_type.html"},
-{text:"Enumerations",url:"globals_enum.html"},
-{text:"Enumerator",url:"globals_eval.html",children:[
-{text:"i",url:"globals_eval.html#index_i"},
-{text:"p",url:"globals_eval.html#index_p"},
-{text:"s",url:"globals_eval.html#index_s"}]},
-{text:"Macros",url:"globals_defs.html"}]}]}]}
+{text:"Home",url:"https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/api/html/"},
+{text:"Example MQTT clients",url:"usergroup0.html",children:[
+{text:"Native Linux",url:"https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/tree/master/examples/iot_core_mqtt_client"},
+{text:"Zephyr RTOS",url:"https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/tree/master/zephyr_native_posix"},
+{text:"FreeRTOS",url:"https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/tree/master/examples/freertos_linux/Linux_gcc_gcp_iot"}]},
+{text:"Board Support Package",url:"https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/bsp/html/"}]}

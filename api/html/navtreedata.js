@@ -23,20 +23,16 @@ for the JavaScript code in this file
 */
 var NAVTREE =
 [
-  [ "Google Cloud IoT device SDK for embedded C 1.0.2", "index.html", [
+  [ "IoT device SDK 1.0.2", "index.html", [
     [ "Overview", "index.html", null ],
     [ "Files", "files.html", "files" ],
     [ "Data Structures", "annotated.html", "annotated" ],
-    [ "Index", "globals.html", [
-      [ "All", "globals.html", null ],
-      [ "Functions", "globals_func.html", null ],
-      [ "Variables", "globals_vars.html", null ],
-      [ "Typedefs", "globals_type.html", null ],
-      [ "Enumerations", "globals_enum.html", null ],
-      [ "Enumerator", "globals_eval.html", null ],
-      [ "Macros", "globals_defs.html", null ]
+    [ "Example MQTT clients", "usergroup0.html", [
+      [ "Native Linux", "^https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/tree/master/examples/iot_core_mqtt_client", null ],
+      [ "Zephyr RTOS", "^https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/tree/master/zephyr_native_posix", null ],
+      [ "FreeRTOS", "^https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/tree/master/examples/freertos_linux/Linux_gcc_gcp_iot", null ]
     ] ],
-    [ "Example MQTT clients", "^https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/tree/master/examples", null ]
+    [ "Board Support Package", "^https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/bsp/html/", null ]
   ] ]
 ];
 
