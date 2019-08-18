@@ -18,13 +18,50 @@
 #define __IOTC_BSP_IO_NET_H__
 
 /**
- * @mainpage Google Cloud IoT Device SDK for Embedded C Board Support Package
- * @details This is a catalogue of the Board Support Package (BSP) and its
+ * @mainpage Overview
+ *
+ * @details This is a reference for the Board Support Package (BSP) and its
  * components. The BSP is a set of well-defined functions that the Device SDK
  * invokes to interact with hardware-specific drivers and routines. The
  * functions run on POSIX platforms by default. You can customize the BSP for
  * new devices; see the <a href="../../../porting_guide.md">porting guide</a>
  * for instructions.
+ *
+ * # Function summary
+ *
+ * | Function | Description |
+ * | --- | --- |
+ * iotc_bsp_base64_encode_urlsafe() | Encodes a string as a URL-safe, base64 string by replacing all URL-unsafe characters with a - (dash) or _ (underscore). |
+ * iotc_bsp_ecc() | Generates an Elliptic Curve signature for a private key. |
+ * iotc_bsp_io_fs_close() | Closes a file and frees all of the resources from reading or writing to the file. |
+ * iotc_bsp_io_fs_open() | Opens a file. |
+ * iotc_bsp_io_fs_read() | Reads a file. |
+ * iotc_bsp_io_fs_remove() | Deletes a file. |
+ * iotc_bsp_io_fs_stat() | Gets the size of a file. |
+ * iotc_bsp_io_fs_write() | Writes to a file. |
+ * iotc_bsp_io_net_close_socket() | Closes a {@link iotc_bsp_io_net_socket_connect() socket}. |
+ * iotc_bsp_io_net_connection_check() | Checks a {@link iotc_bsp_io_net_socket_connect() socket} connection status |
+ * iotc_bsp_io_net_read() | Reads from a {@link iotc_bsp_io_net_socket_connect() socket}. |
+ * iotc_bsp_io_net_select() | Checks a {@link iotc_bsp_io_net_socket_connect() socket} for scheduled read or write operations. |
+ * iotc_bsp_io_net_socket_connect() | Creates a {@link iotc_bsp_io_net_socket_connect() socket} and connects it to an endpoint. |
+ * iotc_bsp_io_net_write() | Writes to a {@link iotc_bsp_io_net_socket_connect() socket}. |
+ * iotc_bsp_mem_alloc() | Allocates memory and returns a pointer to the allocated block. |
+ * iotc_bsp_mem_free() | Frees a block of memory. |
+ * iotc_bsp_mem_realloc() | Changes the size of a memory block and returns a pointer to the reallocated block. |
+ * iotc_bsp_rng_get() | Generates and returns a random, 32-bit integer. |
+ * iotc_bsp_rng_init() | Initializes the platform-specific RNG requirements. |
+ * iotc_bsp_rng_shutdown() | Shuts down the RNG and frees all of the resources from initializing and generating random numbers. |
+ * iotc_bsp_sha256() | Generates a SHA256 cryptographic hash. |
+ * iotc_bsp_time_getcurrenttime_milliseconds() | Gets the milliseconds since Epoch. |
+ * iotc_bsp_time_getcurrenttime_seconds() | Gets the seconds since Epoch. |
+ * iotc_bsp_time_getmonotonictime_milliseconds() | Gets the monotonic time in milliseconds. |
+ * iotc_bsp_time_init() | Initializes the platform-specific timekeeping requirements. |
+ * iotc_bsp_tls_cleanup() | Frees a TLS context from memory and deletes any associated data. |
+ * iotc_bsp_tls_connect() | Starts a TLS handshake. |
+ * iotc_bsp_tls_init() | Initializes a TLS library and creates a TLS context. |
+ * iotc_bsp_tls_pending() | Gets the pending readable bytes. |
+ * iotc_bsp_tls_read() | Decrypts MQTT messages. |
+ * iotc_bsp_tls_write() | Encrypts MQTT messages. |
  *
  * # POSIX BSP
  * The POSIX BSP is in the
@@ -51,61 +88,11 @@
  * | --- | --- |
  * | <a href="../../../src/bsp/tls/mbedtls/iotc_bsp_tls_mbedtls.c">src/bsp/tls/mbedtls/iotc_bsp_tls_mbedtls.c</a> | <a href="../../../src/bsp/tls/wolfssl/iotc_bsp_tls_wolfssl.c">src/bsp/tls/wolfssl/iotc_bsp_tls_wolfssl.c</a> |
  * | <a href="../../../src/bsp/crypto/mbedtls/iotc_bsp_crypto.c">src/bsp/crypto/mbedtls/iotc_bsp_crypto.c</a> | <a href="../../../src/bsp/crypto/wolfssl/iotc_bsp_crypto.c">src/bsp/crypto/wolfssl/iotc_bsp_crypto.c</a> |
- *
- * # File summary
- * The BSP has five files. Each file implements a library of
- * hardware-specific drivers and routines.
- *
- * | File | Description |
- * | --- | --- |
- * | iotc_bsp_crytpo.c | Perform asychronous networking |
- * | iotc_bsp_io_fs.c | |
- * | iotc_bsp_mem.c | Allocate platform memory |
- * | iotc_bsp_rng.c | Generate random numbers |
- * | iotc_bsp_time.c | Keep time |
- * | iotc_bsp_tls.c | Implement Transport Layer Security |
- *
- * # Function summary
- *
- * | Function | Description |
- * | --- | --- |
- * iotc_bsp_base64_encode_urlsafe() | Encodes a string as a URL-safe, base64 string by replacing all URL-unsafe characters with a - (dash) or _ (underscore). |
- * iotc_bsp_ecc() | Generates an Elliptic Curve signature for a private key. |
- * iotc_bsp_io_fs_close() | Closes a file and frees all of the resources from reading or writing to the file. |
- * iotc_bsp_io_fs_open() | Opens a file. |
- * iotc_bsp_io_fs_read() | Reads a file. |
- * iotc_bsp_io_fs_remove() | Deletes a file. |
- * iotc_bsp_io_fs_stat() | Gets the size of a file. |
- * iotc_bsp_io_fs_write() | Writes to a file. |
- * iotc_bsp_io_net_close_socket() | Closes a {@link iotc_bsp_io_net_socket_connect() socket}. |
- * iotc_bsp_io_net_connection_check() | Checks a {@link iotc_bsp_io_net_socket_connect() socket} connection status |
- * iotc_bsp_io_net_read() | Reads from a {@link iotc_bsp_io_net_socket_connect() socket}. |
- * iotc_bsp_io_net_select() | Checks a {@link iotc_bsp_io_net_socket_connect() socket} for scheduled read or write operations. |
- * iotc_bsp_io_net_socket_connect() | Creates a socket and connects it to an endpoint. |
- * iotc_bsp_io_net_write() | Writes to a {@link iotc_bsp_io_net_socket_connect() socket}. |
- * iotc_bsp_mem_alloc() | Allocates memory and returns a pointer to the allocated block. |
- * iotc_bsp_mem_free() | Frees a block of memory. |
- * iotc_bsp_mem_realloc() | Changes the size of a memory block and returns a pointer to the reallocated block. |
- * iotc_bsp_rng_get() | Generates and returns a random, 32-bit integer. |
- * iotc_bsp_rng_init() | Initializes the platform-specific RNG requirements. |
- * iotc_bsp_rng_shutdown() | Shuts down the RNG and frees all of the resources from initializing and generating random numbers. |
- * iotc_bsp_sha256() | Generates a SHA256 cryptographic hash. |
- * iotc_bsp_time_getcurrenttime_milliseconds() | Gets the milliseconds since Epoch. |
- * iotc_bsp_time_getcurrenttime_seconds() | Gets the seconds since Epoch. |
- * iotc_bsp_time_getmonotonictime_milliseconds() | Gets the monotonic time in milliseconds. |
- * iotc_bsp_time_init() | Initializes the platform-specific timekeeping requirements. |
- * iotc_bsp_tls_cleanup() | Frees a TLS context from memory and deletes any associated data. |
- * iotc_bsp_tls_connect() | Starts a TLS handshake. |
- * iotc_bsp_tls_init() | Initializes a TLS library and creates a TLS context. |
- * iotc_bsp_tls_pending() | Gets the pending readable bytes. |
- * iotc_bsp_tls_read() | Decrypts MQTT messages. |
- * iotc_bsp_tls_write() | Encrypts MQTT messages. |
  */
 
 /**
  * @file  iotc_bsp_io_net.h
- * @brief Creates and manages sockets for asynchronous networking in the native
- * socket library.
+ * @brief Creates and manages sockets in the native socket library.
  *
  * @details A typical networking workflow:
  *    1. Create a socket.
@@ -178,6 +165,7 @@ typedef intptr_t iotc_bsp_socket_t;
 
 /**
  * @typedef iotc_bsp_socket_events_t
+ * @struct iotc_bsp_socket_events_s
  * @brief The socket state.
  *
  * @see #iotc_bsp_socket_events_s

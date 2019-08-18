@@ -44,185 +44,26 @@ extern "C" {
  * - Abstracts hardware-specific drivers and routines in the Board Support Package
  * - Runs on single, non-blocking thread and operates a thread-safe event queue
  *
- * The repository has example client applications for connecting:
+ * # Installing the SDK
  *
- * - <a href="../../../../examples/iot_core_mqtt_client">Native Linux</a>
- * devices to Cloud IoT Core
- * - <a href="../../../../examples/zephyr_native_posix">Zephyr <code>native_posix</code></a>
- * boards to Cloud IoT Core
- * - <a href="../../../../examples/freertos_linux/Linux_gcc_gcp_iot">FreeRTOS</a>
- * platforms to Cloud IoT Core
- * 
- * # Quickstart on a POSIX platform
- * This section shows you how to create a client application on a Linux device and
- * publish telemetry events to Cloud IoT Core.
- * 
- * Client applications build natively on POSIX platforms, so you don't need to
- * customize the Board Support Package. You'll build this client application with
- * mbedTLS, the default TLS library.
- * 
- * Before connecting to Cloud IoT Core,
- * <a href="https://cloud.google.com/iot/docs/how-tos/devices">register the device</a>
- * with an
- * <a href="https://cloud.google.com/iot/docs/how-tos/credentials/keys#generating_an_elliptic_curve_keys">Elliptic Curve key pair</a>.
- * 
- * ## Download the SDK
+ * To use the SDK:
  *
- * @code{.sh}
- * git clone https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c.git
- * @endcode
- * 
- * ## Create a client application
- * 
- * The client application is a C program that connects to an interacts with
- * Cloud IoT Core. This client application publishes telemetry events from a
- * native Linux device to Cloud IoT Core.
- * 
- * To start, create a C file called my_iot_app.c and paste in the code snippets
- * to:
- * 
- * 1. Initialize the SDK
- * 2. Connect to Cloud IoT Core
- * 3. Publish telemetry events to Cloud IoT Core
- * 
- * ### Initialize the SDK
- * 
  * <ol>
- *   <li>
- *     Link the SDK to your client application:
- *
- *     @code{.c}
- *     #include <iotc.h>
- *     #include <iotc_error.h>
- *     #include <iotc_jwt.h>
- *     @endcode
- *   </li>
- *   <li>
- *     Initialize the BSP time and random number libraries:
- *
- *     @code{.c}
- *     const iotc_state_t error_init = iotc_initialize();
- *     @endcode
+ *   <li>Download the latest version:
  * 
- *     The TLS library uses these functions to create JWTs.
+ *   @code{.sh}
+ *   git clone https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c.git
+ *   @endcode
+ *   </li>
+ *   <li>Link the main library files to the client application:
+ *   
+ *   @code{.c}
+ *   #include <iotc.h>
+ *   #include <iotc_error.h>
+ *   #include <iotc_jwt.h>
+ *   @endcode
  *   </li>
  * </ol>
- * 
- * ### Communicate with Cloud IoT Core
- * 
- * <ol>
- *   <li>
- *     Create a connection context:
- *
- *     @code{.c}
- *     iotc_context = iotc_create_context();
- *     @endcode
- *
- *     The context represents the socket connection, so the client applications
- *     knows where to publish telemetry events.
- *   </li>
- *   <li>
- *     Create a JWT:
- *
- *     @code{.c}
- *     char jwt[IOTC_JWT_SIZE] = {0};
- *     size_t bytes_written = 0;
- *     iotc_state_t state = iotc_create_iotcore_jwt(
- *       iotc_project_id,
- *       3600,
- *       &iotc_connect_private_key_data,
- *       jwt,
- *       IOTC_JWT_SIZE,
- *       &bytes_written);
- *     @endcode
- *   </li>
- *   <li>
- *     Connect to Cloud IoT Core:
- *
- *     @code{.c}
- *     const char iotc_device_path = 'projects/PROJECT_ID/locations/REGION/registries/REGISTRY_ID/devices/DEVICE_ID';
- *     const uint16_t connection_timeout = 10;
- *     const uint16_t keepalive_timeout = 20;
- *
- *     iotc_connect(iotc_context, /NULL, jwt,
- *                iotc_device_path, connection_timeout,
- *                keepalive_timeout);
- *     @endcode
- *
- *     The {@link iotc_connect()} function sends a CONNECT message to the Cloud IoT
- *     Core MQTT broker. The MQTT topic is the
- *     <a href="https://cloud.google.com/iot/docs/how-tos/mqtt-bridge#configuring_mqtt_clients">device path</a>.
- *   </li>
- *   <li>
- *     Publish a telemetry event to Cloud IoT Core:
- *
- *     @code{.c}
- *     const char msg = 'Hello world';
- *     const iotc_mqtt_qos_t qos = 1;
- *
- *     iotc_publish(iotc_context, iotc_device_path
- *                msg, qos);
- *     @endcode 
- *
- *     The {@link iotc_publish()} function sends a PUBLISH message to the MQTT
- *     broker. The payload of the message is the telemetry event.
- *   </li>
- * </ol>
- * 
- * ## Build the client application
- * 
- * The SDK builds with <code>make</code>, so the build configuration is in
- * makefiles. Build client applications on the target device—not your
- * workstation.
- * 
- * To build a client application with the default build configuration:
- * 
- * <ol>
- *   <li>
- *     Run <code>make</code> from the
- *     <a href="https://github.com/GoogleCloudPlatform/iot-edge-sdk-embedded-c">root directory</a>
- *     of the SDK.
- *   </li>
- *   <li>
- *     Create a makefile (called <code>Makefile</code>) in the root directory of
- *     the client application. This makefile specifies build rules and targets
- *     for your client application.
- * 
- *     On native Linux devices, you can use the configurations in
- *     <a href="../../../examples/common/rules.mk"><code>rules.mk</code></a> and
- *     <a href="../../../examples/common/targets.mk"><code>targets.mk</code></a>.
- *     Copy them to the root directory of your client application and include them
- *     in the makefile:
- *     
- *     @code{.mk}
- *     include rules.mk
- *     include targets.mk
- *     @endcode
- *   </li>
- *   <li>
- *     Run <code>make</code> from the root directory of your client application.
- *     <code>make</code> compiles the program and generates an executable.
- * </ol>
- * 
- * ## Start the client application
- *
- * Run the executable to start your client application:
- *
- * @code{.sh}
- * ./my_iot_app.exe
- * @endcode
- *
- * # File summary
- * The library functions are in:
- *
- * | File | Description |
- * | --- | --- |
- * | iotc.h | Connects to and communicates with Cloud IoT Core |
- * | iotc_error.h | Defines state messages and their numeric codes |
- * | iotc_jwt.h | Creates JSON Web Tokens |
- *
- * See [File list]() for a complete file reference, including files with only
- * helper functions.
  *
  * # Function summary
  * | Function | Description |
@@ -251,11 +92,22 @@ extern "C" {
  * | iotc_shutdown_connection() | Disconnects asynchronously from an MQTT broker. |
  * | iotc_subscribe() | Subscribes to an MQTT topic. |
  *
+ * # Example MQTT clients
+ *
+ * The repository has example client applications for connecting:
+ *
+ * - <a href="../../../../examples/iot_core_mqtt_client">Native Linux</a>
+ * devices to Cloud IoT Core
+ * - <a href="../../../../examples/zephyr_native_posix">Zephyr <code>native_posix</code></a>
+ * boards to Cloud IoT Core
+ * - <a href="../../../../examples/freertos_linux/Linux_gcc_gcp_iot">FreeRTOS</a>
+ * platforms to Cloud IoT Core 
+ *
  * # Board Support Package 
- * The Device SDK calls
- * <a href="../../bsp/html/index.html">the hardware-specific drivers and
- * routines</a> in the Board Support Package (BSP) to implement the MQTT
- * protocol.
+ * The SDK depends on hardware-specific drivers and routines to implement
+ * MQTT with TLS. Embedded systems rely on unique hardware, so the SDK abstracts
+ * these dependencies in the <a href="../../bsp/html/index.html">Board Support
+ * Package</a> (BSP).
  *
  * The SDK has a turn-key POSIX BSP, so it builds natively on POSIX platforms.
  * You can customize the BSP to port the SDK to non-POSIX platforms.

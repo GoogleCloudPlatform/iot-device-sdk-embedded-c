@@ -58,6 +58,7 @@ typedef enum iotc_bsp_tls_state_e {
 
 /**
  * @typedef iotc_bsp_tls_init_params_t
+ * @struct iotc_bsp_tls_init_params_s
  * @brief The TLS context parameters.
  *
  * @see #iotc_bsp_tls_init_params_s

@@ -1,3 +1,4 @@
+<!-- HTML header for doxygen 1.8.15-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -5,11 +6,20 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.15"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Google Cloud IoT Device SDK for Embedded C BSP: Google Cloud IoT Device SDK for Embedded C Board Support Package</title>
+<title>IoT Device SDK BSP: Overview</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -18,7 +28,8 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Google Cloud IoT Device SDK for Embedded C BSP
+   <div id="projectname">Google Cloud IoT device SDK for embedded C
+   &#160;<span id="projectnumber">BSP</span>
    </div>
   </td>
  </tr>
@@ -37,24 +48,101 @@ $(function() {
 /* @license-end */</script>
 <div id="main-nav"></div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('index.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
 <div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">Google Cloud IoT Device SDK for Embedded C Board Support Package </div>  </div>
+<div class="title">Overview </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>This is a catalogue of the Board Support Package (BSP) and its components. The BSP is a set of well-defined functions that the Device SDK invokes to interact with hardware-specific drivers and routines. The functions run on POSIX platforms by default. You can customize the BSP for new devices; see the <a href="../../../porting_guide.md">porting guide</a> for instructions.</p>
-<p>The BSP has five files. The functions in each file implmenent the hardware-specific drivers and routines. You can customize the functions to run the Device SDK on new devices. The Device SDK invokes the functions to:</p><ul>
-<li>Perform asychronous networking</li>
-<li>Allocate platform memory</li>
-<li>Generate random numbers</li>
-<li>Keep time</li>
-<li>Implement Transport Layer Security</li>
-</ul>
+<div class="textblock"><p>This is a reference for the Board Support Package (BSP) and its components. The BSP is a set of well-defined functions that the Device SDK invokes to interact with hardware-specific drivers and routines. The functions run on POSIX platforms by default. You can customize the BSP for new devices; see the <a href="../../../porting_guide.md">porting guide</a> for instructions.</p>
+<h1>Function summary</h1>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Function  </th><th class="markdownTableHeadNone">Description   </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><a class="el" href="d6/d01/iotc__bsp__crypto_8h.html#a430cf2e37b447fe8f51512364bef52b9" title="Encodes a string as a URL-safe, base64 string by replacing all URL-unsafe characters with a - (dash) ...">iotc_bsp_base64_encode_urlsafe()</a>  </td><td class="markdownTableBodyNone">Encodes a string as a URL-safe, base64 string by replacing all URL-unsafe characters with a - (dash) or _ (underscore).   </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><a class="el" href="d6/d01/iotc__bsp__crypto_8h.html#a9ea6764f8c16080bda1729db638f721f" title="Generates an Elliptic Curve signature for a private key.">iotc_bsp_ecc()</a>  </td><td class="markdownTableBodyNone">Generates an Elliptic Curve signature for a private key.   </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><a class="el" href="d8/dc3/iotc__bsp__io__fs_8h.html#a72a3a7345e5b251d1712618625738394">iotc_bsp_io_fs_close()</a>  </td><td class="markdownTableBodyNone">Closes a file and frees all of the resources from reading or writing to the file.   </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><a class="el" href="d8/dc3/iotc__bsp__io__fs_8h.html#aeda349a4d1ded4a9d2a3c867093d4515">iotc_bsp_io_fs_open()</a>  </td><td class="markdownTableBodyNone">Opens a file.   </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><a class="el" href="d8/dc3/iotc__bsp__io__fs_8h.html#aee7d67db4d135e9eceb0f9688acdd424" title="Reads a file.">iotc_bsp_io_fs_read()</a>  </td><td class="markdownTableBodyNone">Reads a file.   </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><a class="el" href="d8/dc3/iotc__bsp__io__fs_8h.html#aa6b8240cb6ca31aa4ea3ad8462a1c883" title="Deletes a file.">iotc_bsp_io_fs_remove()</a>  </td><td class="markdownTableBodyNone">Deletes a file.   </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><a class="el" href="d8/dc3/iotc__bsp__io__fs_8h.html#a2f8e15dfd4c4c245712edf8ed81ac38e" title="Gets the size of a file.">iotc_bsp_io_fs_stat()</a>  </td><td class="markdownTableBodyNone">Gets the size of a file.   </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><a class="el" href="d8/dc3/iotc__bsp__io__fs_8h.html#aa431e2397db542181f69518e9613fee6">iotc_bsp_io_fs_write()</a>  </td><td class="markdownTableBodyNone">Writes to a file.   </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><a class="el" href="d1/def/iotc__bsp__io__net_8h.html#aacac7bd43e8da3524323942562de1a83" title="Closes a socket.">iotc_bsp_io_net_close_socket()</a>  </td><td class="markdownTableBodyNone">Closes a <a class="el" href="d1/def/iotc__bsp__io__net_8h.html#ab05ecacc96090fd045691909cf174807">socket</a>.   </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><a class="el" href="d1/def/iotc__bsp__io__net_8h.html#a86b120a05c77edf1575a610b5f760e98">iotc_bsp_io_net_connection_check()</a>  </td><td class="markdownTableBodyNone">Checks a <a class="el" href="d1/def/iotc__bsp__io__net_8h.html#ab05ecacc96090fd045691909cf174807">socket</a> connection status   </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><a class="el" href="d1/def/iotc__bsp__io__net_8h.html#a6b5791e2ce251bd836f8d7bc404f3051" title="Reads data from a socket.">iotc_bsp_io_net_read()</a>  </td><td class="markdownTableBodyNone">Reads from a <a class="el" href="d1/def/iotc__bsp__io__net_8h.html#ab05ecacc96090fd045691909cf174807">socket</a>.   </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><a class="el" href="d1/def/iotc__bsp__io__net_8h.html#a7a432e4488bff5cc75918c1495cfc20b" title="Checks a socket for scheduled read or write operations.">iotc_bsp_io_net_select()</a>  </td><td class="markdownTableBodyNone">Checks a <a class="el" href="d1/def/iotc__bsp__io__net_8h.html#ab05ecacc96090fd045691909cf174807">socket</a> for scheduled read or write operations.   </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><a class="el" href="d1/def/iotc__bsp__io__net_8h.html#ab05ecacc96090fd045691909cf174807">iotc_bsp_io_net_socket_connect()</a>  </td><td class="markdownTableBodyNone">Creates a <a class="el" href="d1/def/iotc__bsp__io__net_8h.html#ab05ecacc96090fd045691909cf174807">socket</a> and connects it to an endpoint.   </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><a class="el" href="d1/def/iotc__bsp__io__net_8h.html#a4472f1281b013f71053b1f94a0297213" title="Writes data to a socket.">iotc_bsp_io_net_write()</a>  </td><td class="markdownTableBodyNone">Writes to a <a class="el" href="d1/def/iotc__bsp__io__net_8h.html#ab05ecacc96090fd045691909cf174807">socket</a>.   </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><a class="el" href="db/ddb/iotc__bsp__mem_8h.html#ae2490f1d4c25b4e0f6d80a8307bc2484" title="Allocates memory and returns a pointer to the allocated block.">iotc_bsp_mem_alloc()</a>  </td><td class="markdownTableBodyNone">Allocates memory and returns a pointer to the allocated block.   </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><a class="el" href="db/ddb/iotc__bsp__mem_8h.html#a74316f1a7e5b0a30c95aedf7ca747c1f" title="Frees a block of memory.">iotc_bsp_mem_free()</a>  </td><td class="markdownTableBodyNone">Frees a block of memory.   </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><a class="el" href="db/ddb/iotc__bsp__mem_8h.html#a3d4152591ce63915c21f8ae94c0105e2" title="Changes the size of a memory block and returns a pointer to the reallocated block.">iotc_bsp_mem_realloc()</a>  </td><td class="markdownTableBodyNone">Changes the size of a memory block and returns a pointer to the reallocated block.   </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><a class="el" href="d7/d89/iotc__bsp__rng_8h.html#a73607f4ae670a1d2d915bc70b0705655" title="Generates and returns a random, 32-bit integer.">iotc_bsp_rng_get()</a>  </td><td class="markdownTableBodyNone">Generates and returns a random, 32-bit integer.   </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><a class="el" href="d7/d89/iotc__bsp__rng_8h.html#a9dab96d1a69dc83ca19b40737406c1eb" title="Initializes the platform-specific RNG requirements.">iotc_bsp_rng_init()</a>  </td><td class="markdownTableBodyNone">Initializes the platform-specific RNG requirements.   </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><a class="el" href="d7/d89/iotc__bsp__rng_8h.html#ac5da7e000c5e233be7a7976723f505e6" title="Shuts down the RNG and frees all of the resources from initializing and generating random numbers.">iotc_bsp_rng_shutdown()</a>  </td><td class="markdownTableBodyNone">Shuts down the RNG and frees all of the resources from initializing and generating random numbers.   </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><a class="el" href="d6/d01/iotc__bsp__crypto_8h.html#ad352cdd827032c1c5aea9cb01112e993" title="Generates a SHA256 cryptographic hash.">iotc_bsp_sha256()</a>  </td><td class="markdownTableBodyNone">Generates a SHA256 cryptographic hash.   </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><a class="el" href="d0/dde/iotc__bsp__time_8h.html#ac997936caa33dd7cf71cd2ef693c5023" title="Gets the milliseconds since Epoch.">iotc_bsp_time_getcurrenttime_milliseconds()</a>  </td><td class="markdownTableBodyNone">Gets the milliseconds since Epoch.   </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><a class="el" href="d0/dde/iotc__bsp__time_8h.html#a52870349253e2e33ff1b3b84fecba87c" title="Gets the seconds since Epoch.">iotc_bsp_time_getcurrenttime_seconds()</a>  </td><td class="markdownTableBodyNone">Gets the seconds since Epoch.   </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><a class="el" href="d0/dde/iotc__bsp__time_8h.html#aec178ad6113ea06617fa118c5b4eb05f" title="Gets the monotonic time in milliseconds.">iotc_bsp_time_getmonotonictime_milliseconds()</a>  </td><td class="markdownTableBodyNone">Gets the monotonic time in milliseconds.   </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><a class="el" href="d0/dde/iotc__bsp__time_8h.html#a5053ba88c5a45b7de12cbac5cf634595" title="Initializes the platform-specific timekeeping requirements.">iotc_bsp_time_init()</a>  </td><td class="markdownTableBodyNone">Initializes the platform-specific timekeeping requirements.   </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><a class="el" href="dd/d79/iotc__bsp__tls_8h.html#a7ab5afe0fbbca362c178cad70629a024" title="Frees a TLS context from memory and deletes any associated data.">iotc_bsp_tls_cleanup()</a>  </td><td class="markdownTableBodyNone">Frees a TLS context from memory and deletes any associated data.   </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><a class="el" href="dd/d79/iotc__bsp__tls_8h.html#adeae1097e4f72df9ab189f905efccd56" title="Starts a TLS handshake.">iotc_bsp_tls_connect()</a>  </td><td class="markdownTableBodyNone">Starts a TLS handshake.   </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><a class="el" href="dd/d79/iotc__bsp__tls_8h.html#a6b3c115bd0072f1da49517f3a4faf15c" title="Initializes a TLS library and creates a TLS context.">iotc_bsp_tls_init()</a>  </td><td class="markdownTableBodyNone">Initializes a TLS library and creates a TLS context.   </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><a class="el" href="dd/d79/iotc__bsp__tls_8h.html#a687cdea65fd2da9fe6aa970902742669" title="Gets the pending readable bytes.">iotc_bsp_tls_pending()</a>  </td><td class="markdownTableBodyNone">Gets the pending readable bytes.   </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><a class="el" href="dd/d79/iotc__bsp__tls_8h.html#aa56c6dd5e49f3931a2b0bad1b0a6c2d1" title="Reads data on a socket.">iotc_bsp_tls_read()</a>  </td><td class="markdownTableBodyNone">Decrypts MQTT messages.   </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><a class="el" href="dd/d79/iotc__bsp__tls_8h.html#ab383b573544b2321538d7718a196a6b2" title="Write data to a socket.">iotc_bsp_tls_write()</a>  </td><td class="markdownTableBodyNone">Encrypts MQTT messages.   </td></tr>
+</table>
 <h1>POSIX BSP</h1>
-<p>The POSIX BSP implementation is in the <code><a href="~/src/bsp/platforms/posix">src/bsp/platforms/posix</a></code> directory. It implements <a href="https://en.wikipedia.org/wiki/Mbed_TLS">mbedTLS</a> by default.</p>
+<p>The POSIX BSP is in the <code><a href="~/src/bsp/platforms/posix">src/bsp/platforms/posix</a></code> directory. If you're customizing the BSP for a new device, you can refer to this implementation as an example.</p>
 <h1>TLS implementations</h1>
-<p>The Device SDK has turn-key <a href="../../../src/bsp/tls/mbedtls">mbedTLS</a> and <a href="~/src/bsp/tls/wolfssl">wolfSSL</a> implementations. The default <code>make</code> target <a href="../../../src/bsp/tls/mbedtls">downloads and builds</a> mbedTLS. See the <a href="../../../doc/user-guide.md">user guide</a> to configure the Device SDK with wolfTLS.</p>
-<p>The turn-key TLS implementations consist of customized <a href="dd/d79/iotc__bsp__tls_8h.html">iot_bsp_tls.h</a> and <a href="dd/d79/iotc__bsp__crypto_8h.html">iotc_bsp_crypto.h</a> functions: </p><table class="markdownTable">
+<p>The SDK has turn-key <a href="../../../src/bsp/tls/mbedtls">mbedTLS</a> and <a href="~/src/bsp/tls/wolfssl">wolfSSL</a> implementations. The default <code>make</code> target <a href="../../../src/bsp/tls/mbedtls">downloads and builds</a> mbedTLS.</p>
+<p>To use the turn-key wolfTLS implementation, specify <code>IOTC_BSP_TLS=wolfssl</code> in the <a href="../../../doc/porting_guide.md#build-environment">main makefile</a>.</p>
+<p>The turn-key TLS libraries consist of customized <a href="dd/d79/iotc__bsp__tls_8h.html">iot_bsp_tls.h</a> and <a href="dd/d79/iotc__bsp__crypto_8h.html">iotc_bsp_crypto.h</a> functions: </p><table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">mbedTLS  </th><th class="markdownTableHeadNone">wolfSSL   </th></tr>
 <tr class="markdownTableRowOdd">
@@ -64,11 +152,14 @@ $(function() {
 </table>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.15
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.15 </li>
+  </ul>
+</div>
 </body>
 </html>

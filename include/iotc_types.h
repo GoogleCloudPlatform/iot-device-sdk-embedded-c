@@ -95,23 +95,62 @@ typedef enum iotc_subscription_data_type_e {
 
 /**
  * @typedef iotc_sub_call_params_t
- * @struct iotc_sub_call_params_u
+ * @union iotc_sub_call_params_u
  * @brief The operational data for the user-defined
  * {@link ::iotc_user_subscription_callback_t subscription callback}.
  */
 typedef union iotc_sub_call_params_u {
+  /** The MQTT
+   * <a href="http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718068">
+   * SUBACK packet</a>.
+   */
   struct {
+    /** The MQTT topic. In Cloud IoT Core, you can publish telemetry events to
+     * the
+     * <a href="https://cloud.google.com/iot/docs/how-tos/mqtt-bridge#publishing_telemetry_events">/devices/DEVICE_ID/events</a>
+     * topic and device state to the
+     * <a href="https://cloud.google.com/iot/docs/how-tos/mqtt-bridge#setting_device_state">/devices/DEVICE_ID/state</a>
+     * topic.
+     */
     const char* topic;
+    /** The MQTT 
+     * <a href="http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718071">
+     * SUBACK payload</a>.
+     */
     iotc_mqtt_suback_status_t suback_status;
   } suback;
 
+  /** The MQTT
+   * <a href="http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718037">
+   * PUBLISH packet</a>.
+   */
   struct {
     const char* topic;
-    const uint8_t* temporary_payload_data; /* Automatically freed when the
-        callback returns. */
+    /** @details The MQTT
+     * <a href="http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718040">
+     * PUBLISH payload</a>. Automatically freed when the iotc_publish()
+     * {@link ::iotc_user_callback_t callback} returns.
+     */
+    const uint8_t* temporary_payload_data;
+    /** The length, in bytes, of the MQTT
+     * <a href="http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718040">
+     * PUBLISH payload</a>.
+     */
     size_t temporary_payload_data_length;
+    /** The MQTT
+     * <a href="http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718030">
+     * retain</a> flag.
+     */
     iotc_mqtt_retain_t retain;
+    /** The MQTT
+     * <a href="http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718099">
+     * Quality of Service</a> levels.
+     */
     iotc_mqtt_qos_t qos;
+    /** The MQTT
+     * <a href="http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718038">
+     * DUP</a> flag.
+     */
     iotc_mqtt_dup_t dup_flag;
   } message;
 } iotc_sub_call_params_t;
@@ -168,7 +207,7 @@ typedef enum iotc_crypto_key_union_type_e {
 
 /** 
  * @typedef iotc_crypto_key_union_t
- * @struct iotc_crypto_key_union_u
+ * @union iotc_crypto_key_union_u
  * @brief The public or private key data.
  *
  * @see iotc_crypto_key_union_u
@@ -198,7 +237,7 @@ typedef union iotc_crypto_key_union_u {
 /**
  * @typedef iotc_crypto_key_signature_algorithm_t
  * @brief The algorithm with which to sign
- * {@link create_iot_core_jwt() JSON Web Tokens}.
+ * {@link iotc_create_iotcore_jwt() JSON Web Tokens}.
  */
 typedef enum iotc_crypto_key_signature_algorithm_e {
   /** The signature algorithm is invalid. */
@@ -211,11 +250,16 @@ typedef enum iotc_crypto_key_signature_algorithm_e {
  * @typedef iotc_crypto_key_data_t
  * @struct iotc_crypto_key_data_t
  * @brief The parameters with which to create
- *     {@link create_iot_core_jwt() JSON Web Tokens}.
+ *     {@link iotc_create_iotcore_jwt() JSON Web Tokens}.
  */
 typedef struct {
+  /** The internal code that represents the data type of the public or private
+   * key. */
   iotc_crypto_key_union_type_t crypto_key_union_type;
+  /** The public or private key data. */
   iotc_crypto_key_union_t crypto_key_union;
+  /** The algorithm with which to sign
+   * {@link iotc_create_iotcore_jwt() JSON Web Tokens}. */
   iotc_crypto_key_signature_algorithm_t crypto_key_signature_algorithm;
 } iotc_crypto_key_data_t;
 

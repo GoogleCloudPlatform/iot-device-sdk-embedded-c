@@ -1,0 +1,17 @@
+/*
+div#nav-tree-contents {
+	margin-left: -16px !important;
+}
+
+div#nav-tree-contents ul li:nth-child(1) {
+	border: 1px solid red;
+}
+
+div#nav-tree-contents ul.children_ul li:nth-child(1) {
+	border: none;
+}
+
+#nav-sync {
+	display: none;
+}
+*/

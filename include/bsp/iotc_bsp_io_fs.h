@@ -87,6 +87,7 @@ typedef enum iotc_bsp_io_fs_resource_type_e {
 
 /**
  * @typedef iotc_bsp_io_fs_stat_t
+ * @struct iotc_bsp_io_fs_stat_s
  * @brief The size of TLS server authentication certificates.
  *
  * @see #iotc_bsp_io_fs_stat_s
