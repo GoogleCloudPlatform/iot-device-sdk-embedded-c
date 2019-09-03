@@ -164,9 +164,9 @@ extern uint8_t iotc_is_context_connected(iotc_context_handle_t context_handle);
 
 /**
  * @details Invokes the event processing loop and executes the Device SDKs event
- * engine as the main application process. The function processes events on platforms with main application
- * loops that can block indefinitely. For other platforms, call
- * iotc_events_process_tick().
+ * engine as the main application process. The function processes events on
+ * platforms with main application loops that can block indefinitely. For other
+ * platforms, call iotc_events_process_tick().
  *
  * You can call the function anytime but it returns only after calling
  * iotc_events_stop().

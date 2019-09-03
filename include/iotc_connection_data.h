@@ -65,10 +65,11 @@ typedef enum iotc_session_type_e {
 
 /**
  * @typedef iotc_connection_data_t
+ * @brief The MQTT CONNECT parameters.
+ * @see iotc_connection_data_s
+ *
  * @struct iotc_connection_data_s
  * @brief The MQTT CONNECT parameters.
- *
- * @see iotc_connection_data_s
  */
 typedef struct iotc_connection_data_s {
   /** The MQTT broker hostname. */
