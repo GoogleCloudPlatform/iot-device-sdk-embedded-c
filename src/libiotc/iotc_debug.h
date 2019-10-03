@@ -50,20 +50,20 @@ void iotc_debug_data_logger_impl(const char* msg,
 
 #define iotc_debug_logger(msg)                                               \
   __iotc_printf(                                                             \
-      "[%ld][%s:%d (%s)] %s\n", iotc_bsp_time_getcurrenttime_milliseconds(), \
+      "[%lld][%s:%d (%s)] %s\n", iotc_bsp_time_getcurrenttime_milliseconds(), \
       iotc_debug_dont_print_the_path(__FILE__), __LINE__, __func__, msg)
 #define iotc_debug_format(fmt, ...)                                           \
-  __iotc_printf("[%ld][%s:%d (%s)] " fmt "\n",                                \
+  __iotc_printf("[%lld][%s:%d (%s)] " fmt "\n",                                \
                 iotc_bsp_time_getcurrenttime_milliseconds(),                  \
                 iotc_debug_dont_print_the_path(__FILE__), __LINE__, __func__, \
                 __VA_ARGS__)
 #define iotc_debug_printf(...) __iotc_printf(__VA_ARGS__)
 #define iotc_debug_function_entered()                        \
-  __iotc_printf("[%ld][%s:%d (%s)] -> entered\n",            \
+  __iotc_printf("[%lld][%s:%d (%s)] -> entered\n",            \
                 iotc_bsp_time_getcurrenttime_milliseconds(), \
                 iotc_debug_dont_print_the_path(__FILE__), __LINE__, __func__)
 #define iotc_debug_data_logger(msg, dsc)                                       \
-  __iotc_printf("[%ld][%s:%d (%s)] #\n",                                       \
+  __iotc_printf("[%lld][%s:%d (%s)] #\n",                                       \
                 iotc_bsp_time_getcurrenttime_milliseconds(),                   \
                 iotc_debug_dont_print_the_path(__FILE__), __LINE__, __func__); \
   iotc_debug_data_logger_impl(msg, dsc)
