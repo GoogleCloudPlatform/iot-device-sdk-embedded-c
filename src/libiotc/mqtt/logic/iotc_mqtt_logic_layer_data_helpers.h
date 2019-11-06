@@ -41,6 +41,9 @@ static inline int8_t cmp_topics(const union iotc_vector_selector_u* a,
   
   // check if we have a wildcard in our subscription
   int topic_length = strlen(ca->subscribe.topic);
+  if (topic_length < 2) {
+    return 1; // bail out if, somehow, our topic length is super short (unlikely)
+  }
   char last_token = ca->subscribe.topic[topic_length-1];
   // since MQTT only allows the last character of a topic to be a wildcard, we 
   // can check the last character and if a wildcard, only compare up the
