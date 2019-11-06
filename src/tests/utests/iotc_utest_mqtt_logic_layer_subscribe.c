@@ -80,14 +80,14 @@ IOTC_TT_TESTGROUP_BEGIN(utest_mqtt_logic_layer_subscribe)
 IOTC_TT_TESTCASE(utest__cmp_topics__valid_data__cmp_topics_should_return_0, {
   iotc_event_handle_t handle = iotc_make_empty_handle();
 
-  char* string1 = "test_string";
-  char* string2 = "test_string";
+  char* published_topic = "test_string";
+  char* subscription_topic = "test_string";
 
-  size_t string_len = strlen(string1);
+  size_t string_len = strlen(published_topic);
 
-  iotc_mqtt_task_specific_data_t spd = {.subscribe = {string2, handle, 0}};
+  iotc_mqtt_task_specific_data_t spd = {.subscribe = {subscription_topic, handle, 0}};
   iotc_data_desc_t data = {
-      (unsigned char*)string1,   NULL, string_len, string_len, string_len,
+      (unsigned char*)published_topic,   NULL, string_len, string_len, string_len,
       IOTC_MEMORY_TYPE_UNMANAGED};
 
   union iotc_vector_selector_u a = {&spd};
@@ -96,17 +96,114 @@ IOTC_TT_TESTCASE(utest__cmp_topics__valid_data__cmp_topics_should_return_0, {
   tt_want_int_op(cmp_topics(&a, &b), ==, 0);
 })
 
+IOTC_TT_TESTCASE(utest__cmp_topics__valid_data__cmp_topics_wildcard_root_topic_should_return_0, {
+  iotc_event_handle_t handle = iotc_make_empty_handle();
+
+  char* published_topic = "test_string";
+  char* subscription_topic = "test_string/#";
+
+  size_t string_len = strlen(published_topic);
+
+  iotc_mqtt_task_specific_data_t spd = {.subscribe = {subscription_topic, handle, 0}};
+  iotc_data_desc_t data = {
+      (unsigned char*)published_topic,   NULL, string_len, string_len, string_len,
+      IOTC_MEMORY_TYPE_UNMANAGED};
+
+  union iotc_vector_selector_u a = {&spd};
+  union iotc_vector_selector_u b = {&data};
+
+  tt_want_int_op(cmp_topics(&a, &b), ==, 0);
+})
+
+IOTC_TT_TESTCASE(utest__cmp_topics__valid_data__cmp_topics_wildcard_with_slash_should_return_0, {
+  iotc_event_handle_t handle = iotc_make_empty_handle();
+
+  char* published_topic = "test_string/";
+  char* subscription_topic = "test_string/#";
+
+  size_t string_len = strlen(published_topic);
+
+  iotc_mqtt_task_specific_data_t spd = {.subscribe = {subscription_topic, handle, 0}};
+  iotc_data_desc_t data = {
+      (unsigned char*)published_topic,   NULL, string_len, string_len, string_len,
+      IOTC_MEMORY_TYPE_UNMANAGED};
+
+  union iotc_vector_selector_u a = {&spd};
+  union iotc_vector_selector_u b = {&data};
+
+  tt_want_int_op(cmp_topics(&a, &b), ==, 0);
+})
+
+IOTC_TT_TESTCASE(utest__cmp_topics__valid_data__cmp_topics_wildcard_with_subfolder_should_return_0, {
+  iotc_event_handle_t handle = iotc_make_empty_handle();
+
+  char* published_topic = "test_string/subfolder";
+  char* subscription_topic = "test_string/#";
+
+  size_t string_len = strlen(published_topic);
+
+  iotc_mqtt_task_specific_data_t spd = {.subscribe = {subscription_topic, handle, 0}};
+  iotc_data_desc_t data = {
+      (unsigned char*)published_topic,   NULL, string_len, string_len, string_len,
+      IOTC_MEMORY_TYPE_UNMANAGED};
+
+  union iotc_vector_selector_u a = {&spd};
+  union iotc_vector_selector_u b = {&data};
+
+  tt_want_int_op(cmp_topics(&a, &b), ==, 0);
+})
+
+IOTC_TT_TESTCASE(utest__cmp_topics__valid_data__cmp_topics_wildcard_different_root_should_return_1, {
+  iotc_event_handle_t handle = iotc_make_empty_handle();
+
+  // make sure we're not too liberal in our matching
+  char* published_topic = "test_string2";
+  char* subscription_topic = "test_string1/#";
+
+  size_t string_len = strlen(published_topic);
+
+  iotc_mqtt_task_specific_data_t spd = {.subscribe = {subscription_topic, handle, 0}};
+  iotc_data_desc_t data = {
+      (unsigned char*)published_topic,   NULL, string_len, string_len, string_len,
+      IOTC_MEMORY_TYPE_UNMANAGED};
+
+  union iotc_vector_selector_u a = {&spd};
+  union iotc_vector_selector_u b = {&data};
+
+  tt_want_int_op(cmp_topics(&a, &b), ==, 1);
+})
+
+IOTC_TT_TESTCASE(utest__cmp_topics__valid_data__cmp_topics_wildcard_different_root_subfolder_should_return_1, {
+  iotc_event_handle_t handle = iotc_make_empty_handle();
+
+  // make sure we're not too liberal in our matching
+  char* published_topic = "test_string2/subfolder";
+  char* subscription_topic = "test_string1/#";
+
+  size_t string_len = strlen(published_topic);
+
+  iotc_mqtt_task_specific_data_t spd = {.subscribe = {subscription_topic, handle, 0}};
+  iotc_data_desc_t data = {
+      (unsigned char*)published_topic,   NULL, string_len, string_len, string_len,
+      IOTC_MEMORY_TYPE_UNMANAGED};
+
+  union iotc_vector_selector_u a = {&spd};
+  union iotc_vector_selector_u b = {&data};
+
+  tt_want_int_op(cmp_topics(&a, &b), ==, 1);
+})
+
 IOTC_TT_TESTCASE(utest__cmp_topics__valid_data__cmp_topics_should_return_1, {
   iotc_event_handle_t handle = iotc_make_empty_handle();
 
-  char* string1 = "test_string1";
-  char* string2 = "test_string2";
+  char* published_topic = "test_string1";
+  char* subscription_topic = "test_string2";
 
-  size_t string_len = strlen(string1);
+  size_t string_len = strlen(published_topic);
 
-  iotc_mqtt_task_specific_data_t spd = {.subscribe = {string2, handle, 0}};
+  iotc_mqtt_task_specific_data_t spd = {.subscribe = {subscription_topic, handle, 0}};
   iotc_data_desc_t data = {
-      (unsigned char*)string1,   NULL, string_len, string_len, string_len,
+      (unsigned char*)published_topic,   NULL, string_len, string_len, string_len,
       IOTC_MEMORY_TYPE_UNMANAGED};
 
   union iotc_vector_selector_u a = {&spd};

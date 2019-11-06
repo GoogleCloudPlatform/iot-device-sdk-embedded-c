@@ -34,7 +34,21 @@ static inline int8_t cmp_topics(const union iotc_vector_selector_u* a,
       (const iotc_data_desc_t*)b->ptr_value; /* This is supposed to be the one
                                                 from the msg. */
 
+  // return if incoming topic is an exact match
   if (memcmp(ca->subscribe.topic, cb->data_ptr, cb->length) == 0) {
+    return 0;
+  }
+  
+  // check if we have a wildcard in our subscription
+  int topic_length = strlen(ca->subscribe.topic);
+  char last_token = ca->subscribe.topic[topic_length-1];
+  // since MQTT only allows the last character of a topic to be a wildcard, we 
+  // can check the last character and if a wildcard, only compare up the
+  // character before the /#
+  if ((last_token == '#') &&
+      (memcmp(ca->subscribe.topic, 
+              cb->data_ptr, 
+              topic_length-2) == 0)) {
     return 0;
   }
 
