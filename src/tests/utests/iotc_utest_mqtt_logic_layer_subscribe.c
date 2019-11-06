@@ -117,6 +117,25 @@ IOTC_TT_TESTCASE(utest__match_topics__valid_data__match_topics_wildcard_root_top
   tt_want_int_op(match_topics(&a, &b), ==, 0);
 })
 
+IOTC_TT_TESTCASE(utest__match_topics__valid_data__match_topics_root_wildcard_should_return_0, {
+  iotc_event_handle_t handle = iotc_make_empty_handle();
+
+  char* published_topic = "t";
+  char* subscription_topic = "#";
+
+  size_t string_len = strlen(published_topic);
+
+  iotc_mqtt_task_specific_data_t spd = {.subscribe = {subscription_topic, handle, 0}};
+  iotc_data_desc_t data = {
+      (unsigned char*)published_topic,   NULL, string_len, string_len, string_len,
+      IOTC_MEMORY_TYPE_UNMANAGED};
+
+  union iotc_vector_selector_u a = {&spd};
+  union iotc_vector_selector_u b = {&data};
+
+  tt_want_int_op(match_topics(&a, &b), ==, 0);
+})
+
 IOTC_TT_TESTCASE(utest__match_topics__valid_data__match_topics_wildcard_with_slash_should_return_0, {
   iotc_event_handle_t handle = iotc_make_empty_handle();
 
