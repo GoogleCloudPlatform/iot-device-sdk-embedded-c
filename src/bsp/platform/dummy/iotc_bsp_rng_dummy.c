@@ -86,7 +86,7 @@ void iotc_bsp_rng_shutdown() {
 #include <cyassl/ctaocrypt/random.h>
 #include <iotc_allocator.h>
 
-static WC_RNG wolfcrypt_rng;
+WC_RNG wolfcrypt_rng;
 
 void iotc_bsp_rng_init() {
   /* check if already initialized */
