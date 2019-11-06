@@ -77,7 +77,7 @@ static iotc_state_t failed_subscribe_handler(
 
 IOTC_TT_TESTGROUP_BEGIN(utest_mqtt_logic_layer_subscribe)
 
-IOTC_TT_TESTCASE(utest__cmp_topics__valid_data__cmp_topics_should_return_0, {
+IOTC_TT_TESTCASE(utest__match_topics__valid_data__match_topics_should_return_0, {
   iotc_event_handle_t handle = iotc_make_empty_handle();
 
   char* published_topic = "test_string";
@@ -93,10 +93,10 @@ IOTC_TT_TESTCASE(utest__cmp_topics__valid_data__cmp_topics_should_return_0, {
   union iotc_vector_selector_u a = {&spd};
   union iotc_vector_selector_u b = {&data};
 
-  tt_want_int_op(cmp_topics(&a, &b), ==, 0);
+  tt_want_int_op(match_topics(&a, &b), ==, 0);
 })
 
-IOTC_TT_TESTCASE(utest__cmp_topics__valid_data__cmp_topics_wildcard_root_topic_should_return_0, {
+IOTC_TT_TESTCASE(utest__match_topics__valid_data__match_topics_wildcard_root_topic_should_return_0, {
   iotc_event_handle_t handle = iotc_make_empty_handle();
 
   char* published_topic = "test_string";
@@ -112,10 +112,10 @@ IOTC_TT_TESTCASE(utest__cmp_topics__valid_data__cmp_topics_wildcard_root_topic_s
   union iotc_vector_selector_u a = {&spd};
   union iotc_vector_selector_u b = {&data};
 
-  tt_want_int_op(cmp_topics(&a, &b), ==, 0);
+  tt_want_int_op(match_topics(&a, &b), ==, 0);
 })
 
-IOTC_TT_TESTCASE(utest__cmp_topics__valid_data__cmp_topics_wildcard_with_slash_should_return_0, {
+IOTC_TT_TESTCASE(utest__match_topics__valid_data__match_topics_wildcard_with_slash_should_return_0, {
   iotc_event_handle_t handle = iotc_make_empty_handle();
 
   char* published_topic = "test_string/";
@@ -131,10 +131,10 @@ IOTC_TT_TESTCASE(utest__cmp_topics__valid_data__cmp_topics_wildcard_with_slash_s
   union iotc_vector_selector_u a = {&spd};
   union iotc_vector_selector_u b = {&data};
 
-  tt_want_int_op(cmp_topics(&a, &b), ==, 0);
+  tt_want_int_op(match_topics(&a, &b), ==, 0);
 })
 
-IOTC_TT_TESTCASE(utest__cmp_topics__valid_data__cmp_topics_wildcard_with_subfolder_should_return_0, {
+IOTC_TT_TESTCASE(utest__match_topics__valid_data__match_topics_wildcard_with_subfolder_should_return_0, {
   iotc_event_handle_t handle = iotc_make_empty_handle();
 
   char* published_topic = "test_string/subfolder";
@@ -150,10 +150,10 @@ IOTC_TT_TESTCASE(utest__cmp_topics__valid_data__cmp_topics_wildcard_with_subfold
   union iotc_vector_selector_u a = {&spd};
   union iotc_vector_selector_u b = {&data};
 
-  tt_want_int_op(cmp_topics(&a, &b), ==, 0);
+  tt_want_int_op(match_topics(&a, &b), ==, 0);
 })
 
-IOTC_TT_TESTCASE(utest__cmp_topics__valid_data__cmp_topics_wildcard_different_root_should_return_1, {
+IOTC_TT_TESTCASE(utest__match_topics__valid_data__match_topics_wildcard_different_root_should_return_1, {
   iotc_event_handle_t handle = iotc_make_empty_handle();
 
   // make sure we're not too liberal in our matching
@@ -170,10 +170,10 @@ IOTC_TT_TESTCASE(utest__cmp_topics__valid_data__cmp_topics_wildcard_different_ro
   union iotc_vector_selector_u a = {&spd};
   union iotc_vector_selector_u b = {&data};
 
-  tt_want_int_op(cmp_topics(&a, &b), ==, 1);
+  tt_want_int_op(match_topics(&a, &b), ==, 1);
 })
 
-IOTC_TT_TESTCASE(utest__cmp_topics__valid_data__cmp_topics_wildcard_different_root_subfolder_should_return_1, {
+IOTC_TT_TESTCASE(utest__match_topics__valid_data__match_topics_wildcard_different_root_subfolder_should_return_1, {
   iotc_event_handle_t handle = iotc_make_empty_handle();
 
   // make sure we're not too liberal in our matching
@@ -190,10 +190,10 @@ IOTC_TT_TESTCASE(utest__cmp_topics__valid_data__cmp_topics_wildcard_different_ro
   union iotc_vector_selector_u a = {&spd};
   union iotc_vector_selector_u b = {&data};
 
-  tt_want_int_op(cmp_topics(&a, &b), ==, 1);
+  tt_want_int_op(match_topics(&a, &b), ==, 1);
 })
 
-IOTC_TT_TESTCASE(utest__cmp_topics__valid_data__cmp_topics_should_return_1, {
+IOTC_TT_TESTCASE(utest__match_topics__valid_data__match_topics_should_return_1, {
   iotc_event_handle_t handle = iotc_make_empty_handle();
 
   char* published_topic = "test_string1";
@@ -209,7 +209,7 @@ IOTC_TT_TESTCASE(utest__cmp_topics__valid_data__cmp_topics_should_return_1, {
   union iotc_vector_selector_u a = {&spd};
   union iotc_vector_selector_u b = {&data};
 
-  tt_want_int_op(cmp_topics(&a, &b), ==, 1);
+  tt_want_int_op(match_topics(&a, &b), ==, 1);
 })
 
 IOTC_TT_TESTCASE_WITH_SETUP(

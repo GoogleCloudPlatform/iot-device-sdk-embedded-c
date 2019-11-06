@@ -25,7 +25,7 @@
 extern "C" {
 #endif
 
-static inline int8_t cmp_topics(const union iotc_vector_selector_u* a,
+static inline int8_t match_topics(const union iotc_vector_selector_u* a,
                                 const union iotc_vector_selector_u* b) {
   const iotc_mqtt_task_specific_data_t* ca =
       (const iotc_mqtt_task_specific_data_t*)
