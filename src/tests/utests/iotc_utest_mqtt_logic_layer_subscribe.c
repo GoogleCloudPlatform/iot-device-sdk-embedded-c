@@ -80,10 +80,12 @@ IOTC_TT_TESTGROUP_BEGIN(utest_mqtt_logic_layer_subscribe)
 IOTC_TT_TESTCASE(utest__match_topics__valid_data__match_topics_should_return_0, {
   iotc_event_handle_t handle = iotc_make_empty_handle();
 
-  char* published_topic = "test_string";
-  char* subscription_topic = "test_string";
+  char* published_topic = "t";
+  char* subscription_topic = "t";
 
   size_t string_len = strlen(published_topic);
+
+  printf("%d\r\n", string_len);
 
   iotc_mqtt_task_specific_data_t spd = {.subscribe = {subscription_topic, handle, 0}};
   iotc_data_desc_t data = {
@@ -99,8 +101,8 @@ IOTC_TT_TESTCASE(utest__match_topics__valid_data__match_topics_should_return_0, 
 IOTC_TT_TESTCASE(utest__match_topics__valid_data__match_topics_wildcard_root_topic_should_return_0, {
   iotc_event_handle_t handle = iotc_make_empty_handle();
 
-  char* published_topic = "test_string";
-  char* subscription_topic = "test_string/#";
+  char* published_topic = "t";
+  char* subscription_topic = "t/#";
 
   size_t string_len = strlen(published_topic);
 
@@ -118,8 +120,8 @@ IOTC_TT_TESTCASE(utest__match_topics__valid_data__match_topics_wildcard_root_top
 IOTC_TT_TESTCASE(utest__match_topics__valid_data__match_topics_wildcard_with_slash_should_return_0, {
   iotc_event_handle_t handle = iotc_make_empty_handle();
 
-  char* published_topic = "test_string/";
-  char* subscription_topic = "test_string/#";
+  char* published_topic = "t/";
+  char* subscription_topic = "t/#";
 
   size_t string_len = strlen(published_topic);
 
@@ -137,8 +139,8 @@ IOTC_TT_TESTCASE(utest__match_topics__valid_data__match_topics_wildcard_with_sla
 IOTC_TT_TESTCASE(utest__match_topics__valid_data__match_topics_wildcard_with_subfolder_should_return_0, {
   iotc_event_handle_t handle = iotc_make_empty_handle();
 
-  char* published_topic = "test_string/subfolder";
-  char* subscription_topic = "test_string/#";
+  char* published_topic = "t/subfolder";
+  char* subscription_topic = "t/#";
 
   size_t string_len = strlen(published_topic);
 
@@ -157,8 +159,28 @@ IOTC_TT_TESTCASE(utest__match_topics__valid_data__match_topics_wildcard_differen
   iotc_event_handle_t handle = iotc_make_empty_handle();
 
   // make sure we're not too liberal in our matching
-  char* published_topic = "test_string2";
-  char* subscription_topic = "test_string1/#";
+  char* published_topic = "t2";
+  char* subscription_topic = "t1/#";
+
+  size_t string_len = strlen(published_topic);
+
+  iotc_mqtt_task_specific_data_t spd = {.subscribe = {subscription_topic, handle, 0}};
+  iotc_data_desc_t data = {
+      (unsigned char*)published_topic,   NULL, string_len, string_len, string_len,
+      IOTC_MEMORY_TYPE_UNMANAGED};
+
+  union iotc_vector_selector_u a = {&spd};
+  union iotc_vector_selector_u b = {&data};
+
+  tt_want_int_op(match_topics(&a, &b), ==, 1);
+})
+
+IOTC_TT_TESTCASE(utest__match_topics__valid_data__match_topics_different_subfolder_should_return_1, {
+  iotc_event_handle_t handle = iotc_make_empty_handle();
+
+  // make sure we're not too liberal in our matching
+  char* published_topic = "t";
+  char* subscription_topic = "t/subfolder";
 
   size_t string_len = strlen(published_topic);
 
@@ -177,8 +199,8 @@ IOTC_TT_TESTCASE(utest__match_topics__valid_data__match_topics_wildcard_differen
   iotc_event_handle_t handle = iotc_make_empty_handle();
 
   // make sure we're not too liberal in our matching
-  char* published_topic = "test_string2/subfolder";
-  char* subscription_topic = "test_string1/#";
+  char* published_topic = "t2/subfolder";
+  char* subscription_topic = "t1/#";
 
   size_t string_len = strlen(published_topic);
 
@@ -196,10 +218,11 @@ IOTC_TT_TESTCASE(utest__match_topics__valid_data__match_topics_wildcard_differen
 IOTC_TT_TESTCASE(utest__match_topics__valid_data__match_topics_should_return_1, {
   iotc_event_handle_t handle = iotc_make_empty_handle();
 
-  char* published_topic = "test_string1";
-  char* subscription_topic = "test_string2";
+  char* published_topic = "t1";
+  char* subscription_topic = "t2";
 
   size_t string_len = strlen(published_topic);
+  printf("%d\r\n", string_len);
 
   iotc_mqtt_task_specific_data_t spd = {.subscribe = {subscription_topic, handle, 0}};
   iotc_data_desc_t data = {

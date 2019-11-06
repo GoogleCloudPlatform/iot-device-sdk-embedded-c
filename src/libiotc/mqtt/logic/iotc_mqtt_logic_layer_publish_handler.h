@@ -50,7 +50,7 @@ static inline void call_topic_handler(
   index = iotc_vector_find(layer_data->handlers_for_topics,
                            IOTC_VEC_CONST_VALUE_PARAM(IOTC_VEC_VALUE_PTR(
                                msg_memory->publish.topic_name)),
-                           cmp_topics);
+                           match_topics);
 
   if (index != -1) {
     iotc_mqtt_task_specific_data_t* subscribe_data =

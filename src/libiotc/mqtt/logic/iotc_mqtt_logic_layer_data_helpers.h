@@ -34,25 +34,34 @@ static inline int8_t match_topics(const union iotc_vector_selector_u* a,
       (const iotc_data_desc_t*)b->ptr_value; /* This is supposed to be the one
                                                 from the msg. */
 
-  // return if incoming topic is an exact match
-  if (memcmp(ca->subscribe.topic, cb->data_ptr, cb->length) == 0) {
-    return 0;
-  }
-  
   // check if we have a wildcard in our subscription
-  int topic_length = strlen(ca->subscribe.topic);
-  if (topic_length < 2) {
-    return 1; // bail out if, somehow, our topic length is super short (unlikely)
+  uint8_t subscription_length = strlen(ca->subscribe.topic);
+  if (subscription_length == 0) {
+    // bail out in case we have an empty string at this point
+    return 1;
   }
-  char last_token = ca->subscribe.topic[topic_length-1];
+
+  char last_token = ca->subscribe.topic[subscription_length-1];
   // since MQTT only allows the last character of a topic to be a wildcard, we 
   // can check the last character and if a wildcard, only compare up the
   // character before the /#
-  if ((last_token == '#') &&
-      (memcmp(ca->subscribe.topic, 
+  if (last_token == '#') {
+    if (subscription_length == 1) {
+      return 0; // we are matching all topics with root wildcard '#'
+    } else if (memcmp(ca->subscribe.topic, 
               cb->data_ptr, 
-              topic_length-2) == 0)) {
-    return 0;
+              subscription_length-2) == 0) {
+      return 0;
+    }
+  } else { // subscription is NOT any kind of wildcard
+    uint8_t published_topic_length = cb->length;
+    // do fast length check first
+    if (published_topic_length != subscription_length) {
+      return 1;
+    // if incoming topic and subscription are the same length, perform memcmp
+    } else if (memcmp(ca->subscribe.topic, cb->data_ptr, published_topic_length) == 0) {
+      return 0;
+    }
   }
 
   return 1;
