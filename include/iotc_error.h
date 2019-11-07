@@ -108,7 +108,7 @@ typedef enum {
   /** The buffer for storing formatted and signed JWTs is null. Numeric code: 75 */ IOTC_NULL_KEY_DATA_ERROR,
   /** @cond Numeric code: 76 */ IOTC_NULL_CLIENT_ID_ERROR, /** @endcond */
 
-  /** @cond */IOTC_ERROR_COUNT /** @endcond Add errors above this line; this should always be last line. */
+  IOTC_ERROR_COUNT /* Add errors above this line; this should always be last line. */
 } iotc_state_t;
 
 /**

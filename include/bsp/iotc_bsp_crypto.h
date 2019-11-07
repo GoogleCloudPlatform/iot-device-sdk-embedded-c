@@ -18,6 +18,7 @@
 #define __IOTC_BSP_CRYPTO_H__
 
 #include <stdint.h>
+#include <sys/types.h>
 #include <unistd.h>
 
 #include "iotc_types.h"
