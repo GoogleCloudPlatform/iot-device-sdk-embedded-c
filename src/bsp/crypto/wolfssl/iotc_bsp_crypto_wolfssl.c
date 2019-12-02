@@ -164,9 +164,10 @@ iotc_bsp_crypto_state_t iotc_bsp_ecc(
   IOTC_CHECK_STATE(ret);
 
   // wolfcrypt_rng is declared in iotc_bsp_crypto_wolfssl.c and should 
-  // be instantiated in platform BSP rng implementation
-  ret = wc_ecc_sign_hash_ex((const byte*)src_buf, src_buf_len, &wolfcrypt_rng,
-                            &ecc_key_private, &r, &s);
+  // be instantiated in platform BSP RNG implementation
+  ret = wc_ecc_sign_hash_ex((const byte*)src_buf, src_buf_len, 
+                            &wolfcrypt_rng, &ecc_key_private, 
+                            &r, &s);
   IOTC_CHECK_STATE(ret);
 
   // two 32 byte integers build up a JWT ECC signature: r and s
