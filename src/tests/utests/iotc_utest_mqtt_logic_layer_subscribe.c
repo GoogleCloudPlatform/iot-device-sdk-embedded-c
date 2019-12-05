@@ -185,7 +185,7 @@ IOTC_TT_TESTCASE(utest__match_topics__valid_data__match_topics_wildcard_differen
 
   iotc_mqtt_task_specific_data_t spd = {.subscribe = {subscription_topic, handle, 0}};
   iotc_data_desc_t data = {
-      (unsigned char*)published_topic,   NULL, string_len, string_len, string_len,
+      (unsigned char*)published_topic, NULL, string_len, string_len, string_len,
       IOTC_MEMORY_TYPE_UNMANAGED};
 
   union iotc_vector_selector_u a = {&spd};
@@ -253,6 +253,61 @@ IOTC_TT_TESTCASE(utest__match_topics__valid_data__match_topics_should_return_1, 
 
   tt_want_int_op(match_topics(&a, &b), ==, 1);
 })
+
+IOTC_TT_TESTCASE(utest__match_topics__batch_tests, {
+  iotc_event_handle_t handle = iotc_make_empty_handle();
+
+  typedef struct {
+    char* subscription_topic;
+    const char* published_topic;
+    const uint8_t expected_result;
+  } iotc_match_topics_test_cases_t;
+
+  iotc_match_topics_test_cases_t test_cases[] = {
+    {"long_topic_name_same_length_1", "long_topic_name_same_length_2", 1},
+    {"long_topic_name_same_length_2", "long_topic_name_same_length_1", 1},
+    {"long_topic_name", "long_topic_name_different_length", 1},
+    {"long_topic_name_different_length", "short", 1},
+    {NULL, "short", 1},
+    {"sub", NULL, 1},
+    {NULL, NULL, 1},
+
+    {"multi/level/#", "multi/level", 0},
+    {"multi/level/#", "multi/level/", 0},
+    {"multi/level/#", "multi/level/topic", 0},
+    {"multi/level/#", "multi/level/topic/", 0},
+    {"multi/level/#", "multi/level/topic/name", 0},
+    {"multi/level/#", "multi/leve", 1},
+    {"multi/level/#", "multi/level2", 1},
+    {"multi/level/#", "multi/level2/topic/name", 1},
+
+    {"#", "multi/level/topic/name", 0},
+    {"multi/#", "multi/level/topic/name", 0},
+  };
+
+  uint8_t i = 0;
+  for (; i < sizeof(test_cases) / sizeof(iotc_match_topics_test_cases_t); ++i) {
+    iotc_match_topics_test_cases_t* test_case = test_cases + i;
+    printf("match publish topics with subscriptions, %s, %s, %d\n",
+           test_case->subscription_topic,
+           test_case->published_topic,
+           test_case->expected_result);
+
+    const size_t string_len = test_case->published_topic ? strlen(test_case->published_topic) : 0;
+
+    iotc_mqtt_task_specific_data_t spd = {.subscribe = {test_case->subscription_topic, handle, 0}};
+    iotc_data_desc_t data = {
+        (unsigned char*)test_case->published_topic, NULL, string_len, string_len, string_len,
+        IOTC_MEMORY_TYPE_UNMANAGED};
+
+    union iotc_vector_selector_u a = {&spd};
+    union iotc_vector_selector_u b = {&data};
+
+    tt_want_int_op(match_topics(&a, &b), ==, test_case->expected_result);
+  }
+})
+
+
 
 IOTC_TT_TESTCASE_WITH_SETUP(
     utest__do_mqtt_subscribe__valid_data__subscription_handler_registered_with_success,

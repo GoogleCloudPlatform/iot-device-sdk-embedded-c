@@ -26,7 +26,11 @@ extern "C" {
 #endif
 
 static inline int8_t match_topics(const union iotc_vector_selector_u* a,
-                                const union iotc_vector_selector_u* b) {
+                                  const union iotc_vector_selector_u* b) {
+  if (NULL == a || NULL == b) {
+    return 1;
+  }
+
   const iotc_mqtt_task_specific_data_t* ca =
       (const iotc_mqtt_task_specific_data_t*)
           a->ptr_value; /* This is supposed to be the one from the vector. */
@@ -34,33 +38,43 @@ static inline int8_t match_topics(const union iotc_vector_selector_u* a,
       (const iotc_data_desc_t*)b->ptr_value; /* This is supposed to be the one
                                                 from the msg. */
 
+  if (NULL == ca || NULL == cb || NULL == ca->subscribe.topic || NULL == cb->data_ptr ) {
+    return 1;
+  }
+
   // check if we have a wildcard in our subscription
-  uint8_t subscription_length = strlen(ca->subscribe.topic);
+  const uint8_t subscription_length = strlen(ca->subscribe.topic);
   if (subscription_length == 0) {
     // bail out in case we have an empty string at this point
     return 1;
   }
 
-  char last_token = ca->subscribe.topic[subscription_length-1];
-  // since MQTT only allows the last character of a topic to be a wildcard, we 
+  const char last_token = ca->subscribe.topic[subscription_length-1];
+  // since MQTT only allows the last character of a topic to be a wildcard, we
   // can check the last character and if a wildcard, only compare up the
   // character before the /#
-  if (last_token == '#') {
+  if ('#' == last_token) {
     if (subscription_length == 1) {
       return 0; // we are matching all topics with root wildcard '#'
-    } else if (memcmp(ca->subscribe.topic, 
-              cb->data_ptr, 
-              subscription_length-2) == 0) {
-      return 0;
+    } else {
+      // todo(atigyi, sheindel) this part isn't that simple, test cases failing:
+      // multi/level/#, multi/level2
+      // multi/level/#, multi/level2/topic/name
+      // the following two are related and should stay passing:
+      // multi/level/#, multi/level
+      // multi/level/#, multi/level/
+      return memcmp(ca->subscribe.topic,
+                    cb->data_ptr,
+                    subscription_length-2) ? 1 : 0;
     }
   } else { // subscription is NOT any kind of wildcard
-    uint8_t published_topic_length = cb->length;
+    const uint8_t published_topic_length = cb->length;
     // do fast length check first
     if (published_topic_length != subscription_length) {
       return 1;
     // if incoming topic and subscription are the same length, perform memcmp
-    } else if (memcmp(ca->subscribe.topic, cb->data_ptr, published_topic_length) == 0) {
-      return 0;
+    } else {
+      return memcmp(ca->subscribe.topic, cb->data_ptr, published_topic_length) ? 1 : 0;
     }
   }
 
