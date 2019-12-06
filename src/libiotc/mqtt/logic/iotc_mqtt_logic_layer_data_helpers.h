@@ -39,45 +39,39 @@ static inline int8_t match_topics(const union iotc_vector_selector_u* a,
       (const iotc_data_desc_t*)b->ptr_value; /* This is supposed to be the one
                                                 from the msg. */
 
-  if (NULL == ca || NULL == cb || NULL == ca->subscribe.topic || NULL == cb->data_ptr ) {
+if (NULL == ca || NULL == cb || NULL == ca->subscribe.topic || NULL == cb->data_ptr ) {
     return 1;
   }
-
   // check if we have a wildcard in our subscription
   const uint8_t subscription_length = strlen(ca->subscribe.topic);
   if (subscription_length == 0) {
-    // bail out in case we have an empty string at this point
+    return 1;
+  }
+
+  const uint8_t published_topic_length = cb->length;
+  if (published_topic_length == 0) {
     return 1;
   }
 
   const char last_sub_token = ca->subscribe.topic[subscription_length-1];
 
-  const uint8_t published_topic_length = cb->length;
-
   // first deal with non-wildcard subscriptions. Must be exact
   if (last_sub_token != '#') {
     // we can bail out if our topics aren't exactly the same length
     if (published_topic_length != subscription_length) return 1;
-    return memcmp(ca->subscribe.topic,
-                  cb->data_ptr,
-                  published_topic_length) ? 1 : 0;
+    
+    return memcmp(ca->subscribe.topic, cb->data_ptr, published_topic_length) ? 1 : 0;
   } else {
-    // TODO could optimize for published_topic_length < subscription_length - 2
-    for (int i = 0; i < IOTC_MIN(published_topic_length, subscription_length); ++i) {
-      if ('#' == *(ca->subscribe.topic+i)) {
-        return 0;
-      }
-
-      if (*(ca->subscribe.topic + i) != *(cb->data_ptr + i)) {
-        return 1;
-      }
+    if (subscription_length == 1) {
+      return 0;
     }
-
-    return memcmp(ca->subscribe.topic,
-                  cb->data_ptr,
-                  subscription_length-2) ? 1 : 0;
+    if (published_topic_length >= (subscription_length - 1)) {
+      return memcmp(ca->subscribe.topic, cb->data_ptr, subscription_length - 1) ? 1 : 0;
+    }
+    else {
+      return memcmp(ca->subscribe.topic, cb->data_ptr, subscription_length - 2) ? 1 : 0;
+    }
   }
-
   return 1;
 }
 
