@@ -19,6 +19,7 @@
 
 #include "iotc_mqtt_logic_layer_data.h"
 #include "iotc_mqtt_message.h"
+#include "iotc_macros.h"
 #include "string.h"
 
 #ifdef __cplusplus
@@ -49,33 +50,32 @@ static inline int8_t match_topics(const union iotc_vector_selector_u* a,
     return 1;
   }
 
-  const char last_token = ca->subscribe.topic[subscription_length-1];
-  // since MQTT only allows the last character of a topic to be a wildcard, we
-  // can check the last character and if a wildcard, only compare up the
-  // character before the /#
-  if ('#' == last_token) {
-    if (subscription_length == 1) {
-      return 0; // we are matching all topics with root wildcard '#'
-    } else {
-      // todo(atigyi, sheindel) this part isn't that simple, test cases failing:
-      // multi/level/#, multi/level2
-      // multi/level/#, multi/level2/topic/name
-      // the following two are related and should stay passing:
-      // multi/level/#, multi/level
-      // multi/level/#, multi/level/
-      return memcmp(ca->subscribe.topic,
-                    cb->data_ptr,
-                    subscription_length-2) ? 1 : 0;
+  const char last_sub_token = ca->subscribe.topic[subscription_length-1];
+
+  const uint8_t published_topic_length = cb->length;
+
+  // first deal with non-wildcard subscriptions. Must be exact
+  if (last_sub_token != '#') {
+    // we can bail out if our topics aren't exactly the same length
+    if (published_topic_length != subscription_length) return 1;
+    return memcmp(ca->subscribe.topic,
+                  cb->data_ptr,
+                  published_topic_length) ? 1 : 0;
+  } else {
+    // TODO could optimize for published_topic_length < subscription_length - 2
+    for (int i = 0; i < IOTC_MIN(published_topic_length, subscription_length); ++i) {
+      if ('#' == *(ca->subscribe.topic+i)) {
+        return 0;
+      }
+
+      if (*(ca->subscribe.topic + i) != *(cb->data_ptr + i)) {
+        return 1;
+      }
     }
-  } else { // subscription is NOT any kind of wildcard
-    const uint8_t published_topic_length = cb->length;
-    // do fast length check first
-    if (published_topic_length != subscription_length) {
-      return 1;
-    // if incoming topic and subscription are the same length, perform memcmp
-    } else {
-      return memcmp(ca->subscribe.topic, cb->data_ptr, published_topic_length) ? 1 : 0;
-    }
+
+    return memcmp(ca->subscribe.topic,
+                  cb->data_ptr,
+                  subscription_length-2) ? 1 : 0;
   }
 
   return 1;
