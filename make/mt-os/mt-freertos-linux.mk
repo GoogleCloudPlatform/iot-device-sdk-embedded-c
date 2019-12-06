@@ -41,6 +41,15 @@ IOTC_ARFLAGS += -rs -c $(XI)
 # Temporarily disable these warnings until the code gets changed.
 IOTC_COMMON_COMPILER_FLAGS += -Wno-format
 
+$(info #  )
+$(info # NOTE! Assuming WolfSSL x86 build.  If you intend a different target )
+$(info # please make changes to make/mt-config/mt-freertos-linux.mk )
+$(info # )
+ifeq ($(IOTC_BSP_CRYPTO), wolfssl)
+  # need for x86 wolfssl builds
+  IOTC_CONFIG_FLAGS += -DWOLFSSL_X86_64_BUILD
+endif
+
 #################################################################
 # Download FreeRTOS kernel and FreeRTOS Plus Linux Simulator ####
 #################################################################
