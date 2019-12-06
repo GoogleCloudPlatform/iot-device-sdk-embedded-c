@@ -24,6 +24,9 @@ ifneq (,$(findstring tls_bsp,$(CONFIG)))
 	include make/mt-config/mt-crypto.mk
 endif
 
+# warning circular dependency:
+# mt-config.mk includes mt-gtest.mk and
+# mt-gtest.mk includes mt-config.mk
 include make/mt-config/tests/mt-gtest.mk # For IOTC_GTEST_SOURCES
 
 IOTC_UNIT_TEST_TARGET ?= native
