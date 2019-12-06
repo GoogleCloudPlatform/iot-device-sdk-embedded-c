@@ -44,7 +44,7 @@ IOTC_COMMON_COMPILER_FLAGS += -Wno-format
 #################################################################
 # Download FreeRTOS kernel and FreeRTOS Plus Linux Simulator ####
 #################################################################
-IOTC_FREERTOS_KERNEL_URL=https://kent.dl.sourceforge.net/project/freertos/FreeRTOS/V10.1.1/FreeRTOSv10.1.1.zip
+IOTC_FREERTOS_KERNEL_URL=https://jaist.dl.sourceforge.net/project/freertos/FreeRTOS/V10.1.1/FreeRTOSv10.1.1.zip
 IOTC_FREERTOS_KERNEL_ZIP_PATH=$(LIBIOTC)/third_party/FreeRTOSv10.1.1.zip
 IOTC_FREERTOS_KERNEL_DIR_PATH=$(basename $(IOTC_FREERTOS_KERNEL_ZIP_PATH))
 IOTC_FREERTOS_KERNEL_README_PATH=$(IOTC_FREERTOS_KERNEL_DIR_PATH)/readme.txt
