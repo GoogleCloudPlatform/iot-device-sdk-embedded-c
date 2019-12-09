@@ -121,6 +121,7 @@ IOTC_TT_TESTCASE(utest__match_topics__batch_tests, {
     {NULL, NULL, 1},
     {"#", NULL, 1},
     {"#", "", 1},
+    {"", "", 1},
 
     // root wildcard tests
     {"#", "t", 0},
@@ -131,10 +132,10 @@ IOTC_TT_TESTCASE(utest__match_topics__batch_tests, {
   uint8_t i = 0;
   for (; i < sizeof(test_cases) / sizeof(iotc_match_topics_test_cases_t); ++i) {
     iotc_match_topics_test_cases_t* test_case = test_cases + i;
-    printf("match publish topics with subscriptions, %s, %s, %d\n",
-           test_case->subscription_topic,
-           test_case->published_topic,
-           test_case->expected_result);
+    // printf("match publish topics with subscriptions, expected: %s, %s, %s\n",
+           // test_case->expected_result ? "MISMATCH" : "MATCH",
+           // test_case->subscription_topic,
+           // test_case->published_topic);
 
     const size_t string_len = test_case->published_topic ? strlen(test_case->published_topic) : 0;
 
