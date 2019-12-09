@@ -53,7 +53,7 @@ endif
 #################################################################
 # Download FreeRTOS kernel and FreeRTOS Plus Linux Simulator ####
 #################################################################
-IOTC_FREERTOS_KERNEL_URL=https://kent.dl.sourceforge.net/project/freertos/FreeRTOS/V10.1.1/FreeRTOSv10.1.1.zip
+IOTC_FREERTOS_KERNEL_URL=https://sourceforge.net/projects/freertos/files/FreeRTOS/V10.1.1/FreeRTOSv10.1.1.zip/download
 IOTC_FREERTOS_KERNEL_ZIP_PATH=$(LIBIOTC)/third_party/FreeRTOSv10.1.1.zip
 IOTC_FREERTOS_KERNEL_DIR_PATH=$(basename $(IOTC_FREERTOS_KERNEL_ZIP_PATH))
 IOTC_FREERTOS_KERNEL_README_PATH=$(IOTC_FREERTOS_KERNEL_DIR_PATH)/readme.txt
@@ -81,7 +81,7 @@ $(IOTC_FREERTOS_KERNEL_README_PATH): $(IOTC_FREERTOS_KERNEL_ZIP_PATH)
 # Download FreeRTOS kernel ######################################
 #################################################################
 $(IOTC_FREERTOS_KERNEL_ZIP_PATH):
-	@echo "IOTC FreeRTOS Linux build: downloading FreeRTOS Kernel to file $@"
+	@echo "IOTC FreeRTOS Linux build: downloading FreeRTOS Kernel to file $@ from $(IOTC_FREERTOS_KERNEL_URL)"
 	@-mkdir -p $(dir $@)
 	@curl -L -o $@ $(IOTC_FREERTOS_KERNEL_URL)
 

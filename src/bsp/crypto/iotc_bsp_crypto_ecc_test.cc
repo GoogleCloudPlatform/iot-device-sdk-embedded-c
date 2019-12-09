@@ -43,6 +43,11 @@ AwEHoUQDQgAE1Oi16oAc/+s5P5g2pzt3IDXfUBBUKUBrB8vgfyKOFb7sQTx4topE
 E0KOix7rJyli6tiAJJDL4lbdf0YRo45THQ==
 -----END EC PRIVATE KEY-----)";
 
+static const uint8_t* kDefaultDataToSign =
+    (uint8_t*)"this text is ecc signed";
+static const size_t kDefaultDataToSignLength =
+    strlen((char*)kDefaultDataToSign);
+
 class IotcBspCryptoEcc : public IotcHeapCheckTest {
   public:
     IotcBspCryptoEcc() {
@@ -54,10 +59,6 @@ class IotcBspCryptoEcc : public IotcHeapCheckTest {
           const_cast<char*>(kPrivateKey);
     }
     ~IotcBspCryptoEcc() { iotc_shutdown(); }
-    static constexpr uint8_t* kDefaultDataToSign =
-        (uint8_t*)"this text is ecc signed";
-    static constexpr size_t kDefaultDataToSignLength =
-        strlen((char*)kDefaultDataToSign);
 
   protected:
     iotc_crypto_key_data_t DefaultPrivateKey;
