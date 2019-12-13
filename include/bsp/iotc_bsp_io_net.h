@@ -165,10 +165,11 @@ typedef intptr_t iotc_bsp_socket_t;
 
 /**
  * @typedef iotc_bsp_socket_events_t
+ * @brief The socket state.
+ * @see #iotc_bsp_socket_events_s
+ *
  * @struct iotc_bsp_socket_events_s
  * @brief The socket state.
- *
- * @see #iotc_bsp_socket_events_s
  */
 typedef struct iotc_bsp_socket_events_s {
   /** The platform-specific socket value. */

@@ -95,6 +95,10 @@ typedef enum iotc_subscription_data_type_e {
 
 /**
  * @typedef iotc_sub_call_params_t
+ * @brief The operational data for the user-defined
+ * {@link ::iotc_user_subscription_callback_t subscription callback}.
+ * @see #iotc_sub_call_params_u
+ *
  * @union iotc_sub_call_params_u
  * @brief The operational data for the user-defined
  * {@link ::iotc_user_subscription_callback_t subscription callback}.
@@ -207,10 +211,11 @@ typedef enum iotc_crypto_key_union_type_e {
 
 /** 
  * @typedef iotc_crypto_key_union_t
+ * @brief The public or private key data.
+ * @see iotc_crypto_key_union_u
+
  * @union iotc_crypto_key_union_u
  * @brief The public or private key data.
- *
- * @see iotc_crypto_key_union_u
  */
 typedef union iotc_crypto_key_union_u {
   /** A PEM-formatted public or private key. */
