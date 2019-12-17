@@ -15,7 +15,6 @@ var iotc_8h =
     [ "iotc_publish", "d9/d22/iotc_8h.html#ad182450f87d708b57451afadee80d94f", null ],
     [ "iotc_publish_data", "d9/d22/iotc_8h.html#aea56344dbfbfd50707294338794920d8", null ],
     [ "iotc_schedule_timed_task", "d9/d22/iotc_8h.html#a94df42c7e1af9033f06886ff2be63826", null ],
-    [ "iotc_set_fs_functions", "d9/d22/iotc_8h.html#a9faf4c4d92b699c8aec91e01e6f49b70", null ],
     [ "iotc_set_maximum_heap_usage", "d9/d22/iotc_8h.html#a4df01ad5208e12c76f6764293f5d8ad5", null ],
     [ "iotc_set_network_timeout", "d9/d22/iotc_8h.html#a9823988b2ba20b09a483fdf9678ce8b3", null ],
     [ "iotc_shutdown", "d9/d22/iotc_8h.html#ac5bb467d736cd8b6e8de62e8a5fdda23", null ],

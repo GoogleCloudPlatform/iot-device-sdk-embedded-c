@@ -97,7 +97,6 @@ var searchData=
   ['iotc_5fsession_5fcontinue',['IOTC_SESSION_CONTINUE',['../d9/df6/iotc__connection__data_8h.html#a40da5a549c1c12e0b9d5ce647762d705a25d7f00780ebbba065888f8fa69375fc',1,'iotc_connection_data.h']]],
   ['iotc_5fsession_5ftype_5fe',['iotc_session_type_e',['../d9/df6/iotc__connection__data_8h.html#a40da5a549c1c12e0b9d5ce647762d705',1,'iotc_connection_data.h']]],
   ['iotc_5fsession_5ftype_5ft',['iotc_session_type_t',['../d9/df6/iotc__connection__data_8h.html#aeb449c698a2484b2bf314b2dbb208419',1,'iotc_connection_data.h']]],
-  ['iotc_5fset_5ffs_5ffunctions',['iotc_set_fs_functions',['../d9/d22/iotc_8h.html#a9faf4c4d92b699c8aec91e01e6f49b70',1,'iotc.h']]],
   ['iotc_5fset_5fmaximum_5fheap_5fusage',['iotc_set_maximum_heap_usage',['../d9/d22/iotc_8h.html#a4df01ad5208e12c76f6764293f5d8ad5',1,'iotc.h']]],
   ['iotc_5fset_5fnetwork_5ftimeout',['iotc_set_network_timeout',['../d9/d22/iotc_8h.html#a9823988b2ba20b09a483fdf9678ce8b3',1,'iotc.h']]],
   ['iotc_5fshutdown',['iotc_shutdown',['../d9/d22/iotc_8h.html#ac5bb467d736cd8b6e8de62e8a5fdda23',1,'iotc.h']]],
