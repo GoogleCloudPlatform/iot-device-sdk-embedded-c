@@ -32,7 +32,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Google Cloud IoT device SDK for embedded C
-   &#160;<span id="projectnumber">BSP</span>
+   &#160;<span id="projectnumber">1.0.2</span>
    </div>
   </td>
  </tr>
@@ -375,7 +375,7 @@ Functions</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924ea76264adb877e435dd373c118c38216c2"></a>IOTC_BSP_IO_FS_OPEN_ERROR&#160;</td><td class="fielddoc"><p>Can't open file. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924ead00544e4dec18aef14568a8da1b83d73"></a>IOTC_BSP_IO_FS_OPEN_READ_ONLY&#160;</td><td class="fielddoc"><p>The file is read-only so the Device SDK can't open it. </p>
+<tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924ead00544e4dec18aef14568a8da1b83d73"></a>IOTC_BSP_IO_FS_OPEN_READ_ONLY&#160;</td><td class="fielddoc"><p>The file is read-only so the SDK can't open it. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a5349d8646fec744682764ae561be924ea009ab63460062e4bd46242e90784fbfd"></a>IOTC_BSP_IO_FS_REMOVE_ERROR&#160;</td><td class="fielddoc"><p>The file can't be removed. </p>
 </td></tr>
@@ -515,7 +515,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">resource_handle</td><td>A <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af35210d1e5577353a582ef327bd09656">handle to an open file</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">offset</td><td>The position within the resource, in bytes, from which to start read operations. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">buffer</td><td>A pointer to a buffer with the bytes read from the file. The buffer is already allocated by the Device SDK. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">buffer</td><td>A pointer to a buffer with the bytes read from the file. The buffer is already allocated by the SDK. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">buffer_size</td><td>The number of bytes read from the file and stored in the buffer. </td></tr>
   </table>
   </dd>
