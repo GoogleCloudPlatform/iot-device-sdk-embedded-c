@@ -161,9 +161,9 @@ $(document).ready(function(){initNavTree('index.html','');});
 <td class="markdownTableBodyNone"><a class="el" href="dd/d79/iotc__bsp__tls_8h.html#ab383b573544b2321538d7718a196a6b2" title="Write data to a socket.">iotc_bsp_tls_write()</a>  </td><td class="markdownTableBodyNone">Encrypts MQTT messages.   </td></tr>
 </table>
 <h1>POSIX BSP</h1>
-<p>The POSIX BSP is in the <code><a href="~/src/bsp/platforms/posix">src/bsp/platforms/posix</a></code> directory. If you're customizing the BSP for a new device, you can refer to this implementation as an example.</p>
+<p>The POSIX BSP is in the <code><a href="../../../src/bsp/platforms/posix">src/bsp/platforms/posix</a></code> directory. If you're customizing the BSP for a new device, you can refer to this implementation as an example.</p>
 <h1>TLS implementations</h1>
-<p>The SDK has turn-key <a href="../../../src/bsp/tls/mbedtls">mbedTLS</a> and <a href="~/src/bsp/tls/wolfssl">wolfSSL</a> implementations. The default <code>make</code> target <a href="../../../src/bsp/tls/mbedtls">downloads and builds</a> mbedTLS.</p>
+<p>The SDK has turn-key <a href="../../../src/bsp/tls/mbedtls">mbedTLS</a> and <a href="../../../src/bsp/tls/wolfssl">wolfSSL</a> implementations. The default <code>make</code> target <a href="../../../src/bsp/tls/mbedtls">downloads and builds</a> mbedTLS.</p>
 <p>To use the turn-key wolfTLS implementation, specify <code>IOTC_BSP_TLS=wolfssl</code> in the <a href="../../../doc/porting_guide.md#build-environment">main makefile</a>.</p>
 <p>The turn-key TLS libraries consist of customized <a href="dd/d79/iotc__bsp__tls_8h.html">iot_bsp_tls.h</a> and <a href="dd/d79/iotc__bsp__crypto_8h.html">iotc_bsp_crypto.h</a> functions: </p><table class="markdownTable">
 <tr class="markdownTableHead">
