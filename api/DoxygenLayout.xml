@@ -20,12 +20,12 @@
       <tab type="classmembers" visible="no" title="" intro=""/>
     </tab>
     <tab type="examples" visible="yes" title="" intro=""/>
+    <tab type="user" visible="yes" url="https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/bsp/html/" title="Board Support Package"/>      
     <tab type="usergroup" title="Example MQTT clients">
       <tab type="user" url="https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/tree/master/examples/iot_core_mqtt_client" title="Native Linux"/>
       <tab type="user" url="https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/tree/master/zephyr_native_posix" title="Zephyr RTOS"/>
       <tab type="user" url="https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/tree/master/examples/freertos_linux/Linux_gcc_gcp_iot" title="FreeRTOS"/>
     </tab>
-    <tab type="user" visible="yes" url="https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/bsp/html/" title="Board Support Package"/>  
   </navindex>
 
   <!-- Layout definition for a class page -->
