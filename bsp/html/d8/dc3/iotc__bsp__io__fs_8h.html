@@ -507,14 +507,15 @@ Functions</h2></td></tr>
 
 <p>Reads a file. </p>
 <p>The function must fill the buffer at offset 0. The function can allocate buffers by:</p><ul>
-<li>Allocating the buffer once, resusing it at each function call, and freeing it when the file closes.</li>
-<li>Creating a new buffer each time the function is called and and freeing the old buffer before the function returns.</li>
+<li>Allocating the buffer once, reusing it at each function call, and freeing it when the file closes.</li>
+<li>Creating a new buffer each time the function is called and freeing the old buffer before the function returns.</li>
 </ul>
+<p>For example, see the <a href="../../../../../src/bsp/platform/posix/iotc_bsp_io_fs_posix.c#L193">POSIX implementation of this function</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">resource_handle</td><td>A <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af35210d1e5577353a582ef327bd09656">handle to an open file</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">offset</td><td>The position within the resource, in bytes, from which to start read operations. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">buffer</td><td>A pointer to a buffer with the bytes read from the file. Function implementations must define how to allocate buffers The buffer is already allocated by the Device SDK. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">buffer</td><td>A pointer to a buffer with the bytes read from the file. The buffer is already allocated by the Device SDK. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">buffer_size</td><td>The number of bytes read from the file and stored in the buffer. </td></tr>
   </table>
   </dd>
@@ -629,10 +630,6 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Writes to a file.</p>
-<p>The function must fill the buffer at any offset. The function can allocate buffers by:</p><ul>
-<li>Allocating the buffer once, resusing it at each function call, and freeing it when the file closes.</li>
-<li>Creating a new buffer each time the function is called and and freeing the old buffer before the function returns.</li>
-</ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">resource_handle</td><td>A <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af35210d1e5577353a582ef327bd09656">handle to an open file</a>. </td></tr>
