@@ -22,7 +22,7 @@
  * @brief Keeps time.
  *
  * @details Use hardware or NTP servers to maintain an accurate clock. The 
- * Device SDK calls these functions to determine the: 
+ * SDK calls these functions to determine the: 
  *     - Exact execution time of scheduled tasks
  *     - Delayed reconnection logic
  */

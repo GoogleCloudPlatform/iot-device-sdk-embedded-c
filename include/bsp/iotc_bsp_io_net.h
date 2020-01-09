@@ -21,11 +21,10 @@
  * @mainpage Overview
  *
  * @details This is a reference for the Board Support Package (BSP) and its
- * components. The BSP is a set of well-defined functions that the Device SDK
+ * components. The BSP is a set of well-defined functions that the SDK
  * invokes to interact with hardware-specific drivers and routines. The
- * functions run on POSIX platforms by default. You can customize the BSP for
- * new devices; see the <a href="../../../porting_guide.md">porting guide</a>
- * for instructions.
+ * functions run on POSIX platforms by default. To customize the BSP for
+ * new devices, see the <a href="../../../porting_guide.md">porting guide</a>.
  *
  * # Function summary
  *
@@ -65,14 +64,14 @@
  *
  * # POSIX BSP
  * The POSIX BSP is in the
- * <code><a href="~/src/bsp/platforms/posix">src/bsp/platforms/posix</a></code>
+ * <code><a href="../../../src/bsp/platforms/posix">src/bsp/platforms/posix</a></code>
  * directory. If you're customizing the BSP for a new device, you can refer
  * to this implementation as an example.
  *
  * # TLS implementations
  * The SDK has turn-key
  * <a href="../../../src/bsp/tls/mbedtls">mbedTLS</a>
- * and <a href="~/src/bsp/tls/wolfssl">wolfSSL</a> implementations. The 
+ * and <a href="../../../src/bsp/tls/wolfssl">wolfSSL</a> implementations. The 
  * default <code>make</code> target
  * <a href="../../../src/bsp/tls/mbedtls">downloads and builds</a> mbedTLS.
  *
@@ -92,7 +91,7 @@
 
 /**
  * @file  iotc_bsp_io_net.h
- * @brief Creates and manages sockets in the native socket library.
+ * @brief Creates and manages asynchronous sockets in the device's native socket library.
  *
  * @details A typical networking workflow:
  *    1. Create a socket.
@@ -218,7 +217,7 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_socket_connect(
  * @brief Checks a {@link iotc_bsp_io_net_socket_connect() socket} for scheduled
  * read or write operations.
  *
- * @param [in] socket_events_array An array of initialized sockets.
+ * @param [in] socket_events_array An array of socket events.
  * @param [in] socket_events_array_size The number of elements in
  *     socket_events_array.
  * @param [in] timeout The number of seconds before timing out.
@@ -248,8 +247,8 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_connection_check(
 /**
  * @brief Writes data to a {@link iotc_bsp_io_net_socket_connect() socket}.
  *
- * @details This function writes data in chunks, so the Device SDK calls it
- * repeatedly until all chunks are written to the buffer. The Device SDK writes
+ * @details This function writes data in chunks, so the SDK calls it
+ * repeatedly until all chunks are written to the buffer. The SDK writes
  * a new chunk to the socket on each event loop tick.
  *
  * @param [in] iotc_socket_nonblocking The socket on which to send data.

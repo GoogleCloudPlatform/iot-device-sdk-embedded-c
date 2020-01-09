@@ -24,7 +24,7 @@ extern "C" {
 #endif
 
 /*! \file
- * @brief Creates JSON Web Tokens.
+ * @brief Creates JSON Web Tokens for authenticating to Cloud IoT Core.
  */
 
 /** The size, in bytes, of the JWT header. */

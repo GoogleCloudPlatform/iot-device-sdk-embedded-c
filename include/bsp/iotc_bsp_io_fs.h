@@ -62,7 +62,7 @@ typedef enum iotc_bsp_io_fs_state_e {
   IOTC_BSP_IO_FS_NOT_IMPLEMENTED = 5,
   /** Can't open file. **/
   IOTC_BSP_IO_FS_OPEN_ERROR = 6,
-  /** The file is read-only so the Device SDK can't open it. */
+  /** The file is read-only so the SDK can't open it. */
   IOTC_BSP_IO_FS_OPEN_READ_ONLY = 7,
   /** The file can't be removed. */
   IOTC_BSP_IO_FS_REMOVE_ERROR = 8,
@@ -142,18 +142,19 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_open(
  *
  * @details The function must fill the buffer at offset 0. The function can
  * allocate buffers by:
- *     - Allocating the buffer once, resusing it at each function call,
+ *     - Allocating the buffer once, reusing it at each function call,
  *       and freeing it when the file closes.
  *     - Creating a new buffer each time the function is called and
- *       and freeing the old buffer before the function returns.
+ *       freeing the old buffer before the function returns.
+ *
+ * For example, see the <a href="../../../src/bsp/platform/posix/iotc_bsp_io_fs_posix.c#L193">POSIX implementation of this function</a>.
  *
  * @param [in] resource_handle A
  *     {@link ::iotc_bsp_io_fs_resource_handle_t handle to an open file}.
  * @param [in] offset The position within the resource, in bytes, from which
  *     to start read operations.
  * @param [out] buffer A pointer to a buffer with the bytes read from the file.
- *     Function implementations must define how to allocate buffers The buffer
- *     is already allocated by the Device SDK.
+ *     The buffer is already allocated by the SDK.
  * @param [out] buffer_size The number of bytes read from the file and stored
  *     in the buffer.
  */
@@ -163,13 +164,6 @@ iotc_bsp_io_fs_state_t iotc_bsp_io_fs_read(
 
 /**
  * @details Writes to a file.
- *
- * @details The function must fill the buffer at any offset. The function can
- * allocate buffers by:
- *     - Allocating the buffer once, resusing it at each function call,
- *       and freeing it when the file closes.
- *     - Creating a new buffer each time the function is called and
- *       and freeing the old buffer before the function returns.
  *
  * @param [in] resource_handle A
  *     {@link ::iotc_bsp_io_fs_resource_handle_t handle to an open file}.

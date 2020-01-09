@@ -44,8 +44,12 @@ void* iotc_bsp_mem_alloc(size_t byte_count);
  *
  * @details If the new memory block size is smaller than the old memory block,
  * the SDK saves the maximum amount of memory, even if the block moves to a new
- * location. If the new size is larger, the Device SDK leaves the leftover
+ * location. If the new size is larger, the SDK leaves the leftover
  * memory empty.
+ *
+ * This function is a convenience function that you don't need to
+ * implement. You can also reallocate memory with the iotc_bsp_mem_alloc() and
+ * and iotc_bsp_mem_free() functions.
  *
  * @param [in] ptr A pointer to a memory block to reallocate.
  */

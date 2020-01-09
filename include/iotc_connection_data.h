@@ -40,7 +40,7 @@ typedef enum iotc_connection_state_e {
   IOTC_CONNECTION_STATE_UNINITIALIZED = 0,
   /** The connect operation started. */
   IOTC_CONNECTION_STATE_OPENING,
-  /** The client connected to a broker. */
+  /** The client connected to an MQTT broker. */
   IOTC_CONNECTION_STATE_OPENED,
   /** The disconnect operation started. */
   IOTC_CONNECTION_STATE_CLOSING,

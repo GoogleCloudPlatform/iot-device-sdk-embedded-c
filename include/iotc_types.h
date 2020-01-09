@@ -241,8 +241,8 @@ typedef union iotc_crypto_key_union_u {
 
 /**
  * @typedef iotc_crypto_key_signature_algorithm_t
- * @brief The algorithm with which to sign
- * {@link iotc_create_iotcore_jwt() JSON Web Tokens}.
+ * @brief The ES256 algorithm with which to sign
+ * {@link iotc_create_iotcore_jwt() JWTs}.
  */
 typedef enum iotc_crypto_key_signature_algorithm_e {
   /** The signature algorithm is invalid. */
@@ -255,7 +255,7 @@ typedef enum iotc_crypto_key_signature_algorithm_e {
  * @typedef iotc_crypto_key_data_t
  * @struct iotc_crypto_key_data_t
  * @brief The parameters with which to create
- *     {@link iotc_create_iotcore_jwt() JSON Web Tokens}.
+ *     {@link iotc_create_iotcore_jwt() JWTs}.
  */
 typedef struct {
   /** The internal code that represents the data type of the public or private
@@ -263,8 +263,8 @@ typedef struct {
   iotc_crypto_key_union_type_t crypto_key_union_type;
   /** The public or private key data. */
   iotc_crypto_key_union_t crypto_key_union;
-  /** The algorithm with which to sign
-   * {@link iotc_create_iotcore_jwt() JSON Web Tokens}. */
+  /** The ES256 algorithm with which to sign
+   * {@link iotc_create_iotcore_jwt() JWTs}. */
   iotc_crypto_key_signature_algorithm_t crypto_key_signature_algorithm;
 } iotc_crypto_key_data_t;
 

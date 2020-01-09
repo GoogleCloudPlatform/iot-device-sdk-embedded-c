@@ -279,7 +279,7 @@ extern iotc_state_t iotc_connect_to(iotc_context_handle_t iotc_h,
  *     <code>1</code>. QoS level <code>2</code> isn't supported.
  * @param [in] callback (Optional) The callback function. Invoked after a
  *     message is successfully or unsuccessfully delivered.
- * @param [in] (Optional) client_callback The callback function. Invoked when
+ * @param [in] (Optional) callback The callback function. Invoked when
  *     the client connects to or is disconnected from the MQTT broker. 
  * @param [in] user_data (Optional) Abstract data passed to the callback
  *     function. 

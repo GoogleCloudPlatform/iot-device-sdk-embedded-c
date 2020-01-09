@@ -29,11 +29,11 @@ extern "C" {
 
 /**
  * @file  iotc_bsp_crypto.h
- * @brief Implements a TLS library for creating JSON Web Tokens.
+ * @brief Implements a cryptography library for creating JSON Web Tokens.
  * 
  * @details The TLS library:
- *     - Generates JWT credentials
- *     - Signs JWTs with Elliptic Curve cryptography and SHA256
+ *     - Generates JWT credentials.
+ *     - Signs JWTs with Elliptic Curve cryptography and SHA256.
  *     - Encodes signed JWTs as URL-safe base64 strings.
  *
  * The SDK has two <a href="../../bsp/html/index.html">turn-key TLS libraries
@@ -74,7 +74,7 @@ typedef enum iotc_bsp_crypto_state_e {
  * URL-unsafe characters with a - (dash) or _ (underscore).
  *
  * @param [in,out] dst_string A pointer to a buffer that stores the URL-safe,
- *     base64 string. The Device SDK allocates the buffer before calling this
+ *     base64 string. The SDK allocates the buffer before calling this
  *     function implementation.
  * @param [in] dst_string_size The length, in bytes, of the
  *     dst_string buffer.

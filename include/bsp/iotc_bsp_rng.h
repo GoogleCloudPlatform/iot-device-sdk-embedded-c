@@ -22,7 +22,7 @@
  * @brief Generates random numbers.
  *
  * @details Always implement an entropy-based hardware RNG;
- * don't hardcode the same seed value for all devices. The Device SDK prevents
+ * don't hardcode the same seed value for all devices. The SDK prevents
  * DDoS attacks by randomly attempting fleet-wide reconnections, so predictable
  * numbers may corrupt the backoff system.
  */

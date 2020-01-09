@@ -22,7 +22,7 @@ extern "C" {
 #endif
 
 /*! \file
- * @brief Sets MQTT specifications.
+ * @brief The MQTT header flags.
  */
 
 /**

@@ -22,7 +22,7 @@
  * @brief Implements Transport Layer Security (TLS).
  *
  * @details Reference implementations are in the
- * <a href="~/src/bsp/tls"><code></code></a> directory. All TLS functions are
+ * <a href="../../../src/bsp/tls"><code></code></a> directory. All TLS functions are
  * non-blocking operations.
  */
 
@@ -164,13 +164,13 @@ iotc_bsp_tls_state_t iotc_bsp_tls_write(iotc_bsp_tls_context_t* tls_context,
                                         uint8_t* data_ptr, size_t data_size,
                                         int* bytes_written);
 
-/** @details Notifies the client application to read data on a socket. Don't
- * modify this function. */
+/** @details Notifies the client application to read data on a socket.
+ * Implemented in the SDK; don't modify this function. */
 iotc_bsp_tls_state_t iotc_bsp_tls_recv_callback(char* buf, int sz,
                                                 void* context, int* bytes_sent);
 
-/** @details Notifies the client application to write data to a socket. Don't
- * modify this function. */
+/** @details Notifies the client application to write data to a socket.
+ * Implemented in the SDK; don't modify this function. */
 iotc_bsp_tls_state_t iotc_bsp_tls_send_callback(char* buf, int sz,
                                                 void* context, int* bytes_sent);
 
