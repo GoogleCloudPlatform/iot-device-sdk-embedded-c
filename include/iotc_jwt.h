@@ -51,9 +51,7 @@ extern "C" {
    1 + IOTC_JWT_MAX_SIGNATURE_SIZE_BASE64)
 
 /**
- * @details Creates a JWT with the
- * <a href="../../bsp/html/d6/d01/iotc__bsp__crypto_8h.html">BSP cyptrography
- * library</a>.
+ * @brief Creates a JWT for authenticating to Cloud IoT Core.
  *
  * @param [in] expiration_period_sec The number of seconds before this JWT
  *     expires.

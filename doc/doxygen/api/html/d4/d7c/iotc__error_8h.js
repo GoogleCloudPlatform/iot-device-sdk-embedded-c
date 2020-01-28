@@ -1,6 +1,5 @@
 var iotc__error_8h =
 [
-    [ "IOTC_OPT_NO_ERROR_STRINGS", "d4/d7c/iotc__error_8h.html#a5b9b9e146fa56247c4cd112ca7e4dbfb", null ],
     [ "iotc_state_t", "d4/d7c/iotc__error_8h.html#a31af29ceaf88c8f978117b3be5545932", [
       [ "IOTC_STATE_OK", "d4/d7c/iotc__error_8h.html#a31af29ceaf88c8f978117b3be5545932a54cf71a63eb2102de52ac4f588cb2d42", null ],
       [ "IOTC_STATE_TIMEOUT", "d4/d7c/iotc__error_8h.html#a31af29ceaf88c8f978117b3be5545932a5deaae30cda39d450afe051860a5e395", null ],

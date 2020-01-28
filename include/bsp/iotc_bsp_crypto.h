@@ -31,15 +31,10 @@ extern "C" {
  * @file  iotc_bsp_crypto.h
  * @brief Implements a cryptography library for creating JSON Web Tokens.
  * 
- * @details The TLS library:
+ * @details The cryptography library:
  *     - Generates JWT credentials.
  *     - Signs JWTs with Elliptic Curve cryptography and SHA256.
  *     - Encodes signed JWTs as URL-safe base64 strings.
- *
- * The SDK has two <a href="../../bsp/html/index.html">turn-key TLS libraries
- * for POSIX platforms: <a href="../../../src/bsp/crypto/mbedtls">mbedTLS</a>
- * and <a href="../../../src/bsp/crypto/wolfssl">wolfSSL</a>. You can modify the
- * functions in this file to create a new TLS library.
  */
 
 /**

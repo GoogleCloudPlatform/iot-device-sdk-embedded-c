@@ -37,12 +37,12 @@ extern "C" {
  * for securely connecting to and communicating with
  * <a href="https://cloud.google.com/iot-core/">Cloud IoT Core</a>. The SDK is
  * designed for embedded IoT devices,
- * <a href="../../../user_guide.md#feature-overview">so it</a>:
+ * <a href="../../../user_guide.md#feature-overview">so the SDK</a>:
  *
- * - Communicates over MQTT v3.1.1 with TLS
- * - Publishes and subscribes asychronously
- * - Abstracts hardware-specific drivers and routines in the Board Support Package
- * - Runs on single, non-blocking thread and operates a thread-safe event queue
+ * - Communicates over MQTT v3.1.1 with TLS.
+ * - Publishes and subscribes asychronously.
+ * - Abstracts hardware-specific drivers and routines in the Board Support Package.
+ * - Runs on single, non-blocking thread and operates a thread-safe event queue.
  *
  * # Installing the SDK
  *
@@ -55,7 +55,7 @@ extern "C" {
  *   git clone https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c.git --recurse-submodules
  *   @endcode
  *   </li>
- *   <li>Link the main library files to the client application:
+ *   <li>Include the main library files in the client application:
  *   
  *   @code{.c}
  *   #include <iotc.h>
@@ -66,35 +66,39 @@ extern "C" {
  * </ol>
  *
  * # Function summary
- * The following tables list the functions you can use to build an MQTT client.
+ * The following tables list the functions you can use to build MQTT clients.
  *
- * ## Client SDK infrastructure functions
+ * ## Creating MQTT clients
  * | Function | Description |
  * | --- | --- |
+ * | iotc_initialize() | Initializes the <a href="../../bsp/html/d8/dc3/iotc__bsp__time_8h.html">time</a> and <a href="../../bsp/html/d8/dc3/iotc__bsp__rng_8h.html">random number</a> libraries in the <a href="../../bsp/html/index.html">BSP</a>. | 
  * | iotc_create_context() | Creates a connection context. |
- * | iotc_delete_context() | Deletes and frees the provided context. | 
- * | iotc_initialize() | Initializes the BSP time and random number libraries. |
- * | iotc_is_context_connected() | Checks if a context is {@link iotc_connect() connected to an MQTT broker}. | 
- * | iotc_shutdown() | Shuts down the IoT device SDK and frees all resources created during {@link iotc_initialize() initialization}. |
- * | iotc_get_heap_usage() | Gets the amount of heap memory allocated to the IoT device SDK. |
+ *
+ * ## Managing MQTT clients
+ * | Function | Description |
+ * | --- | --- |
+ * | iotc_is_context_connected() | Checks if a context is {@link iotc_connect() connected to an MQTT broker}. |  
+ * | iotc_get_heap_usage() | Gets the amount of heap memory allocated to the SDK. |
  * | iotc_get_network_timeout() | Gets the {@link iotc_set_network_timeout() connection timeout}.
  * | iotc_get_state_string() | Gets the {@link ::iotc_state_t state message} associated with a numeric code. |
- * | iotc_set_fs_functions() | Sets the file operations to <a href="../../bsp/html/d8/dc3/iotc__bsp__io__fs_8h.html">custom file management functions</a>. |
- * | iotc_set_maximum_heap_usage() | Sets the maximum heap memory that the IoT device SDK can use. |
+ * | iotc_set_fs_functions() | Sets the file operations to the <a href="../../bsp/html/d8/dc3/iotc__bsp__io__fs_8h.html">custom file management functions</a> in the <a href="../../bsp/html/index.html">BSP</a>. |
+ * | iotc_set_maximum_heap_usage() | Sets the maximum heap memory that the SDK can use. |
  * | iotc_set_network_timeout() | Sets the connection timeout. |  
+ * | iotc_delete_context() | Deletes and frees the provided context. | 
+ * | iotc_shutdown() | Shuts down the SDK and frees all resources created during {@link iotc_initialize() initialization}. | 
  *
- * ## MQTT functions
+ * ## Sending and receiving messages
  * | Function | Description |
  * | --- | --- | 
  * | iotc_connect() | Connects to Cloud IoT Core. |
  * | iotc_connect_to() | Connects to a custom MQTT broker endpoint. |
- * | iotc_create_iotcore_jwt() | Creates a JSON Web Token, which is required to authenticate to Cloud IoT Core. |
+ * | iotc_create_iotcore_jwt() | Creates a JSON Web Token for authenticating to Cloud IoT Core. |
  * | iotc_publish() | Publishes a message to an MQTT topic. |
  * | iotc_publish_data() | Publishes binary data to an MQTT topic. | 
  * | iotc_shutdown_connection() | Disconnects asynchronously from an MQTT broker. |
  * | iotc_subscribe() | Subscribes to an MQTT topic. |
  *
- * ## Scheduling functions
+ * ## Scheduling subroutines
  * | Function | Description |
  * | --- | --- |
  * | iotc_cancel_timed_task() | Removes a scheduled task from the internal event system. |
@@ -103,6 +107,15 @@ extern "C" {
  * | iotc_events_stop() | Shuts down the event engine. |
  * | iotc_schedule_timed_task() | Executes a function after an interval and returns a unique ID for the scheduled task. |
  *
+ * # Board Support Package 
+ * The SDK depends on hardware-specific drivers and routines to implement
+ * MQTT with TLS. Embedded systems rely on unique hardware, so the SDK abstracts
+ * these dependencies in the <a href="../../bsp/html/index.html">Board Support
+ * Package</a> (BSP).
+ *
+ * The SDK has a turn-key POSIX BSP, so the SDK builds natively on POSIX
+ * platforms. You can customize the BSP to port the SDK to non-POSIX platforms.
+
  * # Example MQTT clients
  * The repository has example client applications for connecting:
  *
@@ -112,15 +125,6 @@ extern "C" {
  * boards to Cloud IoT Core
  * - <a href="../../../../examples/freertos_linux/Linux_gcc_gcp_iot">FreeRTOS</a>
  * platforms to Cloud IoT Core 
- *
- * # Board Support Package 
- * The SDK depends on hardware-specific drivers and routines to implement
- * MQTT with TLS. Embedded systems rely on unique hardware, so the SDK abstracts
- * these dependencies in the <a href="../../bsp/html/index.html">Board Support
- * Package</a> (BSP).
- *
- * The SDK has a turn-key POSIX BSP, so it builds natively on POSIX platforms.
- * You can customize the BSP to port the SDK to non-POSIX platforms.
  */
 
 /* -----------------------------------------------------------------------
@@ -128,20 +132,23 @@ extern "C" {
  * ----------------------------------------------------------------------- */
 
 /**
- * @details Initializes the BSP time and random number libraries. Applications
- * must call the function first when starting a new runtime.
+ * @details Initializes the
+ * <a href="../../bsp/html/d8/dc3/iotc__bsp__time_8h.html">time</a> and
+ * <a href="../../bsp/html/d8/dc3/iotc__bsp__rng_8h.html">random number</a>
+ * libraries in the <a href="../../bsp/html/index.html">BSP</a>. You must call
+ * this function before you create a new connection context.
  */
 extern iotc_state_t iotc_initialize();
 
 /**
  * @details Shuts down the IoT device SDK and frees all resources created during
  * {@link iotc_initialize() initialization}. {@link iotc_delete_context() Free}
- * all contexts before calling the function.
+ * all contexts before calling this function.
  */
 extern iotc_state_t iotc_shutdown();
 
 /**
- * @details Creates a connection context. If the function fails, it returns the
+ * @details Creates a connection context. If this function fails, it returns the
  * opposite of the numeric {@link ::iotc_state_t error code}.
  */
 extern iotc_context_handle_t iotc_create_context();
@@ -172,11 +179,11 @@ extern uint8_t iotc_is_context_connected(iotc_context_handle_t context_handle);
 
 /**
  * @details Invokes the event processing loop and executes event engine
- * as the main application process. The function processes events on platforms
+ * as the main application process. This function processes events on platforms
  * with main application loops that can block indefinitely. For other platforms,
  * call iotc_events_process_tick().
  *
- * You can call the function anytime but it returns only after calling
+ * You can call this function anytime but it returns only after calling
  * iotc_events_stop().
  * 
  * The event engine won't {@link iotc_events_process_tick() process events} when
@@ -294,7 +301,7 @@ extern iotc_state_t iotc_publish(iotc_context_handle_t iotc_h,
  * @brief Publishes binary data to an MQTT topic.
  *
  * @details Performs the same operations as iotc_publish() but the payload
- * can be empty.
+ * can contain bytes with zero values.
  *
  * @param [in] iotc_h A {@link iotc_create_context() context handle}.
  * @param [in] topic The MQTT topic. 
@@ -343,9 +350,12 @@ extern iotc_state_t iotc_subscribe(iotc_context_handle_t iotc_h,
 extern iotc_state_t iotc_shutdown_connection(iotc_context_handle_t iotc_h);
 
 /**
- * @brief Executes a function after an interval and returns a unique ID for the
- * scheduled task. If the function returns an error, the ID is the opposite of
- *     the numeric {@link ::iotc_state_t error code}.
+ * @brief Returns a unique ID for the scheduled task and invokes a callback
+ *     after an interval.
+ * 
+ * @details This is a non-blocking function until the callback is invoked. If
+ * the callback returns an error, the ID is the opposite of the numeric
+ * {@link ::iotc_state_t error code}.
  *
  * @param [in] iotc_h A {@link iotc_create_context() context handle}.
  * @param [in] iotc_user_task_callback_t The
@@ -355,7 +365,7 @@ extern iotc_state_t iotc_shutdown_connection(iotc_context_handle_t iotc_h);
  * @param [in] repeats_forever If the repeats_forever parameter is set to
  *     <code>0</code>, the callback is executed only once. Otherwise, the
  *     callback is repeatedly executed at seconds_from_now intervals. 
- * @param [in] data (Optional) A pointer which will be passed to the callback
+ * @param [in] data (Optional) A pointer that will be passed to the callback
  *     function's user_data parameter.
  */
 iotc_timed_task_handle_t iotc_schedule_timed_task(
@@ -396,9 +406,9 @@ extern void iotc_set_network_timeout(uint32_t timeout);
 extern uint32_t iotc_get_network_timeout(void);
 
 /**
- * @details Sets the maximum heap memory that the IoT device SDK can use.
+ * @details Sets the maximum heap memory that the SDK can use.
  *
- * The function is part of the
+ * This function is part of the
  * <a href="../../../user_guide.md#memory-limiter">memory limiter</a>.
  *
  * @param [in] max_bytes The maximum amount of heap memory, in bytes, that
@@ -407,32 +417,32 @@ extern uint32_t iotc_get_network_timeout(void);
 iotc_state_t iotc_set_maximum_heap_usage(const size_t max_bytes);
 
 /**
- * @details Gets the amount of heap memory allocated to the IoT device SDK.
+ * @details Gets the amount of heap memory allocated to the SDK.
  *
- * The function is part of the
+ * This function is part of the
  * <a href="../../../user_guide.md#memory-limiter">memory limiter</a>. If no
- * heap memory is allocated, the function runs but returns
+ * heap memory is allocated, this function runs but returns
  * IOTC_INVALID_PARAMETER.
  */
 iotc_state_t iotc_get_heap_usage(size_t* const heap_usage);
 
 /**
- * @brief The IoT device SDK major version number.
+ * @brief The SDK major version number.
  **/
 extern const uint16_t iotc_major;
 
 /**
- * @brief The IoT device SDK minor version number.
+ * @brief The SDK minor version number.
  **/
 extern const uint16_t iotc_minor;
 
 /**
- * @brief The IoT device SDK revision number.
+ * @brief The SDK revision number.
  **/
 extern const uint16_t iotc_revision;
 
 /**
- * @brief The IoT device SDK "major.minor.revision" version string.
+ * @brief The SDK "{@link ::iotc_major major}.{@link ::iotc_minor minor}.{@link ::iotc_revision revision}" version string.
  **/
 extern const char iotc_cilent_version_str[];
 
@@ -440,9 +450,9 @@ extern const char iotc_cilent_version_str[];
 #include "iotc_fs_api.h"
 
 /**
- * @brief Sets the file operations to
+ * @brief Sets the file operations to the
  * <a href="../../bsp/html/d8/dc3/iotc__bsp__io__fs_8h.html">custom file
- * management functions</a>.
+ * management functions</a> in the <a href="../../bsp/html/index.html">BSP</a>.
  */
 iotc_state_t iotc_set_fs_functions(const iotc_fs_functions_t fs_functions);
 

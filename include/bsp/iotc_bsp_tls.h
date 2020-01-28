@@ -21,9 +21,7 @@
  * @file iotc_bsp_tls.h
  * @brief Implements Transport Layer Security (TLS).
  *
- * @details Reference implementations are in the
- * <a href="../../../src/bsp/tls"><code></code></a> directory. All TLS functions are
- * non-blocking operations.
+ * @details All TLS functions are non-blocking.
  */
 
 #include <stddef.h>

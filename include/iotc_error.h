@@ -76,7 +76,7 @@ typedef enum {
   /** @cond Internal. Numeric code: 43 */ IOTC_ALREADY_INITIALIZED, /** @endcond */
   /** A parameter is missing or invalid. @internal Numeric code: 44 @endinternal */ IOTC_INVALID_PARAMETER,
   /** @cond Internal. Numeric code: 45 */ IOTC_UNSET_HANDLER_ERROR, /** @endcond */
-  /** Can't create a JSON Web Token because the cryptography library in the Board Support Package (BSP) isn't ported to your platform. To port the cryptography library, customize the <a href="../../bsp/html/d6/d01/iotc__bsp__crypto_8h.html">hardware-specific drivers and routines</a> for your device and then <a href="../../../porting_guide#bsp-code-porting-process">link the library to the client application</a>. @internal Numeric code: 46 @endinternal */ IOTC_NOT_IMPLEMENTED,
+  /** Can't create a JWT because the cryptography library in the Board Support Package isn't ported to your platform. To port the cryptography library, customize the <a href="../../bsp/html/d6/d01/iotc__bsp__crypto_8h.html">hardware-specific drivers and routines</a> for your device and then <a href="../../../porting_guide#bsp-code-porting-process">link the library to the client application</a>. @internal Numeric code: 46 @endinternal */ IOTC_NOT_IMPLEMENTED,
   /** @cond Internal. Numeric code: 47 */ IOTC_ELEMENT_NOT_FOUND, /** @endcond */
   /** @cond Internal. Numeric code: 48 */ IOTC_SERIALIZATION_ERROR, /** @endcond */
   /** @cond Internal. Numeric code: 49 */ IOTC_TRUNCATION_WARNING, /** @endcond */
