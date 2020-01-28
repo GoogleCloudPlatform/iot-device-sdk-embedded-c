@@ -95,13 +95,7 @@ $(document).ready(function(){initNavTree('d9/d22/iotc_8h.html','../../');});
 <div class="title">iotc.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
-<code>#include &lt;stdlib.h&gt;</code><br />
-<code>#include &lt;<a class="el" href="../../d9/df6/iotc__connection__data_8h_source.html">iotc_connection_data.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="../../d1/d03/iotc__mqtt_8h_source.html">iotc_mqtt.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="../../d0/d57/iotc__time_8h_source.html">iotc_time.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="../../d7/d2c/iotc__types_8h_source.html">iotc_types.h</a>&gt;</code><br />
-</div>
+
 <p><a href="../../d9/d22/iotc_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -146,6 +140,8 @@ Functions</h2></td></tr>
 <tr class="separator:a4df01ad5208e12c76f6764293f5d8ad5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab3776b294b3519517800caac107a7f1f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d7c/iotc__error_8h.html#a31af29ceaf88c8f978117b3be5545932">iotc_state_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d22/iotc_8h.html#ab3776b294b3519517800caac107a7f1f">iotc_get_heap_usage</a> (size_t *const heap_usage)</td></tr>
 <tr class="separator:ab3776b294b3519517800caac107a7f1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9faf4c4d92b699c8aec91e01e6f49b70"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d7c/iotc__error_8h.html#a31af29ceaf88c8f978117b3be5545932">iotc_state_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d22/iotc_8h.html#a9faf4c4d92b699c8aec91e01e6f49b70">iotc_set_fs_functions</a> (const iotc_fs_functions_t fs_functions)</td></tr>
+<tr class="separator:a9faf4c4d92b699c8aec91e01e6f49b70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -362,7 +358,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Creates a connection context. If the function fails, it returns the opposite of the numeric <a class="el" href="../../d4/d7c/iotc__error_8h.html#a31af29ceaf88c8f978117b3be5545932">error code</a>. </p>
+<p>Creates a connection context. If this function fails, it returns the opposite of the numeric <a class="el" href="../../d4/d7c/iotc__error_8h.html#a31af29ceaf88c8f978117b3be5545932">error code</a>. </p>
 
 </div>
 </div>
@@ -407,8 +403,8 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Invokes the event processing loop and executes event engine as the main application process. The function processes events on platforms with main application loops that can block indefinitely. For other platforms, call <a class="el" href="../../d9/d22/iotc_8h.html#af3efc2d5d965a14116fb8fdbd3a4e45e">iotc_events_process_tick()</a>.</p>
-<p>You can call the function anytime but it returns only after calling <a class="el" href="../../d9/d22/iotc_8h.html#a3809c15f5bbf5f7a2a569c11b87a29dc" title="Shuts down the event engine.">iotc_events_stop()</a>.</p>
+<p>Invokes the event processing loop and executes event engine as the main application process. This function processes events on platforms with main application loops that can block indefinitely. For other platforms, call <a class="el" href="../../d9/d22/iotc_8h.html#af3efc2d5d965a14116fb8fdbd3a4e45e">iotc_events_process_tick()</a>.</p>
+<p>You can call this function anytime but it returns only after calling <a class="el" href="../../d9/d22/iotc_8h.html#a3809c15f5bbf5f7a2a569c11b87a29dc" title="Shuts down the event engine.">iotc_events_stop()</a>.</p>
 <p>The event engine won't <a class="el" href="../../d9/d22/iotc_8h.html#af3efc2d5d965a14116fb8fdbd3a4e45e">process events</a> when the IoT device SDK is in the <a class="el" href="../../d4/d7c/iotc__error_8h.html#a31af29ceaf88c8f978117b3be5545932">IOTC_EVENT_PROCESS_STOPPED state</a>. If the function returns IOTC_EVENT_PROCESS_STOPPED, <a class="el" href="../../d9/d22/iotc_8h.html#ac5bb467d736cd8b6e8de62e8a5fdda23">shutdown</a> and <a class="el" href="../../d9/d22/iotc_8h.html#a949c6fa4e75efb1814aa5cbedf742c12">reinitialize</a> the IoT device SDK to process events again. </p>
 
 </div>
@@ -466,8 +462,8 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Gets the amount of heap memory allocated to the IoT device SDK.</p>
-<p>The function is part of the <a href="../../../../../user_guide.md#memory-limiter">memory limiter</a>. If no heap memory is allocated, the function runs but returns IOTC_INVALID_PARAMETER. </p>
+<p>Gets the amount of heap memory allocated to the SDK.</p>
+<p>This function is part of the <a href="../../../../../user_guide.md#memory-limiter">memory limiter</a>. If no heap memory is allocated, this function runs but returns IOTC_INVALID_PARAMETER. </p>
 
 </div>
 </div>
@@ -505,7 +501,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Initializes the BSP time and random number libraries. Applications must call the function first when starting a new runtime. </p>
+<p>Initializes the <a href="../../../../bsp/html/d8/dc3/iotc__bsp__time_8h.html">time</a> and <a href="../../../../bsp/html/d8/dc3/iotc__bsp__rng_8h.html">random number</a> libraries in the <a href="../../../../bsp/html/index.html">BSP</a>. You must call this function before you create a new connection context. </p>
 
 </div>
 </div>
@@ -665,7 +661,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Publishes binary data to an MQTT topic. </p>
-<p>Performs the same operations as <a class="el" href="../../d9/d22/iotc_8h.html#ad182450f87d708b57451afadee80d94f" title="Publishes a message to an MQTT topic.">iotc_publish()</a> but the payload can be empty.</p>
+<p>Performs the same operations as <a class="el" href="../../d9/d22/iotc_8h.html#ad182450f87d708b57451afadee80d94f" title="Publishes a message to an MQTT topic.">iotc_publish()</a> but the payload can contain bytes with zero values.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">iotc_h</td><td>A <a class="el" href="../../d9/d22/iotc_8h.html#a657294c0f1cda3a8ec5a2bb284709657">context handle</a>. </td></tr>
@@ -725,18 +721,38 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Executes a function after an interval and returns a unique ID for the scheduled task. </p>
-<p>If the function returns an error, the ID is the opposite of the numeric <a class="el" href="../../d4/d7c/iotc__error_8h.html#a31af29ceaf88c8f978117b3be5545932">error code</a>.</p>
+<p>Returns a unique ID for the scheduled task and invokes a callback after an interval. </p>
+<p>This is a non-blocking function until the callback is invoked. If the callback returns an error, the ID is the opposite of the numeric <a class="el" href="../../d4/d7c/iotc__error_8h.html#a31af29ceaf88c8f978117b3be5545932">error code</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">iotc_h</td><td>A <a class="el" href="../../d9/d22/iotc_8h.html#a657294c0f1cda3a8ec5a2bb284709657">context handle</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">iotc_user_task_callback_t</td><td>The <a class="el" href="../../d7/d2c/iotc__types_8h.html#a78d0e616a59334bd769b0dde42b2a825">function</a> invoked after an interval. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">seconds_from_now</td><td>The number of seconds to wait before invoking the callback. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">repeats_forever</td><td>If the repeats_forever parameter is set to <code>0</code>, the callback is executed only once. Otherwise, the callback is repeatedly executed at seconds_from_now intervals. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>(Optional) A pointer which will be passed to the callback function's user_data parameter. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>(Optional) A pointer that will be passed to the callback function's user_data parameter. </td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a9faf4c4d92b699c8aec91e01e6f49b70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9faf4c4d92b699c8aec91e01e6f49b70">&#9670;&nbsp;</a></span>iotc_set_fs_functions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d4/d7c/iotc__error_8h.html#a31af29ceaf88c8f978117b3be5545932">iotc_state_t</a> iotc_set_fs_functions </td>
+          <td>(</td>
+          <td class="paramtype">const iotc_fs_functions_t&#160;</td>
+          <td class="paramname"><em>fs_functions</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the file operations to the <a href="../../../../bsp/html/d8/dc3/iotc__bsp__io__fs_8h.html">custom file management functions</a> in the <a href="../../../../bsp/html/index.html">BSP</a>. </p>
 
 </div>
 </div>
@@ -755,8 +771,8 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Sets the maximum heap memory that the IoT device SDK can use.</p>
-<p>The function is part of the <a href="../../../../../user_guide.md#memory-limiter">memory limiter</a>.</p>
+<p>Sets the maximum heap memory that the SDK can use.</p>
+<p>This function is part of the <a href="../../../../../user_guide.md#memory-limiter">memory limiter</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">max_bytes</td><td>The maximum amount of heap memory, in bytes, that the IoT device SDK can use during standard execution. </td></tr>
@@ -808,7 +824,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Shuts down the IoT device SDK and frees all resources created during <a class="el" href="../../d9/d22/iotc_8h.html#a949c6fa4e75efb1814aa5cbedf742c12">initialization</a>. <a class="el" href="../../d9/d22/iotc_8h.html#a18b8276f88ce6816e67c1c1b23edd534">Free</a> all contexts before calling the function. </p>
+<p>Shuts down the IoT device SDK and frees all resources created during <a class="el" href="../../d9/d22/iotc_8h.html#a949c6fa4e75efb1814aa5cbedf742c12">initialization</a>. <a class="el" href="../../d9/d22/iotc_8h.html#a18b8276f88ce6816e67c1c1b23edd534">Free</a> all contexts before calling this function. </p>
 
 </div>
 </div>
@@ -910,7 +926,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>The IoT device SDK "major.minor.revision" version string. </p>
+<p>The SDK "{@link ::iotc_major major}.{@link ::iotc_minor minor}.{@link ::iotc_revision revision}" version string. </p>
 
 </div>
 </div>
@@ -926,7 +942,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>The IoT device SDK major version number. </p>
+<p>The SDK major version number. </p>
 
 </div>
 </div>
@@ -942,7 +958,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>The IoT device SDK minor version number. </p>
+<p>The SDK minor version number. </p>
 
 </div>
 </div>
@@ -958,7 +974,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>The IoT device SDK revision number. </p>
+<p>The SDK revision number. </p>
 
 </div>
 </div>

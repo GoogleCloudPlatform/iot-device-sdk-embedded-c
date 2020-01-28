@@ -89,7 +89,6 @@ $(document).ready(function(){initNavTree('d4/d7c/iotc__error_8h.html','../../');
 
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
@@ -99,11 +98,6 @@ $(document).ready(function(){initNavTree('d4/d7c/iotc__error_8h.html','../../');
 
 <p><a href="../../d4/d7c/iotc__error_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a5b9b9e146fa56247c4cd112ca7e4dbfb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d7c/iotc__error_8h.html#a5b9b9e146fa56247c4cd112ca7e4dbfb">IOTC_OPT_NO_ERROR_STRINGS</a>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:a5b9b9e146fa56247c4cd112ca7e4dbfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:a31af29ceaf88c8f978117b3be5545932"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d7c/iotc__error_8h.html#a31af29ceaf88c8f978117b3be5545932">iotc_state_t</a> { <br />
@@ -141,26 +135,7 @@ Functions</h2></td></tr>
 <div class="textblock"><p>Defines state messages and their numeric codes. </p>
 
 <p class="definition">Definition in file <a class="el" href="../../d4/d7c/iotc__error_8h_source.html">iotc_error.h</a>.</p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a5b9b9e146fa56247c4cd112ca7e4dbfb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5b9b9e146fa56247c4cd112ca7e4dbfb">&#9670;&nbsp;</a></span>IOTC_OPT_NO_ERROR_STRINGS</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define IOTC_OPT_NO_ERROR_STRINGS&#160;&#160;&#160;1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>A flag to translate between <a class="el" href="../../d4/d7c/iotc__error_8h.html#a31af29ceaf88c8f978117b3be5545932">state messages</a> to their numeric codes. </p>
-
-<p class="definition">Definition at line <a class="el" href="../../d4/d7c/iotc__error_8h_source.html#l00117">117</a> of file <a class="el" href="../../d4/d7c/iotc__error_8h_source.html">iotc_error.h</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Enumeration Type Documentation</h2>
+</div><h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="a31af29ceaf88c8f978117b3be5545932"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a31af29ceaf88c8f978117b3be5545932">&#9670;&nbsp;</a></span>iotc_state_t</h2>
 
@@ -198,7 +173,7 @@ Functions</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="a31af29ceaf88c8f978117b3be5545932a6241fa3911f3d0d57584153f76303930"></a>IOTC_INVALID_PARAMETER&#160;</td><td class="fielddoc"><p>A parameter is missing or invalid. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a31af29ceaf88c8f978117b3be5545932a751bcfd0d4fd1f2090fb1ae0c8b2aafd"></a>IOTC_NOT_IMPLEMENTED&#160;</td><td class="fielddoc"><p>Can't create a JSON Web Token because the cryptography library in the Board Support Package (BSP) isn't ported to your platform. </p>
+<tr><td class="fieldname"><a id="a31af29ceaf88c8f978117b3be5545932a751bcfd0d4fd1f2090fb1ae0c8b2aafd"></a>IOTC_NOT_IMPLEMENTED&#160;</td><td class="fielddoc"><p>Can't create a JWT because the cryptography library in the Board Support Package isn't ported to your platform. </p>
 <p>To port the cryptography library, customize the <a href="../../../../bsp/html/d6/d01/iotc__bsp__crypto_8h.html">hardware-specific drivers and routines</a> for your device and then <a href="../../../../../porting_guide#bsp-code-porting-process">link the library to the client application</a>. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a31af29ceaf88c8f978117b3be5545932ace85214f3e15b8dcf772fdedd1802204"></a>IOTC_NOT_SUPPORTED&#160;</td><td class="fielddoc"><p>The memory limiter module isn't installed. </p>
