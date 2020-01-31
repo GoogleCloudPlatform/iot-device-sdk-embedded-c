@@ -52,6 +52,7 @@ void* iotc_bsp_mem_alloc(size_t byte_count);
  * and iotc_bsp_mem_free() functions.
  *
  * @param [in] ptr A pointer to a memory block to reallocate.
+ * @param [in] btye_count The new size, in bytes, of the memory block.
  */
 void* iotc_bsp_mem_realloc(void* ptr, size_t byte_count);
 

@@ -49,13 +49,13 @@ extern "C" {
  * To use the SDK:
  *
  * <ol>
- *   <li>Download the latest version:
+ *   <li>Download the latest version.
  * 
  *   @code{.sh}
  *   git clone https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c.git --recurse-submodules
  *   @endcode
  *   </li>
- *   <li>Include the main library files in the client application:
+ *   <li>Include the main library files in the client application.
  *   
  *   @code{.c}
  *   #include <iotc.h>
@@ -66,46 +66,50 @@ extern "C" {
  * </ol>
  *
  * # Function summary
- * The following tables list the functions you can use to build MQTT clients.
+ * The following tables list the functions you can use to communicate over MQTT.
  *
- * ## Creating MQTT clients
+ * ## Configuring the SDK
  * | Function | Description |
  * | --- | --- |
  * | iotc_initialize() | Initializes the <a href="../../bsp/html/d8/dc3/iotc__bsp__time_8h.html">time</a> and <a href="../../bsp/html/d8/dc3/iotc__bsp__rng_8h.html">random number</a> libraries in the <a href="../../bsp/html/index.html">BSP</a>. | 
- * | iotc_create_context() | Creates a connection context. |
- *
- * ## Managing MQTT clients
- * | Function | Description |
- * | --- | --- |
- * | iotc_is_context_connected() | Checks if a context is {@link iotc_connect() connected to an MQTT broker}. |  
+ * | iotc_shutdown() | Shuts down the SDK and frees all resources created during {@link iotc_initialize() initialization}. |
  * | iotc_get_heap_usage() | Gets the amount of heap memory allocated to the SDK. |
  * | iotc_get_network_timeout() | Gets the {@link iotc_set_network_timeout() connection timeout}.
  * | iotc_get_state_string() | Gets the {@link ::iotc_state_t state message} associated with a numeric code. |
  * | iotc_set_fs_functions() | Sets the file operations to the <a href="../../bsp/html/d8/dc3/iotc__bsp__io__fs_8h.html">custom file management functions</a> in the <a href="../../bsp/html/index.html">BSP</a>. |
  * | iotc_set_maximum_heap_usage() | Sets the maximum heap memory that the SDK can use. |
- * | iotc_set_network_timeout() | Sets the connection timeout. |  
- * | iotc_delete_context() | Deletes and frees the provided context. | 
- * | iotc_shutdown() | Shuts down the SDK and frees all resources created during {@link iotc_initialize() initialization}. | 
+ * | iotc_set_network_timeout() | Sets the connection timeout. |
+ *
+ * ## Defining and managing connection contexts
+ * | Function | Description |
+ * | --- | --- |
+ * | iotc_create_context() | Creates a connection context. |
+ * | iotc_delete_context() | Deletes and frees the provided context. |
+ * | iotc_is_context_connected() | Checks if a context is {@link iotc_connect() connected to an MQTT broker}. | 
+ *
+ * ## Creating and managing MQTT connections
+ * | Function | Description |
+ * | --- | --- |
+ * | iotc_connect() | Connects to Cloud IoT Core. |
+ * | iotc_connect_to() | Connects to a custom MQTT broker endpoint. |
+ * | iotc_create_iotcore_jwt() | Creates a JSON Web Token for authenticating to Cloud IoT Core. | 
+ * | iotc_shutdown_connection() | Disconnects asynchronously from an MQTT broker. |
  *
  * ## Sending and receiving messages
  * | Function | Description |
  * | --- | --- | 
- * | iotc_connect() | Connects to Cloud IoT Core. |
- * | iotc_connect_to() | Connects to a custom MQTT broker endpoint. |
- * | iotc_create_iotcore_jwt() | Creates a JSON Web Token for authenticating to Cloud IoT Core. |
  * | iotc_publish() | Publishes a message to an MQTT topic. |
  * | iotc_publish_data() | Publishes binary data to an MQTT topic. | 
- * | iotc_shutdown_connection() | Disconnects asynchronously from an MQTT broker. |
  * | iotc_subscribe() | Subscribes to an MQTT topic. |
  *
- * ## Scheduling subroutines
+ * ## Scheduling functions
  * | Function | Description |
  * | --- | --- |
+ * | iotc_schedule_timed_task() | Invokes a callback after an interval. |
  * | iotc_cancel_timed_task() | Removes a scheduled task from the internal event system. |
  * | iotc_events_process_blocking() | Invokes the event processing loop and executes the event engine as the main application process. |
  * | iotc_events_process_tick() | Invokes the event processing loop on RTOS or non-OS devices that must yield for standard tick operations. |
  * | iotc_events_stop() | Shuts down the event engine. |
- * | iotc_schedule_timed_task() | Executes a function after an interval and returns a unique ID for the scheduled task. |
  *
  * # Board Support Package 
  * The SDK depends on hardware-specific drivers and routines to implement
@@ -150,6 +154,8 @@ extern iotc_state_t iotc_shutdown();
 /**
  * @details Creates a connection context. If this function fails, it returns the
  * opposite of the numeric {@link ::iotc_state_t error code}.
+ *
+ * Before running this function, call iotc_initialize().
  */
 extern iotc_context_handle_t iotc_create_context();
 
@@ -161,7 +167,7 @@ extern iotc_context_handle_t iotc_create_context();
  * returns. The application must free the context on the event loop tick after
  * the disconnection event (not in the disconnection callback itself).
  *
- * @param [in] context The {@link iotc_create_context() context handle} to free.
+ * @param [in] context_handle The {@link iotc_create_context() context handle} to free.
  */
 extern iotc_state_t iotc_delete_context(iotc_context_handle_t context_handle);
 
@@ -169,7 +175,7 @@ extern iotc_state_t iotc_delete_context(iotc_context_handle_t context_handle);
  * @brief Checks if a context is
  * {@link iotc_connect() connected to Cloud IoT Core}.
  *
- * @param [in] context The handle for which to determine the connection.
+ * @param [in] context_handle The handle for which to determine the connection.
  *
  * @retval 1 The context is connected to Cloud IoT Core.
  * @retval 0 The context is invalid or the connection is either uninitialized,

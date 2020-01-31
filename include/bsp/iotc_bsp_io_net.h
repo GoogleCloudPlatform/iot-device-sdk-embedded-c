@@ -52,7 +52,7 @@
  * iotc_bsp_ecc() | Generates an Elliptic Curve signature for a private key. |
  * iotc_bsp_sha256() | Generates a SHA256 cryptographic hash. |
  *
- * ## Managing TLS certificates
+ * ## Managing files
  * | Function | Description |
  * | --- | --- |
  * iotc_bsp_io_fs_open() | Opens a file. |
@@ -247,7 +247,7 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_socket_connect(
  * @param [in] socket_events_array An array of socket events.
  * @param [in] socket_events_array_size The number of elements in
  *     socket_events_array.
- * @param [in] timeout The number of seconds before timing out.
+ * @param [in] timeout_sec The number of seconds before timing out.
  *
  * @returns A {@link #iotc_bsp_socket_events_s networking function state}.
  */
@@ -263,7 +263,7 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_select(
  * socket connection. If the socket is connected, the SDK initiates a TLS
  * handshake.
  *
- * @param [in] iotc_socket_nonblocking The socket on which check the connection.
+ * @param [in] iotc_socket The socket on which check the connection.
  * @param [in] host The null-terminated IP or fully-qualified domain name of the
  *     host at which to connect.
  * @param [in] port The port number of the endpoint.

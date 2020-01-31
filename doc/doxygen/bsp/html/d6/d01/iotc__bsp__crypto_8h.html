@@ -96,11 +96,7 @@ $(document).ready(function(){initNavTree('d6/d01/iotc__bsp__crypto_8h.html','../
 <div class="title">iotc_bsp_crypto.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
-<code>#include &lt;sys/types.h&gt;</code><br />
-<code>#include &lt;unistd.h&gt;</code><br />
-<code>#include &quot;iotc_types.h&quot;</code><br />
-</div>
+
 <p><a href="../../d6/d01/iotc__bsp__crypto_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
@@ -312,7 +308,7 @@ Functions</h2></td></tr>
 <p>Generates an Elliptic Curve signature for a private key. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">private_key_pem</td><td>The private key data or slot number. Implementations of this function must use the same private key data or slot number provided to iotc_create_iotcore_jwt(). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">private_key</td><td>The private key data or slot number. Implementations of this function must use the same private key data or slot number provided to iotc_create_iotcore_jwt(). </td></tr>
     <tr><td class="paramdir">[in,out]</td><td class="paramname">dst_buf</td><td>A pointer to a buffer into which the function stores the Elliptic Curve signature. The buffer is already allocated by the SDK. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">dst_buf_size</td><td>The size, in bytes, of the buffer to which dst_buf points. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">bytes_written</td><td>The number of bytes written to dst_buf. </td></tr>

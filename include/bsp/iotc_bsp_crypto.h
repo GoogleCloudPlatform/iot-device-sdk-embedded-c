@@ -102,7 +102,7 @@ iotc_bsp_crypto_state_t iotc_bsp_sha256(uint8_t* dst_buf_32_bytes,
 /**
  * @brief Generates an Elliptic Curve signature for a private key.
  *
- * @param [in] private_key_pem The private key data or slot number.
+ * @param [in] private_key The private key data or slot number.
  *     Implementations of this function must use the same private key data or
  *     slot number provided to iotc_create_iotcore_jwt().
  * @param [in,out] dst_buf A pointer to a buffer into which the function

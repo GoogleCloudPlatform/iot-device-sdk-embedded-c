@@ -19,7 +19,7 @@
 
 /**
  * @file iotc_bsp_io_fs.h
- * @brief Manages TLS certificates.
+ * @brief Manages files.
  */
 #include <iotc_error.h>
 #include <stdint.h>

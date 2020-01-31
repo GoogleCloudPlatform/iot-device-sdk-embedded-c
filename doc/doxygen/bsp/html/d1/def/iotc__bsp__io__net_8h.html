@@ -97,9 +97,7 @@ $(document).ready(function(){initNavTree('d1/def/iotc__bsp__io__net_8h.html','..
 <div class="title">iotc_bsp_io_net.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;stddef.h&gt;</code><br />
-<code>#include &lt;stdint.h&gt;</code><br />
-</div>
+
 <p><a href="../../d1/def/iotc__bsp__io__net_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
@@ -390,7 +388,7 @@ Functions</h2></td></tr>
 <p>The SDK calls the function after iotc_bsp_io_net_connect() to complete the socket connection. If the socket is connected, the SDK initiates a TLS handshake.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">iotc_socket_nonblocking</td><td>The socket on which check the connection. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">iotc_socket</td><td>The socket on which check the connection. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">host</td><td>The null-terminated IP or fully-qualified domain name of the host at which to connect. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">port</td><td>The port number of the endpoint. </td></tr>
   </table>
@@ -487,7 +485,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">socket_events_array</td><td>An array of socket events. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">socket_events_array_size</td><td>The number of elements in socket_events_array. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">timeout</td><td>The number of seconds before timing out.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">timeout_sec</td><td>The number of seconds before timing out.</td></tr>
   </table>
   </dd>
 </dl>

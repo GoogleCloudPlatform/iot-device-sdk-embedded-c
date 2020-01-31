@@ -90,7 +90,6 @@ $(document).ready(function(){initNavTree('d8/dc3/iotc__bsp__io__fs_8h.html','../
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Data Structures</a> &#124;
-<a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
@@ -98,23 +97,13 @@ $(document).ready(function(){initNavTree('d8/dc3/iotc__bsp__io__fs_8h.html','../
 <div class="title">iotc_bsp_io_fs.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;iotc_error.h&gt;</code><br />
-<code>#include &lt;stdint.h&gt;</code><br />
-<code>#include &lt;stdlib.h&gt;</code><br />
-</div>
+
 <p><a href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/db3/structiotc__bsp__io__fs__stat__s.html">iotc_bsp_io_fs_stat_s</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:af0eabb8c468141f1335f60572ce4829b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af0eabb8c468141f1335f60572ce4829b">IOTC_BSP_IO_FS_INVALID_RESOURCE_HANDLE</a>&#160;&#160;&#160;-1</td></tr>
-<tr class="separator:af0eabb8c468141f1335f60572ce4829b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac005ff6aead1cfba87e8592b80c74d1e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#ac005ff6aead1cfba87e8592b80c74d1e">iotc_bsp_io_fs_init_resource_handle</a>()&#160;&#160;&#160;<a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af0eabb8c468141f1335f60572ce4829b">IOTC_BSP_IO_FS_INVALID_RESOURCE_HANDLE</a></td></tr>
-<tr class="separator:ac005ff6aead1cfba87e8592b80c74d1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -174,50 +163,10 @@ Functions</h2></td></tr>
 <tr class="separator:aa6b8240cb6ca31aa4ea3ad8462a1c883"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Manages TLS certificates. </p>
+<div class="textblock"><p>Manages files. </p>
 
 <p class="definition">Definition in file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="ac005ff6aead1cfba87e8592b80c74d1e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac005ff6aead1cfba87e8592b80c74d1e">&#9670;&nbsp;</a></span>iotc_bsp_io_fs_init_resource_handle</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define iotc_bsp_io_fs_init_resource_handle</td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h.html#af0eabb8c468141f1335f60572ce4829b">IOTC_BSP_IO_FS_INVALID_RESOURCE_HANDLE</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>The handle points to an open file. </p>
-
-<p class="definition">Definition at line <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html#l00041">41</a> of file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
-
-</div>
-</div>
-<a id="af0eabb8c468141f1335f60572ce4829b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af0eabb8c468141f1335f60572ce4829b">&#9670;&nbsp;</a></span>IOTC_BSP_IO_FS_INVALID_RESOURCE_HANDLE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define IOTC_BSP_IO_FS_INVALID_RESOURCE_HANDLE&#160;&#160;&#160;-1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>The handle doesn't point to an open file. </p>
-
-<p class="definition">Definition at line <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html#l00039">39</a> of file <a class="el" href="../../d8/dc3/iotc__bsp__io__fs_8h_source.html">iotc_bsp_io_fs.h</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Typedef Documentation</h2>
+</div><h2 class="groupheader">Typedef Documentation</h2>
 <a id="a6b5dbde50c01026f871bdb08d9f6bf9e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6b5dbde50c01026f871bdb08d9f6bf9e">&#9670;&nbsp;</a></span>iotc_bsp_io_fs_open_flags_t</h2>
 

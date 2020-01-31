@@ -358,7 +358,8 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Creates a connection context. If this function fails, it returns the opposite of the numeric <a class="el" href="../../d4/d7c/iotc__error_8h.html#a31af29ceaf88c8f978117b3be5545932">error code</a>. </p>
+<p>Creates a connection context. If this function fails, it returns the opposite of the numeric <a class="el" href="../../d4/d7c/iotc__error_8h.html#a31af29ceaf88c8f978117b3be5545932">error code</a>.</p>
+<p>Before running this function, call <a class="el" href="../../d9/d22/iotc_8h.html#a949c6fa4e75efb1814aa5cbedf742c12">iotc_initialize()</a>. </p>
 
 </div>
 </div>
@@ -382,7 +383,7 @@ Variables</h2></td></tr>
 <p>If <a class="el" href="../../d9/d22/iotc_8h.html#abf6bc8892b8651c9dac35e5c471c96fc">iotc_events_process_blocking()</a> invokes the event engine, the client application must free the context after <a class="el" href="../../d9/d22/iotc_8h.html#abf6bc8892b8651c9dac35e5c471c96fc">iotc_events_process_blocking()</a> returns. The application must free the context on the event loop tick after the disconnection event (not in the disconnection callback itself).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">context</td><td>The <a class="el" href="../../d9/d22/iotc_8h.html#a657294c0f1cda3a8ec5a2bb284709657">context handle</a> to free. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">context_handle</td><td>The <a class="el" href="../../d9/d22/iotc_8h.html#a657294c0f1cda3a8ec5a2bb284709657">context handle</a> to free. </td></tr>
   </table>
   </dd>
 </dl>
@@ -524,7 +525,7 @@ Variables</h2></td></tr>
 <p>Checks if a context is <a class="el" href="../../d9/d22/iotc_8h.html#a48ab2dda7fedc71942119642f5b0e9c2">connected to Cloud IoT Core</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">context</td><td>The handle for which to determine the connection.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">context_handle</td><td>The handle for which to determine the connection.</td></tr>
   </table>
   </dd>
 </dl>
