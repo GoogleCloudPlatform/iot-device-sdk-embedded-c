@@ -1,8 +1,6 @@
 var iotc__bsp__io__fs_8h =
 [
     [ "iotc_bsp_io_fs_stat_s", "df/db3/structiotc__bsp__io__fs__stat__s.html", "df/db3/structiotc__bsp__io__fs__stat__s" ],
-    [ "iotc_bsp_io_fs_init_resource_handle", "d8/dc3/iotc__bsp__io__fs_8h.html#ac005ff6aead1cfba87e8592b80c74d1e", null ],
-    [ "IOTC_BSP_IO_FS_INVALID_RESOURCE_HANDLE", "d8/dc3/iotc__bsp__io__fs_8h.html#af0eabb8c468141f1335f60572ce4829b", null ],
     [ "iotc_bsp_io_fs_open_flags_t", "d8/dc3/iotc__bsp__io__fs_8h.html#a6b5dbde50c01026f871bdb08d9f6bf9e", null ],
     [ "iotc_bsp_io_fs_resource_handle_t", "d8/dc3/iotc__bsp__io__fs_8h.html#af35210d1e5577353a582ef327bd09656", null ],
     [ "iotc_bsp_io_fs_resource_type_t", "d8/dc3/iotc__bsp__io__fs_8h.html#a9aeb44f18f13a22482488aa3a2d358f9", null ],
