@@ -12,7 +12,7 @@ Device SDK for Embedded C GitHub
 repository](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c.git):
 
 ```
-git clone https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c.git
+git clone https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c.git --recurse-submodules
 ```
 
 ### Directory structure
@@ -64,7 +64,10 @@ For more details on running the scripts, see [Security](#security).
 
 ### Building and executing tests
 
-Run `make tests` to build and execute all tests.
+To build and execute all tests:
+1. Run `git submodule init` from the project's root directory to initialize all test dependencies.
+1. Run `git submodule update` from the project's root directory to clone all submodules.
+1. Run `make tests`.
 
 By default, test execution is the final step of the `tests` build process. You can also execute the tests manually.
 
@@ -133,7 +136,7 @@ Review the following documentation:
 
 ## License
 
-Copyright 2018-2019 Google LLC
+Copyright 2018-2020 Google LLC
 
 Licensed under the BSD 3-Clause license.
 

@@ -1,4 +1,4 @@
-/* Copyright 2018-2019 Google LLC
+/* Copyright 2018-2020 Google LLC
  *
  * This is part of the Google Cloud IoT Device SDK for Embedded C.
  * It is licensed under the BSD 3-Clause license; you may not use this file
@@ -50,7 +50,7 @@ static inline void call_topic_handler(
   index = iotc_vector_find(layer_data->handlers_for_topics,
                            IOTC_VEC_CONST_VALUE_PARAM(IOTC_VEC_VALUE_PTR(
                                msg_memory->publish.topic_name)),
-                           cmp_topics);
+                           match_topics);
 
   if (index != -1) {
     iotc_mqtt_task_specific_data_t* subscribe_data =

@@ -1,4 +1,4 @@
-/* Copyright 2018-2019 Google LLC
+/* Copyright 2018-2020 Google LLC
  *
  * This is part of the Google Cloud IoT Device SDK for Embedded C.
  * It is licensed under the BSD 3-Clause license; you may not use this file
@@ -23,58 +23,46 @@
 extern "C" {
 #endif
 
+/*! \file
+ * @brief Creates JSON Web Tokens for authenticating to Cloud IoT Core.
+ */
+
+/** The size, in bytes, of the JWT header. */
 #define IOTC_JWT_HEADER_BUF_SIZE 40
+/** The size, in bytes, of the URL-encoded JWT header. */
 #define IOTC_JWT_HEADER_BUF_SIZE_BASE64 \
   (((IOTC_JWT_HEADER_BUF_SIZE + 2) / 3) * 4)
 
+/** The size, in bytes, of the JWT payload. */
 #define IOTC_JWT_PAYLOAD_BUF_SIZE 256
+/** The size, in bytes, of the URL-encoded JWT payload. */
 #define IOTC_JWT_PAYLOAD_BUF_SIZE_BASE64 \
   (((IOTC_JWT_PAYLOAD_BUF_SIZE + 2) / 3) * 4)
 
+/** The maximum size, in bytes, of the JWT signature. */
 #define IOTC_JWT_MAX_SIGNATURE_SIZE 132
+/** The maxiumum size, in bytes, of the URL-encoded JWT. */
 #define IOTC_JWT_MAX_SIGNATURE_SIZE_BASE64 \
   (((IOTC_JWT_MAX_SIGNATURE_SIZE + 2) / 3) * 4)
 
+/** The size, in bytes, of the JWT. */
 #define IOTC_JWT_SIZE                                                       \
   (IOTC_JWT_HEADER_BUF_SIZE_BASE64 + 1 + IOTC_JWT_PAYLOAD_BUF_SIZE_BASE64 + \
    1 + IOTC_JWT_MAX_SIGNATURE_SIZE_BASE64)
 
 /**
- * @brief Create a JWT.
- *
- * Creates a JWT string. To connect to Cloud IoT Core. Pass the JWT to
- * iotc_connect as the password parameter.
- *
- * This function invokes the BSP implementations of
- * <code>iotc_bsp_sha256()</code>, <code>iotc_bsp_ecc()</code> and
- * <code>iotc_bsp_base64_encode_urlsafe()</code> to enable string encoding and
- * signatures.
- *
- * This function only supports ES256 key types.
+ * @brief Creates a JWT for authenticating to Cloud IoT Core.
  *
  * @param [in] expiration_period_sec The number of seconds before this JWT
- * expires.
+ *     expires.
  * @param [in] project_id The GCP project ID.
- * @param [in] private_key_data ES256 <a
- * href"https://cloud.google.com/iot/docs/how-tos/credentials/keys">private key
- * data</a>.
+ * @param [in] private_key_data ES256 private key data.
  * @param [in,out] dst_jwt_buf A pointer to a buffer that stores a formatted and
- * signed JWT.
- * @param [in] dst_jwt_buf_len The length of the dst_jwt_buf buffer, in bytes.
- * @param [out] bytes_written The number of bytes written to dst_jwt_buf.
- *
- * @retval IOTC_STATE_OK A JWT is successfully generated.
- * @retval IOTC_INVALID_PARAMETER The project_id, private_key_data or
- * dst_jwt_buf parameters are NULL, or a crypto BSP function returns
- *     IOTC_BSP_CRYPTO_INVALID_INPUT_PARAMETER_ERROR.
- * @retval IOTC_ALG_NOT_SUPPORTED_ERROR The provided private key isn't
- *     an ES256 key.
- * @retval IOTC_NULL_KEY_DATA_ERROR The provided private key is a PEM file
- *     but the crypto_key_union pointer is NULL.
- * @retval IOTC_NOT_IMPLEMENTED The crypto_key_union pointer type is
- *     unknown.
- * @retval IOTC_BUFFER_TOO_SMALL_ERROR The provided buffer is too small for
- *     the JWT.
+ *     signed JWT.
+ * @param [in] dst_jwt_buf_len The length, in bytes, of the buffer to which
+ *     dst_jwt_buf points.
+ * @param [out] bytes_written The number of bytes written to the buffer to which
+ *     dst_jwt_buf points.
  */
 iotc_state_t iotc_create_iotcore_jwt(
     const char* project_id, uint32_t expiration_period_sec,

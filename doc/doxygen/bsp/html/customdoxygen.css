@@ -1,0 +1,16 @@
+/* Hides "Example MQTT clients" and "Board Support Package" sections
+from the navtree. The sections are still visible in the index. */
+/* The nth child selector selects the last two items in a list
+of seven. The list is generated from the <navindex> tag in
+DoxygenLayout.xml. */
+#nav-tree-contents > ul > li > ul > li:nth-child(n+5) {
+	display: none;
+}
+
+/* Hides "Home" section from the navtree The sections are still
+visible in the index. */
+/* The nth child selector selects the second item in a list. The
+list is generated from the <navindex> tag in DoxygenLayout.xml. */
+#nav-tree-contents > ul > li > ul > li:nth-child(1) {
+	display: none;
+}

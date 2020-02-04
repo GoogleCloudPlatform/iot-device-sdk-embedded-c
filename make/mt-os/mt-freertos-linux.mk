@@ -1,4 +1,4 @@
-# Copyright 2018-2019 Google LLC
+# Copyright 2018-2020 Google LLC
 #
 # This is part of the Google Cloud IoT Device SDK for Embedded C.
 # It is licensed under the BSD 3-Clause license; you may not use this file
@@ -41,10 +41,19 @@ IOTC_ARFLAGS += -rs -c $(XI)
 # Temporarily disable these warnings until the code gets changed.
 IOTC_COMMON_COMPILER_FLAGS += -Wno-format
 
+$(info #  )
+$(info # NOTE! Assuming WolfSSL x86 build.  If you intend a different target )
+$(info # please make changes to make/mt-os/mt-freertos-linux.mk )
+$(info # )
+ifeq ($(IOTC_BSP_CRYPTO), wolfssl)
+  # need for x86 wolfssl builds
+  IOTC_CONFIG_FLAGS += -DWOLFSSL_X86_64_BUILD
+endif
+
 #################################################################
 # Download FreeRTOS kernel and FreeRTOS Plus Linux Simulator ####
 #################################################################
-IOTC_FREERTOS_KERNEL_URL=https://jaist.dl.sourceforge.net/project/freertos/FreeRTOS/V10.1.1/FreeRTOSv10.1.1.zip
+IOTC_FREERTOS_KERNEL_URL=https://sourceforge.net/projects/freertos/files/FreeRTOS/V10.1.1/FreeRTOSv10.1.1.zip/download
 IOTC_FREERTOS_KERNEL_ZIP_PATH=$(LIBIOTC)/third_party/FreeRTOSv10.1.1.zip
 IOTC_FREERTOS_KERNEL_DIR_PATH=$(basename $(IOTC_FREERTOS_KERNEL_ZIP_PATH))
 IOTC_FREERTOS_KERNEL_README_PATH=$(IOTC_FREERTOS_KERNEL_DIR_PATH)/readme.txt
@@ -72,7 +81,7 @@ $(IOTC_FREERTOS_KERNEL_README_PATH): $(IOTC_FREERTOS_KERNEL_ZIP_PATH)
 # Download FreeRTOS kernel ######################################
 #################################################################
 $(IOTC_FREERTOS_KERNEL_ZIP_PATH):
-	@echo "IOTC FreeRTOS Linux build: downloading FreeRTOS Kernel to file $@"
+	@echo "IOTC FreeRTOS Linux build: downloading FreeRTOS Kernel to file $@ from $(IOTC_FREERTOS_KERNEL_URL)"
 	@-mkdir -p $(dir $@)
 	@curl -L -o $@ $(IOTC_FREERTOS_KERNEL_URL)
 

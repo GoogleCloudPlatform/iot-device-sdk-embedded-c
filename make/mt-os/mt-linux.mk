@@ -1,4 +1,4 @@
-# Copyright 2018-2019 Google LLC
+# Copyright 2018-2020 Google LLC
 #
 # This is part of the Google Cloud IoT Device SDK for Embedded C.
 # It is licensed under the BSD 3-Clause license; you may not use this file
@@ -35,4 +35,10 @@ IOTC_COMMON_COMPILER_FLAGS += -Wno-format
 
 IOTC_CONFIG_FLAGS += -DIOTC_MULTI_LEVEL_DIRECTORY_STRUCTURE
 IOTC_CONFIG_FLAGS += -DIOTC_LIBCRYPTO_AVAILABLE
+
+ifeq ($(IOTC_BSP_CRYPTO), wolfssl)
+  # need for x86 wolfssl builds
+  IOTC_CONFIG_FLAGS += -DWOLFSSL_X86_64_BUILD
+endif
+
 IOTC_LIBCRYPTO_AVAILABLE := 1

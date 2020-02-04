@@ -1,4 +1,4 @@
-# Copyright 2018-2019 Google LLC
+# Copyright 2018-2020 Google LLC
 #
 # This is part of the Google Cloud IoT Device SDK for Embedded C.
 # It is licensed under the BSD 3-Clause license; you may not use this file
@@ -27,7 +27,6 @@ IOTC_CONFIG_FLAGS += -DHAVE_CERTIFICATE_STATUS_REQUEST
 IOTC_CONFIG_FLAGS += -DHAVE_ECC
 IOTC_CONFIG_FLAGS += -DTFM_TIMING_RESISTANT -DECC_TIMING_RESISTANT -DWC_RSA_BLINDING
 IOTC_CONFIG_FLAGS += -DUSE_FAST_MATH
-IOTC_CONFIG_FLAGS += -DWOLFSSL_X86_64_BUILD
 
 # libiotc OCSP stapling feature switch
 IOTC_CONFIG_FLAGS += -DIOTC_TLS_OCSP_STAPLING

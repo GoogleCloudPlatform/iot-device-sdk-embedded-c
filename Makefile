@@ -1,4 +1,4 @@
-# Copyright 2018-2019 Google LLC
+# Copyright 2018-2020 Google LLC
 #
 # This is part of the Google Cloud IoT Device SDK for Embedded C.
 # It is licensed under the BSD 3-Clause license; you may not use this file
@@ -124,6 +124,7 @@ clean:
 	$(RM) -rf \
 		$(IOTC_BINDIR) \
 		$(IOTC_OBJDIR)
+	$(MAKE) -C $(IOTC_TLS_LIB_SRC_DIR) clean
 
 clean_all: clean
 	$(RM) -rf \

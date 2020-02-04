@@ -1,4 +1,4 @@
-/* Copyright 2018-2019 Google LLC
+/* Copyright 2018-2020 Google LLC
  *
  * This is part of the Google Cloud IoT Device SDK for Embedded C.
  * It is licensed under the BSD 3-Clause license; you may not use this file
@@ -21,13 +21,15 @@
 extern "C" {
 #endif
 
+/*! \file
+ * @brief Defines the time storage type.
+ */
+
 #include <stdint.h>
 
 /**
- * @name iotc_time_t
- * @brief Time storage type.
- *
- * Use a 64-bit time type whenever possible to prevent timer rollovers.
+ * @typedef iotc_time_t
+ * @details The time storage type.
  */
 typedef int64_t iotc_time_t;
 

@@ -1,4 +1,4 @@
-/* 2018-2019 Google LLC
+/* 2018-2020 Google LLC
  *
  * This is part of the Google Cloud IoT Device SDK for Embedded C.
  * It is licensed under the BSD 3-Clause license; you may not use this file
@@ -24,7 +24,7 @@ void iotc_debug_data_desc_dump(const iotc_data_desc_t* buffer) {
     return;
   }
 
-  iotc_debug_printf("[%" SCNu32 "] ", buffer->length);
+  iotc_debug_printf("[%lu] ", buffer->length);
 
   char hex = 0;
   size_t i = 0;

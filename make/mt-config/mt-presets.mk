@@ -1,4 +1,4 @@
-# Copyright 2019 Google LLC
+# Copyright 2019-2020 Google LLC
 #
 # This is part of the Google Cloud IoT Device SDK for Embedded C.
 # It is licensed under the BSD 3-Clause license; you may not use this file
@@ -22,7 +22,7 @@ CONFIG_POSIX_MIN           =posix_fs-posix_platform-tls_bsp
 CONFIG_POSIX_MIN_UNSECURE  =posix_fs-posix_platform
 
 # CONFIG for ZEPHYR presets
-CONFIG_ZEPHYR_MAX          =memory_fs-posix_platform-tls_bsp-memory_limiter
+CONFIG_ZEPHYR_MAX          =memory_fs-tls_bsp
 
 # CONFIG for ARM
 CONFIG_DUMMY_MAX           =memory_fs-memory_limiter

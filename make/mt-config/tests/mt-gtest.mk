@@ -1,4 +1,4 @@
-# Copyright 2018-2019 Google LLC
+# Copyright 2018-2020 Google LLC
 #
 # This is part of the Google Cloud IoT Device SDK for Embedded C.
 # It is licensed under the BSD 3-Clause license; you may not use this file
@@ -57,7 +57,11 @@ GTEST_OBJS := $(GTEST_OBJDIR)/gtest-all.o \
 # Set up iotc googletest tests.
 IOTC_GTEST_SUITE ?= iotc_gtests
 IOTC_GTEST_OBJDIR := $(IOTC_TEST_OBJDIR)/gtests
-IOTC_GTEST_SOURCES = $(shell find $(LIBIOTC)/src -name "*.cc")
+
+# Test cases: files ending in _test.cc
+IOTC_GTEST_SOURCES := $(shell find $(LIBIOTC)/src -name "*_test.cc")
+# Test utils: .cc files in src/tests/
+IOTC_GTEST_SOURCES += $(shell find $(LIBIOTC)/src/tests -name "*.cc")
 
 IOTC_GTEST_OBJS := $(filter-out $(IOTC_GTEST_SOURCES), $(IOTC_GTEST_SOURCES:.cc=.o))
 IOTC_GTEST_OBJS := $(subst $(LIBIOTC_SRC), $(IOTC_GTEST_OBJDIR)/, $(IOTC_GTEST_OBJS))
