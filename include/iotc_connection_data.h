@@ -24,17 +24,23 @@
 extern "C" {
 #endif
 
+/*! \file
+ * @brief Defines connection states.
+ */
+
 /**
- * @enum iotc_connection_state_e
- * @brief All possible states of the connection process and lifecycle.
+ * @typedef iotc_connection_state_t
+ * @brief Connection process and lifecycle states.
+ *
+ * @see iotc_connection_state_e
  */
 typedef enum iotc_connection_state_e {
   /** The connection is not established and there is no pending
-   * connect operation in libiotc. */
+   * connection request. */
   IOTC_CONNECTION_STATE_UNINITIALIZED = 0,
   /** The connect operation started. */
   IOTC_CONNECTION_STATE_OPENING,
-  /** The connect operation is successfully finished. */
+  /** The client connected to an MQTT broker. */
   IOTC_CONNECTION_STATE_OPENED,
   /** The disconnect operation started. */
   IOTC_CONNECTION_STATE_CLOSING,
@@ -45,9 +51,10 @@ typedef enum iotc_connection_state_e {
 } iotc_connection_state_t;
 
 /**
- * @enum iotc_session_type_e
- * @brief MQTT session types. Note that CONTINUE isn't currently supported
- * by IoT Core.
+ * @typedef iotc_session_type_t
+ * @brief MQTT session types.
+ *
+ * @see iotc_session_type_e
  */
 typedef enum iotc_session_type_e {
   /** MQTT clean session. */
@@ -57,33 +64,31 @@ typedef enum iotc_session_type_e {
 } iotc_session_type_t;
 
 /**
- * @struct  iotc_connection_data_t
- * @brief The connection parameters received by the <code>iotc_connect()</code>
- * callback.
+ * @typedef iotc_connection_data_t
+ * @brief The MQTT CONNECT parameters.
+ * @see iotc_connection_data_s
  *
- * The application may reuse these parameters to request another connection
- * from within the callback.
- *
- * @see iotc_connect
+ * @struct iotc_connection_data_s
+ * @brief The MQTT CONNECT parameters.
  */
 typedef struct iotc_connection_data_s {
-  /** MQTT service hostname. */
+  /** The MQTT broker hostname. */
   char* host;
-  /** MQTT connect username. */
+  /** The MQTT client username. */
   char* username;
-  /** MQTT connect password. */
+  /** The MQTT client password. */
   char* password;
-  /** MQTT connect client id. */
+  /** The MQTT client ID. */
   char* client_id;
-  /** MQTT service host port. */
+  /** The port on which the MQTT broker listens. */
   uint16_t port;
-  /** MQTT connect connection timeout in seconds. */
+  /** The connection timeout in seconds. */
   uint16_t connection_timeout;
-  /** MQTT keepalive timeout in seconds. */
+  /** MQTT keepalive in seconds. */
   uint16_t keepalive_timeout;
-  /** Tracks current connection state. */
+  /** The CONNACK message from the MQTT broker. */
   iotc_connection_state_t connection_state;
-  /** Denote clean or continued MQTT session types. */
+  /** The MQTT client session. */
   iotc_session_type_t session_type;
   /** Unused. */
   char* will_topic;

@@ -21,13 +21,15 @@
 extern "C" {
 #endif
 
+/*! \file
+ * @brief Defines the time storage type.
+ */
+
 #include <stdint.h>
 
 /**
- * @name iotc_time_t
- * @brief Time storage type.
- *
- * Use a 64-bit time type whenever possible to prevent timer rollovers.
+ * @typedef iotc_time_t
+ * @details The time storage type.
  */
 typedef int64_t iotc_time_t;
 

@@ -19,13 +19,12 @@
 
 /**
  * @file iotc_bsp_time.h
- * @brief Implement time functions.
+ * @brief Keeps time.
  *
- * The client application uses these functions to keep track of time. Time
- * functions implementations muyst determine the exact execution time of
- * scheduled tasks and the delayed reconnection logic.
- *
- * Use hardware or NTP servers to maintain an accurate clock.
+ * @details Use hardware or NTP servers to maintain an accurate clock. The 
+ * SDK calls these functions to determine the: 
+ *     - Exact execution time of scheduled tasks
+ *     - Delayed reconnection logic
  */
 
 #include <iotc_time.h>
@@ -35,31 +34,22 @@ extern "C" {
 #endif
 
 /**
- * @function
- * @brief Initialize the timekeeping system.
- *
- * On POSIX systems, this function is empty because POSIX systems already
- * include initialized timekeeping systems. On non-POSIX systems,
- * implementations of this function can connect to an NTP service or
- * initialize time-step functionality.
+ * @brief Initializes the platform-specific timekeeping requirements.
  */
 void iotc_bsp_time_init();
 
 /**
- * @function
- * @brief Return the seconds since Epoch.
+ * @brief Gets the seconds since Epoch.
  */
 iotc_time_t iotc_bsp_time_getcurrenttime_seconds();
 
 /**
- * @function
- * @brief Return the milliseconds since Epoch.
+ * @brief Gets the milliseconds since Epoch.
  */
 iotc_time_t iotc_bsp_time_getcurrenttime_milliseconds();
 
 /**
- * @function
- * @brief Return monotonically increasing time in milliseconds.
+ * @brief Gets the monotonic time in milliseconds.
  */
 iotc_time_t iotc_bsp_time_getmonotonictime_milliseconds();
 

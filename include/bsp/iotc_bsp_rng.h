@@ -19,12 +19,12 @@
 
 /**
  * @file iotc_bsp_rng.h
- * @brief Implement a random number generator (RNG).
+ * @brief Generates random numbers.
  *
- * Don't hardcode the same seed value for all devices; use an
- * entropy-based handware random number generator. The Device SDK
- * prevents DDoS attacks by randomly distributing fleet-wide reconnection
- * attempts, so predictable numbers may corrupt the BackOff system.
+ * @details Always implement an entropy-based hardware RNG;
+ * don't hardcode the same seed value for all devices. The SDK prevents
+ * DDoS attacks by randomly attempting fleet-wide reconnections, so predictable
+ * numbers may corrupt the backoff system.
  */
 
 #include <stdint.h>
@@ -34,30 +34,21 @@ extern "C" {
 #endif
 
 /**
- * @function
- * @brief Initialize the platform-specific RNG prerequisites.
+ * @brief Initializes the platform-specific RNG requirements.
  *
- * The Device SDK calls this function before requesting the first random
- * number. Implementations of this function must meet all of the
- * platform-specific RNG prerequisites, such as generating a random
- * number seed.
+ * The SDK calls this function after booting and before requesting the first
+ * random number.
  */
 void iotc_bsp_rng_init();
 
 /**
- * @function
- * @brief Generate a 32-bit random number.
- *
- * @return A random, 32-bit integer.
+ * @brief Generates and returns a random, 32-bit integer.
  */
 uint32_t iotc_bsp_rng_get();
 
 /**
- * @function
- * @brief Shut down the platform-specific RNG.
- *
- * Free any resources.  The Device SDK will not invoke iotc_bsp_rng_get
- * again without first calling iotc_bsp_rng_init.
+ * @brief Shuts down the RNG and frees all of the resources from initializing
+ * and generating random numbers.
  */
 void iotc_bsp_rng_shutdown();
 

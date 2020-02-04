@@ -19,10 +19,10 @@
 
 /**
  * @file iotc_bsp_mem.h
- * @brief Manage platform memory.
- *
- * Implement these functions to customize how the Device SDK manages memory. For
- * instance, custom implementations can use static instead of heap memory.
+ * @brief Manages platform memory.
+ * 
+ * @details For instance, custom implementations can use static instead of
+ * heap memory.
  */
 
 #include <stddef.h>
@@ -32,40 +32,32 @@ extern "C" {
 #endif
 
 /**
- * @function
- * @brief Allocate memory.
+ * @brief Allocates memory and returns a pointer to the allocated block.
  *
  * @param [in] byte_count The number of bytes to allocate.
- *
- * @return A pointer to the beginning of the allocated block.
  */
 void* iotc_bsp_mem_alloc(size_t byte_count);
 
 /**
- * @function
- * @brief Change the size of a memory block.
+ * @brief Changes the size of a memory block and returns a pointer to the
+ * reallocated block.
  *
- * If the new memory block size is smaller than the old memory block
- * size, the Device SDK saves the maximum amount of memory, even if
- * the block moves to a new location. If the new size is larger, the
- * leftover memory is empty.
+ * @details If the new memory block size is smaller than the old memory block,
+ * the SDK saves the maximum amount of memory, even if the block moves to a new
+ * location. If the new size is larger, the SDK leaves the leftover
+ * memory empty.
+ *
+ * This function is a convenience function that you don't need to
+ * implement. You can also reallocate memory with the iotc_bsp_mem_alloc() and
+ * and iotc_bsp_mem_free() functions.
  *
  * @param [in] ptr A pointer to a memory block to reallocate.
- *
- * @return A pointer to the reallocated memory block.
+ * @param [in] btye_count The new size, in bytes, of the memory block.
  */
 void* iotc_bsp_mem_realloc(void* ptr, size_t byte_count);
 
 /**
- * @function
- * @brief Free a block of memory.
-
- * Implementations of this function free a block of memory that
- * the <code>iotc_bsp_mem_malloc()</code> or <code>iotc_bsp_mem_realloc()</code>
- * implementations allocated.
- *
- * @see iotc_bsp_mem_malloc
- * @see iotc_bsp_mem_realloc
+ * @brief Frees a block of memory.
  *
  * @param [in] ptr A pointer to a memory block to free.
  */
