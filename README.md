@@ -136,7 +136,7 @@ Review the following documentation:
 
 ## License
 
-Copyright 2018-2019 Google LLC
+Copyright 2018-2020 Google LLC
 
 Licensed under the BSD 3-Clause license.
 
