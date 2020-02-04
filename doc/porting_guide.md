@@ -1,5 +1,6 @@
 # Google Cloud IoT Device SDK for Embedded C Porting Guide
-##### Copyright 2018-2019 Google LLC
+
+##### Copyright 2018-2020 Google LLC
 
 ## Table of Contents
 1. [Introduction](#introduction)

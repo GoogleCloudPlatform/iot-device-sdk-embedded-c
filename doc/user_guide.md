@@ -1,6 +1,6 @@
 # Google Cloud IoT Device SDK for Embedded C User Guide
 
-##### Copyright (C) 2018-2019 Google Inc.
+##### Copyright 2018-2020 Google LLC
 
 This document explains how applications can use the Google Cloud IoT Device SDK for Embedded C to connect to Google Cloud IoT Core. It also describes the security and communication features of the Device SDK.
 
