@@ -1,4 +1,4 @@
-/* Copyright 2018-2020 Google LLC
+/* Copyright 2019-2020 Google LLC
  *
  * This is part of the Google Cloud IoT Device SDK for Embedded C.
  * It is licensed under the BSD 3-Clause license; you may not use this file
