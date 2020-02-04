@@ -1,7 +1,7 @@
 # Google Cloud IoT Core Device SDK for Embedded C version  1.0.2
 #### February 4, 2020
 
-- Wildcard topic name support in MQTT subscriptions, #89 by @sheindel, thank you!
+- Wildcard topic name support in MQTT subscriptions, [#89](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/pull/89) by [@sheindel](https://github.com/sheindel), thank you!
 - Documentation overhaul, see Device SDK [API](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/api/html/) and [BSP](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/bsp/html/) references.
 - Zephyr integration fixes, using Zephyr v1.14.0.
 - Improvements on the 'make' build system (wolfssl fixes, addressing rebuild
