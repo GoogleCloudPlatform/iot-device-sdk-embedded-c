@@ -49,6 +49,13 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_socket_connect(
   hints.ai_flags = 0;
   hints.ai_protocol = 0;
 
+  // in case of error, we want *iotc_socket initialized to a non-valid
+  // value so that iotc_bsp_io_net_close_socket can check before
+  // closing a socket to ensure that the socket was genuinely opened;
+  // otherwise iotc_bsp_io_net_close_socket can be at risk of
+  // incorrectly closing STDIN_FILENO
+  *iotc_socket = -1;
+
   // Address resolution.
   status = getaddrinfo(host, NULL, &hints, &result);
   if (0 != status) {
@@ -90,6 +97,7 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_socket_connect(
         return IOTC_BSP_IO_NET_STATE_OK;
       } else {
         close(*iotc_socket);
+        *iotc_socket = -1;
       }
     }
   }
@@ -200,11 +208,16 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_close_socket(
     return IOTC_BSP_IO_NET_STATE_ERROR;
   }
 
+  if (*iotc_socket < 0)
+	  // no need to close a socket that was never opened in the first
+	  // place
+	  return IOTC_BSP_IO_NET_STATE_OK;
+
   shutdown(*iotc_socket, SHUT_RDWR);
 
   close(*iotc_socket);
 
-  *iotc_socket = 0;
+  *iotc_socket = -1;
 
   return IOTC_BSP_IO_NET_STATE_OK;
 }
