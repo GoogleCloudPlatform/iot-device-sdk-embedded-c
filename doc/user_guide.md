@@ -204,11 +204,11 @@ To connect to Cloud IoT Core, call **`iotc_connect()`**. This function enqueues 
 * TLS handshaking and certificate validation
 * MQTT credential handshaking
 
-Note: the call to connect returns immediately. The connection operation is fulfilled on subsequent calls to the Device SDK's event processing functions, as described in [Step 3: Process Events](step-3-process-events).
+Note: the call to connect returns immediately. The connection operation is fulfilled on subsequent calls to the Device SDK's event processing functions, as described in [Step 3: Process Events](#step-3-process-events).
 
 #### Connect callback
 
-When the **`iotc_connect()`** function runs, the Device SDK initalizes a callback function. The callback function is invoked when a connection to Cloud IoT Core is established or when the connection is unsuccessful. The callback function is also invoked when an established connection is lost or shut down. See [Step 6: Disconnect and Shut Down](step-6-disconnect-and-shut-down) for details.
+When the **`iotc_connect()`** function runs, the Device SDK initalizes a callback function. The callback function is invoked when a connection to Cloud IoT Core is established or when the connection is unsuccessful. The callback function is also invoked when an established connection is lost or shut down. See [Step 6: Disconnect and Shut Down](#step-6-disconnect-and-shut-down) for details.
 
 ### Step 3: Process events
 
@@ -228,7 +228,7 @@ Incoming messages include the topic data as part of the callback parameters. Spe
 
 #### QoS level
 
-The [specified QoS level](#MQTT v3.1.1) is the maximum QoS level of incoming messages. For instance, if you set the QoS level to 0, QoS 1 messages are downgraded to QoS 0. 
+The [specified QoS level](#mqtt-v3.1.1) is the maximum QoS level of incoming messages. For instance, if you set the QoS level to 0, QoS 1 messages are downgraded to QoS 0. 
 
 The QoS level also affects the Device SDK's memory overhead. QoS 2 messages use the most memory overhead, while QoS 0 messages use the least.
 
@@ -250,7 +250,7 @@ This callback function is for environments with severe memory restrictions. For 
 
 ### Step 6: Disconnect and shut down
 
-To disconnect from Cloud IoT Core, invoke the **`iotc_shutdown_connection()`** function. This function enqueues an event that cleanly closes the socket connection. After the connection is terminated, the Device SDK invokes the [connect callback](#Step 2: Connect) function.
+To disconnect from Cloud IoT Core, invoke the **`iotc_shutdown_connection()`** function. This function enqueues an event that cleanly closes the socket connection. After the connection is terminated, the Device SDK invokes the [connect callback](#step-2-connect) function.
 
 Note: Do not delete the context until the the connect callback is invoked.
 
@@ -258,9 +258,9 @@ Note: Do not delete the context until the the connect callback is invoked.
 
 The Device SDK checks the parameters of the connect callback function to determine if a device was intentionally or incidentally disconnected. See the [**Connect callback**](#connect-callback) section for more information.
 
-If an error disconnects a device, the client application can safely and immediately call **`iotc_connect()`** from within the connect callback function itself, using the same context that was just disconnected. This ques a new [connection request](#Step 2: Connect).
+If an error disconnects a device, the client application can safely and immediately call **`iotc_connect()`** from within the connect callback function itself, using the same context that was just disconnected. This ques a new [connection request](#step-2-connect).
 
-If a client application intentionally closes a connection, it retains the [existing context](#Step 1: Create a context) and invokes the connect function again later.
+If a client application intentionally closes a connection, it retains the [existing context](#step-1-create-a-context) and invokes the connect function again later.
 
 #### Freeing memory and shutting down
 
