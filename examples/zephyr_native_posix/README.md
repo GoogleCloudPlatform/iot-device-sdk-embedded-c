@@ -24,6 +24,14 @@ zephyr/zephyr.exe -testargs -p <i><b>PROJECT_ID</b></i> -d projects/<i><b>PROJEC
 
 ## Troubleshooting
 
+### Installing Dependecies 
+If you're recieving a configuring incomplete error then you might not have the correct compiler installed, to download 
+device-tree-compiler run the following command:
+
+```bash
+sudo apt-get install device-tree-compiler gperf
+```
+
 ### Setting up internet access on the native_posix board
 By default, the Zephyr application claims IP 192.0.2.1 and is in the same subnet with the `zeth` virtual network adapter at IP 192.0.2.2. This subnet must be connected to the internet. 
 
