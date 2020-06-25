@@ -4,7 +4,7 @@ This demo uses three inexpensive and readily available ESP32 devices to send and
 data from Google Cloud. The device with a connection to Google Cloud (Gateway) will
 communicate on behalf of other devices (delegate devices).
 
-The gateway will send the data to Google Cloud IoT core and publish to PubSub.
+The gateway will send the data to IoT core and publish to PubSub.
 
 For example, you can send temperature data from multiple delegate devices to Google Cloud and store that information to see
 any drastic temperature changes in a room.
@@ -15,13 +15,13 @@ any drastic temperature changes in a room.
  - Set up ESP32
  - Attach Delegate Devices
  - Publish Delegate Telemetry Data from Gateway
- - Sending Commands from Cloud IoT Core to ESP32
+ - Sending Commands from  IoT Core to ESP32
 
 ## Before you begin
 
 ### ESP-IDF Setup
 
-Before we can setup IoT Core we must get ESP-IDF, which is the SDK for Espressif chips. If you can download the [ESP-IDF](https://marketplace.visualstudio.com/items?itemName=espressif.esp-idf-extension) extension for Visual Studio Code, make sure you have all dependencies because if you don’t you will get errors and will need to redownload ESP-IDF.
+Before we can setup IoT Core we must get ESP-IDF, which is the SDK for Espressif chips. You can download the [ESP-IDF](https://marketplace.visualstudio.com/items?itemName=espressif.esp-idf-extension) extension for Visual Studio Code, make sure you have all dependencies because if you don’t you will get errors and will need to redownload ESP-IDF.
 You’ll need to have the following for ESP-IDF to work properly:
 
  - Python 3.5 or higher
@@ -69,7 +69,7 @@ For more troubleshooting steps, see the [getting started](https://docs.espressif
 
 We will be using the Espressif Systems ESP32 (ESP32), which is an inexpensive and easy to source microcontroller with WiFi and Bluetooth capabilities. 
 
-The ESP32 will communicate with IoT Core using Wifi and communicate to the delegate devices using BLE Mesh, the delegate devices will relay their temperature data and then the gateway will publish the telemetry data using the MQTT protocol, we will also read the internal temperature sensor to send telemetry data to the device's subscription topic.
+The ESP32 will communicate with IoT Core using WiFi and communicate to the delegate devices using BLE Mesh, the delegate devices will relay their temperature data and then the gateway will publish the telemetry data using the MQTT protocol.
 
 To get the internal temperature we will use the `temprature_sens_read function`. To correctly set the function you must give a forward declaration for the function:
 
@@ -94,12 +94,12 @@ You will need to clone the repo to get the example code. In your terminal, go to
 git clone git@github.com:GoogleCloudPlatform/iot-device-sdk-embedded-c.git --recurse-submodules
 ```
 
-Recurse submodules is important because you will download any submodules that are included in the repo.
+Recurse submodules is important because it will download any submodules that are included in the repo.
 
 ## Attaching Delegate Devices
 
-When the Gateway device is booted it will search for any unprovisoned devices, when it finds them it will provision them and conntect. 
-Once they're succesfully configured the Gateway device will try to connect to the cloud and then attach each device to the gateway. 
+When the Gateway device is booted it will search for any unprovisioned devices, when it finds them it will provision them and connect. 
+Once they're successfully configured the Gateway device will try to connect to the IoT Core and then attach each device to the gateway. 
 
 The first function that gets called after the Gateway is connected will be `attachAndSubscribe`
 
@@ -127,7 +127,7 @@ void subscribeConfig(iotc_context_handle_t in_context_handle)
 }
 ```
 
-Like the previous function `subscribeConfig` publishes a subscription topic to the delegate devices configuration, and when it is published the function calls a callback to `subscribeCommand`
+Like the previous function `subscribeConfig` subscribe to the device configuration subscription topic, and when it is successfully subscribed the function calls a callback to `subscribeCommand`
 
 ```c
 void subscribeCommand(iotc_context_handle_t in_context_handle)
@@ -141,6 +141,8 @@ void subscribeCommand(iotc_context_handle_t in_context_handle)
 }
 
 ```
+
+`subscribeCommand` will subscribe to the device's command topic, and when it is successfully subscribed it will call publish_delegate_telemetry_event which will publish the telemetry data
 
 ## Publish Delegate Telemetry Data from Gateway
 
@@ -174,7 +176,7 @@ void publish_delegate_telemetry_event(iotc_context_handle_t context_handle, iotc
 }
 ```
 
-## Sending Commands from Cloud IoT Core to ESP32
+## Sending Commands from IoT Core to ESP32
 
 The callback function is invoked when the device receives a message from the cloud. This is where the code will convert the string into uint8_t and send it to the corresponding delegate device. 
 

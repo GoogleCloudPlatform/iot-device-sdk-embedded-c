@@ -66,4 +66,4 @@ $<TARGET_FILE:__idf_unity>
 $<TARGET_FILE:__idf_wifi_provisioning>
 $<TARGET_FILE:__idf_main>
 $<TARGET_FILE:__idf_button>
-$<TARGET_FILE:__idf_esp-google-iot>
+$<TARGET_FILE:__idf_esp32-gateway>

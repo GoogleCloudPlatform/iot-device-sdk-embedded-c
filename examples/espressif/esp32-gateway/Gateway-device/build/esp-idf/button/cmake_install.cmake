@@ -1,4 +1,4 @@
-# Install script for directory: /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/components/button
+# Install script for directory: /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/components/button
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

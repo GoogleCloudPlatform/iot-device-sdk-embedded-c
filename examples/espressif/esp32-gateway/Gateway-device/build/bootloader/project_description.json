@@ -1,8 +1,8 @@
 {
     "project_name":       "bootloader",
     "project_path":       "/Users/galzahavi/esp-idf/components/bootloader/subproject",
-    "build_dir":          "/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader",
-    "config_file":        "/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/sdkconfig",
+    "build_dir":          "/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader",
+    "config_file":        "/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/sdkconfig",
     "config_defaults":    "",
     "app_elf":            "bootloader.elf",
     "app_bin":            "bootloader.bin",

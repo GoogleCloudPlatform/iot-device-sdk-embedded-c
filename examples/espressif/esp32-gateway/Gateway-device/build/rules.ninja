@@ -1479,7 +1479,7 @@ rule CXX_STATIC_LIBRARY_LINKER____idf_button
 #############################################
 # Rule for compiling C files.
 
-rule C_COMPILER____idf_esp-google-iot
+rule C_COMPILER____idf_esp32-gateway
   depfile = $DEP_FILE
   deps = gcc
   command = /Users/galzahavi/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out   -c $in
@@ -1489,7 +1489,7 @@ rule C_COMPILER____idf_esp-google-iot
 #############################################
 # Rule for linking CXX static library.
 
-rule CXX_STATIC_LIBRARY_LINKER____idf_esp-google-iot
+rule CXX_STATIC_LIBRARY_LINKER____idf_esp32-gateway
   command = $PRE_LINK && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E remove $TARGET_FILE && /Users/galzahavi/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-ar qc $TARGET_FILE $LINK_FLAGS $in && /Users/galzahavi/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-ranlib $TARGET_FILE && $POST_BUILD
   description = Linking CXX static library $TARGET_FILE
   restat = $RESTAT
@@ -1499,7 +1499,7 @@ rule CXX_STATIC_LIBRARY_LINKER____idf_esp-google-iot
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device -B/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build
+  command = /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device -B/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build
   description = Re-running CMake...
   generator = 1
 

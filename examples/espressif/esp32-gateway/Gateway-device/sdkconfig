@@ -1350,11 +1350,6 @@ CONFIG_WPA_MBEDTLS_CRYPTO=y
 CONFIG_BUTTON_USE_ESP_TIMER=y
 CONFIG_BUTTON_IO_GLITCH_FILTER_TIME_MS=50
 # end of Button
-
-#
-# Google IoT Core Configuration
-#
-# end of Google IoT Core Configuration
 # end of Component config
 
 #

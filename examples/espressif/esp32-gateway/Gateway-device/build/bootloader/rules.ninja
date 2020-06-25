@@ -194,7 +194,7 @@ rule C_STATIC_LIBRARY_LINKER____idf_main
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
+  command = /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
   description = Re-running CMake...
   generator = 1
 

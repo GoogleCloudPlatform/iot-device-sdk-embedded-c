@@ -23,7 +23,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <sdkconfig.h>
-#include "board.h"
 /* BLE */
 #ifdef CONFIG_BT_BLUEDROID_ENABLED
 #include "esp_bt.h"

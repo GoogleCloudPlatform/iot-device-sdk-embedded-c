@@ -34,7 +34,7 @@ include rules.ninja
 # Utility command for edit_cache
 
 build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 build edit_cache: phony CMakeFiles/edit_cache.util
@@ -77,7 +77,7 @@ build CMakeFiles/bootloader.elf.dir/project_elf_src.c.obj: C_COMPILER__bootloade
 
 build bootloader.elf: C_EXECUTABLE_LINKER__bootloader.2eelf CMakeFiles/bootloader.elf.dir/project_elf_src.c.obj | esp-idf/soc/libsoc.a esp-idf/log/liblog.a esp-idf/micro-ecc/libmicro-ecc.a esp-idf/spi_flash/libspi_flash.a esp-idf/efuse/libefuse.a esp-idf/bootloader_support/libbootloader_support.a esp-idf/main/libmain.a esp-idf/spi_flash/libspi_flash.a esp-idf/efuse/libefuse.a esp-idf/bootloader_support/libbootloader_support.a esp-idf/spi_flash/libspi_flash.a esp-idf/efuse/libefuse.a esp-idf/bootloader_support/libbootloader_support.a esp-idf/micro-ecc/libmicro-ecc.a esp-idf/soc/libsoc.a esp-idf/log/liblog.a esp-idf/soc/soc/esp32/libsoc_esp32.a esp-idf/soc/libsoc.a esp-idf/log/liblog.a esp-idf/soc/soc/esp32/libsoc_esp32.a /Users/galzahavi/esp-idf/components/esp32/ld/esp32.peripherals.ld /Users/galzahavi/esp-idf/components/esp_rom/esp32/ld/esp32.rom.ld /Users/galzahavi/esp-idf/components/esp_rom/esp32/ld/esp32.rom.newlib-funcs.ld /Users/galzahavi/esp-idf/components/esp_rom/esp32/ld/esp32.rom.libgcc.ld /Users/galzahavi/esp-idf/components/bootloader/subproject/main/ld/esp32/bootloader.ld /Users/galzahavi/esp-idf/components/bootloader/subproject/main/ld/esp32/bootloader.rom.ld || _project_elf_src esp-idf/main/libmain.a esp-idf/micro-ecc/libmicro-ecc.a esp-idf/soc/libsoc.a esp-idf/spi_flash/libspi_flash.a
   FLAGS = -mlongcalls -Wno-frame-address
-  LINK_LIBRARIES = esp-idf/soc/libsoc.a esp-idf/log/liblog.a esp-idf/micro-ecc/libmicro-ecc.a esp-idf/spi_flash/libspi_flash.a esp-idf/efuse/libefuse.a esp-idf/bootloader_support/libbootloader_support.a esp-idf/main/libmain.a -Wl,--cref -Wl,--Map=/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/bootloader.map -fno-rtti -fno-lto esp-idf/spi_flash/libspi_flash.a esp-idf/efuse/libefuse.a esp-idf/bootloader_support/libbootloader_support.a esp-idf/spi_flash/libspi_flash.a esp-idf/efuse/libefuse.a esp-idf/bootloader_support/libbootloader_support.a esp-idf/micro-ecc/libmicro-ecc.a esp-idf/soc/libsoc.a esp-idf/log/liblog.a esp-idf/soc/soc/esp32/libsoc_esp32.a esp-idf/soc/libsoc.a esp-idf/log/liblog.a esp-idf/soc/soc/esp32/libsoc_esp32.a -L /Users/galzahavi/esp-idf/components/esp32/ld -T esp32.peripherals.ld -Wl,--gc-sections -L /Users/galzahavi/esp-idf/components/esp_rom/esp32/ld -T esp32.rom.ld -T esp32.rom.newlib-funcs.ld -T esp32.rom.libgcc.ld -L /Users/galzahavi/esp-idf/components/bootloader/subproject/main/ld/esp32 -T bootloader.ld -T bootloader.rom.ld
+  LINK_LIBRARIES = esp-idf/soc/libsoc.a esp-idf/log/liblog.a esp-idf/micro-ecc/libmicro-ecc.a esp-idf/spi_flash/libspi_flash.a esp-idf/efuse/libefuse.a esp-idf/bootloader_support/libbootloader_support.a esp-idf/main/libmain.a -Wl,--cref -Wl,--Map=/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/bootloader.map -fno-rtti -fno-lto esp-idf/spi_flash/libspi_flash.a esp-idf/efuse/libefuse.a esp-idf/bootloader_support/libbootloader_support.a esp-idf/spi_flash/libspi_flash.a esp-idf/efuse/libefuse.a esp-idf/bootloader_support/libbootloader_support.a esp-idf/micro-ecc/libmicro-ecc.a esp-idf/soc/libsoc.a esp-idf/log/liblog.a esp-idf/soc/soc/esp32/libsoc_esp32.a esp-idf/soc/libsoc.a esp-idf/log/liblog.a esp-idf/soc/soc/esp32/libsoc_esp32.a -L /Users/galzahavi/esp-idf/components/esp32/ld -T esp32.peripherals.ld -Wl,--gc-sections -L /Users/galzahavi/esp-idf/components/esp_rom/esp32/ld -T esp32.rom.ld -T esp32.rom.newlib-funcs.ld -T esp32.rom.libgcc.ld -L /Users/galzahavi/esp-idf/components/bootloader/subproject/main/ld/esp32 -T bootloader.ld -T bootloader.rom.ld
   OBJECT_DIR = CMakeFiles/bootloader.elf.dir
   POST_BUILD = :
   PRE_LINK = :
@@ -113,7 +113,7 @@ build gen_project_binary: phony CMakeFiles/gen_project_binary .bin_timestamp boo
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -133,7 +133,7 @@ build confserver: phony CMakeFiles/confserver
 # Custom command for CMakeFiles/size-components
 
 build CMakeFiles/size-components: CUSTOM_COMMAND bootloader.elf || _project_elf_src bootloader.elf esp-idf/bootloader_support/libbootloader_support.a esp-idf/efuse/libefuse.a esp-idf/log/liblog.a esp-idf/main/libmain.a esp-idf/micro-ecc/libmicro-ecc.a esp-idf/soc/libsoc.a esp-idf/soc/soc/esp32/libsoc_esp32.a esp-idf/spi_flash/libspi_flash.a
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader && /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/tools/idf_size.py --target esp32 --archives /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/bootloader.map
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader && /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/tools/idf_size.py --target esp32 --archives /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/bootloader.map
 
 #############################################
 # Phony custom command for CMakeFiles/app
@@ -144,13 +144,13 @@ build CMakeFiles/app: phony || _project_elf_src bootloader.elf esp-idf/bootloade
 # Custom command for CMakeFiles/size-files
 
 build CMakeFiles/size-files: CUSTOM_COMMAND bootloader.elf || _project_elf_src bootloader.elf esp-idf/bootloader_support/libbootloader_support.a esp-idf/efuse/libefuse.a esp-idf/log/liblog.a esp-idf/main/libmain.a esp-idf/micro-ecc/libmicro-ecc.a esp-idf/soc/libsoc.a esp-idf/soc/soc/esp32/libsoc_esp32.a esp-idf/spi_flash/libspi_flash.a
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader && /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/tools/idf_size.py --target esp32 --files /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/bootloader.map
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader && /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/tools/idf_size.py --target esp32 --files /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/bootloader.map
 
 #############################################
 # Custom command for project_elf_src.c
 
 build project_elf_src.c: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E touch /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/project_elf_src.c
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E touch /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/project_elf_src.c
   DESC = Generating project_elf_src.c
   restat = 1
 
@@ -163,20 +163,20 @@ build CMakeFiles/_project_elf_src: phony project_elf_src.c
 # Custom command for CMakeFiles/menuconfig
 
 build CMakeFiles/menuconfig: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader && /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/tools/kconfig_new/prepare_kconfig_files.py --env-file /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/config.env && /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/tools/kconfig_new/confgen.py --kconfig /Users/galzahavi/esp-idf/Kconfig --sdkconfig-rename /Users/galzahavi/esp-idf/sdkconfig.rename --config /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/sdkconfig --env-file /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/config.env --env IDF_TARGET=esp32 --dont-write-deprecated --output config /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/sdkconfig && /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/tools/check_term.py && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E env COMPONENT_KCONFIGS_SOURCE_FILE=/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/kconfigs.in COMPONENT_KCONFIGS_PROJBUILD_SOURCE_FILE=/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/kconfigs_projbuild.in IDF_CMAKE=y KCONFIG_CONFIG=/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/sdkconfig IDF_TARGET=esp32 /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/tools/kconfig_new/menuconfig.py /Users/galzahavi/esp-idf/Kconfig && /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/tools/kconfig_new/confgen.py --kconfig /Users/galzahavi/esp-idf/Kconfig --sdkconfig-rename /Users/galzahavi/esp-idf/sdkconfig.rename --config /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/sdkconfig --env-file /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/config.env --env IDF_TARGET=esp32 --output config /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/sdkconfig
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader && /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/tools/kconfig_new/prepare_kconfig_files.py --env-file /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/config.env && /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/tools/kconfig_new/confgen.py --kconfig /Users/galzahavi/esp-idf/Kconfig --sdkconfig-rename /Users/galzahavi/esp-idf/sdkconfig.rename --config /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/sdkconfig --env-file /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/config.env --env IDF_TARGET=esp32 --dont-write-deprecated --output config /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/sdkconfig && /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/tools/check_term.py && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E env COMPONENT_KCONFIGS_SOURCE_FILE=/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/kconfigs.in COMPONENT_KCONFIGS_PROJBUILD_SOURCE_FILE=/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/kconfigs_projbuild.in IDF_CMAKE=y KCONFIG_CONFIG=/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/sdkconfig IDF_TARGET=esp32 /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/tools/kconfig_new/menuconfig.py /Users/galzahavi/esp-idf/Kconfig && /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/tools/kconfig_new/confgen.py --kconfig /Users/galzahavi/esp-idf/Kconfig --sdkconfig-rename /Users/galzahavi/esp-idf/sdkconfig.rename --config /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/sdkconfig --env-file /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/config.env --env IDF_TARGET=esp32 --output config /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/sdkconfig
   pool = console
 
 #############################################
 # Custom command for CMakeFiles/size
 
 build CMakeFiles/size: CUSTOM_COMMAND bootloader.elf || _project_elf_src bootloader.elf esp-idf/bootloader_support/libbootloader_support.a esp-idf/efuse/libefuse.a esp-idf/log/liblog.a esp-idf/main/libmain.a esp-idf/micro-ecc/libmicro-ecc.a esp-idf/soc/libsoc.a esp-idf/soc/soc/esp32/libsoc_esp32.a esp-idf/spi_flash/libspi_flash.a
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader && /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/tools/idf_size.py --target esp32 /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/bootloader.map
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader && /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/tools/idf_size.py --target esp32 /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/bootloader.map
 
 #############################################
 # Custom command for CMakeFiles/monitor
 
 build CMakeFiles/monitor: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/esp-idf/components/esptool_py && /usr/local/Cellar/cmake/3.14.2/bin/cmake -D IDF_PATH="/Users/galzahavi/esp-idf" -D IDF_MONITOR="/Users/galzahavi/esp-idf/tools/idf_monitor.py" -D ELF_FILE="/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/bootloader.elf" -D WORKING_DIRECTORY="/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader" -P run_idf_monitor.cmake
+  COMMAND = cd /Users/galzahavi/esp-idf/components/esptool_py && /usr/local/Cellar/cmake/3.14.2/bin/cmake -D IDF_PATH="/Users/galzahavi/esp-idf" -D IDF_MONITOR="/Users/galzahavi/esp-idf/tools/idf_monitor.py" -D ELF_FILE="/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/bootloader.elf" -D WORKING_DIRECTORY="/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader" -P run_idf_monitor.cmake
   pool = console
 
 #############################################
@@ -188,7 +188,7 @@ build CMakeFiles/gen_project_binary: phony .bin_timestamp || _project_elf_src bo
 # Custom command for .bin_timestamp
 
 build .bin_timestamp: CUSTOM_COMMAND bootloader.elf || _project_elf_src bootloader.elf esp-idf/bootloader_support/libbootloader_support.a esp-idf/efuse/libefuse.a esp-idf/log/liblog.a esp-idf/main/libmain.a esp-idf/micro-ecc/libmicro-ecc.a esp-idf/soc/libsoc.a esp-idf/soc/soc/esp32/libsoc_esp32.a esp-idf/spi_flash/libspi_flash.a
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader && /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/components/esptool_py/esptool/esptool.py --chip esp32 elf2image --flash_mode dio --flash_freq 40m --flash_size 2MB -o /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/bootloader.bin /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/bootloader.elf && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo "Generated /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/bootloader.bin" && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E md5sum /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/bootloader.bin > /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/.bin_timestamp
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader && /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/components/esptool_py/esptool/esptool.py --chip esp32 elf2image --flash_mode dio --flash_freq 40m --flash_size 2MB -o /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/bootloader.bin /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/bootloader.elf && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo "Generated /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/bootloader.bin" && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E md5sum /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/bootloader.bin > /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/.bin_timestamp
   DESC = Generating binary image from built executable
   restat = 1
 
@@ -203,7 +203,7 @@ build CMakeFiles/erase_flash: CUSTOM_COMMAND
 # Custom command for CMakeFiles/confserver
 
 build CMakeFiles/confserver: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader && /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/tools/kconfig_new/prepare_kconfig_files.py --env-file /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/config.env && /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/tools/kconfig_new/confserver.py --env-file /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/config.env --kconfig /Users/galzahavi/esp-idf/Kconfig --sdkconfig-rename /Users/galzahavi/esp-idf/sdkconfig.rename --config /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/sdkconfig
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader && /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/tools/kconfig_new/prepare_kconfig_files.py --env-file /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/config.env && /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/tools/kconfig_new/confserver.py --env-file /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/config.env --kconfig /Users/galzahavi/esp-idf/Kconfig --sdkconfig-rename /Users/galzahavi/esp-idf/sdkconfig.rename --config /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/sdkconfig
   pool = console
 # =============================================================================
 # Write statements declared in CMakeLists.txt:
@@ -215,7 +215,7 @@ build CMakeFiles/confserver: CUSTOM_COMMAND
 # Utility command for rebuild_cache
 
 build esp-idf/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -225,7 +225,7 @@ build esp-idf/rebuild_cache: phony esp-idf/CMakeFiles/rebuild_cache.util
 # Utility command for edit_cache
 
 build esp-idf/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 build esp-idf/edit_cache: phony esp-idf/CMakeFiles/edit_cache.util
@@ -239,7 +239,7 @@ build esp-idf/edit_cache: phony esp-idf/CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build esp-idf/esp32/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/esp32 && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/esp32 && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -249,7 +249,7 @@ build esp-idf/esp32/rebuild_cache: phony esp-idf/esp32/CMakeFiles/rebuild_cache.
 # Utility command for edit_cache
 
 build esp-idf/esp32/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/esp32 && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/esp32 && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 build esp-idf/esp32/edit_cache: phony esp-idf/esp32/CMakeFiles/edit_cache.util
@@ -263,7 +263,7 @@ build esp-idf/esp32/edit_cache: phony esp-idf/esp32/CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build esp-idf/soc/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/soc && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/soc && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -273,7 +273,7 @@ build esp-idf/soc/rebuild_cache: phony esp-idf/soc/CMakeFiles/rebuild_cache.util
 # Utility command for edit_cache
 
 build esp-idf/soc/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/soc && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/soc && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 build esp-idf/soc/edit_cache: phony esp-idf/soc/CMakeFiles/edit_cache.util
@@ -580,7 +580,7 @@ build esp-idf/soc/libsoc.a: C_STATIC_LIBRARY_LINKER____idf_soc esp-idf/soc/CMake
 # Utility command for rebuild_cache
 
 build esp-idf/soc/src/esp32/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/soc/src/esp32 && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/soc/src/esp32 && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -590,7 +590,7 @@ build esp-idf/soc/src/esp32/rebuild_cache: phony esp-idf/soc/src/esp32/CMakeFile
 # Utility command for edit_cache
 
 build esp-idf/soc/src/esp32/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/soc/src/esp32 && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/soc/src/esp32 && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 build esp-idf/soc/src/esp32/edit_cache: phony esp-idf/soc/src/esp32/CMakeFiles/edit_cache.util
@@ -604,7 +604,7 @@ build esp-idf/soc/src/esp32/edit_cache: phony esp-idf/soc/src/esp32/CMakeFiles/e
 # Utility command for rebuild_cache
 
 build esp-idf/soc/soc/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/soc/soc && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/soc/soc && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -614,7 +614,7 @@ build esp-idf/soc/soc/rebuild_cache: phony esp-idf/soc/soc/CMakeFiles/rebuild_ca
 # Utility command for edit_cache
 
 build esp-idf/soc/soc/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/soc/soc && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/soc/soc && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 build esp-idf/soc/soc/edit_cache: phony esp-idf/soc/soc/CMakeFiles/edit_cache.util
@@ -628,7 +628,7 @@ build esp-idf/soc/soc/edit_cache: phony esp-idf/soc/soc/CMakeFiles/edit_cache.ut
 # Utility command for rebuild_cache
 
 build esp-idf/soc/soc/esp32/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/soc/soc/esp32 && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/soc/soc/esp32 && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -638,7 +638,7 @@ build esp-idf/soc/soc/esp32/rebuild_cache: phony esp-idf/soc/soc/esp32/CMakeFile
 # Utility command for edit_cache
 
 build esp-idf/soc/soc/esp32/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/soc/soc/esp32 && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/soc/soc/esp32 && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 build esp-idf/soc/soc/esp32/edit_cache: phony esp-idf/soc/soc/esp32/CMakeFiles/edit_cache.util
@@ -759,7 +759,7 @@ build esp-idf/soc/soc/esp32/libsoc_esp32.a: C_STATIC_LIBRARY_LINKER__soc_esp32 e
 # Utility command for rebuild_cache
 
 build esp-idf/xtensa/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/xtensa && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/xtensa && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -769,7 +769,7 @@ build esp-idf/xtensa/rebuild_cache: phony esp-idf/xtensa/CMakeFiles/rebuild_cach
 # Utility command for edit_cache
 
 build esp-idf/xtensa/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/xtensa && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/xtensa && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 build esp-idf/xtensa/edit_cache: phony esp-idf/xtensa/CMakeFiles/edit_cache.util
@@ -783,7 +783,7 @@ build esp-idf/xtensa/edit_cache: phony esp-idf/xtensa/CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build esp-idf/esp_common/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/esp_common && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/esp_common && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -793,7 +793,7 @@ build esp-idf/esp_common/rebuild_cache: phony esp-idf/esp_common/CMakeFiles/rebu
 # Utility command for edit_cache
 
 build esp-idf/esp_common/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/esp_common && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/esp_common && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 build esp-idf/esp_common/edit_cache: phony esp-idf/esp_common/CMakeFiles/edit_cache.util
@@ -807,7 +807,7 @@ build esp-idf/esp_common/edit_cache: phony esp-idf/esp_common/CMakeFiles/edit_ca
 # Utility command for rebuild_cache
 
 build esp-idf/esp_rom/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/esp_rom && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/esp_rom && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -817,7 +817,7 @@ build esp-idf/esp_rom/rebuild_cache: phony esp-idf/esp_rom/CMakeFiles/rebuild_ca
 # Utility command for edit_cache
 
 build esp-idf/esp_rom/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/esp_rom && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/esp_rom && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 build esp-idf/esp_rom/edit_cache: phony esp-idf/esp_rom/CMakeFiles/edit_cache.util
@@ -831,7 +831,7 @@ build esp-idf/esp_rom/edit_cache: phony esp-idf/esp_rom/CMakeFiles/edit_cache.ut
 # Utility command for rebuild_cache
 
 build esp-idf/log/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/log && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/log && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -841,7 +841,7 @@ build esp-idf/log/rebuild_cache: phony esp-idf/log/CMakeFiles/rebuild_cache.util
 # Utility command for edit_cache
 
 build esp-idf/log/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/log && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/log && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 build esp-idf/log/edit_cache: phony esp-idf/log/CMakeFiles/edit_cache.util
@@ -896,7 +896,7 @@ build esp-idf/log/liblog.a: C_STATIC_LIBRARY_LINKER____idf_log esp-idf/log/CMake
 # Utility command for rebuild_cache
 
 build esp-idf/partition_table/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/partition_table && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/partition_table && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -906,7 +906,7 @@ build esp-idf/partition_table/rebuild_cache: phony esp-idf/partition_table/CMake
 # Utility command for edit_cache
 
 build esp-idf/partition_table/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/partition_table && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/partition_table && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 build esp-idf/partition_table/edit_cache: phony esp-idf/partition_table/CMakeFiles/edit_cache.util
@@ -920,7 +920,7 @@ build esp-idf/partition_table/edit_cache: phony esp-idf/partition_table/CMakeFil
 # Utility command for rebuild_cache
 
 build esp-idf/bootloader/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/bootloader && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/bootloader && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -930,7 +930,7 @@ build esp-idf/bootloader/rebuild_cache: phony esp-idf/bootloader/CMakeFiles/rebu
 # Utility command for edit_cache
 
 build esp-idf/bootloader/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/bootloader && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/bootloader && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 build esp-idf/bootloader/edit_cache: phony esp-idf/bootloader/CMakeFiles/edit_cache.util
@@ -944,7 +944,7 @@ build esp-idf/bootloader/edit_cache: phony esp-idf/bootloader/CMakeFiles/edit_ca
 # Utility command for rebuild_cache
 
 build esp-idf/micro-ecc/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/micro-ecc && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/micro-ecc && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -954,7 +954,7 @@ build esp-idf/micro-ecc/rebuild_cache: phony esp-idf/micro-ecc/CMakeFiles/rebuil
 # Utility command for edit_cache
 
 build esp-idf/micro-ecc/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/micro-ecc && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/micro-ecc && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 build esp-idf/micro-ecc/edit_cache: phony esp-idf/micro-ecc/CMakeFiles/edit_cache.util
@@ -997,7 +997,7 @@ build esp-idf/micro-ecc/libmicro-ecc.a: C_STATIC_LIBRARY_LINKER____idf_micro-ecc
 # Utility command for rebuild_cache
 
 build esp-idf/spi_flash/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/spi_flash && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/spi_flash && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -1007,7 +1007,7 @@ build esp-idf/spi_flash/rebuild_cache: phony esp-idf/spi_flash/CMakeFiles/rebuil
 # Utility command for edit_cache
 
 build esp-idf/spi_flash/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/spi_flash && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/spi_flash && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 build esp-idf/spi_flash/edit_cache: phony esp-idf/spi_flash/CMakeFiles/edit_cache.util
@@ -1050,7 +1050,7 @@ build esp-idf/spi_flash/libspi_flash.a: C_STATIC_LIBRARY_LINKER____idf_spi_flash
 # Utility command for rebuild_cache
 
 build esp-idf/efuse/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/efuse && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/efuse && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -1080,7 +1080,7 @@ build esp-idf/efuse/show_efuse_table: phony esp-idf/efuse/CMakeFiles/show_efuse_
 # Utility command for edit_cache
 
 build esp-idf/efuse/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/efuse && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/efuse && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 build esp-idf/efuse/edit_cache: phony esp-idf/efuse/CMakeFiles/edit_cache.util
@@ -1154,19 +1154,19 @@ build esp-idf/efuse/libefuse.a: C_STATIC_LIBRARY_LINKER____idf_efuse esp-idf/efu
 # Custom command for esp-idf/efuse/CMakeFiles/efuse_test_table
 
 build esp-idf/efuse/CMakeFiles/efuse_test_table: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/efuse && /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/components/efuse/efuse_table_gen.py /Users/galzahavi/esp-idf/components/efuse/test/esp_efuse_test_table.csv -t esp32 --max_blk_len 192
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/efuse && /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/components/efuse/efuse_table_gen.py /Users/galzahavi/esp-idf/components/efuse/test/esp_efuse_test_table.csv -t esp32 --max_blk_len 192
 
 #############################################
 # Custom command for esp-idf/efuse/CMakeFiles/efuse_common_table
 
 build esp-idf/efuse/CMakeFiles/efuse_common_table: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/efuse && /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/components/efuse/efuse_table_gen.py /Users/galzahavi/esp-idf/components/efuse/esp32/esp_efuse_table.csv -t esp32 --max_blk_len 192
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/efuse && /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/components/efuse/efuse_table_gen.py /Users/galzahavi/esp-idf/components/efuse/esp32/esp_efuse_table.csv -t esp32 --max_blk_len 192
 
 #############################################
 # Custom command for esp-idf/efuse/CMakeFiles/show_efuse_table
 
 build esp-idf/efuse/CMakeFiles/show_efuse_table: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/efuse && /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/components/efuse/efuse_table_gen.py /Users/galzahavi/esp-idf/components/efuse/esp32/esp_efuse_table.csv -t esp32 --max_blk_len 192 --info
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/efuse && /Users/galzahavi/.espressif/python_env/idf4.2_py2.7_env/bin/python /Users/galzahavi/esp-idf/components/efuse/efuse_table_gen.py /Users/galzahavi/esp-idf/components/efuse/esp32/esp_efuse_table.csv -t esp32 --max_blk_len 192 --info
 # =============================================================================
 # Write statements declared in CMakeLists.txt:
 # /Users/galzahavi/esp-idf/CMakeLists.txt
@@ -1177,7 +1177,7 @@ build esp-idf/efuse/CMakeFiles/show_efuse_table: CUSTOM_COMMAND
 # Utility command for rebuild_cache
 
 build esp-idf/bootloader_support/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/bootloader_support && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/bootloader_support && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -1187,7 +1187,7 @@ build esp-idf/bootloader_support/rebuild_cache: phony esp-idf/bootloader_support
 # Utility command for edit_cache
 
 build esp-idf/bootloader_support/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/bootloader_support && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/bootloader_support && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 build esp-idf/bootloader_support/edit_cache: phony esp-idf/bootloader_support/CMakeFiles/edit_cache.util
@@ -1320,7 +1320,7 @@ build esp-idf/bootloader_support/libbootloader_support.a: C_STATIC_LIBRARY_LINKE
 # Utility command for rebuild_cache
 
 build esp-idf/esptool_py/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/esptool_py && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/esptool_py && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -1330,7 +1330,7 @@ build esp-idf/esptool_py/rebuild_cache: phony esp-idf/esptool_py/CMakeFiles/rebu
 # Utility command for edit_cache
 
 build esp-idf/esptool_py/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/esptool_py && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/esptool_py && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 build esp-idf/esptool_py/edit_cache: phony esp-idf/esptool_py/CMakeFiles/edit_cache.util
@@ -1344,7 +1344,7 @@ build esp-idf/esptool_py/edit_cache: phony esp-idf/esptool_py/CMakeFiles/edit_ca
 # Utility command for rebuild_cache
 
 build esp-idf/main/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/main && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/main && /usr/local/Cellar/cmake/3.14.2/bin/cmake -S/Users/galzahavi/esp-idf/components/bootloader/subproject -B/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -1354,7 +1354,7 @@ build esp-idf/main/rebuild_cache: phony esp-idf/main/CMakeFiles/rebuild_cache.ut
 # Utility command for edit_cache
 
 build esp-idf/main/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/main && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/main && /usr/local/Cellar/cmake/3.14.2/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 build esp-idf/main/edit_cache: phony esp-idf/main/CMakeFiles/edit_cache.util
@@ -1417,109 +1417,109 @@ build soc_esp32: phony esp-idf/soc/soc/esp32/libsoc_esp32.a
 # =============================================================================
 
 #############################################
-# Folder: /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf
+# Folder: /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf
 
 build  esp-idf/all: phony esp-idf/esp32/all esp-idf/soc/all esp-idf/xtensa/all esp-idf/esp_common/all esp-idf/esp_rom/all esp-idf/log/all esp-idf/partition_table/all esp-idf/bootloader/all esp-idf/micro-ecc/all esp-idf/spi_flash/all esp-idf/efuse/all esp-idf/bootloader_support/all esp-idf/esptool_py/all esp-idf/main/all
 # =============================================================================
 
 #############################################
-# Folder: /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/bootloader
+# Folder: /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/bootloader
 
 build  esp-idf/bootloader/all: phony
 # =============================================================================
 
 #############################################
-# Folder: /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/bootloader_support
+# Folder: /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/bootloader_support
 
 build  esp-idf/bootloader_support/all: phony __idf_bootloader_support
 # =============================================================================
 
 #############################################
-# Folder: /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/efuse
+# Folder: /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/efuse
 
 build  esp-idf/efuse/all: phony __idf_efuse
 # =============================================================================
 
 #############################################
-# Folder: /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/esp32
+# Folder: /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/esp32
 
 build  esp-idf/esp32/all: phony
 # =============================================================================
 
 #############################################
-# Folder: /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/esp_common
+# Folder: /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/esp_common
 
 build  esp-idf/esp_common/all: phony
 # =============================================================================
 
 #############################################
-# Folder: /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/esp_rom
+# Folder: /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/esp_rom
 
 build  esp-idf/esp_rom/all: phony
 # =============================================================================
 
 #############################################
-# Folder: /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/esptool_py
+# Folder: /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/esptool_py
 
 build  esp-idf/esptool_py/all: phony
 # =============================================================================
 
 #############################################
-# Folder: /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/log
+# Folder: /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/log
 
 build  esp-idf/log/all: phony __idf_log
 # =============================================================================
 
 #############################################
-# Folder: /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/main
+# Folder: /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/main
 
 build  esp-idf/main/all: phony __idf_main
 # =============================================================================
 
 #############################################
-# Folder: /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/micro-ecc
+# Folder: /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/micro-ecc
 
 build  esp-idf/micro-ecc/all: phony __idf_micro-ecc
 # =============================================================================
 
 #############################################
-# Folder: /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/partition_table
+# Folder: /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/partition_table
 
 build  esp-idf/partition_table/all: phony
 # =============================================================================
 
 #############################################
-# Folder: /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/soc
+# Folder: /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/soc
 
 build  esp-idf/soc/all: phony __idf_soc esp-idf/soc/src/esp32/all esp-idf/soc/soc/all
 # =============================================================================
 
 #############################################
-# Folder: /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/soc/soc
+# Folder: /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/soc/soc
 
 build  esp-idf/soc/soc/all: phony esp-idf/soc/soc/esp32/all
 # =============================================================================
 
 #############################################
-# Folder: /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/soc/soc/esp32
+# Folder: /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/soc/soc/esp32
 
 build  esp-idf/soc/soc/esp32/all: phony soc_esp32
 # =============================================================================
 
 #############################################
-# Folder: /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/soc/src/esp32
+# Folder: /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/soc/src/esp32
 
 build  esp-idf/soc/src/esp32/all: phony
 # =============================================================================
 
 #############################################
-# Folder: /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/spi_flash
+# Folder: /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/spi_flash
 
 build  esp-idf/spi_flash/all: phony __idf_spi_flash
 # =============================================================================
 
 #############################################
-# Folder: /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/xtensa
+# Folder: /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/bootloader/esp-idf/xtensa
 
 build  esp-idf/xtensa/all: phony
 # =============================================================================
@@ -1539,13 +1539,13 @@ default all
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/sdkconfig /Users/galzahavi/esp-idf/.git/HEAD /Users/galzahavi/esp-idf/.git/modules/components/asio/asio/HEAD /Users/galzahavi/esp-idf/.git/modules/components/bootloader/subproject/components/micro-ecc/micro-ecc/HEAD /Users/galzahavi/esp-idf/.git/modules/components/bt/controller/lib/HEAD /Users/galzahavi/esp-idf/.git/modules/components/bt/host/nimble/nimble/HEAD /Users/galzahavi/esp-idf/.git/modules/components/cbor/tinycbor/HEAD /Users/galzahavi/esp-idf/.git/modules/components/coap/libcoap/HEAD /Users/galzahavi/esp-idf/.git/modules/components/esp_wifi/lib/HEAD /Users/galzahavi/esp-idf/.git/modules/components/esptool_py/esptool/HEAD /Users/galzahavi/esp-idf/.git/modules/components/expat/expat/HEAD /Users/galzahavi/esp-idf/.git/modules/components/json/cJSON/HEAD /Users/galzahavi/esp-idf/.git/modules/components/libsodium/libsodium/HEAD /Users/galzahavi/esp-idf/.git/modules/components/lwip/lwip/HEAD /Users/galzahavi/esp-idf/.git/modules/components/mbedtls/mbedtls/HEAD /Users/galzahavi/esp-idf/.git/modules/components/mqtt/esp-mqtt/HEAD /Users/galzahavi/esp-idf/.git/modules/components/nghttp/nghttp2/HEAD /Users/galzahavi/esp-idf/.git/modules/components/protobuf-c/protobuf-c/HEAD /Users/galzahavi/esp-idf/.git/modules/components/spiffs/spiffs/HEAD /Users/galzahavi/esp-idf/.git/modules/components/tinyusb/tinyusb/HEAD /Users/galzahavi/esp-idf/.git/modules/components/unity/unity/HEAD /Users/galzahavi/esp-idf/.git/modules/examples/build_system/cmake/import_lib/main/lib/tinyxml2/HEAD /Users/galzahavi/esp-idf/.git/modules/examples/peripherals/secure_element/atecc608_ecdsa/components/esp-cryptoauthlib/HEAD /Users/galzahavi/esp-idf/.git/refs/heads/master /Users/galzahavi/esp-idf/CMakeLists.txt /Users/galzahavi/esp-idf/components/asio/asio/.git /Users/galzahavi/esp-idf/components/bootloader/CMakeLists.txt /Users/galzahavi/esp-idf/components/bootloader/project_include.cmake /Users/galzahavi/esp-idf/components/bootloader/subproject/CMakeLists.txt /Users/galzahavi/esp-idf/components/bootloader/subproject/components/micro-ecc/CMakeLists.txt /Users/galzahavi/esp-idf/components/bootloader/subproject/components/micro-ecc/micro-ecc/.git /Users/galzahavi/esp-idf/components/bootloader/subproject/main/CMakeLists.txt /Users/galzahavi/esp-idf/components/bootloader_support/CMakeLists.txt /Users/galzahavi/esp-idf/components/bt/controller/lib/.git /Users/galzahavi/esp-idf/components/bt/host/nimble/nimble/.git /Users/galzahavi/esp-idf/components/cbor/tinycbor/.git /Users/galzahavi/esp-idf/components/coap/libcoap/.git /Users/galzahavi/esp-idf/components/efuse/CMakeLists.txt /Users/galzahavi/esp-idf/components/efuse/esp32/sources.cmake /Users/galzahavi/esp-idf/components/esp32/CMakeLists.txt /Users/galzahavi/esp-idf/components/esp32/project_include.cmake /Users/galzahavi/esp-idf/components/esp_common/CMakeLists.txt /Users/galzahavi/esp-idf/components/esp_rom/CMakeLists.txt /Users/galzahavi/esp-idf/components/esp_wifi/lib/.git /Users/galzahavi/esp-idf/components/esptool_py/CMakeLists.txt /Users/galzahavi/esp-idf/components/esptool_py/esptool/.git /Users/galzahavi/esp-idf/components/esptool_py/project_include.cmake /Users/galzahavi/esp-idf/components/expat/expat/.git /Users/galzahavi/esp-idf/components/json/cJSON/.git /Users/galzahavi/esp-idf/components/libsodium/libsodium/.git /Users/galzahavi/esp-idf/components/log/CMakeLists.txt /Users/galzahavi/esp-idf/components/lwip/lwip/.git /Users/galzahavi/esp-idf/components/mbedtls/mbedtls/.git /Users/galzahavi/esp-idf/components/mqtt/esp-mqtt/.git /Users/galzahavi/esp-idf/components/nghttp/nghttp2/.git /Users/galzahavi/esp-idf/components/partition_table/CMakeLists.txt /Users/galzahavi/esp-idf/components/partition_table/project_include.cmake /Users/galzahavi/esp-idf/components/protobuf-c/protobuf-c/.git /Users/galzahavi/esp-idf/components/soc/CMakeLists.txt /Users/galzahavi/esp-idf/components/soc/soc/CMakeLists.txt /Users/galzahavi/esp-idf/components/soc/soc/esp32/CMakeLists.txt /Users/galzahavi/esp-idf/components/soc/src/esp32/CMakeLists.txt /Users/galzahavi/esp-idf/components/spi_flash/CMakeLists.txt /Users/galzahavi/esp-idf/components/spiffs/spiffs/.git /Users/galzahavi/esp-idf/components/tinyusb/tinyusb/.git /Users/galzahavi/esp-idf/components/unity/unity/.git /Users/galzahavi/esp-idf/components/xtensa/CMakeLists.txt /Users/galzahavi/esp-idf/examples/build_system/cmake/import_lib/main/lib/tinyxml2/.git /Users/galzahavi/esp-idf/examples/peripherals/secure_element/atecc608_ecdsa/components/esp-cryptoauthlib/.git /Users/galzahavi/esp-idf/tools/cmake/build.cmake /Users/galzahavi/esp-idf/tools/cmake/component.cmake /Users/galzahavi/esp-idf/tools/cmake/crosstool_version_check.cmake /Users/galzahavi/esp-idf/tools/cmake/dfu.cmake /Users/galzahavi/esp-idf/tools/cmake/git_submodules.cmake /Users/galzahavi/esp-idf/tools/cmake/idf.cmake /Users/galzahavi/esp-idf/tools/cmake/kconfig.cmake /Users/galzahavi/esp-idf/tools/cmake/ldgen.cmake /Users/galzahavi/esp-idf/tools/cmake/project.cmake /Users/galzahavi/esp-idf/tools/cmake/project_description.json.in /Users/galzahavi/esp-idf/tools/cmake/targets.cmake /Users/galzahavi/esp-idf/tools/cmake/third_party/GetGitRevisionDescription.cmake /Users/galzahavi/esp-idf/tools/cmake/third_party/GetGitRevisionDescription.cmake.in /Users/galzahavi/esp-idf/tools/cmake/toolchain-esp32.cmake /Users/galzahavi/esp-idf/tools/cmake/utilities.cmake /Users/galzahavi/esp-idf/tools/cmake/version.cmake /Users/galzahavi/esp-idf/tools/kconfig_new/confgen.py /Users/galzahavi/esp-idf/tools/kconfig_new/config.env.in /Users/galzahavi/esp-idf/tools/kconfig_new/kconfiglib.py /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeASMInformation.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeCInformation.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeCXXInformation.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeCommonLanguageInclude.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeGenericSystem.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeInitializeConfigs.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeLanguageInformation.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeSystemSpecificInformation.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Compiler/GNU-ASM.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Compiler/GNU-C.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Compiler/GNU-CXX.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Compiler/GNU.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/ExternalProject.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/FindGit.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/FindPackageHandleStandardArgs.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/FindPackageMessage.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Internal/CMakeCheckCompilerFlag.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Platform/Generic.cmake CMakeCache.txt CMakeFiles/3.14.2/CMakeASMCompiler.cmake CMakeFiles/3.14.2/CMakeCCompiler.cmake CMakeFiles/3.14.2/CMakeCXXCompiler.cmake CMakeFiles/3.14.2/CMakeSystem.cmake CMakeFiles/git-data/grabRef.cmake config/sdkconfig.cmake config/sdkconfig.h
+build build.ninja: RERUN_CMAKE | /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/sdkconfig /Users/galzahavi/esp-idf/.git/HEAD /Users/galzahavi/esp-idf/.git/modules/components/asio/asio/HEAD /Users/galzahavi/esp-idf/.git/modules/components/bootloader/subproject/components/micro-ecc/micro-ecc/HEAD /Users/galzahavi/esp-idf/.git/modules/components/bt/controller/lib/HEAD /Users/galzahavi/esp-idf/.git/modules/components/bt/host/nimble/nimble/HEAD /Users/galzahavi/esp-idf/.git/modules/components/cbor/tinycbor/HEAD /Users/galzahavi/esp-idf/.git/modules/components/coap/libcoap/HEAD /Users/galzahavi/esp-idf/.git/modules/components/esp_wifi/lib/HEAD /Users/galzahavi/esp-idf/.git/modules/components/esptool_py/esptool/HEAD /Users/galzahavi/esp-idf/.git/modules/components/expat/expat/HEAD /Users/galzahavi/esp-idf/.git/modules/components/json/cJSON/HEAD /Users/galzahavi/esp-idf/.git/modules/components/libsodium/libsodium/HEAD /Users/galzahavi/esp-idf/.git/modules/components/lwip/lwip/HEAD /Users/galzahavi/esp-idf/.git/modules/components/mbedtls/mbedtls/HEAD /Users/galzahavi/esp-idf/.git/modules/components/mqtt/esp-mqtt/HEAD /Users/galzahavi/esp-idf/.git/modules/components/nghttp/nghttp2/HEAD /Users/galzahavi/esp-idf/.git/modules/components/protobuf-c/protobuf-c/HEAD /Users/galzahavi/esp-idf/.git/modules/components/spiffs/spiffs/HEAD /Users/galzahavi/esp-idf/.git/modules/components/tinyusb/tinyusb/HEAD /Users/galzahavi/esp-idf/.git/modules/components/unity/unity/HEAD /Users/galzahavi/esp-idf/.git/modules/examples/build_system/cmake/import_lib/main/lib/tinyxml2/HEAD /Users/galzahavi/esp-idf/.git/modules/examples/peripherals/secure_element/atecc608_ecdsa/components/esp-cryptoauthlib/HEAD /Users/galzahavi/esp-idf/.git/refs/heads/master /Users/galzahavi/esp-idf/CMakeLists.txt /Users/galzahavi/esp-idf/components/asio/asio/.git /Users/galzahavi/esp-idf/components/bootloader/CMakeLists.txt /Users/galzahavi/esp-idf/components/bootloader/project_include.cmake /Users/galzahavi/esp-idf/components/bootloader/subproject/CMakeLists.txt /Users/galzahavi/esp-idf/components/bootloader/subproject/components/micro-ecc/CMakeLists.txt /Users/galzahavi/esp-idf/components/bootloader/subproject/components/micro-ecc/micro-ecc/.git /Users/galzahavi/esp-idf/components/bootloader/subproject/main/CMakeLists.txt /Users/galzahavi/esp-idf/components/bootloader_support/CMakeLists.txt /Users/galzahavi/esp-idf/components/bt/controller/lib/.git /Users/galzahavi/esp-idf/components/bt/host/nimble/nimble/.git /Users/galzahavi/esp-idf/components/cbor/tinycbor/.git /Users/galzahavi/esp-idf/components/coap/libcoap/.git /Users/galzahavi/esp-idf/components/efuse/CMakeLists.txt /Users/galzahavi/esp-idf/components/efuse/esp32/sources.cmake /Users/galzahavi/esp-idf/components/esp32/CMakeLists.txt /Users/galzahavi/esp-idf/components/esp32/project_include.cmake /Users/galzahavi/esp-idf/components/esp_common/CMakeLists.txt /Users/galzahavi/esp-idf/components/esp_rom/CMakeLists.txt /Users/galzahavi/esp-idf/components/esp_wifi/lib/.git /Users/galzahavi/esp-idf/components/esptool_py/CMakeLists.txt /Users/galzahavi/esp-idf/components/esptool_py/esptool/.git /Users/galzahavi/esp-idf/components/esptool_py/project_include.cmake /Users/galzahavi/esp-idf/components/expat/expat/.git /Users/galzahavi/esp-idf/components/json/cJSON/.git /Users/galzahavi/esp-idf/components/libsodium/libsodium/.git /Users/galzahavi/esp-idf/components/log/CMakeLists.txt /Users/galzahavi/esp-idf/components/lwip/lwip/.git /Users/galzahavi/esp-idf/components/mbedtls/mbedtls/.git /Users/galzahavi/esp-idf/components/mqtt/esp-mqtt/.git /Users/galzahavi/esp-idf/components/nghttp/nghttp2/.git /Users/galzahavi/esp-idf/components/partition_table/CMakeLists.txt /Users/galzahavi/esp-idf/components/partition_table/project_include.cmake /Users/galzahavi/esp-idf/components/protobuf-c/protobuf-c/.git /Users/galzahavi/esp-idf/components/soc/CMakeLists.txt /Users/galzahavi/esp-idf/components/soc/soc/CMakeLists.txt /Users/galzahavi/esp-idf/components/soc/soc/esp32/CMakeLists.txt /Users/galzahavi/esp-idf/components/soc/src/esp32/CMakeLists.txt /Users/galzahavi/esp-idf/components/spi_flash/CMakeLists.txt /Users/galzahavi/esp-idf/components/spiffs/spiffs/.git /Users/galzahavi/esp-idf/components/tinyusb/tinyusb/.git /Users/galzahavi/esp-idf/components/unity/unity/.git /Users/galzahavi/esp-idf/components/xtensa/CMakeLists.txt /Users/galzahavi/esp-idf/examples/build_system/cmake/import_lib/main/lib/tinyxml2/.git /Users/galzahavi/esp-idf/examples/peripherals/secure_element/atecc608_ecdsa/components/esp-cryptoauthlib/.git /Users/galzahavi/esp-idf/tools/cmake/build.cmake /Users/galzahavi/esp-idf/tools/cmake/component.cmake /Users/galzahavi/esp-idf/tools/cmake/crosstool_version_check.cmake /Users/galzahavi/esp-idf/tools/cmake/dfu.cmake /Users/galzahavi/esp-idf/tools/cmake/git_submodules.cmake /Users/galzahavi/esp-idf/tools/cmake/idf.cmake /Users/galzahavi/esp-idf/tools/cmake/kconfig.cmake /Users/galzahavi/esp-idf/tools/cmake/ldgen.cmake /Users/galzahavi/esp-idf/tools/cmake/project.cmake /Users/galzahavi/esp-idf/tools/cmake/project_description.json.in /Users/galzahavi/esp-idf/tools/cmake/targets.cmake /Users/galzahavi/esp-idf/tools/cmake/third_party/GetGitRevisionDescription.cmake /Users/galzahavi/esp-idf/tools/cmake/third_party/GetGitRevisionDescription.cmake.in /Users/galzahavi/esp-idf/tools/cmake/toolchain-esp32.cmake /Users/galzahavi/esp-idf/tools/cmake/utilities.cmake /Users/galzahavi/esp-idf/tools/cmake/version.cmake /Users/galzahavi/esp-idf/tools/kconfig_new/confgen.py /Users/galzahavi/esp-idf/tools/kconfig_new/config.env.in /Users/galzahavi/esp-idf/tools/kconfig_new/kconfiglib.py /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeASMInformation.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeCInformation.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeCXXInformation.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeCommonLanguageInclude.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeGenericSystem.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeInitializeConfigs.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeLanguageInformation.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeSystemSpecificInformation.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Compiler/GNU-ASM.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Compiler/GNU-C.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Compiler/GNU-CXX.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Compiler/GNU.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/ExternalProject.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/FindGit.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/FindPackageHandleStandardArgs.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/FindPackageMessage.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Internal/CMakeCheckCompilerFlag.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Platform/Generic.cmake CMakeCache.txt CMakeFiles/3.14.2/CMakeASMCompiler.cmake CMakeFiles/3.14.2/CMakeCCompiler.cmake CMakeFiles/3.14.2/CMakeCXXCompiler.cmake CMakeFiles/3.14.2/CMakeSystem.cmake CMakeFiles/git-data/grabRef.cmake config/sdkconfig.cmake config/sdkconfig.h
   pool = console
 
 #############################################
 # A missing CMake input file is not an error.
 
-build /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/sdkconfig /Users/galzahavi/esp-idf/.git/HEAD /Users/galzahavi/esp-idf/.git/modules/components/asio/asio/HEAD /Users/galzahavi/esp-idf/.git/modules/components/bootloader/subproject/components/micro-ecc/micro-ecc/HEAD /Users/galzahavi/esp-idf/.git/modules/components/bt/controller/lib/HEAD /Users/galzahavi/esp-idf/.git/modules/components/bt/host/nimble/nimble/HEAD /Users/galzahavi/esp-idf/.git/modules/components/cbor/tinycbor/HEAD /Users/galzahavi/esp-idf/.git/modules/components/coap/libcoap/HEAD /Users/galzahavi/esp-idf/.git/modules/components/esp_wifi/lib/HEAD /Users/galzahavi/esp-idf/.git/modules/components/esptool_py/esptool/HEAD /Users/galzahavi/esp-idf/.git/modules/components/expat/expat/HEAD /Users/galzahavi/esp-idf/.git/modules/components/json/cJSON/HEAD /Users/galzahavi/esp-idf/.git/modules/components/libsodium/libsodium/HEAD /Users/galzahavi/esp-idf/.git/modules/components/lwip/lwip/HEAD /Users/galzahavi/esp-idf/.git/modules/components/mbedtls/mbedtls/HEAD /Users/galzahavi/esp-idf/.git/modules/components/mqtt/esp-mqtt/HEAD /Users/galzahavi/esp-idf/.git/modules/components/nghttp/nghttp2/HEAD /Users/galzahavi/esp-idf/.git/modules/components/protobuf-c/protobuf-c/HEAD /Users/galzahavi/esp-idf/.git/modules/components/spiffs/spiffs/HEAD /Users/galzahavi/esp-idf/.git/modules/components/tinyusb/tinyusb/HEAD /Users/galzahavi/esp-idf/.git/modules/components/unity/unity/HEAD /Users/galzahavi/esp-idf/.git/modules/examples/build_system/cmake/import_lib/main/lib/tinyxml2/HEAD /Users/galzahavi/esp-idf/.git/modules/examples/peripherals/secure_element/atecc608_ecdsa/components/esp-cryptoauthlib/HEAD /Users/galzahavi/esp-idf/.git/refs/heads/master /Users/galzahavi/esp-idf/CMakeLists.txt /Users/galzahavi/esp-idf/components/asio/asio/.git /Users/galzahavi/esp-idf/components/bootloader/CMakeLists.txt /Users/galzahavi/esp-idf/components/bootloader/project_include.cmake /Users/galzahavi/esp-idf/components/bootloader/subproject/CMakeLists.txt /Users/galzahavi/esp-idf/components/bootloader/subproject/components/micro-ecc/CMakeLists.txt /Users/galzahavi/esp-idf/components/bootloader/subproject/components/micro-ecc/micro-ecc/.git /Users/galzahavi/esp-idf/components/bootloader/subproject/main/CMakeLists.txt /Users/galzahavi/esp-idf/components/bootloader_support/CMakeLists.txt /Users/galzahavi/esp-idf/components/bt/controller/lib/.git /Users/galzahavi/esp-idf/components/bt/host/nimble/nimble/.git /Users/galzahavi/esp-idf/components/cbor/tinycbor/.git /Users/galzahavi/esp-idf/components/coap/libcoap/.git /Users/galzahavi/esp-idf/components/efuse/CMakeLists.txt /Users/galzahavi/esp-idf/components/efuse/esp32/sources.cmake /Users/galzahavi/esp-idf/components/esp32/CMakeLists.txt /Users/galzahavi/esp-idf/components/esp32/project_include.cmake /Users/galzahavi/esp-idf/components/esp_common/CMakeLists.txt /Users/galzahavi/esp-idf/components/esp_rom/CMakeLists.txt /Users/galzahavi/esp-idf/components/esp_wifi/lib/.git /Users/galzahavi/esp-idf/components/esptool_py/CMakeLists.txt /Users/galzahavi/esp-idf/components/esptool_py/esptool/.git /Users/galzahavi/esp-idf/components/esptool_py/project_include.cmake /Users/galzahavi/esp-idf/components/expat/expat/.git /Users/galzahavi/esp-idf/components/json/cJSON/.git /Users/galzahavi/esp-idf/components/libsodium/libsodium/.git /Users/galzahavi/esp-idf/components/log/CMakeLists.txt /Users/galzahavi/esp-idf/components/lwip/lwip/.git /Users/galzahavi/esp-idf/components/mbedtls/mbedtls/.git /Users/galzahavi/esp-idf/components/mqtt/esp-mqtt/.git /Users/galzahavi/esp-idf/components/nghttp/nghttp2/.git /Users/galzahavi/esp-idf/components/partition_table/CMakeLists.txt /Users/galzahavi/esp-idf/components/partition_table/project_include.cmake /Users/galzahavi/esp-idf/components/protobuf-c/protobuf-c/.git /Users/galzahavi/esp-idf/components/soc/CMakeLists.txt /Users/galzahavi/esp-idf/components/soc/soc/CMakeLists.txt /Users/galzahavi/esp-idf/components/soc/soc/esp32/CMakeLists.txt /Users/galzahavi/esp-idf/components/soc/src/esp32/CMakeLists.txt /Users/galzahavi/esp-idf/components/spi_flash/CMakeLists.txt /Users/galzahavi/esp-idf/components/spiffs/spiffs/.git /Users/galzahavi/esp-idf/components/tinyusb/tinyusb/.git /Users/galzahavi/esp-idf/components/unity/unity/.git /Users/galzahavi/esp-idf/components/xtensa/CMakeLists.txt /Users/galzahavi/esp-idf/examples/build_system/cmake/import_lib/main/lib/tinyxml2/.git /Users/galzahavi/esp-idf/examples/peripherals/secure_element/atecc608_ecdsa/components/esp-cryptoauthlib/.git /Users/galzahavi/esp-idf/tools/cmake/build.cmake /Users/galzahavi/esp-idf/tools/cmake/component.cmake /Users/galzahavi/esp-idf/tools/cmake/crosstool_version_check.cmake /Users/galzahavi/esp-idf/tools/cmake/dfu.cmake /Users/galzahavi/esp-idf/tools/cmake/git_submodules.cmake /Users/galzahavi/esp-idf/tools/cmake/idf.cmake /Users/galzahavi/esp-idf/tools/cmake/kconfig.cmake /Users/galzahavi/esp-idf/tools/cmake/ldgen.cmake /Users/galzahavi/esp-idf/tools/cmake/project.cmake /Users/galzahavi/esp-idf/tools/cmake/project_description.json.in /Users/galzahavi/esp-idf/tools/cmake/targets.cmake /Users/galzahavi/esp-idf/tools/cmake/third_party/GetGitRevisionDescription.cmake /Users/galzahavi/esp-idf/tools/cmake/third_party/GetGitRevisionDescription.cmake.in /Users/galzahavi/esp-idf/tools/cmake/toolchain-esp32.cmake /Users/galzahavi/esp-idf/tools/cmake/utilities.cmake /Users/galzahavi/esp-idf/tools/cmake/version.cmake /Users/galzahavi/esp-idf/tools/kconfig_new/confgen.py /Users/galzahavi/esp-idf/tools/kconfig_new/config.env.in /Users/galzahavi/esp-idf/tools/kconfig_new/kconfiglib.py /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeASMInformation.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeCInformation.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeCXXInformation.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeCommonLanguageInclude.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeGenericSystem.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeInitializeConfigs.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeLanguageInformation.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeSystemSpecificInformation.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Compiler/GNU-ASM.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Compiler/GNU-C.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Compiler/GNU-CXX.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Compiler/GNU.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/ExternalProject.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/FindGit.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/FindPackageHandleStandardArgs.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/FindPackageMessage.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Internal/CMakeCheckCompilerFlag.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Platform/Generic.cmake CMakeCache.txt CMakeFiles/3.14.2/CMakeASMCompiler.cmake CMakeFiles/3.14.2/CMakeCCompiler.cmake CMakeFiles/3.14.2/CMakeCXXCompiler.cmake CMakeFiles/3.14.2/CMakeSystem.cmake CMakeFiles/git-data/grabRef.cmake config/sdkconfig.cmake config/sdkconfig.h: phony
+build /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/sdkconfig /Users/galzahavi/esp-idf/.git/HEAD /Users/galzahavi/esp-idf/.git/modules/components/asio/asio/HEAD /Users/galzahavi/esp-idf/.git/modules/components/bootloader/subproject/components/micro-ecc/micro-ecc/HEAD /Users/galzahavi/esp-idf/.git/modules/components/bt/controller/lib/HEAD /Users/galzahavi/esp-idf/.git/modules/components/bt/host/nimble/nimble/HEAD /Users/galzahavi/esp-idf/.git/modules/components/cbor/tinycbor/HEAD /Users/galzahavi/esp-idf/.git/modules/components/coap/libcoap/HEAD /Users/galzahavi/esp-idf/.git/modules/components/esp_wifi/lib/HEAD /Users/galzahavi/esp-idf/.git/modules/components/esptool_py/esptool/HEAD /Users/galzahavi/esp-idf/.git/modules/components/expat/expat/HEAD /Users/galzahavi/esp-idf/.git/modules/components/json/cJSON/HEAD /Users/galzahavi/esp-idf/.git/modules/components/libsodium/libsodium/HEAD /Users/galzahavi/esp-idf/.git/modules/components/lwip/lwip/HEAD /Users/galzahavi/esp-idf/.git/modules/components/mbedtls/mbedtls/HEAD /Users/galzahavi/esp-idf/.git/modules/components/mqtt/esp-mqtt/HEAD /Users/galzahavi/esp-idf/.git/modules/components/nghttp/nghttp2/HEAD /Users/galzahavi/esp-idf/.git/modules/components/protobuf-c/protobuf-c/HEAD /Users/galzahavi/esp-idf/.git/modules/components/spiffs/spiffs/HEAD /Users/galzahavi/esp-idf/.git/modules/components/tinyusb/tinyusb/HEAD /Users/galzahavi/esp-idf/.git/modules/components/unity/unity/HEAD /Users/galzahavi/esp-idf/.git/modules/examples/build_system/cmake/import_lib/main/lib/tinyxml2/HEAD /Users/galzahavi/esp-idf/.git/modules/examples/peripherals/secure_element/atecc608_ecdsa/components/esp-cryptoauthlib/HEAD /Users/galzahavi/esp-idf/.git/refs/heads/master /Users/galzahavi/esp-idf/CMakeLists.txt /Users/galzahavi/esp-idf/components/asio/asio/.git /Users/galzahavi/esp-idf/components/bootloader/CMakeLists.txt /Users/galzahavi/esp-idf/components/bootloader/project_include.cmake /Users/galzahavi/esp-idf/components/bootloader/subproject/CMakeLists.txt /Users/galzahavi/esp-idf/components/bootloader/subproject/components/micro-ecc/CMakeLists.txt /Users/galzahavi/esp-idf/components/bootloader/subproject/components/micro-ecc/micro-ecc/.git /Users/galzahavi/esp-idf/components/bootloader/subproject/main/CMakeLists.txt /Users/galzahavi/esp-idf/components/bootloader_support/CMakeLists.txt /Users/galzahavi/esp-idf/components/bt/controller/lib/.git /Users/galzahavi/esp-idf/components/bt/host/nimble/nimble/.git /Users/galzahavi/esp-idf/components/cbor/tinycbor/.git /Users/galzahavi/esp-idf/components/coap/libcoap/.git /Users/galzahavi/esp-idf/components/efuse/CMakeLists.txt /Users/galzahavi/esp-idf/components/efuse/esp32/sources.cmake /Users/galzahavi/esp-idf/components/esp32/CMakeLists.txt /Users/galzahavi/esp-idf/components/esp32/project_include.cmake /Users/galzahavi/esp-idf/components/esp_common/CMakeLists.txt /Users/galzahavi/esp-idf/components/esp_rom/CMakeLists.txt /Users/galzahavi/esp-idf/components/esp_wifi/lib/.git /Users/galzahavi/esp-idf/components/esptool_py/CMakeLists.txt /Users/galzahavi/esp-idf/components/esptool_py/esptool/.git /Users/galzahavi/esp-idf/components/esptool_py/project_include.cmake /Users/galzahavi/esp-idf/components/expat/expat/.git /Users/galzahavi/esp-idf/components/json/cJSON/.git /Users/galzahavi/esp-idf/components/libsodium/libsodium/.git /Users/galzahavi/esp-idf/components/log/CMakeLists.txt /Users/galzahavi/esp-idf/components/lwip/lwip/.git /Users/galzahavi/esp-idf/components/mbedtls/mbedtls/.git /Users/galzahavi/esp-idf/components/mqtt/esp-mqtt/.git /Users/galzahavi/esp-idf/components/nghttp/nghttp2/.git /Users/galzahavi/esp-idf/components/partition_table/CMakeLists.txt /Users/galzahavi/esp-idf/components/partition_table/project_include.cmake /Users/galzahavi/esp-idf/components/protobuf-c/protobuf-c/.git /Users/galzahavi/esp-idf/components/soc/CMakeLists.txt /Users/galzahavi/esp-idf/components/soc/soc/CMakeLists.txt /Users/galzahavi/esp-idf/components/soc/soc/esp32/CMakeLists.txt /Users/galzahavi/esp-idf/components/soc/src/esp32/CMakeLists.txt /Users/galzahavi/esp-idf/components/spi_flash/CMakeLists.txt /Users/galzahavi/esp-idf/components/spiffs/spiffs/.git /Users/galzahavi/esp-idf/components/tinyusb/tinyusb/.git /Users/galzahavi/esp-idf/components/unity/unity/.git /Users/galzahavi/esp-idf/components/xtensa/CMakeLists.txt /Users/galzahavi/esp-idf/examples/build_system/cmake/import_lib/main/lib/tinyxml2/.git /Users/galzahavi/esp-idf/examples/peripherals/secure_element/atecc608_ecdsa/components/esp-cryptoauthlib/.git /Users/galzahavi/esp-idf/tools/cmake/build.cmake /Users/galzahavi/esp-idf/tools/cmake/component.cmake /Users/galzahavi/esp-idf/tools/cmake/crosstool_version_check.cmake /Users/galzahavi/esp-idf/tools/cmake/dfu.cmake /Users/galzahavi/esp-idf/tools/cmake/git_submodules.cmake /Users/galzahavi/esp-idf/tools/cmake/idf.cmake /Users/galzahavi/esp-idf/tools/cmake/kconfig.cmake /Users/galzahavi/esp-idf/tools/cmake/ldgen.cmake /Users/galzahavi/esp-idf/tools/cmake/project.cmake /Users/galzahavi/esp-idf/tools/cmake/project_description.json.in /Users/galzahavi/esp-idf/tools/cmake/targets.cmake /Users/galzahavi/esp-idf/tools/cmake/third_party/GetGitRevisionDescription.cmake /Users/galzahavi/esp-idf/tools/cmake/third_party/GetGitRevisionDescription.cmake.in /Users/galzahavi/esp-idf/tools/cmake/toolchain-esp32.cmake /Users/galzahavi/esp-idf/tools/cmake/utilities.cmake /Users/galzahavi/esp-idf/tools/cmake/version.cmake /Users/galzahavi/esp-idf/tools/kconfig_new/confgen.py /Users/galzahavi/esp-idf/tools/kconfig_new/config.env.in /Users/galzahavi/esp-idf/tools/kconfig_new/kconfiglib.py /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeASMInformation.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeCInformation.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeCXXInformation.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeCommonLanguageInclude.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeGenericSystem.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeInitializeConfigs.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeLanguageInformation.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeSystemSpecificInformation.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Compiler/GNU-ASM.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Compiler/GNU-C.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Compiler/GNU-CXX.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Compiler/GNU.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/ExternalProject.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/FindGit.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/FindPackageHandleStandardArgs.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/FindPackageMessage.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Internal/CMakeCheckCompilerFlag.cmake /usr/local/Cellar/cmake/3.14.2/share/cmake/Modules/Platform/Generic.cmake CMakeCache.txt CMakeFiles/3.14.2/CMakeASMCompiler.cmake CMakeFiles/3.14.2/CMakeCCompiler.cmake CMakeFiles/3.14.2/CMakeCXXCompiler.cmake CMakeFiles/3.14.2/CMakeSystem.cmake CMakeFiles/git-data/grabRef.cmake config/sdkconfig.cmake config/sdkconfig.h: phony
 
 #############################################
 # Clean all the built files.

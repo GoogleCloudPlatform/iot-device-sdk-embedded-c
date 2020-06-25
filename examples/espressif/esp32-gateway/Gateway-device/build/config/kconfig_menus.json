@@ -15469,64 +15469,6 @@
                 "id": "component-config-button", 
                 "title": "Button", 
                 "type": "menu"
-            }, 
-            {
-                "children": [
-                    {
-                        "children": [], 
-                        "depends_on": null, 
-                        "help": "Google Cloud project ID", 
-                        "id": "GIOT_PROJECT_ID", 
-                        "name": "GIOT_PROJECT_ID", 
-                        "range": null, 
-                        "title": "Google Cloud Project ID", 
-                        "type": "string"
-                    }, 
-                    {
-                        "children": [], 
-                        "depends_on": null, 
-                        "help": "Google Cloud region", 
-                        "id": "GIOT_LOCATION", 
-                        "name": "GIOT_LOCATION", 
-                        "range": null, 
-                        "title": "Google Cloud location", 
-                        "type": "string"
-                    }, 
-                    {
-                        "children": [], 
-                        "depends_on": null, 
-                        "help": "Google IoT Core registry id", 
-                        "id": "GIOT_REGISTRY_ID", 
-                        "name": "GIOT_REGISTRY_ID", 
-                        "range": null, 
-                        "title": "Google IoT Core Registry ID", 
-                        "type": "string"
-                    }, 
-                    {
-                        "children": [], 
-                        "depends_on": null, 
-                        "help": "Google IoT Core device id", 
-                        "id": "GIOT_DEVICE_ID", 
-                        "name": "GIOT_DEVICE_ID", 
-                        "range": null, 
-                        "title": "Google IoT Core Device ID", 
-                        "type": "string"
-                    }, 
-                    {
-                        "children": [], 
-                        "depends_on": null, 
-                        "help": "Select this option to enable debugging support", 
-                        "id": "GIOT_DEBUG_OUTPUT", 
-                        "name": "GIOT_DEBUG_OUTPUT", 
-                        "range": null, 
-                        "title": "Enable debugging", 
-                        "type": "bool"
-                    }
-                ], 
-                "depends_on": null, 
-                "id": "component-config-google-iot-core-configuration", 
-                "title": "Google IoT Core Configuration", 
-                "type": "menu"
             }
         ], 
         "depends_on": null, 

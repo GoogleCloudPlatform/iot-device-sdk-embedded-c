@@ -1,4 +1,4 @@
-/* * Data converted from /Users/galzahavi/Desktop/GCP/esp-google-iot/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/esp-idf/mbedtls/x509_crt_bundle
+/* * Data converted from /Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/build/esp-idf/mbedtls/x509_crt_bundle
  */
 .data
 .section .rodata.embedded
