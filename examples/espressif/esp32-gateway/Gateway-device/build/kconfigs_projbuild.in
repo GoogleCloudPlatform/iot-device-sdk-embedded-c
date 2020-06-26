@@ -1,5 +1,0 @@
-source "/Users/galzahavi/esp-idf/components/app_update/Kconfig.projbuild"
-source "/Users/galzahavi/esp-idf/components/bootloader/Kconfig.projbuild"
-source "/Users/galzahavi/esp-idf/components/esptool_py/Kconfig.projbuild"
-source "/Users/galzahavi/esp-idf/components/partition_table/Kconfig.projbuild"
-source "/Users/galzahavi/Desktop/GCP/github-test/iot-device-sdk-embedded-c/examples/espressif/esp32-gateway/Gateway-device/main/Kconfig.projbuild"
