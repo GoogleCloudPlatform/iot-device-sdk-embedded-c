@@ -1,0 +1,6 @@
+syntax = "proto2";
+
+message IOTC_UTEST_ENDIANESS
+{
+    required uint32 test_value = 1;
+}

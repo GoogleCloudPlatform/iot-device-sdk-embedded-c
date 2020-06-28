@@ -1,0 +1,2 @@
+#min	hour	mday	month	wday	command
+*/5    *	*	*	*	cd /Users/atigyi/git/libiotc/libiotc-v3/bin/osx/tests; ./iotc_utests -l1 &> iotc_utest_l1_cron.log;

@@ -1,0 +1,4 @@
+bin/
+obj/
+test_coverage/
+.vscode/
