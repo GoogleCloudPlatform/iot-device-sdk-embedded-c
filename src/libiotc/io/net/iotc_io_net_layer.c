@@ -58,9 +58,14 @@ iotc_state_t iotc_io_net_layer_connect(void* context, void* data,
                     IOTC_THIS_LAYER(context)->layer_type_id,
                     connection_data->host, connection_data->port);
 
+  /*
+
+  iotc_bsp_io_net_socket_connect is undefined
+
   state =
       iotc_bsp_io_net_socket_connect(&layer_data->socket, connection_data->host,
                                      connection_data->port, SOCKET_STREAM);
+  */
 
   IOTC_CHECK_CND_DBGMESSAGE(IOTC_BSP_IO_NET_STATE_OK != state,
                             IOTC_SOCKET_CONNECTION_ERROR, in_out_state,
