@@ -1,5 +1,0 @@
-freertos_linux/Linux_gcc_gcp_iot/*.o
-freertos_linux/Linux_gcc_gcp_iot/roots.pem
-freertos_linux/Linux_gcc_gcp_iot/Linux_gcc_gcp_iot
-
-zephyr_native_posix/build/

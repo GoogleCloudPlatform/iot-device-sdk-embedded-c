@@ -95,6 +95,13 @@ git clone git@github.com:GoogleCloudPlatform/iot-device-sdk-embedded-c.git --rec
 
 Recurse submodules is important because it will download any submodules that are included in the repo.
 
+After you've cloned the Embedded C IoT SDK run `requirments.sh` by running the following command:
+
+```bash
+chmod +x requirements.sh
+./requirements.sh
+```
+
 ## Attaching Delegate Devices
 
 When the Gateway device is booted it will search for any unprovisioned devices, when it finds them it will provision them and connect. 
