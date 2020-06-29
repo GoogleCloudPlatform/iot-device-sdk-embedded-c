@@ -1,3 +1,18 @@
+/******************************************************************************
+ * Copyright 2020 Google
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *****************************************************************************/
+
 #include <stdlib.h>
 #include <string.h>
 #include "freertos/FreeRTOS.h"
@@ -55,7 +70,6 @@
 #include <stdio.h>
 #include "esp_log.h"
 #include "driver/uart.h"
-#include "iot_button.h"
 
 #define BUTTON_IO_NUM 0
 #define BUTTON_ACTIVE_LEVEL 0
@@ -88,7 +102,6 @@
 
 static uint8_t dev_uuid[ESP_BLE_MESH_OCTET16_LEN];
 static uint16_t server_address = ESP_BLE_MESH_ADDR_UNASSIGNED;
-static uint16_t vnd_tid;
 static int64_t start_time;
 
 static struct esp_ble_mesh_key
@@ -159,7 +172,6 @@ char *bleRecievedMessage = "";
 
 static char *delegateDevices[] = {"device", "device2"};
 static char *telemetryDevice = "";
-static char *delegate = "";
 char *command = "";
 char *device = "";
 int count = 0;

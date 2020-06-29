@@ -1,10 +1,17 @@
-
-/*
- * Copyright (c) 2017 Intel Corporation
- * Additional Copyright (c) 2018 Espressif Systems (Shanghai) PTE LTD
+/******************************************************************************
+ * Copyright 2020 Google
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * SPDX-License-Identifier: Apache-2.0
- */
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *****************************************************************************/
 
 #include <stdio.h>
 #include <string.h>
@@ -31,8 +38,7 @@
 
 #ifdef CONFIG_BT_BLUEDROID_ENABLED
 
-void ble_mesh_get_dev_uuid(uint8_t *dev_uuid)
-{
+void ble_mesh_get_dev_uuid(uint8_t *dev_uuid) {
     if (dev_uuid == NULL) {
         ESP_LOGE(TAG, "%s, Invalid device uuid", __func__);
         return;
@@ -46,8 +52,7 @@ void ble_mesh_get_dev_uuid(uint8_t *dev_uuid)
     memcpy(dev_uuid + 2, esp_bt_dev_get_address(), BD_ADDR_LEN);
 }
 
-esp_err_t bluetooth_init(void)
-{
+esp_err_t bluetooth_init(void) {
     esp_err_t ret;
 
     ESP_ERROR_CHECK(esp_bt_controller_mem_release(ESP_BT_MODE_CLASSIC_BT));
@@ -86,18 +91,15 @@ static uint8_t own_addr_type;
 void ble_store_config_init(void);
 static uint8_t addr_val[BD_ADDR_LEN] = {0};
     
-void ble_mesh_get_dev_uuid(uint8_t *dev_uuid)
-{
+void ble_mesh_get_dev_uuid(uint8_t *dev_uuid) {
     memcpy(dev_uuid + 2, addr_val, BD_ADDR_LEN);
 }
 
-static void mesh_on_reset(int reason)
-{
+static void mesh_on_reset(int reason) {
     ESP_LOGI(TAG, "Resetting state; reason=%d", reason);
 }
 
-static void mesh_on_sync(void)
-{
+static void mesh_on_sync(void) {
     int rc;
 
     rc = ble_hs_util_ensure_addr(0);
@@ -115,8 +117,7 @@ static void mesh_on_sync(void)
     xSemaphoreGive(mesh_sem);
 }
 
-void mesh_host_task(void *param)
-{
+void mesh_host_task(void *param) {
     ESP_LOGI(TAG, "BLE Host Task Started");
     /* This function will return only when nimble_port_stop() is executed */
     nimble_port_run();
@@ -124,8 +125,7 @@ void mesh_host_task(void *param)
     nimble_port_freertos_deinit();
 }
 
-esp_err_t bluetooth_init(void)
-{
+esp_err_t bluetooth_init(void) {
     mesh_sem = xSemaphoreCreateBinary();
     if (mesh_sem == NULL) {
         ESP_LOGE(TAG, "Failed to create mesh semaphore");

@@ -1,10 +1,9 @@
 # ESP32 Gateway demo
 
 This demo uses three inexpensive and readily available ESP32 devices to send and receive
-data from Google Cloud. The device with a connection to Google Cloud (Gateway) will
-communicate on behalf of other devices (delegate devices).
+data from Google Cloud. The device with a connection to Google Cloud (Gateway) communicates on behalf of other devices (delegate devices).
 
-The gateway will send the data to IoT core and publish to PubSub.
+The gateway sends the data to IoT core and publish to PubSub.
 
 For example, you can send temperature data from multiple delegate devices to Google Cloud and store that information to see
 any drastic temperature changes in a room.
@@ -22,8 +21,8 @@ any drastic temperature changes in a room.
 ### ESP-IDF Setup
 
 Before we can setup IoT Core we must get ESP-IDF, which is the SDK for Espressif chips. You can download the [ESP-IDF](https://marketplace.visualstudio.com/items?itemName=espressif.esp-idf-extension) extension for Visual Studio Code, make sure you have all dependencies because if you don’t you will get errors and will need to redownload ESP-IDF.
-You’ll need to have the following for ESP-IDF to work properly:
 
+You’ll need to have the following for ESP-IDF to work properly:
  - Python 3.5 or higher
  - Git
  - Cmake
@@ -230,4 +229,4 @@ Note: you should see your delegate device LED flash once it sends the response t
 
 ## Next Steps
 
-Now that you've got the basics down and you can connect to IoT Core, you can add your own spin on this project, try replacing the LED with a relay to control a power outlet or can connect a sensor to measure and analyze environmental data.
+Now that you've got the basics down and you can connect to IoT Core, you can add your own spin on this project, try adding led's and other sensors to send their data to the cloud.
