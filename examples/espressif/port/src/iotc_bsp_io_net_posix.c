@@ -51,6 +51,11 @@ iotc_bsp_io_net_state_t iotc_bsp_io_net_create_socket(
   return IOTC_BSP_IO_NET_STATE_OK;
 }
 
+iotc_bsp_io_net_state_t iotc_bsp_io_net_socket_connect(iotc_bsp_socket_t *iotc_socket, const char *host, uint16_t port,iotc_bsp_socket_type_t t)
+{
+  return IOTC_BSP_IO_NET_STATE_OK;
+}
+
 iotc_bsp_io_net_state_t iotc_bsp_io_net_connect(iotc_bsp_socket_t* iotc_socket,
                                                 const char* host,
                                                 uint16_t port) {

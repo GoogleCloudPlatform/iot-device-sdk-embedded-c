@@ -2,6 +2,7 @@
 # Component Makefile
 #
 
+set (CURRENT_DIR ${CMAKE_CURRENT_LIST_DIR})
 set (GOOGLE_IOT_SDK ${CMAKE_CURRENT_LIST_DIR}/iot-device-sdk-embedded-c)
 
 set (COMPONENT_ADD_INCLUDEDIRS
@@ -25,7 +26,9 @@ set (COMPONENT_ADD_INCLUDEDIRS
         "${GOOGLE_IOT_SDK}/src/libiotc/memory"
         "${GOOGLE_IOT_SDK}/src/libiotc"
         "${GOOGLE_IOT_SDK}/third_party/mqtt-protocol-c"
-        "${GOOGLE_IOT_SDK}/../port/include")
+        "${GOOGLE_IOT_SDK}/../port/include"
+        "${CURRENT_DIR}/port/src"
+        "${CURRENT_DIR}/port/include")
 
 set (COMPONENT_SRCDIRS
         "${GOOGLE_IOT_SDK}/src/bsp/tls/mbedtls"
