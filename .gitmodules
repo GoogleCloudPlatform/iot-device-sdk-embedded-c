@@ -4,6 +4,3 @@
 [submodule "third_party/cryptoauthlib"]
 	path = third_party/cryptoauthlib
 	url = https://github.com/MicrochipTech/cryptoauthlib.git
-[submodule "examples/espressif/iot-device-sdk-embedded-c"]
-	path = examples/espressif/iot-device-sdk-embedded-c
-	url = https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c
