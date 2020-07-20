@@ -4,6 +4,3 @@
 [submodule "third_party/cryptoauthlib"]
 	path = third_party/cryptoauthlib
 	url = https://github.com/MicrochipTech/cryptoauthlib.git
-[submodule "iot-device-sdk-embedded-c"]
-	path = iot-device-sdk-embedded-c
-	url = git@github.com:GoogleCloudPlatform/iot-device-sdk-embedded-c.git
