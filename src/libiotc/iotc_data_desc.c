@@ -92,11 +92,11 @@ iotc_data_desc_t* iotc_make_desc_from_string_copy(const char* str) {
   IOTC_ALLOC(iotc_data_desc_t, data_desc, state);
   data_desc->memory_type = IOTC_MEMORY_TYPE_MANAGED;
 
-  IOTC_ALLOC_BUFFER_AT(unsigned char, data_desc->data_ptr, len, state);
-  memcpy(data_desc->data_ptr, str, len);
+  IOTC_ALLOC_BUFFER_AT(unsigned char, data_desc->data_ptr, len + 1, state);
+  memcpy(data_desc->data_ptr, str, len + 1);
 
-  data_desc->capacity = len;
-  data_desc->length = data_desc->capacity;
+  data_desc->capacity = len + 1;
+  data_desc->length = len;
 
   return data_desc;
 
