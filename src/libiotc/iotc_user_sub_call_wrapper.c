@@ -74,7 +74,7 @@ iotc_state_t iotc_user_sub_call_wrapper(void* context, void* data,
       params.message.temporary_payload_data_length =
           msg->publish.content ? msg->publish.content->length : 0;
 
-      // issues/111: Make sure we null terminate the string.
+      // #111: Make sure we null terminate the string.
       in_state = iotc_data_desc_append_data_resize(msg->publish.topic_name, "\0", 1);
       IOTC_CHECK_STATE(in_state);                                                                                                                                   
       params.message.topic = (const char*)msg->publish.topic_name->data_ptr;
