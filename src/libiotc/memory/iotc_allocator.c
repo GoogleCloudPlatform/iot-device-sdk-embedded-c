@@ -15,7 +15,7 @@
  */
 #include "iotc_allocator.h"
 #include "iotc_bsp_mem.h"
-#include <stdlib.h>
+#include <stdint.h>
 
 extern void* memset(void* ptr, int value, size_t num);
 
