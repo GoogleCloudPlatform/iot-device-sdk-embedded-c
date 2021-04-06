@@ -43,7 +43,7 @@ IOTC_TT_TESTCASE(
     })
     
 IOTC_TT_TESTCASE(
-    utest__iotc_memory_calloc_zero_num,
+    utest__iotc_memory_calloc__zero_num,
     {
       void* ptr = __iotc_calloc( /*num=*/0, /*size=*/8);
       tt_want_ptr_op(NULL, ==, ptr);
@@ -51,7 +51,7 @@ IOTC_TT_TESTCASE(
     })
 
 IOTC_TT_TESTCASE(
-    utest__iotc_memory_calloc_zero_size,
+    utest__iotc_memory_calloc__zero_size,
     {
       void* ptr = __iotc_calloc( /*num=*/1, /*size=*/0);
       tt_want_ptr_op(NULL, ==, ptr);
@@ -59,7 +59,7 @@ IOTC_TT_TESTCASE(
     })
 
 IOTC_TT_TESTCASE(
-    utest__iotc_memory_calloc_zero_num_zero_size,
+    utest__iotc_memory_calloc__zero_num__zero_size,
     {
       void* ptr = __iotc_calloc( /*num=*/1, /*size=*/0);
       tt_want_ptr_op(NULL, ==, ptr);
@@ -67,7 +67,7 @@ IOTC_TT_TESTCASE(
     })
 
 IOTC_TT_TESTCASE(
-    utest__iotc_memory_calloc_max_num_zero_size,
+    utest__iotc_memory_calloc__max_num__zero_size,
     {
       void* ptr = __iotc_calloc( /*num=*/SIZE_MAX, /*size=*/0);
       tt_want_ptr_op(NULL, ==, ptr);
@@ -75,13 +75,14 @@ IOTC_TT_TESTCASE(
     })
 
 IOTC_TT_TESTCASE(
-    utest__iotc_memory_calloc_zero_num_max_size,
+    utest__iotc_memory_calloc__zero_num__max_size,
     {
       void* ptr = __iotc_calloc( /*num=*/0, /*size=*/SIZE_MAX);
       tt_want_ptr_op(NULL, ==, ptr);
       __iotc_free(ptr);
     })
-  
+
+#if 0
 IOTC_TT_TESTCASE(
     utest__iotc_memory_calloc_max_num_one_size,
     {
@@ -97,9 +98,10 @@ IOTC_TT_TESTCASE(
       tt_want_ptr_op(NULL, ==, ptr);
       __iotc_free(ptr);
     })
+#endif
 
 IOTC_TT_TESTCASE(
-    utest__iotc_memory_calloc_max_num_minus_one___size_one,
+    utest__iotc_memory_calloc__max_num_minus_one__size_one,
     {
       void* ptr = __iotc_calloc( /*num=*/SIZE_MAX-1, /*size=*/1);
       tt_want_ptr_op(NULL, ==, ptr);
