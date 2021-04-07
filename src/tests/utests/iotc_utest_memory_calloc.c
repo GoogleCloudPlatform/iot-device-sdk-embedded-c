@@ -34,16 +34,46 @@
 
 IOTC_TT_TESTGROUP_BEGIN(utest_memory_calloc)
 
+/* Happy cases. */
 IOTC_TT_TESTCASE(
-    utest__iotc_memory_calloc,
+    utest__iotc_memory_calloc__num_1__size_8,
     {
       void* ptr = __iotc_calloc( /*num=*/1, /*size=*/8);
       tt_want_ptr_op(NULL, !=, ptr);
+      printf("DDB sizeofptr:  %lu\n", sizeof(*ptr));
       __iotc_free(ptr);
     })
-    
+
 IOTC_TT_TESTCASE(
-    utest__iotc_memory_calloc__zero_num,
+    utest__iotc_memory_calloc___num_255__size_55,
+    {
+      void* ptr = __iotc_calloc( /*num=*/255, /*size=*/55);
+      tt_want_ptr_op(NULL, !=, ptr);
+      printf("DDB sizeofptr:  %lu\n", sizeof(*ptr));
+      __iotc_free(ptr);
+    })
+
+IOTC_TT_TESTCASE(
+    utest__iotc_memory_calloc___num_1000000__size_88,
+    {
+      void* ptr = __iotc_calloc( /*num=*/1000000, /*size=*/88);
+      tt_want_ptr_op(NULL, !=, ptr);
+      printf("DDB sizeofptr:  %lu\n", sizeof(*ptr));
+      __iotc_free(ptr);
+    })
+
+/* Edge cases.
+   Note: Following tests are absent due to varying calloc behaviors across
+   platforms. The allocations succeed on our x86 runners but fail on AMD64
+  runners:
+    - utest__iotc_memory_calloc__max_num__one_size
+    - utest__iotc_memory_calloc__one_num__max_size
+    - utest__iotc_memory_calloc__max_num_minus_one__one_size
+    - utest__iotc_memory_calloc__overflow__half_max__size_two
+    - utest__iotc_memory_calloc__overflow__num_two__half_max_size
+*/
+IOTC_TT_TESTCASE(
+    utest__iotc_memory_calloc__num_0__size_8,
     {
       void* ptr = __iotc_calloc( /*num=*/0, /*size=*/8);
       tt_want_ptr_op(NULL, ==, ptr);
@@ -51,7 +81,7 @@ IOTC_TT_TESTCASE(
     })
 
 IOTC_TT_TESTCASE(
-    utest__iotc_memory_calloc__zero_size,
+    utest__iotc_memory_calloc__num_1__size_0,
     {
       void* ptr = __iotc_calloc( /*num=*/1, /*size=*/0);
       tt_want_ptr_op(NULL, ==, ptr);
@@ -59,15 +89,15 @@ IOTC_TT_TESTCASE(
     })
 
 IOTC_TT_TESTCASE(
-    utest__iotc_memory_calloc__zero_num__zero_size,
+    utest__iotc_memory_calloc__num_0__size_0,
     {
-      void* ptr = __iotc_calloc( /*num=*/1, /*size=*/0);
+      void* ptr = __iotc_calloc( /*num=*/0, /*size=*/0);
       tt_want_ptr_op(NULL, ==, ptr);
       __iotc_free(ptr);
     })
 
 IOTC_TT_TESTCASE(
-    utest__iotc_memory_calloc__max_num__zero_size,
+    utest__iotc_memory_calloc__num_max__size_0,
     {
       void* ptr = __iotc_calloc( /*num=*/SIZE_MAX, /*size=*/0);
       tt_want_ptr_op(NULL, ==, ptr);
@@ -75,39 +105,58 @@ IOTC_TT_TESTCASE(
     })
 
 IOTC_TT_TESTCASE(
-    utest__iotc_memory_calloc__zero_num__max_size,
+    utest__iotc_memory_calloc__num_0__size_max,
     {
       void* ptr = __iotc_calloc( /*num=*/0, /*size=*/SIZE_MAX);
       tt_want_ptr_op(NULL, ==, ptr);
       __iotc_free(ptr);
     })
 
-/* Tests disabled due to varying calloc behaviors across platforms:
-   - utest__iotc_memory_calloc_max_num_one_size
-   - utest__iotc_memory_calloc_one_num_max_size
-   - utest__iotc_memory_calloc__max_num_minus_one__size_one
-*/
-
 IOTC_TT_TESTCASE(
-    utest__iotc_memory_calloc__overflow__half_max__size_two,
+    utest__iotc_memory_calloc__num_1__size_max_minus_1,
     {
-      void* ptr = __iotc_calloc( /*num=*/SIZE_MAX/2, /*size=*/2);
+      void* ptr = __iotc_calloc( /*num=*/1, /*size=*/SIZE_MAX-1);
       tt_want_ptr_op(NULL, ==, ptr);
       __iotc_free(ptr);
     })
 
 IOTC_TT_TESTCASE(
-    utest__iotc_memory_calloc__overflow__num_two__half_max_size,
+    utest__iotc_memory_calloc__num_size_max_minus_1__size_1,
     {
-      void* ptr = __iotc_calloc( /*num=*/2, /*size=*/SIZE_MAX/2);
+      void* ptr = __iotc_calloc( /*num=*/SIZE_MAX-1, /*size=*/1);
       tt_want_ptr_op(NULL, ==, ptr);
       __iotc_free(ptr);
     })
 
+/* Overflow cases. */
 IOTC_TT_TESTCASE(
-    utest__iotc_memory_calloc__overflow__num_three__half_max_size,
+    utest__iotc_memory_calloc__overflow__num_3__size_half_max,
     {
       void* ptr = __iotc_calloc( /*num=*/3, /*size=*/SIZE_MAX/2);
+      tt_want_ptr_op(NULL, ==, ptr);
+      __iotc_free(ptr);
+    })
+  
+IOTC_TT_TESTCASE(
+    utest__iotc_memory_calloc__overflow__num_half_max__size_3,
+    {
+      void* ptr = __iotc_calloc( /*num=*/SIZE_MAX/2, /*size=*/3) ;
+      tt_want_ptr_op(NULL, ==, ptr);
+      __iotc_free(ptr);
+    })
+
+IOTC_TT_TESTCASE(
+    utest__iotc_memory_calloc__overflow__num_half_max_plus_1__size_2,
+    {
+      void* ptr = __iotc_calloc( /*num=*/SIZE_MAX/2+1, /*size=*/2) ;
+      tt_want_ptr_op(NULL, ==, ptr);
+      __iotc_free(ptr);
+    })
+
+IOTC_TT_TESTCASE(
+    utest__iotc_memory_calloc__overflow__num_3__size_half_max_plus_1,
+    {
+      void* ptr = __iotc_calloc( /*num=*/3, /*size=*/SIZE_MAX/2+1) ;
       tt_want_ptr_op(NULL, ==, ptr);
       __iotc_free(ptr);
     })
