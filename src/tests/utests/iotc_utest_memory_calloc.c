@@ -112,7 +112,7 @@ IOTC_TT_TESTCASE(
       __iotc_free(ptr);
     })
 
-#ifndef __aarch64__
+#ifndef __amd64__
 IOTC_TT_TESTCASE(
     utest__iotc_memory_calloc__num_1__size_max_minus_1,
     {
