@@ -82,31 +82,11 @@ IOTC_TT_TESTCASE(
       __iotc_free(ptr);
     })
 
-#if 0
-IOTC_TT_TESTCASE(
-    utest__iotc_memory_calloc_max_num_one_size,
-    {
-      void* ptr = __iotc_calloc( /*num=*/SIZE_MAX, /*size=*/1);
-      tt_want_ptr_op(NULL, ==, ptr);
-      __iotc_free(ptr);
-    })
-
-IOTC_TT_TESTCASE(
-    utest__iotc_memory_calloc_one_num_max_size,
-    {
-      void* ptr = __iotc_calloc( /*num=*/1, /*size=*/SIZE_MAX);
-      tt_want_ptr_op(NULL, ==, ptr);
-      __iotc_free(ptr);
-    })
-#endif
-
-IOTC_TT_TESTCASE(
-    utest__iotc_memory_calloc__max_num_minus_one__size_one,
-    {
-      void* ptr = __iotc_calloc( /*num=*/SIZE_MAX-1, /*size=*/1);
-      tt_want_ptr_op(NULL, ==, ptr);
-      __iotc_free(ptr);
-    })
+/* Tests disabled due to varying calloc behaviors across platforms:
+   - utest__iotc_memory_calloc_max_num_one_size
+   - utest__iotc_memory_calloc_one_num_max_size
+   - utest__iotc_memory_calloc__max_num_minus_one__size_one
+*/
 
 IOTC_TT_TESTCASE(
     utest__iotc_memory_calloc__overflow__half_max__size_two,
