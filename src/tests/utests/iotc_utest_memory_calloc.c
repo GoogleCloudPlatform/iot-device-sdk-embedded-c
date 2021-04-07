@@ -113,6 +113,20 @@ IOTC_TT_TESTCASE(
       __iotc_free(ptr);
     })
 
+/* Edge cases - SIZE_MAX
+   Note: FreeRTOS heap size isn't large enough for SIZE_MAX allocations.
+*/
+#ifndef IOTC_PLATFORM_IS_FREERTOS
+
+IOTC_TT_TESTCASE(
+    utest__iotc_memory_calloc__num_1__size_max_minus_1,
+    {
+      void* ptr = __iotc_calloc( /*num=*/1, /*size=*/SIZE_MAX-1);
+      tt_want_ptr_op(NULL, ==, ptr);
+      __iotc_free(ptr);
+    })
+
+
 IOTC_TT_TESTCASE(
     utest__iotc_memory_calloc__num_size_max_minus_1__size_1,
     {
@@ -120,6 +134,8 @@ IOTC_TT_TESTCASE(
       tt_want_ptr_op(NULL, ==, ptr);
       __iotc_free(ptr);
     })
+
+#endif  /* IOTC_PLATFORM_IS_FREERTOS */
 
 /* Overflow cases. */
 IOTC_TT_TESTCASE(
