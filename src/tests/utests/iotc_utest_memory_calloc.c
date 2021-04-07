@@ -112,6 +112,7 @@ IOTC_TT_TESTCASE(
       __iotc_free(ptr);
     })
 
+#ifndef __aarch64__
 IOTC_TT_TESTCASE(
     utest__iotc_memory_calloc__num_1__size_max_minus_1,
     {
@@ -119,6 +120,7 @@ IOTC_TT_TESTCASE(
       tt_want_ptr_op(NULL, ==, ptr);
       __iotc_free(ptr);
     })
+#endif
 
 IOTC_TT_TESTCASE(
     utest__iotc_memory_calloc__num_size_max_minus_1__size_1,
