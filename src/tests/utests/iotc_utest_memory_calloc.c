@@ -40,7 +40,6 @@ IOTC_TT_TESTCASE(
     {
       void* ptr = __iotc_calloc( /*num=*/1, /*size=*/8);
       tt_want_ptr_op(NULL, !=, ptr);
-      printf("DDB sizeofptr:  %lu\n", sizeof(*ptr));
       __iotc_free(ptr);
     })
 
@@ -49,7 +48,6 @@ IOTC_TT_TESTCASE(
     {
       void* ptr = __iotc_calloc( /*num=*/255, /*size=*/55);
       tt_want_ptr_op(NULL, !=, ptr);
-      printf("DDB sizeofptr:  %lu\n", sizeof(*ptr));
       __iotc_free(ptr);
     })
 
@@ -58,21 +56,10 @@ IOTC_TT_TESTCASE(
     {
       void* ptr = __iotc_calloc( /*num=*/1000000, /*size=*/88);
       tt_want_ptr_op(NULL, !=, ptr);
-      printf("DDB sizeofptr:  %lu\n", sizeof(*ptr));
       __iotc_free(ptr);
     })
 
-/* Edge cases.
-   Note: Following tests are absent due to varying calloc behaviors across
-   platforms. The allocations succeed on our x86 runners but fail on AMD64
-  runners:
-    - utest__iotc_memory_calloc__max_num__one_size
-    - utest__iotc_memory_calloc__one_num__max_size
-    - utest__iotc_memory_calloc__max_num_minus_one__one_size
-    - utest__iotc_memory_calloc__overflow__half_max__size_two
-    - utest__iotc_memory_calloc__overflow__num_two__half_max_size
-    - utest__iotc_memory_calloc__num_1__size_max_minus_1
-*/
+/* Edge cases. */
 IOTC_TT_TESTCASE(
     utest__iotc_memory_calloc__num_0__size_8,
     {
@@ -114,9 +101,41 @@ IOTC_TT_TESTCASE(
     })
 
 /* Edge cases - SIZE_MAX
-   Note: FreeRTOS heap size isn't large enough for SIZE_MAX allocations.
-*/
-#ifndef IOTC_TARGET_FREERTOS
+   Note: FreeRTOS heap size isn't large enough for SIZE_MAX allocations,
+   so these tests are disabled for those targets. */
+#ifndef IOTC_PLATFORM_IS_FREERTOS
+IOTC_TT_TESTCASE(
+    utest__iotc_memory_calloc__num_1__size_max,
+    {
+      void* ptr = __iotc_calloc( /*num=*/1, /*size=*/SIZE_MAX);
+      tt_want_ptr_op(NULL, ==, ptr);
+      __iotc_free(ptr);
+    })
+
+IOTC_TT_TESTCASE(
+    utest__iotc_memory_calloc__num_max_minus_1__size_1,
+    {
+      void* ptr = __iotc_calloc( /*num=*/SIZE_MAX-1, /*size=*/1);
+      tt_want_ptr_op(NULL, ==, ptr);
+      __iotc_free(ptr);
+    })
+
+IOTC_TT_TESTCASE(
+    utest__iotc_memory_calloc__overflow__num_half_max__size_2,
+    {
+      void* ptr = __iotc_calloc( /*num=*/SIZE_MAX/2, /*size=*/2);
+      tt_want_ptr_op(NULL, ==, ptr);
+      __iotc_free(ptr);
+    })
+
+IOTC_TT_TESTCASE(
+    utest__iotc_memory_calloc__overflow__num_2__size_half_max,
+    {
+      void* ptr = __iotc_calloc( /*num=*/2, /*size=*/SIZE_MAX/2);
+      tt_want_ptr_op(NULL, ==, ptr);
+      __iotc_free(ptr);
+    })
+
 IOTC_TT_TESTCASE(
     utest__iotc_memory_calloc__num_1__size_max_minus_1,
     {
@@ -125,7 +144,6 @@ IOTC_TT_TESTCASE(
       __iotc_free(ptr);
     })
 
-
 IOTC_TT_TESTCASE(
     utest__iotc_memory_calloc__num_size_max_minus_1__size_1,
     {
@@ -133,7 +151,6 @@ IOTC_TT_TESTCASE(
       tt_want_ptr_op(NULL, ==, ptr);
       __iotc_free(ptr);
     })
-
 #endif  /* IOTC_PLATFORM_IS_FREERTOS */
 
 /* Overflow cases. */
