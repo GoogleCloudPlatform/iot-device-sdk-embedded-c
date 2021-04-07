@@ -71,6 +71,7 @@ IOTC_TT_TESTCASE(
     - utest__iotc_memory_calloc__max_num_minus_one__one_size
     - utest__iotc_memory_calloc__overflow__half_max__size_two
     - utest__iotc_memory_calloc__overflow__num_two__half_max_size
+    - utest__iotc_memory_calloc__num_1__size_max_minus_1
 */
 IOTC_TT_TESTCASE(
     utest__iotc_memory_calloc__num_0__size_8,
@@ -111,16 +112,6 @@ IOTC_TT_TESTCASE(
       tt_want_ptr_op(NULL, ==, ptr);
       __iotc_free(ptr);
     })
-
-#ifndef __amd64__
-IOTC_TT_TESTCASE(
-    utest__iotc_memory_calloc__num_1__size_max_minus_1,
-    {
-      void* ptr = __iotc_calloc( /*num=*/1, /*size=*/SIZE_MAX-1);
-      tt_want_ptr_op(NULL, ==, ptr);
-      __iotc_free(ptr);
-    })
-#endif
 
 IOTC_TT_TESTCASE(
     utest__iotc_memory_calloc__num_size_max_minus_1__size_1,
