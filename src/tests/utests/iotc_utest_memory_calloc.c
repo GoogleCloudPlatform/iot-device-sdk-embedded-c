@@ -103,7 +103,7 @@ IOTC_TT_TESTCASE(
 /* Edge cases - SIZE_MAX
    Note: FreeRTOS heap size isn't large enough for SIZE_MAX allocations,
    so these tests are disabled for those targets. */
-#ifndef IOTC_PLATFORM_IS_FREERTOS
+#ifndef IOTC_TARGET_FREERTOS
 IOTC_TT_TESTCASE(
     utest__iotc_memory_calloc__num_1__size_max,
     {
