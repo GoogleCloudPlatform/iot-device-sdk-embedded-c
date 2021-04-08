@@ -1,4 +1,4 @@
-/* Copyright 2021 Google LLC
+ /* Copyright 2021 Google LLC
  *
  * This is part of the Google Cloud IoT Device SDK for Embedded C.
  * It is licensed under the BSD 3-Clause license; you may not use this file
@@ -151,7 +151,7 @@ IOTC_TT_TESTCASE(
       tt_want_ptr_op(NULL, ==, ptr);
       __iotc_free(ptr);
     })
-#endif  /* IOTC_PLATFORM_IS_FREERTOS */
+#endif  /* IOTC_TARGET_FREERTOS */
 
 /* Overflow cases. */
 IOTC_TT_TESTCASE(
