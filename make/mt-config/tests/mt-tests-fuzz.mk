@@ -38,9 +38,7 @@ IOTC_LIBFUZZER_DOWNLOAD_DIR := $(IOTC_CLANG_TOOLS_DIR)/fuzzer
 IOTC_LIBFUZZER := $(IOTC_LIBFUZZER_DOWNLOAD_DIR)/libFuzzer.a
 
 $(IOTC_LIBFUZZER_DOWNLOAD_DIR):
-	pushd $(IOTC_CLANG_TOOLS_DIR)
-	svn export $(IOTC_LIBFUZZER_URL)
-	popd
+	(cd $(IOTC_CLANG_TOOLS_DIR) && svn export $(IOTC_LIBFUZZER_URL))
 
 $(IOTC_LIBFUZZER): $(IOTC_LIBFUZZER_DOWNLOAD_DIR)
 	(cd $(IOTC_LIBFUZZER_DOWNLOAD_DIR) && clang++ -c -g -O2 -lstdc++ -std=c++11 *.cpp -IFuzzer && ar ruv libFuzzer.a Fuzzer*.o)
