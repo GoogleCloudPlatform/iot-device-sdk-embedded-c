@@ -33,7 +33,8 @@
 #define IOTC_TT_MQTT_LOGIC_LAYER_SUBSCRIBE        ( IOTC_TT_MQTT_PARSER << 1 )
 #define IOTC_TT_CONTROL_TOPIC                     ( IOTC_TT_MQTT_LOGIC_LAYER_SUBSCRIBE << 1 )
 #define IOTC_TT_MQTT_SERIALIZER                   ( IOTC_TT_CONTROL_TOPIC << 1 )
-#define IOTC_TT_MEMORY_LIMITER                    ( IOTC_TT_MQTT_SERIALIZER << 1 )
+#define IOTC_TT_MEMORY_CALLOC                     ( IOTC_TT_MQTT_SERIALIZER << 1)
+#define IOTC_TT_MEMORY_LIMITER                    ( IOTC_TT_MEMORY_CALLOC << 1 )
 #define IOTC_TT_THREAD                            ( IOTC_TT_MEMORY_LIMITER << 1 )
 #define IOTC_TT_THREAD_WORKERTHREAD               ( IOTC_TT_THREAD << 1 )
 #define IOTC_TT_THREAD_THREADPOOL                 ( IOTC_TT_THREAD_WORKERTHREAD << 1 )
@@ -63,6 +64,7 @@ IOTC_TT_TESTCASE_PREDECLARATION(utest_datastructures);
 IOTC_TT_TESTCASE_PREDECLARATION(utest_list);
 IOTC_TT_TESTCASE_PREDECLARATION(utest_data_desc);
 IOTC_TT_TESTCASE_PREDECLARATION(utest_backoff);
+IOTC_TT_TESTCASE_PREDECLARATION(utest_memory_calloc);
 IOTC_TT_TESTCASE_PREDECLARATION(utest_mqtt_ctors_dtors);
 IOTC_TT_TESTCASE_PREDECLARATION(utest_mqtt_parser);
 IOTC_TT_TESTCASE_PREDECLARATION(utest_mqtt_logic_layer_subscribe);
@@ -193,6 +195,8 @@ struct testgroup_t groups[] = {
     {"utest_handle - ", utest_handle},
 
     {"utest_timed_task - ", utest_timed_task},
+
+    {"utest_memory_calloc  - ", utest_memory_calloc},
 
 #if (IOTC_TT_TEST_SET & IOTC_TT_MQTT_CODEC_LAYER_DATA)
     {"utest_mqtt_codec_layer_data - ", utest_mqtt_codec_layer_data},
