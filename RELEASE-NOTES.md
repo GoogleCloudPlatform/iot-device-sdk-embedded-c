@@ -1,4 +1,13 @@
 # Google Cloud IoT Core Device SDK for Embedded C version  1.0.2
+#### April 27, 2021
+
+- Updated the POSIX BSP to use open instead of fopen for more consistent error detection, [#100](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/pull/100) by [@pnfisher}(https://github.com/pnfisher), thank you!
+- Fixed a non null-terminated issue in message.topic with ‘iotc_user_subscription_callback_’, [#111](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/issues/111) by [@csobrinho](https://github.com/csobrinho), thank you!
+- Added overflow protection to ‘__iotc_calloc()’ calls.
+- Updates to the Zephyr Troubleshooting guide.
+- Fixes to links within the User Guide.
+
+# Google Cloud IoT Core Device SDK for Embedded C version  1.0.2
 #### February 4, 2020
 
 - Wildcard topic name support in MQTT subscriptions, [#89](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/pull/89) by [@sheindel](https://github.com/sheindel), thank you!

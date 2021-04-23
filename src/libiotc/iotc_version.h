@@ -1,4 +1,4 @@
-/* Copyright 2018-2020 Google LLC
+/* Copyright 2018-2021 Google LLC
  *
  * This is part of the Google Cloud IoT Device SDK for Embedded C.
  * It is licensed under the BSD 3-Clause license; you may not use this file
@@ -19,6 +19,6 @@
 
 #define IOTC_MAJOR 1
 #define IOTC_MINOR 0
-#define IOTC_REVISION 2
+#define IOTC_REVISION 3 
 
 #endif /* __IOTC_VERSION_H__ */
