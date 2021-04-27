@@ -1,4 +1,4 @@
-/* Copyright 2018-2020 Google LLC
+/* Copyright 2018-2021 Google LLC
  *
  * This is part of the Google Cloud IoT Device SDK for Embedded C.
  * It is licensed under the BSD 3-Clause license; you may not use this file
@@ -15,6 +15,7 @@
  */
 #include "iotc_allocator.h"
 #include "iotc_bsp_mem.h"
+#include <stdint.h>
 
 extern void* memset(void* ptr, int value, size_t num);
 
@@ -22,13 +23,18 @@ void* __iotc_alloc(size_t byte_count) { return iotc_bsp_mem_alloc(byte_count); }
 
 void* __iotc_calloc(size_t num, size_t byte_count) {
   const size_t size_to_allocate = num * byte_count;
+
+  /* Prevent overflow. */
+  if (size_to_allocate == 0 || num  > SIZE_MAX / byte_count) {
+    return NULL;
+  }
+
   void* ret = iotc_bsp_mem_alloc(size_to_allocate);
 
   /* It's unspecified if memset works with NULL pointer. */
   if (NULL != ret) {
     memset(ret, 0, size_to_allocate);
   }
-
   return ret;
 }
 

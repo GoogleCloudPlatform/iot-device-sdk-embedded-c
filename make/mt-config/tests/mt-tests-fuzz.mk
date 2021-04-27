@@ -33,13 +33,13 @@ IOTC_FUZZ_TEST_LIBRARY := -lFuzzer
 
 IOTC_CLANG_TOOLS_DIR := $(LIBIOTC)/src/import/clang_tools
 
-IOTC_LIBFUZZER_URL := https://llvm.org/svn/llvm-project/compiler-rt/trunk/lib/fuzzer
-IOTC_LIBFUZZER_DOWNLOAD_DIR := $(IOTC_CLANG_TOOLS_DIR)/downloaded_libfuzzer
+IOTC_LIBFUZZER_URL := https://github.com/llvm/llvm-project/trunk/compiler-rt/lib/fuzzer
+IOTC_LIBFUZZER_DOWNLOAD_DIR := $(IOTC_CLANG_TOOLS_DIR)/fuzzer
 IOTC_LIBFUZZER := $(IOTC_LIBFUZZER_DOWNLOAD_DIR)/libFuzzer.a
 
 $(IOTC_LIBFUZZER_DOWNLOAD_DIR):
 	@-mkdir -p $(IOTC_LIBFUZZER_DOWNLOAD_DIR)
-	svn checkout $(IOTC_LIBFUZZER_URL) $(IOTC_LIBFUZZER_DOWNLOAD_DIR)
+	(cd $(IOTC_CLANG_TOOLS_DIR) && svn export $(IOTC_LIBFUZZER_URL) --force)
 
 $(IOTC_LIBFUZZER): $(IOTC_LIBFUZZER_DOWNLOAD_DIR)
 	(cd $(IOTC_LIBFUZZER_DOWNLOAD_DIR) && clang++ -c -g -O2 -lstdc++ -std=c++11 *.cpp -IFuzzer && ar ruv libFuzzer.a Fuzzer*.o)
