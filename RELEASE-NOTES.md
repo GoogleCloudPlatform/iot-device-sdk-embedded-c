@@ -1,5 +1,5 @@
 # Google Cloud IoT Core Device SDK for Embedded C version  1.0.3
-#### April 27, 2021
+#### April 28, 2021
 
 - Updated the POSIX BSP to use `open` instead of `fopen` for more consistent error detection, [#100](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/pull/100) by [@pnfisher](https://github.com/pnfisher).
 - Fixed a non null-terminated issue in message.topic with ‘iotc_user_subscription_callback_’, [#111](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/issues/111) by [@csobrinho](https://github.com/csobrinho).
