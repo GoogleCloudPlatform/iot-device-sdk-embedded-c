@@ -1,13 +1,13 @@
 name: POSIX Builds
 workflow_dispatch:
-    inputs:
-        foo:
-            description: 'placeholder'
-            default: 'bar'
-            required: 'false'
+  inputs:
+    foo:
+      description: 'placeholder'
+      default: 'bar'
+      required: 'false'
 
 jobs:
-    hello_world:
+  hello_world:
     runs-on: ubuntu-latest
     steps:
       - run: echo "Hello World!"
