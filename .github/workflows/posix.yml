@@ -1,10 +1,11 @@
 name: POSIX Builds
-workflow_dispatch:
-  inputs:
-    foo:
-      description: 'placeholder'
-      default: 'bar'
-      required: 'false'
+on:
+  workflow_dispatch:
+    inputs:
+      foo:
+        description: 'placeholder'
+        default: 'bar'
+        required: 'false'
 
 jobs:
   hello_world:
