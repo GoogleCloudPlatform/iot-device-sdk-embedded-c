@@ -9,14 +9,36 @@ on:
         required: false
 
 jobs:
-  setup_environment:
+  build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        preset: [POSIX_DEV, POSIX_DEV_MIN, POSIX_REL, POSIX_REL_MIN, POSIX_THREADING_REL]
+        tls: [mbedtls] 
+        target:
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout Repo
+        uses: actions/checkout@v2
         with:
           submodules: false
-      - run: |
+      - name: Install Prereqs
+        run: |
+          set -e
           sudo apt-get update
           sudo apt-get install expect
-      - run: |
-          expect res/travis/travis_build_mbedtls.expect make IOTC_DEBUG_OUTPUT=0
+          sudo apt-get install clang-3.8
+          sudo apt-get qemu-system
+          sudo apt-get libc6:i386
+          sudo apt-get libc6-dev-i386
+          sudo apt-get gcc-multilib
+          sudo apt-get linux-libc-dev:i386
+          sudo apt-get device-tree-compiler
+          sudo apt-get gperf
+          sudo apt-get dfu-util
+          sudo apt-get xz-utils
+          sudo apt-get python3-pip
+          
+      - name: build
+        run: |
+          expect res/travis/travis_build_mbedtls.expect make PRESET=${{ matrix.python_version }}
