@@ -12,5 +12,8 @@ jobs:
   hello_world:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Hello World!"
-
+      - uses: actions/checkout@v2
+        with:
+          submodules: false
+      - run: |
+          expect res/travis/travis_build_mbedtls.expect IOTC_DEBUG_OUTPUT=0
