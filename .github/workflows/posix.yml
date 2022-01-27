@@ -1,0 +1,16 @@
+name: POSIX Builds
+
+on:
+  workflow_dispatch:
+    inputs:
+      foo:
+        description: 'foo'
+        default: 'bar'
+        required: false
+
+jobs:
+  hello_world:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello World!"
+
