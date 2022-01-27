@@ -20,7 +20,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v2
         with:
-          submodules: false
+          submodules: true
       - name: Install Prereqs
         run: |
           set -e
