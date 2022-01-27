@@ -18,10 +18,5 @@ jobs:
       - run: |
           sudo apt-get update
           sudo apt-get install expect
-
-  build:
-    needs: setup_environment
-    runs-on: ubuntu-latest
-    steps:
       - run: |
           expect res/travis/travis_build_mbedtls.expect make IOTC_DEBUG_OUTPUT=0
