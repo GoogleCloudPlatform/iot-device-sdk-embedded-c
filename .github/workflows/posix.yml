@@ -21,5 +21,5 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-        - run: |
-          expect res/travis/travis_build_mbedtls.expect IOTC_DEBUG_OUTPUT=0
+      - run: |
+          expect res/travis/travis_build_mbedtls.expect make IOTC_DEBUG_OUTPUT=0
