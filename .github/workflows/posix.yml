@@ -16,7 +16,6 @@ jobs:
       matrix:
         preset: [POSIX_DEV, POSIX_DEV_MIN, POSIX_REL, POSIX_REL_MIN, POSIX_THREADING_REL]
         tls: [mbedtls] 
-        target:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
