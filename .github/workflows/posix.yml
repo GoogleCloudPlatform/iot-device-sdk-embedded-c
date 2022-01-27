@@ -9,11 +9,16 @@ on:
         required: false
 
 jobs:
-  hello_world:
+  setup_environment:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: false
+      - run: |
+          sudo apt-get update
+          sudo apt-get install expect
+
+  build:
       - run: |
           expect res/travis/travis_build_mbedtls.expect IOTC_DEBUG_OUTPUT=0
