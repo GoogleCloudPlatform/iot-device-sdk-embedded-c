@@ -26,17 +26,17 @@ jobs:
           set -e
           sudo apt-get update
           sudo apt-get install expect
-          sudo apt-get install clang-3.8
-          sudo apt-get qemu-system
-          sudo apt-get libc6:i386
-          sudo apt-get libc6-dev-i386
-          sudo apt-get gcc-multilib
-          sudo apt-get linux-libc-dev:i386
-          sudo apt-get device-tree-compiler
-          sudo apt-get gperf
-          sudo apt-get dfu-util
-          sudo apt-get xz-utils
-          sudo apt-get python3-pip
+          # sudo apt-get install clang-3.8
+          # sudo apt-get qemu-system
+          # sudo apt-get libc6:i386
+          # sudo apt-get libc6-dev-i386
+          # sudo apt-get gcc-multilib
+          # sudo apt-get linux-libc-dev:i386
+          # sudo apt-get device-tree-compiler
+          # sudo apt-get gperf
+          # sudo apt-get dfu-util
+          # sudo apt-get xz-utils
+          # sudo apt-get python3-pip
           
       - name: build
         run: |
