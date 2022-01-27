@@ -20,5 +20,6 @@ jobs:
           sudo apt-get install expect
 
   build:
-      - run: |
+    steps:
+        - run: |
           expect res/travis/travis_build_mbedtls.expect IOTC_DEBUG_OUTPUT=0
