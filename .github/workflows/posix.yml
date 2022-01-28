@@ -25,9 +25,9 @@ jobs:
       - name: Submodule update
         shell: bash
         run: |
-        set -e
-        git submodule init
-        git submodule update
+          set -e
+          git submodule init
+          git submodule update
 
       - name: Update apt
         shell: bash
