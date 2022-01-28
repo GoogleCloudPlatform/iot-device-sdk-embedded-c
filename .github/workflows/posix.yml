@@ -21,12 +21,18 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: recursive
+
       - name: Submodule update
         shell: bash
-        run: git submodule update
+        run: |
+        set -e
+        git submodule init
+        git submodule update
+
       - name: Update apt
         shell: bash
         run: sudo apt-get update
+
       - name: Install Prereqs
         run: |
           set -e
@@ -42,6 +48,16 @@ jobs:
           # sudo apt-get dfu-util
           # sudo apt-get xz-utils
           # sudo apt-get python3-pip
+
+      - name: Debug Dirs third_party
+        shell: bash
+        run: |
+          ls -l third_party/
+
+      - name: Debug Dirs third_party/googletest
+        shell: bash
+        run: |
+          ls third_party/googletest/
           
       - name: build
         run: |
