@@ -38,7 +38,7 @@ jobs:
         run: |
           set -e
           sudo apt-get install expect
-          # sudo apt-get install clang-3.8
+          sudo apt-get install clang-3.8
           # sudo apt-get qemu-system
           # sudo apt-get libc6:i386
           # sudo apt-get libc6-dev-i386
@@ -59,12 +59,16 @@ jobs:
           
       - name: Build SDK
         shell: bash
+        env:
+          CC: clang
         run: |
           expect res/travis/travis_build_${{matrix.tls_lib}}.expect \
             make PRESET=${{ matrix.preset }} IOTC_BSP_TLS=${{ matrix.tls_lib }}
       
       - name: Build Examples
         shell: bash
+        env:
+          CC: clang
         run: |
           make -C examples/iot_core_mqtt_client \
             IOTC_CLIENT_LIB_PATH=../../bin/linux IOTC_BSP_TLS=${{ matrix.tls_lib }}
