@@ -53,7 +53,7 @@ jobs:
         shell: bash
         run: |
           expect res/travis/travis_build_${{matrix.tls_lib}}.expect \
-            PRESET=${{ matrix.preset }} IOTC_BSP_TLS=${{ matrix.tls_lib }}
+            make PRESET=${{ matrix.preset }} IOTC_BSP_TLS=${{ matrix.tls_lib }}
       
       - name: Build Examples
         shell: bash
