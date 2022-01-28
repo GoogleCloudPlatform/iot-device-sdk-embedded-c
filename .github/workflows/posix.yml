@@ -61,4 +61,4 @@ jobs:
           
       - name: build
         run: |
-          expect res/travis/travis_build_mbedtls.expect make PRESET=${{ matrix.python_version }}
+          expect res/travis/travis_build_mbedtls.expect make MAKEFILE_DEBUG=1 PRESET=${{ matrix.preset }}
