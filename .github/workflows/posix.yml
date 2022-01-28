@@ -55,8 +55,7 @@ jobs:
         shell: bash
         run: |
           set -e
-          pushd third_party/tls 
-          git clone -b v3.15.3-stable https://github.com/wolfSSL/wolfssl
+          git clone -b v3.15.3-stable https://github.com/wolfSSL/wolfssl ${{GITHUB_WORKSPACE}}/third_party/tls/wolfssl
           
       - name: Build SDK
         shell: bash
