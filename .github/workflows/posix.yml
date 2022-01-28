@@ -1,12 +1,10 @@
 name: POSIX Builds
 
 on:
+  push:
+    branches: 
+      - feature/posix_gha
   workflow_dispatch:
-    inputs:
-      foo:
-        description: 'foo'
-        default: 'bar'
-        required: false
 
 jobs:
   build:
@@ -51,8 +49,8 @@ jobs:
           # sudo apt-get python3-pip
 
       - name: Install Clang
-          uses: egor-tensin/setup-clang@v1
-          with:
+        uses: egor-tensin/setup-clang@v1
+        with:
           version: 3.8
       
       - name: Clone wolfSSL
