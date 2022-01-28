@@ -66,7 +66,7 @@ jobs:
           CC: clang
         run: |
           expect res/travis/travis_build_${{matrix.tls_lib}}.expect \
-            make PRESET=${{ matrix.preset }} IOTC_BSP_TLS=${{ matrix.tls_lib }} utests
+            make PRESET=${{ matrix.preset }} IOTC_BSP_TLS=${{ matrix.tls_lib }}
       
       - name: Build Examples
         shell: bash
@@ -75,3 +75,24 @@ jobs:
         run: |
           make -C examples/iot_core_mqtt_client \
             IOTC_CLIENT_LIB_PATH=../../bin/linux IOTC_BSP_TLS=${{ matrix.tls_lib }}
+
+      - name: uTests
+        shell: bash
+        env:
+          CC: clang
+        run: |
+          make PRESET=${{ matrix.preset }} IOTC_BSP_TLS=${{ matrix.tls_lib }} utests
+
+      - name: gTests
+        shell: bash
+        env:
+          CC: clang
+        run: |
+          make PRESET=${{ matrix.preset }} IOTC_BSP_TLS=${{ matrix.tls_lib }} gtests
+
+      - name: iTests
+        shell: bash
+        env:
+          CC: clang
+        run: |
+          make PRESET=${{ matrix.preset }} IOTC_BSP_TLS=${{ matrix.tls_lib }} gtests
