@@ -57,4 +57,4 @@ jobs:
       - name: Build Examples
         shell: bash
         run: |
-          make -C examples/iot_core_mqtt_client IOTC_CLIENT_LIB_PATH=../../bin/linux IOTC_BSP_TLS=${{ matrix.preset }}
+          make -C examples/iot_core_mqtt_client IOTC_CLIENT_LIB_PATH=../../bin/linux IOTC_BSP_TLS=${{ matrix.tls_lib }}
