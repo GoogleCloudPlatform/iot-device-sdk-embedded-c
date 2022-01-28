@@ -34,6 +34,7 @@ jobs:
         run: sudo apt-get update
 
       - name: Apt Install Prereqs
+        shell: bash
         run: |
           set -e
           sudo apt-get install expect
@@ -48,6 +49,14 @@ jobs:
           # sudo apt-get dfu-util
           # sudo apt-get xz-utils
           # sudo apt-get python3-pip
+      
+      - name: Clone wolfSSL
+        if: startsWith(matrix.tls_lib, 'wolfssl')
+        shell: bash
+        run: |
+          set -e
+          pushd third_party/tls 
+          git clone -b v3.15.3-stable https://github.com/wolfSSL/wolfssl
           
       - name: Build SDK
         shell: bash
