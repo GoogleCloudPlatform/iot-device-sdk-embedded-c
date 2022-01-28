@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         preset: [POSIX_DEV, POSIX_DEV_MIN, POSIX_REL, POSIX_REL_MIN, POSIX_THREADING_REL]
-        tls: [mbedtls] 
+        tls_lib: [mbedtls, wolfssl]
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
@@ -29,11 +29,11 @@ jobs:
           git submodule init
           git submodule update
 
-      - name: Update apt
+      - name: Update Apt
         shell: bash
         run: sudo apt-get update
 
-      - name: Install Prereqs
+      - name: Apt Install Prereqs
         run: |
           set -e
           sudo apt-get install expect
@@ -48,17 +48,13 @@ jobs:
           # sudo apt-get dfu-util
           # sudo apt-get xz-utils
           # sudo apt-get python3-pip
-
-      - name: Debug Dirs third_party
-        shell: bash
-        run: |
-          ls -l third_party/
-
-      - name: Debug Dirs third_party/googletest
-        shell: bash
-        run: |
-          ls third_party/googletest/
           
-      - name: build
+      - name: Build SDK
+        shell: bash
         run: |
-          expect res/travis/travis_build_mbedtls.expect make MAKEFILE_DEBUG=1 PRESET=${{ matrix.preset }}
+          expect res/travis/travis_build_${{matrix.tls_lib}}.expect make MAKEFILE_DEBUG=1 PRESET=${{ matrix.preset }}
+      
+      - name: Build Examples
+        shell: bash
+        run: |
+          make -C examples/iot_core_mqtt_client IOTC_CLIENT_LIB_PATH=../../bin/linux IOTC_BSP_TLS=${{ matrix.preset }}
