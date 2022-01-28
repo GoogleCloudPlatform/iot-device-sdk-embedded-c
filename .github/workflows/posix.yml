@@ -63,10 +63,10 @@ jobs:
       - name: Build SDK
         shell: bash
         env:
-          CC: clang++
+          CC: clang
         run: |
           expect res/travis/travis_build_${{matrix.tls_lib}}.expect \
-            make PRESET=${{ matrix.preset }} IOTC_BSP_TLS=${{ matrix.tls_lib }} tests
+            make PRESET=${{ matrix.preset }} IOTC_BSP_TLS=${{ matrix.tls_lib }} utests
       
       - name: Build Examples
         shell: bash
