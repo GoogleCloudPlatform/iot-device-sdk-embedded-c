@@ -20,11 +20,16 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v2
         with:
-          submodules: true
+          submodules: recursive
+      - name: Submodule update
+        shell: bash
+        run: git submodule update
+      - name: Update apt
+        shell: bash
+        run: sudo apt-get update
       - name: Install Prereqs
         run: |
           set -e
-          sudo apt-get update
           sudo apt-get install expect
           # sudo apt-get install clang-3.8
           # sudo apt-get qemu-system
