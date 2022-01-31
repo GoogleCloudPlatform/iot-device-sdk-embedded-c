@@ -88,11 +88,11 @@ jobs:
         env:
           CC: clang
         run: |
-          make MAKEFILE_DEBUG=1 PRESET=${{ matrix.preset }} IOTC_BSP_TLS=${{ matrix.tls_lib }} gtests
+          make PRESET=${{ matrix.preset }} IOTC_BSP_TLS=${{ matrix.tls_lib }} gtests
 
       - name: iTests
         shell: bash
         env:
           CC: clang
         run: |
-          make PRESET=${{ matrix.preset }} IOTC_BSP_TLS=${{ matrix.tls_lib }} gtests
+          make PRESET=${{ matrix.preset }} IOTC_BSP_TLS=${{ matrix.tls_lib }} itests
