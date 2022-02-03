@@ -74,7 +74,7 @@ IOTC_GTEST_CXX_FLAGS += -I$(GTEST_DIR)/include -I$(GTEST_DIR)/include/gtest
 IOTC_GTEST_CXX_FLAGS += -I$(GMOCK_DIR)/include -I$(GMOCK_DIR)/include/gmock
 IOTC_GTEST_CXX_FLAGS += -I$(LIBIOTC)/src/tests
 IOTC_GTEST_CXX_FLAGS += -I$(LIBIOTC)/src/tests/tools
-IOTC_GTEST_CXX_FLAGS += -fpic
+# IOTC_GTEST_CXX_FLAGS += -fpic
 IOTC_GTEST_CXX_FLAGS += $(foreach platformdep,$(IOTC_PLATFORM_MODULES) \
             ,-I$(IOTC_GTEST_SOURCE_DIR)/platform/$(IOTC_PLATFORM_BASE)/$(platformdep))
 
