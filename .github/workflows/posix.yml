@@ -1,9 +1,9 @@
 name: POSIX Builds
 
 on:
-  push:
-    branches: 
-      - feature/posix_gha
+  pull_request:
+    types: [opened, reopened, synchronize]
+
   workflow_dispatch:
 
 jobs:
