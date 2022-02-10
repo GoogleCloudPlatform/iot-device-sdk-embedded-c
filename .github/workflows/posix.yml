@@ -1,16 +1,87 @@
 name: POSIX Builds
 
 on:
+  push:
+    branches: 
+      - feature/posix_gha
   workflow_dispatch:
-    inputs:
-      foo:
-        description: 'foo'
-        default: 'bar'
-        required: false
 
 jobs:
-  hello_world:
+  POSIX_Linux:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        preset: [POSIX_DEV, POSIX_DEV_MIN, POSIX_REL, POSIX_REL_MIN, POSIX_THREADING_REL]
+        tls_lib: [mbedtls, wolfssl]
     steps:
-      - run: echo "Hello World!"
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
 
+      - name: Submodule update
+        shell: bash
+        run: |
+          set -e
+          git submodule init
+          git submodule update
+
+      - name: Update Apt
+        shell: bash
+        run: sudo apt-get update
+
+      - name: Apt Install Prereqs
+        shell: bash
+        run: |
+          set -e
+          sudo apt-get install expect
+
+      - name: Install Clang
+        uses: egor-tensin/setup-clang@v1
+        with:
+          version: 6.0
+      
+      - name: Clone wolfSSL
+        if: startsWith(matrix.tls_lib, 'wolfssl')
+        shell: bash
+        run: |
+          set -e
+          git clone -b v3.15.3-stable https://github.com/wolfSSL/wolfssl third_party/tls/wolfssl
+          
+      - name: Build SDK
+        shell: bash
+        env:
+          CC: clang
+        run: |
+          expect res/travis/travis_build_${{matrix.tls_lib}}.expect \
+            make PRESET=${{ matrix.preset }} IOTC_BSP_TLS=${{ matrix.tls_lib }}
+      
+      - name: Build Examples
+        shell: bash
+        env:
+          CC: clang
+        run: |
+          make -C examples/iot_core_mqtt_client \
+            IOTC_CLIENT_LIB_PATH=../../bin/linux IOTC_BSP_TLS=${{ matrix.tls_lib }}
+
+      - name: uTests
+        shell: bash
+        env:
+          CC: clang
+        run: |
+          make PRESET=${{ matrix.preset }} IOTC_BSP_TLS=${{ matrix.tls_lib }} utests
+
+      - name: gTests
+        shell: bash
+        env:
+          CC: clang
+        run: |
+          make PRESET=${{ matrix.preset }} IOTC_BSP_TLS=${{ matrix.tls_lib }} gtests
+
+      - name: iTests
+        shell: bash
+        env:
+          CC: clang
+        run: |
+          make PRESET=${{ matrix.preset }} IOTC_BSP_TLS=${{ matrix.tls_lib }} itests
