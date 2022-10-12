@@ -108,6 +108,8 @@ IOTC_TT_TESTCASE_PREDECLARATION(utest_time_event);
 
 #include "iotc_test_utils.h"
 #include "iotc_lamp_communication.h"
+#include "iotc.h"
+#include <string.h>
 
 /* Make an array of testgroups. This is mandatory. Unlike more
    heavy-duty testing frameworks, groups can't nest. */
@@ -233,7 +235,28 @@ int main(int argc, char const* argv[])
 int iotc_utests_main(int argc, char const* argv[])
 #endif
 {
+    int i;
+    char host_name[2048];
+	uint16_t port_val = 0;
+
   iotc_test_init(argc, argv);
+
+  	for (i=1; i<argc; ++i) {
+		if (argv[i][0] == '-') {
+			if (!strcmp(argv[i], "--hostURL")) {
+				i++;
+				memcpy(host_name, argv[i], strlen(argv[i]));
+			} else if (!strcmp(argv[i], "--hostPort")) {
+				i++;
+				port_val = atoi(argv[i]);
+			}
+		}
+	}
+	if(port_val > 0){
+		/* caller supplied custom hostURL and port number  */
+		setHostNameAndPort(host_name, port_val);
+	}
+
 
   // report test start
   iotc_test_report_result(

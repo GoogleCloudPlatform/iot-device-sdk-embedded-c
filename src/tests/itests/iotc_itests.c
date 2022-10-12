@@ -48,7 +48,29 @@ int iotc_itests_main(int argc, char const* argv[])
 {
   iotc_test_init(argc, argv);
 
-  // report test start
+  int i;
+  char host_name[2048];
+	uint16_t port_val = 0;
+
+  iotc_test_init(argc, argv);
+
+  	for (i=1; i<argc; ++i) {
+		if (argv[i][0] == '-') {
+			if (!strcmp(argv[i], "--hostURL")) {
+				i++;
+				memcpy(host_name, argv[i], strlen(argv[i]));
+			} else if (!strcmp(argv[i], "--hostPort")) {
+				i++;
+				port_val = atoi(argv[i]);
+			}
+		}
+	}
+	if(port_val > 0){
+		/* caller supplied custom hostURL and port number  */
+		setHostNameAndPort(host_name, port_val);
+	}
+  
+    // report test start
   iotc_test_report_result(
       iotc_test_load_level ? "iotc_itest_id_l1" : "iotc_itest_id_l0",
       iotc_test_load_level ? "xi1" : "xi", 1, 0);

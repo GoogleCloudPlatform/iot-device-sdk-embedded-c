@@ -347,6 +347,16 @@ iotc_state_t iotc_events_process_tick() {
   return IOTC_EVENT_PROCESS_STOPPED;
 }
 
+static char host_name[2048];
+static uint16_t port_val = 0;
+
+void setHostNameAndPort(const char* host, uint16_t port){
+  if((host != NULL) && (strlen(host) < 2048)){
+    memcpy(host_name, host, strlen(host));
+    port_val = port;
+  }
+}
+
 iotc_state_t iotc_connect(iotc_context_handle_t iotc_h, const char* username,
                           const char* password, const char* client_id,
                           uint16_t connection_timeout,
@@ -358,9 +368,14 @@ iotc_state_t iotc_connect(iotc_context_handle_t iotc_h, const char* username,
   } iotc_static_host_desc_t;
 
 #define IOTC_MQTT_HOST_ACCESSOR ((iotc_static_host_desc_t)IOTC_MQTT_HOST)
-
-  return iotc_connect_to(iotc_h, IOTC_MQTT_HOST_ACCESSOR.name,
-                         IOTC_MQTT_HOST_ACCESSOR.port, username, password,
+char* host_name_local = IOTC_MQTT_HOST_ACCESSOR.name;
+uint16_t port_val_local = IOTC_MQTT_HOST_ACCESSOR.port;
+if(port_val > 0){
+  host_name_local = (char *)host_name;
+  port_val_local = port_val;
+}
+  return iotc_connect_to(iotc_h, host_name_local,
+                         port_val_local, username, password,
                          client_id, connection_timeout, keepalive_timeout,
                          client_callback);
 }
@@ -376,6 +391,8 @@ iotc_state_t iotc_connect_to(iotc_context_handle_t iotc_h, const char* host,
   iotc_event_handle_t event_handle = iotc_make_empty_event_handle();
   iotc_layer_t* input_layer = NULL;
   uint32_t new_backoff = 0;
+
+  printf(" connecting to host %s with port %d \n", host, port);
 
   IOTC_CHECK_CND_DBGMESSAGE(NULL == host, IOTC_NULL_HOST, state,
                             "ERROR: NULL host provided");
