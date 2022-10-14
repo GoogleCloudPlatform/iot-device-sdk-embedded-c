@@ -96,7 +96,7 @@ void task_function_gcpiot_embedded_c(void *parameters) {
   const uint16_t connection_timeout = 10;
   const uint16_t keepalive_timeout = 3;
 
-  iotc_connect(context_handle, /*username=*/NULL, /*password=*/jwt,
+  iotc_connect(context_handle, /*username=*/"UNUSED", /*password=*/jwt,
                /*client_id=*/iotc_device_path, connection_timeout,
                keepalive_timeout, &on_connection_state_changed);
 

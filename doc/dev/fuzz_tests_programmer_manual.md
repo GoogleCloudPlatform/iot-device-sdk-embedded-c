@@ -1,4 +1,4 @@
-# Fuzz Testing on Google Cloud IoT Device SDK Embedded C Library
+# Fuzz Testing on ClearBlade Cloud IoT Device SDK Embedded C Library
 
 - uses the llvm’s ```libFuzzer``` library that has to be built using clang-4.0 compiler ( or newer )
 - uses the ```clang-4.0``` feature of generating the coverage data from the compiler

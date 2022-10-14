@@ -1,18 +1,18 @@
-# Google Cloud IoT Device SDK for Embedded C
+# ClearBlade Cloud IoT Device SDK for Embedded C
 
-The Google Cloud IoT Device SDK for Embedded C is an easy-to-port, open-source C library that connects low-end IoT devices to Google Cloud IoT Core.
+The ClearBlade Cloud IoT Device SDK for Embedded C is an easy-to-port, open-source C library that connects low-end IoT devices to ClearBlade Cloud IoT Core.
 
 The Device SDK supports concurrent Pub/Sub traffic on a non-blocking socket implementation that runs on POSIX, RTOS, and no-OS devices. A Board Support Package (BSP) facilitates portability and provides platform-specific implementations through a set of functions and directories. The BSP helps implement crypto and time functions, networking, Transport Layer Security (TLS), memory management, and random number generation—without working through MQTT internals.
 
 For more details, see the user guide in the `docs` directory.
 
 ## Source
-To get the source, clone from the `master` branch of the [Google Cloud IoT
+To get the source, clone from the `master` branch of the [ClearBlade Cloud IoT
 Device SDK for Embedded C GitHub
-repository](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c.git):
+repository](https://github.com/ClearBlade/iot-device-sdk-embedded-c.git):
 
 ```
-git clone https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c.git --recurse-submodules
+git clone https://github.com/ClearBlade/iot-device-sdk-embedded-c.git --recurse-submodules
 ```
 
 ### Directory structure
@@ -85,7 +85,7 @@ Before building the examples, build both the Device SDK static library and a TLS
 1. Create a project, registry and device in Cloud IoT Core.
 2. Create [Cloud IoT Core device credentials](https://cloud.google.com/iot/docs/how-tos/credentials/keys).
 3. Follow the steps in the examples README.md files to provision the device credentials and build the client applications.
-4. Run `make` in the [`examples`](examples) folder. The `make` process automatically downloads the Google Root CA PEM file to the example directories. The file enables TLS when communicating with Cloud IoT Core.
+4. Run `make` in the [`examples`](examples) folder. The `make` process automatically downloads the ClearBlade Root CA PEM file to the example directories. The file enables TLS when communicating with Cloud IoT Core.
 
 To securely connect to Cloud IoT Core, a root CA `.pem` file must be in the current working directory of the example executables. By default, the file is in `res/trusted_RootCA_certs/roots.pem` and contains two certificates that validate Cloud IoT Core credentials. The `make` process automatically moves this file from `res/trusted_RootCA_certs/roots.pem` to the correct location.
 

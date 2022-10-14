@@ -1,6 +1,6 @@
 # Zephyr RTOS example
 
-This example uses the Google Cloud IoT Device SDK for Embedded C to connect a Zephyr native_posix board application to the [Google Cloud IoT Core MQTT bridge](https://cloud.google.com/iot/docs/how-tos/mqtt-bridge#iot-core-mqtt-auth-run-cpp).
+This example uses the ClearBlade Cloud IoT Device SDK for Embedded C to connect a Zephyr native_posix board application to the [ClearBlade Cloud IoT Core MQTT bridge](https://cloud.google.com/iot/docs/how-tos/mqtt-bridge#iot-core-mqtt-auth-run-cpp).
 
 ## Getting started
 Follow the steps below to connect the Zephyr application to the MQTT bridge.
@@ -47,4 +47,4 @@ Another way to set environment variables is by permanently set up the Zephyr env
 
 ### Validating Cloud IoT Core credentials
 
-Build the [MQTT client example](https://github.com/GoogleCloudPlatform/iot-device-sdk-embedded-c/tree/docs_updates/examples/iot_core_mqtt_client) to validate your Cloud IoT Core credentials.
+Build the [MQTT client example](https://github.com/ClearBlade/iot-device-sdk-embedded-c/tree/master/examples/iot_core_mqtt_client) to validate your Cloud IoT Core credentials.
