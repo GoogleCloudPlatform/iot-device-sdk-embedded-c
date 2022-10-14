@@ -1,10 +1,10 @@
-# Google Cloud IoT Device SDK for Embedded C User Guide
+# ClearBlade Cloud IoT Device SDK for Embedded C User Guide
 
-##### Copyright 2018-2020 Google LLC
+##### Copyright 2018-2020 ClearBlade LLC
 
-This document explains how applications can use the Google Cloud IoT Device SDK for Embedded C to connect to Google Cloud IoT Core. It also describes the security and communication features of the Device SDK.
+This document explains how applications can use the ClearBlade Cloud IoT Device SDK for Embedded C to connect to ClearBlade Cloud IoT Core. It also describes the security and communication features of the Device SDK.
 
-For a complete API reference and code samples, see the following directories in the [Google Cloud IoT Device SDK for Embedded C GitHub repository](https://github.com/googlecloudplatform/iot-edge-sdk-embedded-c).
+For a complete API reference and code samples, see the following directories in the [ClearBlade Cloud IoT Device SDK for Embedded C GitHub repository](https://github.com/ClearBlade/iot-device-sdk-embedded-c).
 
  * `examples/`: Includes an example of how to connect and then publish/subscribe to Cloud IoT Core MQTT topics
  * Device SDK [API](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/api/html/index.html) and [BSP](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/bsp/html/index.html) reference documentation.
@@ -36,7 +36,7 @@ The Device SDK uses [coroutines](http://en.wikipedia.org/wiki/Coroutine) to conc
 
 ### Distributed Denial of Service (DDoS) prevention
 
-The Device SDK includes a backoff system that uses intelligent networking behavior to prevent fleets of devices from causing unintentional DDoS attacks on Google Cloud IoT Core.
+The Device SDK includes a backoff system that uses intelligent networking behavior to prevent fleets of devices from causing unintentional DDoS attacks on ClearBlade Cloud IoT Core.
 
 * The backoff system prevents individual client applications from performing tight-loop reconnection attempts.
 * Client applications are informed of pending connection attempts, disconnects, and backoff status changes.
@@ -60,24 +60,24 @@ The footprint also includes a TLS adaptation layer but doesn't include a TLS imp
 
 ### MQTT v3.1.1
 
-The Device SDK communicates over publish/subscribe topics with MQTT. The Device SDK connects a TCP socket to the [Cloud IoT Core MQTT bridge](https://cloud.google.com/iot/docs/how-tos/mqtt-bridge). The Device SDK then requests subscriptions to one or many topics via the socket. After the Device SDK subscribes to a topic, all incoming data is published to the client application on the embedded device. 
+The Device SDK communicates over publish/subscribe topics with MQTT. The Device SDK connects a TCP socket to the [Cloud IoT Core MQTT bridge](https://clearblade.atlassian.net/wiki/spaces/IC/pages/2202566686/Publishing+over+MQTT). The Device SDK then requests subscriptions to one or many topics via the socket. After the Device SDK subscribes to a topic, all incoming data is published to the client application on the embedded device. 
 
-Similarly, devices can publish to one or many topics in order to perform outgoing communication with Cloud IoT Core. The device doesn't need to keep track of numerous connections, report connection state, or broadcast messages to multiple addresses. Instead, the device simply publishes a message to a topic. Cloud IoT Core automatically routes the message to the associated [subscriptions](https://cloud.google.com/iot/docs/how-tos/devices#creating_a_device_registry). Because routing and permissions are handled in the cloud, the Device SDK reduces communication overhead on the device.
+Similarly, devices can publish to one or many topics in order to perform outgoing communication with Cloud IoT Core. The device doesn't need to keep track of numerous connections, report connection state, or broadcast messages to multiple addresses. Instead, the device simply publishes a message to a topic. Cloud IoT Core automatically routes the message to the associated [subscriptions](https://clearblade.atlassian.net/wiki/spaces/IC/pages/2202206388/Creating+registries+and+devices). Because routing and permissions are handled in the cloud, the Device SDK reduces communication overhead on the device.
 
-* The MQTT specification defines three Quality of Service (QoS) [levels](https://cloud.google.com/iot/docs/how-tos/mqtt-bridge#quality_of_service_qos).
+* The MQTT specification defines three Quality of Service (QoS) [levels](https://clearblade.atlassian.net/wiki/spaces/IC/pages/2202566686/Publishing+over+MQTT#quality_of_service_qos).
 
     * **QoS 0 (AT\_MOST\_ONCE)**: The published message is sent to the broker. No response is sent to the client, so the client has no way to confirm receipt and the message might not be delivered at all.
     * **QoS 1 (AT\_LEAST\_ONCE)**: When the message is delivered to Cloud IoT Core, a "receipt" is sent to the client. The message may be sent multiple times before it is acknowledged by the service.
     * **QoS 2 (EXACTLY\_ONCE)**: Includes acknowledgment as in QoS 1, but the message is guaranteed to reach the target only once.
 
-Note: Google Cloud IoT Core does not support QoS 2. Visit the [MQTT Standard v3.1.1 Reference](http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html) for more information about the MQTT protocol.
+Note: ClearBlade Cloud IoT Core does not support QoS 2. Visit the [MQTT Standard v3.1.1 Reference](http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html) for more information about the MQTT protocol.
 
 
 ### TLS Support
 
 The Device SDK includes two working implementations of its TLSv1.2 Board Support Package (BSP) for embedded devices: [mbedTLS](https://tls.mbed.org) and [wolfSSL](https://www.wolfssl.com/). The GitHub repository includes the source required for the Device SDK to interface with either of these implementations (but does not provide the source for the TLS libraries themselves).
 
-If you have your own TLS implementation or one is included in your platform software, you can use the modular Networking and TLS BSPs. For more information on how to write and build with a custom TLS or Networking BSP, see the [porting guide](https://github.com/googlecloudplatform/iot-edge-sdk-embedded-c/blob/master/doc/porting_guide.md) and [TLS implementation requirements](#tls-implementation-requirements).
+If you have your own TLS implementation or one is included in your platform software, you can use the modular Networking and TLS BSPs. For more information on how to write and build with a custom TLS or Networking BSP, see the [porting guide](https://github.com/ClearBlade/iot-device-sdk-embedded-c/blob/master/doc/porting_guide.md) and [TLS implementation requirements](#tls-implementation-requirements).
 
 
 ### RTOS support
@@ -147,12 +147,12 @@ A true random number generator ensures that the nonce created during TLS handsha
 
 The embedded device must keep time in order to perform the following security processes when it initially connects with Cloud IoT Core.
 
-* To [authenticate to Cloud IoT Core](https://cloud.google.com/iot/docs/how-tos/credentials/jwts), connecting clients create a signed JSON Web Token (JWT) that includes the current date/time. The JWT is valid for one day and must be regenerated with the accurate time on subsequent connections.
+* To [authenticate to Cloud IoT Core](https://clearblade.atlassian.net/wiki/spaces/IC/pages/2202206402/Using+JSON+Web+Tokens), connecting clients create a signed JSON Web Token (JWT) that includes the current date/time. The JWT is valid for one day and must be regenerated with the accurate time on subsequent connections.
 * The TLS implementation on the device checks the service's identifying certificate during TLS handshaking: the current date/time must be within the certificate's date/time validity range. If the date is outside the range, the TLS handshake is aborted and the device doesn't connect.
 
 ## TLS implementation requirements
 
-If you want to use a TLS library other than [mbedTLS](https://tls.mbed.org) or [wolfSSL](https://www.wolfssl.com), review this section and read the [porting guide](https://github.com/googlecloudplatform/iot-edge-sdk-embedded-c/blob/master/doc/porting_guide.md) for details on configuring builds to support other TLS BSPs. All TLS implementations must meet the following requirements.
+If you want to use a TLS library other than [mbedTLS](https://tls.mbed.org) or [wolfSSL](https://www.wolfssl.com), review this section and read the [porting guide](https://github.com/ClearBlade/iot-device-sdk-embedded-c/blob/master/doc/porting_guide.md) for details on configuring builds to support other TLS BSPs. All TLS implementations must meet the following requirements.
 
 ### Server certificate root CA validation
 
@@ -181,10 +181,10 @@ Note: this section provides an overview rather than complete details. For more i
 
 ### Provisioning credentials
 
-Before you begin building a client application, [generate device credentials](https://cloud.google.com/iot/docs/how-tos/credentials/keys) with Cloud IoT Core. Make sure that the following information is available:
+Before you begin building a client application, [generate device credentials](https://clearblade.atlassian.net/wiki/spaces/IC/pages/2202763333/Creating+key+pairs) with Cloud IoT Core. Make sure that the following information is available:
 
  - project ID
- - [device path](https://cloud.google.com/iot/docs/how-tos/mqtt-bridge)
+ - [device path](https://clearblade.atlassian.net/wiki/spaces/IC/pages/2202566686/Publishing+over+MQTT)
  - private key (e.g., `./ec_private.pem`)
 
 The Device SDK uses the context to authenticate your client application to Cloud IoT Core.
@@ -212,7 +212,7 @@ When the **`iotc_connect()`** function runs, the Device SDK initalizes a callbac
 
 ### Step 3: Process events
 
-After a connection is established (indicated by the Device SDK invoking the connect callback function), the client application automatically subscribes to the Cloud Pub/Sub topics [associated with the device](https://cloud.google.com/iot/docs/how-tos/devices).
+After a connection is established (indicated by the Device SDK invoking the connect callback function), the client application automatically subscribes to the Cloud Pub/Sub topics [associated with the device](https://clearblade.atlassian.net/wiki/spaces/IC/pages/2202206388/Creating+registries+and+devices).
 
 To manually enqueue a subscription request, call **`iotc_subscribe()`**. Subscription requests must include the topic name, a subscriptions callback function, and a QoS level.
 
@@ -473,10 +473,10 @@ Visit the `examples/` directory for an sample implementation of a scheduled call
 
 The following documentation is also available:
 
-* [Device SDK releases](https://github.com/googlecloudplatform/iot-device-sdk-embedded-c/releases)
-* [Device SDK GitHub](https://github.com/googlecloudplatform/iot-device-sdk-embedded-c)
-* [Device SDK porting guide](https://github.com/googlecloudplatform/iot-device-sdk-embedded-c/blob/master/doc/porting_guide.md)
-* [Cloud IoT Core quickstart](https://cloud.google.com/iot/docs/quickstart)
+* [Device SDK releases](https://github.com/ClearBlade/iot-device-sdk-embedded-c/releases)
+* [Device SDK GitHub](https://github.com/ClearBlade/iot-device-sdk-embedded-c)
+* [Device SDK porting guide](https://github.com/ClearBlade/iot-device-sdk-embedded-c/blob/master/doc/porting_guide.md)
+* [Cloud IoT Core quickstart](https://clearblade.atlassian.net/wiki/spaces/IC/pages/2209185812/Quick+Start)
 * Device SDK [API reference](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/api/html/index.html).
 * Device SDK [BSP reference](https://googlecloudplatform.github.io/iot-device-sdk-embedded-c/bsp/html/index.html).
 
@@ -505,6 +505,6 @@ A state in which the Device SDK delays connection attempts to prevent accidental
 
 Software written for the target platform. Resides above the Device SDK for Embedded C on the application software stack. The client application calls into the Google Cloud IoT Device SDK for Embedded C to fulfill Cloud IoT Core communication requests.
 
-### Google Cloud IoT Device SDK for Embedded C
+### ClearBlade Cloud IoT Device SDK for Embedded C
 
 Software written in C and intended for embedded devices. The Device SDK connects client applications to Cloud IoT Core.

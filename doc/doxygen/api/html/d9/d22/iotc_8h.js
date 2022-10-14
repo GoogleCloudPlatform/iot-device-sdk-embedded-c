@@ -21,6 +21,7 @@ var iotc_8h =
     [ "iotc_shutdown", "d9/d22/iotc_8h.html#ac5bb467d736cd8b6e8de62e8a5fdda23", null ],
     [ "iotc_shutdown_connection", "d9/d22/iotc_8h.html#ada03683c17e3cf3c5ed286e040140dc9", null ],
     [ "iotc_subscribe", "d9/d22/iotc_8h.html#aca7aacc10616954169bff4eed5bfc834", null ],
+    [ "setHostNameAndPort", "d9/d22/iotc_8h.html#a40119ad66d737e9c2a0a0dcb1daab3b2", null ],
     [ "iotc_cilent_version_str", "d9/d22/iotc_8h.html#a7f8d129984d9f74aeecb593f91dd7596", null ],
     [ "iotc_major", "d9/d22/iotc_8h.html#aae9776256873e3a7fc979f2002df011e", null ],
     [ "iotc_minor", "d9/d22/iotc_8h.html#ac2f0cfc4e5b05bfb7096acc483ac92a4", null ],
