@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -367,9 +367,35 @@ iotc_state_t iotc_connect(iotc_context_handle_t iotc_h, const char* username,
     uint16_t port;
   } iotc_static_host_desc_t;
 
-#define IOTC_MQTT_HOST_ACCESSOR ((iotc_static_host_desc_t)IOTC_MQTT_HOST)
-char* host_name_local = IOTC_MQTT_HOST_ACCESSOR.name;
-uint16_t port_val_local = IOTC_MQTT_HOST_ACCESSOR.port;
+char* host_name_local;
+uint16_t port_val_local;
+
+// Following code will set the default value of MQTT URL based on the device region
+#define IOTC_MQTT_HOST_ACCESSOR_US_CENTRAL ((iotc_static_host_desc_t)IOTC_MQTT_HOST_US_CENTRAL)
+#define IOTC_MQTT_HOST_ACCESSOR_EUROPE_WEST1 ((iotc_static_host_desc_t)IOTC_MQTT_HOST_EUROPE_WEST1)
+#define IOTC_MQTT_HOST_ACCESSOR_ASIA_EAST1 ((iotc_static_host_desc_t)IOTC_MQTT_HOST_ASIA_EAST1)
+char local_client_id[2048];
+memcpy(local_client_id, client_id, strlen(client_id));
+
+//har *uscentral1 = "us-central1";
+char *europewest1 = "europe-west1";
+char *asiaeast1 = "asia-east1";
+
+if (strcasestr(local_client_id, europewest1) != NULL) {
+    host_name_local = IOTC_MQTT_HOST_ACCESSOR_EUROPE_WEST1.name;
+    port_val_local = IOTC_MQTT_HOST_ACCESSOR_EUROPE_WEST1.port;
+}
+else if (strcasestr(local_client_id, asiaeast1) != NULL) {
+    host_name_local = IOTC_MQTT_HOST_ACCESSOR_ASIA_EAST1.name;
+    port_val_local = IOTC_MQTT_HOST_ACCESSOR_ASIA_EAST1.port;
+}
+else /*(strcasestr(local_client_id, uscentral1) != NULL)*/ {
+    /* use this as default value */
+    host_name_local = IOTC_MQTT_HOST_ACCESSOR_US_CENTRAL.name;
+    port_val_local = IOTC_MQTT_HOST_ACCESSOR_US_CENTRAL.port;
+}
+
+
 if(port_val > 0){
   host_name_local = (char *)host_name;
   port_val_local = port_val;

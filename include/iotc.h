@@ -221,7 +221,7 @@ extern void iotc_events_stop();
 
 /**
  * @brief helps to set custom URL based on region. This is optional function.
- * No need to call if URL is "iot-sandbox-mqtt.clearblade.com" and port is 443
+ * No need to call if URL is standard. Example: "us-central1-mqtt.clearblade.com" and port is 443
  *
  */
 extern void setHostNameAndPort(const char* host, uint16_t port);
