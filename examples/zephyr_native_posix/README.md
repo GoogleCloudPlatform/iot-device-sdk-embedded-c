@@ -5,7 +5,7 @@ This example uses the ClearBlade Cloud IoT Device SDK for Embedded C to connect 
 ## Getting started
 Follow the steps below to connect the Zephyr application to the MQTT bridge.
 
-Before you begin, generate a [public/private key pair](https://cloud.google.com/iot/docs/how-tos/credentials/keys), store the private key in the `examples/zephyr_native_posix/zephyr` directory, and name the key `ec_private.pem`.
+Before you begin, generate a [public/private key pair](https://clearblade.atlassian.net/wiki/spaces/IC/pages/2202763333/Creating+key+pairs), store the private key in the `examples/zephyr_native_posix/zephyr` directory, and name the key `ec_private.pem`.
 
 1. Run `make PRESET=ZEPHYR` in the root directory of the repository. This command includes `git clone` of the Zephyr repository, sets Zephyr required environment variables, and auto-generates `.h` files that the Zephyr BSP requries.
 

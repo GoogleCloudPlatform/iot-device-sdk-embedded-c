@@ -42,9 +42,17 @@
 /* note: usually port 1883 is used for insecure MQTT connections */
 #endif
 
-#ifndef IOTC_MQTT_HOST
-#define IOTC_MQTT_HOST \
-  { "iot-sandbox-mqtt.clearblade.com", IOTC_MQTT_PORT }
+#ifndef IOTC_MQTT_HOST_US_CENTRAL
+#define IOTC_MQTT_HOST_US_CENTRAL \
+  { "us-central1-mqtt.clearblade.com", IOTC_MQTT_PORT }
+#endif
+#ifndef IOTC_MQTT_HOST_EUROPE_WEST1
+#define IOTC_MQTT_HOST_EUROPE_WEST1 \
+  { "europe-west1-mqtt.clearblade.com", IOTC_MQTT_PORT }
+#endif
+#ifndef IOTC_MQTT_HOST_ASIA_EAST1
+#define IOTC_MQTT_HOST_ASIA_EAST1 \
+  { "asia-east1-mqtt.clearblade.com", IOTC_MQTT_PORT }
 #endif
 
 #endif /* __IOTC_CONFIG_H__ */

@@ -42,6 +42,8 @@ const char* iotc_device_path;
 const char* iotc_publish_topic;
 const char* iotc_publish_message;
 const char* iotc_private_key_filename;
+const char* iotc_mqtt_connect_url;
+const char* iotc_mqtt_connect_port;
 
 int iotc_parse(int argc, char** argv, char* valid_options,
                unsigned options_length) {
@@ -52,6 +54,8 @@ int iotc_parse(int argc, char** argv, char* valid_options,
   iotc_publish_topic = NULL;
   iotc_private_key_filename = DEFAULT_PRIVATE_KEY_FIILENAME;
   iotc_publish_message = "Hello From Your IoTC client!";
+  iotc_mqtt_connect_url = NULL;
+  iotc_mqtt_connect_port = NULL;
 
   while (1) {
     static struct option long_options[] = {
@@ -60,6 +64,8 @@ int iotc_parse(int argc, char** argv, char* valid_options,
         {"device_path", required_argument, 0, 'd'},
         {"publish_topic", required_argument, 0, 't'},
         {"publish_message", required_argument, 0, 'm'},
+        {"mqtt_url", optional_argument, 0, 'u'},
+        {"mqtt_port", optional_argument, 0, 'n'},
         {"private_key_filename", optional_argument, 0, 'f'},
         {0, 0, 0, 0}};
 
@@ -89,6 +95,12 @@ int iotc_parse(int argc, char** argv, char* valid_options,
       case 'f':
         iotc_private_key_filename = optarg;
         break;
+      case 'u':
+        iotc_mqtt_connect_url = optarg;
+        break;
+      case 'n':
+        iotc_mqtt_connect_port = optarg;
+        break;      
       case 'h':
       default:
         iotc_help_flag = 1;
@@ -158,7 +170,15 @@ void iotc_usage(const char* options, unsigned options_length) {
       case 'h': /* Don't print anything for the help option since we're printing
                    usage */
         break;
-      case ':': /* We'll skip the ':' character since it's not an option. */
+      case 'u':
+        printf(
+            "-u --mqtt_connect_url\n\tThe url of device to connect to. example: us-central1-mqtt.clearblade.com");
+        break;
+      case 'n':
+        printf(
+            "-n --mqtt_connect_port\n\tThe port of device to connect to. example: 443");
+        break;
+     case ':': /* We'll skip the ':' character since it's not an option. */
         break;
       case '\0':
         break;

@@ -30,29 +30,12 @@ static iotc_timed_task_handle_t delayed_publish_task =
     IOTC_INVALID_TIMED_TASK_HANDLE;
 
 int iotc_example_handle_command_line_args(int argc, char* argv[]) {
-  char options[] = "h:p:d:t:m:f:";
+  char options[] = "h:p:d:t:m:u:n:f";
   int missingparameter = 0;
   int retval = 0;
 
-  int i;
   char host_name[2048];
-	uint16_t port_val = 0;
-
- for (i=1; i<argc; ++i) {
-		if (argv[i][0] == '-') {
-			if (!strcmp(argv[i], "--hostURL")) {
-				i++;
-				memcpy(host_name, argv[i], strlen(argv[i]));
-			} else if (!strcmp(argv[i], "--hostPort")) {
-				i++;
-				port_val = atoi(argv[i]);
-			}
-		}
-	}
-	if(port_val > 0){
-		/* caller supplied custom hostURL and port number  */
-		setHostNameAndPort(host_name, port_val);
-	}
+  char port_val[1048];
 
   /* log the executable name and library version */
   printf("\n%s\n%s\n", argv[0], iotc_cilent_version_str);
@@ -66,6 +49,14 @@ int iotc_example_handle_command_line_args(int argc, char* argv[]) {
        to the console. Therefore just silently exit here. */
     return -1;
   }
+
+  if((iotc_mqtt_connect_url != NULL) && (iotc_mqtt_connect_port != NULL)){
+      /* caller supplied custom hostURL and port number  */
+      memcpy(host_name, iotc_mqtt_connect_url, strlen(iotc_mqtt_connect_url));
+      memcpy(port_val, iotc_mqtt_connect_port, strlen(iotc_mqtt_connect_port));
+      int port_i_val = atoi(port_val);
+      setHostNameAndPort(host_name, port_i_val);
+	}
 
   /* Check to see that the required parameters were all present on the command
    * line */
