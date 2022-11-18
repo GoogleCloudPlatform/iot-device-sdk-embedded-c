@@ -352,6 +352,7 @@ static uint16_t port_val = 0;
 
 void setHostNameAndPort(const char* host, uint16_t port){
   if((host != NULL) && (strlen(host) < 2048)){
+    memset(host_name,0,sizeof(char));
     memcpy(host_name, host, strlen(host));
     port_val = port;
   }
@@ -375,7 +376,10 @@ uint16_t port_val_local;
 #define IOTC_MQTT_HOST_ACCESSOR_EUROPE_WEST1 ((iotc_static_host_desc_t)IOTC_MQTT_HOST_EUROPE_WEST1)
 #define IOTC_MQTT_HOST_ACCESSOR_ASIA_EAST1 ((iotc_static_host_desc_t)IOTC_MQTT_HOST_ASIA_EAST1)
 char local_client_id[2048];
-memcpy(local_client_id, client_id, strlen(client_id));
+memset(local_client_id,0,sizeof(char));
+if(NULL != client_id){    
+    memcpy(local_client_id, client_id, strlen(client_id));
+}
 
 //har *uscentral1 = "us-central1";
 char *europewest1 = "europe-west1";
