@@ -2,8 +2,7 @@
 
 This project is no longer actively developed or maintained.
 
-Google Cloud IoT Core is being retired on August 16, 2023. Contact your Google Cloud account team for more information.  Additional guidance can be found [here
-](https://cloud.google.com/iot-core).
+Google Cloud IoT Core is being retired on August 16, 2023. Contact your Google Cloud account team for more information.  Additional guidance can be found [here](https://cloud.google.com/iot-core).
 
 # Google Cloud IoT Device SDK for Embedded C
 
