@@ -1,3 +1,10 @@
+![status: inactive](https://img.shields.io/badge/status-inactive-red.svg)
+
+This project is no longer actively developed or maintained.
+
+Google Cloud IoT Core is being retired on August 16, 2023. Contact your Google Cloud account team for more information.  Additional guidance can be found [here
+](https://cloud.google.com/iot-core).
+
 # Google Cloud IoT Device SDK for Embedded C
 
 The Google Cloud IoT Device SDK for Embedded C is an easy-to-port, open-source C library that connects low-end IoT devices to Google Cloud IoT Core.
