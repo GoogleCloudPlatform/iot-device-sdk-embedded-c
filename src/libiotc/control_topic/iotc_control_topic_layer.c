@@ -29,6 +29,9 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+  
+iotc_state_t iotc_control_topic_connection_state_changed(void* context,
+                                                         iotc_state_t state);
 
 iotc_state_t iotc_control_topic_connection_state_changed(void* context,
                                                          iotc_state_t state) {

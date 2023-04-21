@@ -40,6 +40,9 @@ extern "C" {
 static void iotc_mqtt_logic_task_queue_shutdown(
     iotc_mqtt_logic_task_t** task_queue);
 
+uint8_t iotc_mqtt_logic_layer_task_should_be_stored_predicate(
+    void* context, iotc_mqtt_logic_task_t* task, int i);
+
 static void iotc_mqtt_logic_task_queue_shutdown_wrap(void** task_queue) {
   assert(NULL != task_queue);
   assert(NULL != *task_queue);

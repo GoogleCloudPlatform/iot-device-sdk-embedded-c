@@ -52,7 +52,7 @@ err_handling:
   return 0;
 }
 
-iotc_vector_t* iotc_vector_create() {
+iotc_vector_t* iotc_vector_create(void) {
   iotc_state_t state = IOTC_STATE_OK;
 
   IOTC_ALLOC(iotc_vector_t, ret, state);
